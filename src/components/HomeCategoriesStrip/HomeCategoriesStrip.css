@@ -1,0 +1,32 @@
+.home-categories-strip-container {
+  display: flex;
+  height: 23vh;
+  width: 140%;
+  gap: 2rem;
+}
+
+.home-categories-image-container {
+  background-color: var(--background-secondary3);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 1s;
+  height: 20vh;
+  width: 20vw;
+}
+
+.home-categories-image-container:hover {
+  transform: scale(1.1);
+}
+
+.home-categories-text {
+  font-family: var(--font-title);
+  text-transform: capitalize;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 16vh;
+  display: flex;
+  height: 23vh;
+  width: 28vw;
+}

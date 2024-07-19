@@ -10,6 +10,5 @@ export const parallaxEffect = (e, target, reference, movement) => {
     x: ((x - container.offsetWidth / 2) / container.offsetWidth) * movement,
     y: ((y - container.offsetHeight / 2) / container.offsetHeight) * movement,
     duration: 2,
-    ease: "slow",
   });
 };

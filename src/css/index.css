@@ -1,4 +1,5 @@
 body {
+  background-color: var(--background-main1);
   font-family: var(--font-content);
   scroll-behavior: smooth;
 }

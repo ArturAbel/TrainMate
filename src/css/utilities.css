@@ -1,10 +1,13 @@
 /* Buttons */
 .button-transparent {
+  font-family: var(--font-content);
   text-transform: capitalize;
   border: 2px solid black;
   padding: 1rem 2rem;
-  background: none;
   border-radius: 5px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background: none;
   cursor: pointer;
 }
 

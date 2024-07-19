@@ -1,10 +1,14 @@
 .navbar {
   justify-content: center;
   align-items: center;
+  position: absolute;
   padding: 0 3rem;
   display: flex;
   height: 10vh;
   width: 100%;
+  z-index: 1;
+  left: 0;
+  top: 0;
 }
 
 .navbar-left-container,
@@ -21,7 +25,8 @@
 }
 
 .navbar-link {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
   color: inherit;
 }
 

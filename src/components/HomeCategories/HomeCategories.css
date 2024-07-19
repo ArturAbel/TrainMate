@@ -1,5 +1,10 @@
 .home-categories-section {
-  background-color: rgb(177, 128, 93);
+  background-color: var(--background-main1);
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  display: flex;
   height: 100vh;
   width: 100%;
 }
