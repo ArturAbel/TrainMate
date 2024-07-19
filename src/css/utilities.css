@@ -1,0 +1,17 @@
+/* Buttons */
+.button-transparent {
+  text-transform: capitalize;
+  border: 2px solid black;
+  padding: 1rem 2rem;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-transparent:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.button-transparent:focus {
+  outline: none;
+}
