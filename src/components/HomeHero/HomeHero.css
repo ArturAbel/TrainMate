@@ -1,5 +1,52 @@
 .home-hero-section {
-  background-color: antiquewhite;
+  background-color: rgb(197, 160, 112);
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  display: flex;
   height: 90vh;
   width: 100%;
+}
+
+.home-hero-title {
+  font-family: var(--font-title);
+  text-align: center;
+  font-size: 6rem;
+  width: 50%;
+}
+
+.title-span {
+  color: white;
+}
+
+
+/* Change Names */
+.div {
+  background-color: white;
+  border-radius: 10px;
+  position: absolute;
+}
+
+/* Change Names */
+.div-1 {
+  height: 30vh;
+  width: 25vw;
+  left: 5vw;
+  top: 10vh;
+}
+
+/* Change Names */
+.div-2 {
+  height: 50vh;
+  width: 20vw;
+  right: 5vw;
+  top: 10vh;
+}
+
+/* Change Names */
+.div-3 {
+  height: 20vh;
+  width: 20vw;
+  left: 15vw;
+  bottom: 10vh;
 }
