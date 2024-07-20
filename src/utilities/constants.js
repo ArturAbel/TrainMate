@@ -1,1 +1,1 @@
-export const change = "change test";
+export const chang = "change test";
