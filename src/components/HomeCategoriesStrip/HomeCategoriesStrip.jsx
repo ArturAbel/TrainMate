@@ -7,7 +7,6 @@ export const HomeCategoriesStrip = ({ text, className }) => {
         <img src="" alt="" />
       </div>
       <div className="home-categories-image-container"></div>
-      <div className="test"></div>
       <div className="home-categories-image-container"></div>
 
       <span className="home-categories-text">{text}</span>
