@@ -18,6 +18,7 @@
   font-weight: 700;
   font-size: 7rem;
   width: 50%;
+  z-index: 0;
 }
 
 .title-span {
@@ -31,6 +32,7 @@
   border-radius: 10px;
   position: absolute;
   cursor: pointer;
+  z-index: 1;
 }
 
 /* Change Names */

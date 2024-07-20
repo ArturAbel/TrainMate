@@ -30,6 +30,14 @@
   color: inherit;
 }
 
+.navbar-link:hover {
+  opacity: 0.5;
+}
+
+.navbar-link:focus {
+  outline: none;
+}
+
 .navbar-login-button {
   align-items: center;
   font-size: 1.3rem;

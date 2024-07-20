@@ -16,6 +16,7 @@ export const Home = () => {
       <HomeInstructions />
       <HomeDivider />
       <HomeBecomeTrainer />
+      <HomeDivider />
     </section>
   );
 };
