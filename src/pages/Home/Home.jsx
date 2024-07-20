@@ -14,6 +14,7 @@ export const Home = () => {
       <HomeCategories />
       <HomeDivider />
       <HomeInstructions />
+      <HomeDivider />
       <HomeBecomeTrainer />
     </section>
   );

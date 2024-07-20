@@ -1,12 +1,13 @@
 :root {
   /*------------ Backgrounds ------------*/
   --background-main1: rgb(242, 240, 233);
+  --background-main2: rgb(19, 19, 19);
 
   --background-secondary1: #fe7a71;
   --background-secondary2: #f9cdcd;
   --background-secondary3: #e0dac9;
-  
-  --background-dark: rgb(19, 19, 19);
+  --background-secondary4: rgb(76, 172, 200);
+  --background-secondary5: rgb(222, 173, 92);
 
   /*------------ Colors ------------*/
   /* Colors -> Buttons */
