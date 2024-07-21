@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from './firebase';
-
+import { db } from '../../config/firebaseConfig';
 
 const trainerSlice = createSlice({
   name: 'trainer',
