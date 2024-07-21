@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { collection, getDocs, addDoc, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
 
-const userSlice = createSlice({
-  name: 'user',
+const usersSlice = createSlice({
+  name: 'users',
   initialState: {
     users: [],
     loading: false,
@@ -22,7 +22,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUsers, setLoading, setError } = userSlice.actions;
+export const { setUsers, setLoading, setError } = usersSlice.actions;
 
 export const fetchUsers = () => async (dispatch) => {
   dispatch(setLoading(true));
@@ -83,5 +83,5 @@ export const deleteUser = (userId) => async (dispatch) => {
   }
 };
 
-export default userSlice.reducer;
+export default usersSlice.reducer;
 

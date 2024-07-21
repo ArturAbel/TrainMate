@@ -46,7 +46,10 @@ const createUserDoc = async (user) => {
     email: user.email,
     displayName: user.displayName,
     photoURL: user.photoURL,
-    createdAt: new Date(), //*? This is for tracking and managing purposes not a relevant prop . 
+    createdAt: new Date(), 
+    bookedLessons: [], 
+    filtersRef: [], 
+    favorites: [] 
   }, { merge: true });
 };
 
