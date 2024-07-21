@@ -23,9 +23,11 @@ const Trainers = () => {
   };
 
   return (
-    <div className="container">
+    <section className="container">
       <header>
-        <h1>Online English tutors & teachers for private lessons</h1>
+        <h1 className="trainers-header">
+          Online English tutors & teachers for private lessons
+        </h1>
       </header>
       <section className="filter-container">
         <div className="filter" onClick={() => toggleDropdown("learn")}>
@@ -81,7 +83,7 @@ const Trainers = () => {
         </div>
         <div className="filter" onClick={() => toggleDropdown("available")}>
           <label>
-            <span>I'm available</span>
+            <span>I&apos;m available</span>
             <span className="bolded">
               <strong>Bolded</strong>
             </span>
@@ -121,7 +123,7 @@ const Trainers = () => {
         />
         {/* Add more Card components as needed */}
       </section>
-    </div>
+    </section>
   );
 };
 
