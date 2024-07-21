@@ -49,7 +49,9 @@ const createUserDoc = async (user) => {
     createdAt: new Date(), 
     bookedLessons: [], 
     filtersRef: [], 
-    favorites: [] 
+    favorites: [],
+    transactions: [],
+    wallet: 0
   }, { merge: true });
 };
 
