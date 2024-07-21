@@ -11,6 +11,7 @@
 
   /*------------ Colors ------------*/
   /* Colors -> Buttons */
+  --color-input-placeholder: rgb(115, 105, 123);
   --color-buttons-home: rgb(18, 17, 23);
 
   /*------------ Fonts ------------*/

@@ -1,9 +1,44 @@
 .login-section {
+  font-family: var(--font-content);
   justify-content: center;
-  flex-direction: column;
   align-items: center;
   padding-top: 10vh;
   display: flex;
   height: 100vh;
   width: 100%;
+}
+
+.login-form {
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  display: flex;
+  width: 30vw;
+  gap: 2rem;
+  background-color: antiquewhite;
+}
+
+.login-form-title {
+  letter-spacing: -1px;
+  font-size: 3.5rem;
+}
+
+.login-form-text {
+  font-size: 1.3rem;
+}
+
+/* In order to overwrite the utilities */
+#login-google-button {
+  font-size: 1.8rem;
+  width: 100%;
+}
+
+#login-button {
+  background: var(--background-secondary1);
+  font-size: 1.8rem;
+  width: 100%;
+}
+
+#login-button:hover {
+  opacity: 0.8;
 }

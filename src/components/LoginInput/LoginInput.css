@@ -1,0 +1,24 @@
+.login-input-container {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
+.login-input-label {
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.login-input {
+  border: 2px solid var(--color-input-placeholder);
+  border-radius: 5px;
+  height: 4rem;
+}
+
+.login-input::placeholder {
+  color: var(--color-input-placeholder);
+  text-transform: capitalize;
+  padding-left: 1rem;
+  font-size: 1.4rem;
+}
