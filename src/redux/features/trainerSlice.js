@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getDatabase, ref, get } from 'firebase/database';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from './firebase';
+
 
 const trainerSlice = createSlice({
   name: 'trainer',
@@ -26,14 +28,10 @@ export const { setTrainers, setLoading, setError } = trainerSlice.actions;
 export const fetchTrainers = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const db = getDatabase();
-    const trainersRef = ref(db, 'trainers');
-    const snapshot = await get(trainersRef);
-    if (snapshot.exists()) {
-      dispatch(setTrainers(snapshot.val()));
-    } else {
-      dispatch(setTrainers([]));
-    }
+    const trainersCollection = collection(db, 'trainers');
+    const trainerSnapshot = await getDocs(trainersCollection);
+    const trainerList = trainerSnapshot.docs.map(doc => doc.data());
+    dispatch(setTrainers(trainerList));
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
