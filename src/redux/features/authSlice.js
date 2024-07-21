@@ -7,7 +7,8 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../../config/firebaseConfig";
+import { auth, db } from "../../config/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 
 const authSlice = createSlice({
   name: "auth",
@@ -38,10 +39,22 @@ const serializeUser = (user) => ({
   photoURL: user.photoURL,
 });
 
+const createUserDoc = async (user) => {
+  const userDocRef = doc(db, "users", user.uid);
+  await setDoc(userDocRef, {
+    uid: user.uid,
+    email: user.email,
+    displayName: user.displayName,
+    photoURL: user.photoURL,
+    createdAt: new Date(), //*? This is for tracking and managing purposes not a relevant prop . 
+  }, { merge: true });
+};
+
 export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
+      await createUserDoc(user);
       dispatch(setUser(serializeUser(user)));
     } else {
       dispatch(setUser(null));
@@ -54,6 +67,7 @@ export const signupUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await createUserDoc(userCredential.user);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -67,6 +81,7 @@ export const loginUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    await createUserDoc(userCredential.user);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -81,6 +96,7 @@ export const loginWithGoogle = () => async (dispatch) => {
   try {
     const googleProvider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, googleProvider);
+    await createUserDoc(result.user);
     dispatch(setUser(serializeUser(result.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -104,3 +120,4 @@ export const logoutUser = () => async (dispatch) => {
 };
 
 export default authSlice.reducer;
+
