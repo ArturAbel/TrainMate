@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './firebase'; //*todo - we need to import form the config that nahum is working on 
+import {auth} from '../../config/firebaseConfig';
+
 
 const authSlice = createSlice({
   name: 'auth',
