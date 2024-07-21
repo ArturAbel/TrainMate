@@ -1,9 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './firebase'; //*todo - we need to import form the config that nahum is working on 
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../config/firebaseConfig"; //*todo - we need to import form the config that nahum is working on
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     user: null,
     loading: false,
@@ -39,7 +46,11 @@ export const initializeAuthListener = () => (dispatch) => {
 export const loginUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     dispatch(setUser(userCredential.user));
     dispatch(setLoading(false));
   } catch (error) {
@@ -64,7 +75,11 @@ export const loginWithGoogle = () => async (dispatch) => {
 export const signupUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     dispatch(setUser(userCredential.user));
     dispatch(setLoading(false));
   } catch (error) {
@@ -86,6 +101,3 @@ export const logoutUser = () => async (dispatch) => {
 };
 
 export default authSlice.reducer;
-
-
-
