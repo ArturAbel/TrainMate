@@ -10,12 +10,11 @@
 
 .login-form {
   justify-content: center;
-  flex-direction: column;
   align-items: flex-start;
+  flex-direction: column;
   display: flex;
   width: 30vw;
   gap: 2rem;
-  background-color: antiquewhite;
 }
 
 .login-form-title {
@@ -24,7 +23,27 @@
 }
 
 .login-form-text {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+}
+
+.login-divider {
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.login-divider::before,
+.login-divider::after {
+  background-color: var(--color-input-placeholder-border);
+  padding: 0.5px;
+  margin: 5px;
+  content: "";
+  flex: 1;
+}
+
+.login-form-link {
+  text-decoration: underline;
+  color: inherit;
 }
 
 /* In order to overwrite the utilities */
@@ -33,6 +52,11 @@
   width: 100%;
 }
 
+.login-google-icon {
+  margin-right: 1rem;
+}
+
+/* In order to overwrite the utilities */
 #login-button {
   background: var(--background-secondary1);
   font-size: 1.8rem;
@@ -41,4 +65,10 @@
 
 #login-button:hover {
   opacity: 0.8;
+}
+
+.login-form-policies {
+  line-height: 2rem;
+  text-align: center;
+  font-size: 1.4rem;
 }
