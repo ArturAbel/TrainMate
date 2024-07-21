@@ -6,8 +6,7 @@ import "./Login.css";
 
 export const Login = () => {
   const { input, handleInputChange } = useFormHook();
-
-
+  
   return (
     <section className="login-section">
       <form className="login-form" action="">
@@ -46,6 +45,7 @@ export const Login = () => {
         <p className="login-form-policies">
           By clicking Log in or Continue with, you agree to TrainMate&apos;s
           <strong>
+            <br />
             <a className="login-form-link" href="#">
               Terms of Use
             </a>
