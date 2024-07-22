@@ -45,6 +45,8 @@ const createUserDoc = async (user) => {
     userDocRef,
     {
       uid: user.uid,
+      phone: "0538278775",
+      age: 27,
       email: user.email,
       displayName: user.displayName || user.name || "unknown",
       photoURL: user.photoURL,
@@ -63,7 +65,6 @@ export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      await createUserDoc(user);
       dispatch(setUser(serializeUser(user)));
     } else {
       dispatch(setUser(null));

@@ -8,6 +8,9 @@ import Trainers from "./pages/Trainers/Trainers";
 import { SignUp } from "./pages/SignUp/SignUp";
 import { Login } from "./pages/Login/Login";
 import { Home } from "./pages/Home/Home";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { initializeAuthListener } from "./redux/features/authSlice";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +59,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeAuthListener());
+  }, [dispatch]);
+
   return <RouterProvider router={router}></RouterProvider>;
 }
 
