@@ -45,6 +45,8 @@ const createUserDoc = async (user) => {
     userDocRef,
     {
       uid: user.uid,
+      phone: "0538278775",
+      age: 27,
       email: user.email,
       displayName: user.displayName || user.name || "unknown",
       photoURL: user.photoURL,

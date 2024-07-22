@@ -5,12 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
+import { loginWithGoogle } from "../../redux/features/authSlice";
+import { deleteUser } from "../../redux/features/usersSlice";
 
 
 const UserSettings = () => {
 
   const dispatch = useDispatch();
   const { trainers, loading, error } = useSelector(state => state.trainer);
+  const { user } = useSelector(state => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fullName, setFullName] = useState(null);
 
@@ -22,11 +25,14 @@ const UserSettings = () => {
     setIsModalOpen(false);
   };
 
+  const handleDeleteAccount = () => {
+    dispatch(deleteUser(user.uid));
+    setIsModalOpen(false);
+  }
+  
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
-
-
 
   return (
     <>
@@ -42,7 +48,8 @@ const UserSettings = () => {
           </h1>
           <div className="account-settings-image-container">
             <div className="image-display-left-box">
-              <img src='/public/person1.jpg' alt="" className="image-display" />
+              <img src={user.photoURL
+} alt="" className="image-display" />
               <button className="image-edit-button">Edit</button>
             </div>
             <div className="image-upload-right-box">
@@ -57,9 +64,9 @@ const UserSettings = () => {
             </div>
           </div>
           <form className="account-settings-form">
-            <LoginInput label="Full Name" name="fullName" placeholder="User Name" type="text" />
-            <LoginInput label="Phone Number" name="phoneNumber" placeholder="Phone Number" type="tel" />
-            <LoginInput label="Age" name="age" placeholder="Age" type="number" />
+            <LoginInput label="Full Name" name="fullName" value={user.displayName || fullName} type="text" onChange={setFullName} />
+            <LoginInput label="Phone Number" name="phoneNumber" value={user.phone} type="tel" />
+            <LoginInput label="Age" name="age" value={user.age} type="number" />
             <div className="favorite-trainers-container">
               <h1>Favorite Trainers</h1>
               <div className="favorite-trainers-grid">
@@ -83,7 +90,7 @@ const UserSettings = () => {
       <DeleteAccountModal isOpen={isModalOpen} onClose={handleCloseModal}>
         <h2>Are you sure you want to delete your account?</h2>
         <button onClick={handleCloseModal}>Cancel</button>
-        <button>Confirm</button>
+        <button onClick={handleDeleteAccount}>Confirm</button>
       </DeleteAccountModal>
     </>
   );

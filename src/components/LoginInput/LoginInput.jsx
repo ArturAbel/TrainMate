@@ -6,6 +6,7 @@ export const LoginInput = ({
   label,
   type,
   name,
+  value
 }) => {
   return (
     <div className="login-input-container">
@@ -18,6 +19,7 @@ export const LoginInput = ({
         onChange={onChange}
         type={type}
         name={name}
+        value={value}
       />
     </div>
   );
