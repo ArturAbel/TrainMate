@@ -90,7 +90,8 @@ const Trainers = () => {
           !error &&
           filteredTrainers.map((trainer) => (
             <TrainerCard
-              key={trainer.id}
+              key={trainer.uid}
+              id={trainer.uid}
               imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
               experience={trainer.experience}
               expertise={trainer.expertise}

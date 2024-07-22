@@ -2,8 +2,11 @@ import { BiShekel } from "react-icons/bi";
 import { GoStarFill } from "react-icons/go";
 import { CiHeart } from "react-icons/ci";
 import "./TrainerCard.css";
+import { useSelector, useDispatch } from "react-redux";
+import { addFavorite } from "../../redux/features/usersSlice";
 
 const TrainerCard = ({
+  id,
   imgSrc,
   experience,
   expertise,
@@ -15,6 +18,11 @@ const TrainerCard = ({
   location,
   information,
 }) => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const handleAddFavorite = (userId, id) => {
+    dispatch(addFavorite(userId, id));
+  };
   return (
     <div className="trainer-card-container">
       <div className="trainer-card-image-container">
@@ -37,7 +45,10 @@ const TrainerCard = ({
             <BiShekel className="trainer-card-icon" />
             {price}
           </div>
-          <CiHeart className="trainer-card-like" />
+          <CiHeart
+            className="trainer-card-like"
+            onClick={() => handleAddFavorite(user.uid, id)}
+          />
         </div>
         <div>
           <button className="button-transparent" id="trainer-card-button">
