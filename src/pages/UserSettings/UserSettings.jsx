@@ -12,6 +12,7 @@ const UserSettings = () => {
   const dispatch = useDispatch();
   const { trainers, loading, error } = useSelector(state => state.trainer);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fullName, setFullName] = useState(null);
 
   const handleDeleteClick = () => {
     setIsModalOpen(true);
