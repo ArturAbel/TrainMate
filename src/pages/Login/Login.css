@@ -1,9 +1,9 @@
 .login-section {
   font-family: var(--font-content);
   justify-content: center;
-  align-items: center;
-  padding-top: 10vh;
+  align-items: flex-start;
+  padding-top: 20vh;
   display: flex;
-  height: 100vh;
+  height: 120vh;
   width: 100%;
 }

@@ -6,6 +6,7 @@ import { Login } from "./pages/Login/Login";
 import { Home } from "./pages/Home/Home";
 import UserSettings from "./pages/UserSettings/UserSettings";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
+import TrainerDetails from "./pages/Trainer-detalis/TrainerDetalis";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
       {
         path: "get-started",
         element: <GetStartedQuiz />,
+      },
+
+      {
+        path: "trainers/:id",
+        element: <TrainerDetails />,
       },
     ],
   },
