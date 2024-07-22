@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PriceSlider from "../../components/Slider/PriceSlider"; // Adjust the path as needed
 import Card from "../../components/Trainer-card/card"; // Adjust the path as needed
+import { fetchTrainers } from "../../redux/features/trainerSlice"; // Adjust the path as needed
 import "./Trainers.css";
 
 const Trainers = () => {
+  const dispatch = useDispatch();
+  const trainers = useSelector((state) => state.trainer.trainers);
+  const loading = useSelector((state) => state.trainer.loading);
+  const error = useSelector((state) => state.trainer.error);
+
   const [dropdowns, setDropdowns] = useState({
     learn: false,
     price: false,
@@ -13,6 +20,10 @@ const Trainers = () => {
   });
 
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
+
+  useEffect(() => {
+    dispatch(fetchTrainers());
+  }, [dispatch]);
 
   const toggleDropdown = (key) => {
     setDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -113,15 +124,21 @@ const Trainers = () => {
         </div>
       </section>
       <section className="team-container">
-        <Card
-          imgSrc="trainer-photo.jpg"
-          name="Trainer Name"
-          expertise="English"
-          experience="5 years"
-          reviews="4.5"
-          price="50"
-        />
-        {/* Add more Card components as needed */}
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        {trainers.map((trainer, index) => (
+          <Card
+            key={index}
+            name={trainer.name}
+            imgSrc={trainer.imgSrc}
+            sport={trainer.sport}
+            level={trainer.level}
+            location={trainer.location}
+            description={trainer.description}
+            reviews={trainer.reviews}
+            price={trainer.price}
+          />
+        ))}
       </section>
     </section>
   );

@@ -41,15 +41,15 @@ export const fetchTrainers = () => async (dispatch) => {
 export const addTrainer = (trainerData) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    await addDoc(collection(db, 'trainers'), trainerData);
+    await addDoc(collection(db, "trainers"), trainerData);
     dispatch(fetchTrainers());
     dispatch(setLoading(false));
-    alert('Trainer added successfully');
+    alert("Trainer added successfully");
   } catch (error) {
     dispatch(setError(error.message));
     dispatch(setLoading(false));
-    console.error('Error adding trainer:', error);
-    alert('Error adding trainer: ' + error.message);
+    console.error("Error adding trainer:", error);
+    alert("Error adding trainer: " + error.message);
   }
 };
 

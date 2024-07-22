@@ -1,36 +1,39 @@
 import React from "react";
 import "./card.css";
 
-const Card = () => {
+const Card = ({
+  name,
+  imgSrc,
+  sport,
+  level,
+  location,
+  description,
+  reviews,
+  price,
+}) => {
   return (
     <div className="card">
       <div className="card-header">
-        <h1>Avi</h1>
-        <img src="https://i.imgur.com/rYTB1zu.jpg" alt="Trainer" />
+        <h1>{name}</h1>
+        <img src={imgSrc} alt="Trainer" />
       </div>
       <div className="card-details">
         <p className="sport">
-          <strong>Sport:</strong> Basketball
+          <strong>Sport:</strong> {sport}
         </p>
-        <p className="level">Level: Intermediate</p>
+        <p className="level">
+          <strong>Level:</strong> {level}
+        </p>
         <p className="location">
-          <strong>Location:</strong> New York
+          <strong>Location:</strong> {location}
         </p>
       </div>
       <div className="card-description">
-        <p>description</p>
-        <p>
-          This is the second part of the description. It provides additional
-          information about the card content.
-        </p>
-        <p>
-          This is the third part of the description. It provides even more
-          details about the card content.
-        </p>
+        <p>{description}</p>
       </div>
       <div className="card-reviews-price">
-        <div className="reviews">5★</div>
-        <div className="price">₪90</div>
+        <div className="reviews">{reviews}★</div>
+        <div className="price">₪{price}</div>
       </div>
       <div className="card-footer">
         <button>Book a Session Now!</button>
