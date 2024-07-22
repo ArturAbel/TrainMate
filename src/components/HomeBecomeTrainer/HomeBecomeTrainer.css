@@ -21,6 +21,7 @@
   align-items: center;
   display: flex;
   padding: 5rem;
+  padding-right: 4vw;
   gap: 3rem;
 }
 
@@ -31,5 +32,14 @@
 }
 
 .home-trainer-text {
+  justify-self: flex-start;
   font-size: 1.8rem;
+  width: 100%;
+}
+
+.become-trainer-button {
+  font-size: 1.8rem;
+  margin-top: 5vh;
+  height: 5rem;
+  width: 20vw;
 }

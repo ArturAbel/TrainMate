@@ -10,6 +10,7 @@
 .trainers-header-title {
   align-self: flex-start;
   font-size: 3rem;
+  padding: 0 3vw;
   width: 100%;
 }
 
