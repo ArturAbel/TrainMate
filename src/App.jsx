@@ -5,6 +5,7 @@ import { SignUp } from "./pages/SignUp/SignUp";
 import { Login } from "./pages/Login/Login";
 import { Home } from "./pages/Home/Home";
 import UserSettings from "./pages/UserSettings/UserSettings";
+import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "settings",
         element: <UserSettings />,
+      },
+      {
+        path: "get-started",
+        element: <GetStartedQuiz />,
       },
     ],
   },
