@@ -1,39 +1,41 @@
 import { BiShekel } from "react-icons/bi";
 import { GoStarFill } from "react-icons/go";
 import { CiHeart } from "react-icons/ci";
-
 import "./TrainerCard.css";
 
-const Card = () => {
+const TrainerCard = ({
+  imgSrc,
+  experience,
+  expertise,
+  name,
+  reviews,
+  price,
+  sport,
+  level,
+  location,
+  information,
+}) => {
   return (
     <div className="trainer-card-container">
       <div className="trainer-card-image-container">
-        <img
-          className="trainer-card-image"
-          src="https://i.imgur.com/rYTB1zu.jpg"
-          alt="image"
-        />
+        <img className="trainer-card-image" src={imgSrc} alt={name} />
       </div>
       <div className="trainer-card-content-container">
-        <h1 className="trainer-card-name">avi</h1>
-        <span className="trainer-card-sport">basketball</span>
-        <p className="trainer-card-level">intermediate</p>
-        <p className="trainer-card-location">new york</p>
-        <p className="trainer-card-information">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-          officia rem ratione voluptates ducimus expedita nemo facere, quasi
-          vero ea dolor, assumenda debitis! Quas at vel quam est? Recusandae,
-          officiis.
-        </p>
+        <h1 className="trainer-card-name">{name}</h1>
+        <span className="trainer-card-sport">{sport}</span>
+        <p className="trainer-card-level">{level}</p>
+        <p className="trainer-card-location">{location}</p>
+        <p className="trainer-card-information">{information}</p>
       </div>
       <div className="trainer-card-right-content-container">
         <div className="trainer-card-right-data">
           <div className="trainer-card-reviews">
-            <GoStarFill className="trainer-card-icon" />7
+            <GoStarFill className="trainer-card-icon" />
+            {reviews}
           </div>
           <div className="trainer-card-price">
             <BiShekel className="trainer-card-icon" />
-            90
+            {price}
           </div>
           <CiHeart className="trainer-card-like" />
         </div>
@@ -47,4 +49,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default TrainerCard;
