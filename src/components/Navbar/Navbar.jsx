@@ -2,7 +2,8 @@ import { MdOutlineLogin } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Navbar.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/features/authSlice";
 export const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
 
@@ -12,13 +13,24 @@ export const Navbar = () => {
 
   const { user } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
+  const handleLogoutUser = () => {
+    dispatch(logoutUser());
+  };
+
   return (
     <>
-      {user ? (
-        <div className="navbar">
-          <div className="navbar-left-container">
-            <div className="navbar-link">logo</div>
-          </div>
+      <nav className="navbar">
+        <div className="navbar-left-container">
+          <div>logo</div>
+          <Link to="/trainers" className="navbar-link">
+            Find Trainers
+          </Link>
+          <Link to="/become-a-trainmate" className="navbar-link">
+            Become a TrainMate
+          </Link>
+        </div>
+        {user ? (
           <div className="navbar-right-container">
             <div className="navbar-link">favorites</div>
 
@@ -27,29 +39,22 @@ export const Navbar = () => {
               {showSettings && (
                 <ul className="navbarList">
                   <li>Messages</li>
-                  <li>Logout</li>
+                  <li onClick={handleLogoutUser}>Logout</li>
                 </ul>
               )}
             </div>
           </div>
-        </div>
-      ) : (
-        <nav className="navbar">
-          <div className="navbar-left-container">
-            <div>logo</div>
-            <Link to={'trainers'} className="navbar-link">Find Trainers</Link>
-            <Link className="navbar-link">Become a TrainMate</Link>
-          </div>
+        ) : (
           <div className="navbar-right-container">
-        <Link to={"login"}>
+            <Link to="login">
               <button className="navbar-login-button button-transparent">
                 <MdOutlineLogin className="navbar-login-icon" />
-                log in
+                Log in
               </button>
             </Link>
           </div>
-        </nav>
-      )}
+        )}
+      </nav>
     </>
   );
 };
