@@ -7,6 +7,9 @@ import { Home } from "./pages/Home/Home";
 import UserSettings from "./pages/UserSettings/UserSettings";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
 import TrainerDetails from "./pages/Trainer-detalis/TrainerDetalis";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { initializeAuthListener } from "./redux/features/authSlice";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeAuthListener());
+  }, [dispatch]);
+
   return <RouterProvider router={router}></RouterProvider>;
 }
 

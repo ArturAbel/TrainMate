@@ -1,4 +1,3 @@
-
 import './DeleteAccountModal.css';
 
 const DeleteAccountModal = ({ isOpen, onClose, children }) => {

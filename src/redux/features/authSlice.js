@@ -65,7 +65,6 @@ export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      await createUserDoc(user);
       dispatch(setUser(serializeUser(user)));
     } else {
       dispatch(setUser(null));
