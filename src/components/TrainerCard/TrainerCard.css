@@ -76,6 +76,7 @@
 .trainer-card-price,
 .trainer-card-like {
   font-family: var(--font-title);
+  letter-spacing: -1px;
   align-items: center;
   font-size: 2.5rem;
   font-weight: 600;
