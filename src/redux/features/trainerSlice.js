@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
 const trainerSlice = createSlice({
@@ -50,6 +50,22 @@ export const addTrainer = (trainerData) => async (dispatch) => {
     dispatch(setLoading(false));
     console.error('Error adding trainer:', error);
     alert('Error adding trainer: ' + error.message);
+  }
+};
+
+export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const trainerDoc = doc(db, "trainers", trainerId);
+    await updateDoc(trainerDoc, updatedData);
+    dispatch(fetchTrainers());
+    dispatch(setLoading(false));
+    alert("Trainer updated successfully");
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error updating trainer:", error);
+    alert("Error updating trainer: " + error.message);
   }
 };
 
