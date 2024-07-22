@@ -1,0 +1,54 @@
+/* TrainerDetails.css */
+
+.profile-header {
+  background-color: #3546c3;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 3px solid #3546c3;
+  margin-bottom: 20px;
+}
+
+.profile-details {
+  text-align: center;
+}
+
+.profile-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.profile-sport,
+.profile-level,
+.profile-location,
+.profile-description,
+.profile-reviews,
+.profile-price {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.profile-description {
+  font-size: 16px;
+  color: #555;
+}

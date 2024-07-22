@@ -1,6 +1,5 @@
 import PriceSlider from "../Slider/PriceSlider";
-import { useState } from "react";
-
+import { useState, useCallback, useRef } from "react";
 import "./TrainerFilter.css";
 
 export const TrainerFilter = () => {
@@ -13,14 +12,25 @@ export const TrainerFilter = () => {
   });
 
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
+  const logTimeoutRef = useRef(null);
 
   const toggleDropdown = (key) => {
     setDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handlePriceRangeChange = (range) => {
+  const handlePriceRangeChange = useCallback((range) => {
     setPriceRange(range);
-  };
+
+    // Clear existing timeout if there's one
+    if (logTimeoutRef.current) {
+      clearTimeout(logTimeoutRef.current);
+    }
+
+    // Set a new timeout to log the price range after 4 seconds
+    logTimeoutRef.current = setTimeout(() => {
+      console.log("Price range:", range);
+    }, 4000);
+  }, []);
 
   return (
     <section className="filter-container">
