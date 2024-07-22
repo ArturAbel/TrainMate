@@ -1,3 +1,7 @@
+import { BiShekel } from "react-icons/bi";
+import { GoStarFill } from "react-icons/go";
+import { CiHeart } from "react-icons/ci";
+
 import "./TrainerCard.css";
 
 const Card = () => {
@@ -11,22 +15,32 @@ const Card = () => {
         />
       </div>
       <div className="trainer-card-content-container">
-        <h1 className="trainer-card-name">Avi</h1>
-        <p className="trainer-card-sport">basketball</p>
+        <h1 className="trainer-card-name">avi</h1>
+        <span className="trainer-card-sport">basketball</span>
         <p className="trainer-card-level">intermediate</p>
-        <p className="trainer-card-location">New York</p>
+        <p className="trainer-card-location">new york</p>
         <p className="trainer-card-information">
-          This is the second part of the description. It provides additional
-          information about the card content.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
+          officia rem ratione voluptates ducimus expedita nemo facere, quasi
+          vero ea dolor, assumenda debitis! Quas at vel quam est? Recusandae,
+          officiis.
         </p>
       </div>
       <div className="trainer-card-right-content-container">
         <div className="trainer-card-right-data">
-          <div className="reviews">5★</div>
-          <div className="price">₪90</div>
+          <div className="trainer-card-reviews">
+            <GoStarFill className="trainer-card-icon" />7
+          </div>
+          <div className="trainer-card-price">
+            <BiShekel className="trainer-card-icon" />
+            90
+          </div>
+          <CiHeart className="trainer-card-like" />
         </div>
         <div>
-          <button>Book a Session Now!</button>
+          <button className="button-transparent" id="trainer-card-button">
+            book a session
+          </button>
         </div>
       </div>
     </div>

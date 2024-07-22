@@ -1,10 +1,9 @@
 .trainer-card-container {
   border: 2px solid var(--color-input-placeholder-border);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background: #fff;
+  border-radius: 5px;
+  padding: 1rem;
   display: flex;
-  width: 60vw;
+  width: 65vw;
 }
 
 .trainer-card-container:hover {
@@ -14,7 +13,7 @@
 .trainer-card-image-container {
   padding: 1rem;
   height: 35vh;
-  width: 25vw;
+  width: 20vw;
 }
 
 .trainer-card-image {
@@ -24,24 +23,85 @@
 }
 
 .trainer-card-content-container {
+  flex-direction: column;
+  display: flex;
+  padding: 1rem;
+  width: 25vw;
+  gap: 0.3rem;
 }
 
 .trainer-card-name {
-  font-size: 3rem;
+  font-family: var(--font-title);
+  text-transform: capitalize;
+  font-size: 2.5rem;
 }
 
-.trainer-card-sport,
-.trainer-card-level {
+.trainer-card-level,
+.trainer-card-location {
+  font-family: var(--font-content);
+  text-transform: capitalize;
+  font-size: 1.3rem;
+}
+
+.trainer-card-sport {
+  background-color: var(--background-secondary2);
+  font-family: var(--font-content);
+  text-transform: capitalize;
+  width: fit-content;
+  border-radius: 3px;
+  font-size: 1.5rem;
+  padding: 0.3rem;
 }
 
 .trainer-card-information {
+  font-family: var(--font-content);
+  font-size: 1.4rem;
+  margin-top: 1rem;
 }
 
 .trainer-card-right-content-container {
+  justify-content: space-between;
   flex-direction: column;
+  display: flex;
+  padding: 1rem;
+  width: 20vw;
+}
+
+.trainer-card-right-data {
+  justify-content: space-evenly;
   display: flex;
 }
 
-.trainer-card-right-data{
+.trainer-card-reviews,
+.trainer-card-price,
+.trainer-card-like {
+  font-family: var(--font-title);
+  letter-spacing: -1px;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: 600;
   display: flex;
+}
+
+.trainer-card-like:hover {
+  filter: invert(15%) sepia(91%) saturate(7445%) hue-rotate(3deg)
+    brightness(122%) contrast(128%);
+  transform: scale(1.1);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.trainer-card-icon {
+  margin-right: 0.5rem;
+}
+
+#trainer-card-button {
+  background-color: var(--background-secondary1);
+  font-size: 1.7rem;
+  height: 4.5rem;
+  width: 100%;
+}
+
+#trainer-card-button:hover {
+  opacity: 0.8;
 }
