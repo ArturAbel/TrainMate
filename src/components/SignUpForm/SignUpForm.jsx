@@ -26,7 +26,8 @@ export const SignUpForm = ({ title }) => {
     }
   };
 
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp = (e) => {
+    e.preventDefault();
     dispatch(loginWithGoogle());
   };
 
