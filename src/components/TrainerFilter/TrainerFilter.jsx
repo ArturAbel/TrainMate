@@ -2,7 +2,13 @@ import PriceSlider from "../Slider/PriceSlider";
 import { useState, useCallback, useRef } from "react";
 import "./TrainerFilter.css";
 
-export const TrainerFilter = () => {
+export const TrainerFilter = ({
+  onPriceFilterChange,
+  onSportFilterChange,
+  onLevelFilterChange,
+  sports,
+  levels,
+}) => {
   const [dropdowns, setDropdowns] = useState({
     available: false,
     country: false,
@@ -12,39 +18,72 @@ export const TrainerFilter = () => {
   });
 
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
+  const [selectedSport, setSelectedSport] = useState("Select Sport");
+  const [selectedLevel, setSelectedLevel] = useState("Select Level");
+  const [selectedAvailability, setSelectedAvailability] = useState(
+    "Select Availability"
+  );
+  const [selectedSort, setSelectedSort] = useState("Select Sort Option");
+
   const logTimeoutRef = useRef(null);
 
   const toggleDropdown = (key) => {
     setDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handlePriceRangeChange = useCallback((range) => {
-    setPriceRange(range);
+  const handlePriceRangeChange = useCallback(
+    (range) => {
+      setPriceRange(range);
 
-    // Clear existing timeout if there's one
-    if (logTimeoutRef.current) {
-      clearTimeout(logTimeoutRef.current);
-    }
+      if (logTimeoutRef.current) {
+        clearTimeout(logTimeoutRef.current);
+      }
 
-    // Set a new timeout to log the price range after 4 seconds
-    logTimeoutRef.current = setTimeout(() => {
-      console.log("Price range:", range);
-    }, 4000);
-  }, []);
+      logTimeoutRef.current = setTimeout(() => {
+        console.log("Price range:", range);
+        onPriceFilterChange(range); // Call the filter function after timeout
+      }, 1000);
+    },
+    [onPriceFilterChange]
+  );
+
+  const handleSportFilterChange = (sport) => {
+    setSelectedSport(sport);
+    onSportFilterChange(sport);
+  };
+
+  const handleLevelFilterChange = (level) => {
+    setSelectedLevel(level);
+    onLevelFilterChange(level);
+  };
+
+  const handleAvailabilityChange = (availability) => {
+    setSelectedAvailability(availability);
+  };
+
+  const handleSortChange = (sortOption) => {
+    setSelectedSort(sortOption);
+  };
 
   return (
     <section className="filter-container">
       <div className="filter" onClick={() => toggleDropdown("learn")}>
         <label>
-          <span>I want to learn</span>
+          <span>Sport</span>
           <span className="bolded">
-            <strong>Bolded</strong>
+            <strong>{selectedSport}</strong>
           </span>
           {dropdowns.learn && (
-            <div className="dropdown-content">
-              <a href="#">English</a>
-              <a href="#">Math</a>
-              <a href="#">Science</a>
+            <div className="dropdown-content scrollable">
+              {sports.map((sport, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  onClick={() => handleSportFilterChange(sport)}
+                >
+                  {sport}
+                </a>
+              ))}
             </div>
           )}
         </label>
@@ -72,15 +111,21 @@ export const TrainerFilter = () => {
       </div>
       <div className="filter" onClick={() => toggleDropdown("country")}>
         <label>
-          <span>Country of birth</span>
+          <span>Level</span>
           <span className="bolded">
-            <strong>Bolded</strong>
+            <strong>{selectedLevel}</strong>
           </span>
           {dropdowns.country && (
-            <div className="dropdown-content">
-              <a href="#">USA</a>
-              <a href="#">Canada</a>
-              <a href="#">UK</a>
+            <div className="dropdown-content scrollable">
+              {levels.map((level, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  onClick={() => handleLevelFilterChange(level)}
+                >
+                  {level}
+                </a>
+              ))}
             </div>
           )}
         </label>
@@ -89,13 +134,19 @@ export const TrainerFilter = () => {
         <label>
           <span>I&apos;m available</span>
           <span className="bolded">
-            <strong>Bolded</strong>
+            <strong>{selectedAvailability}</strong>
           </span>
           {dropdowns.available && (
             <div className="dropdown-content">
-              <a href="#">Morning</a>
-              <a href="#">Afternoon</a>
-              <a href="#">Evening</a>
+              <a href="#" onClick={() => handleAvailabilityChange("Morning")}>
+                Morning
+              </a>
+              <a href="#" onClick={() => handleAvailabilityChange("Afternoon")}>
+                Afternoon
+              </a>
+              <a href="#" onClick={() => handleAvailabilityChange("Evening")}>
+                Evening
+              </a>
             </div>
           )}
         </label>
@@ -104,13 +155,19 @@ export const TrainerFilter = () => {
         <label>
           <span>Sort by</span>
           <span className="bolded">
-            <strong>Bolded</strong>
+            <strong>{selectedSort}</strong>
           </span>
           {dropdowns.sort && (
             <div className="dropdown-content">
-              <a href="#">Top picks</a>
-              <a href="#">Ratings</a>
-              <a href="#">Price</a>
+              <a href="#" onClick={() => handleSortChange("Top picks")}>
+                Top picks
+              </a>
+              <a href="#" onClick={() => handleSortChange("Ratings")}>
+                Ratings
+              </a>
+              <a href="#" onClick={() => handleSortChange("Price")}>
+                Price
+              </a>
             </div>
           )}
         </label>

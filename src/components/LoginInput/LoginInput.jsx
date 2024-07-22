@@ -1,6 +1,12 @@
 import "./LoginInput.css";
 
-export const LoginInput = ({ label, type, name, placeholder, onChange }) => {
+export const LoginInput = ({
+  placeholder,
+  onChange,
+  label,
+  type,
+  name,
+}) => {
   return (
     <div className="login-input-container">
       <label className="login-input-label" htmlFor={name}>

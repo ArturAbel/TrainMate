@@ -41,18 +41,22 @@ const serializeUser = (user) => ({
 
 const createUserDoc = async (user) => {
   const userDocRef = doc(db, "users", user.uid);
-  await setDoc(userDocRef, {
-    uid: user.uid,
-    email: user.email,
-    displayName: user.displayName,
-    photoURL: user.photoURL,
-    createdAt: new Date(), 
-    bookedLessons: [], 
-    filtersRef: [], 
-    favorites: [],
-    transactions: [],
-    wallet: 0
-  }, { merge: true });
+  await setDoc(
+    userDocRef,
+    {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || user.name || "unknown",
+      photoURL: user.photoURL,
+      createdAt: new Date(),
+      bookedLessons: [],
+      filtersRef: [],
+      favorites: [],
+      transactions: [],
+      wallet: 0,
+    },
+    { merge: true }
+  );
 };
 
 export const initializeAuthListener = () => (dispatch) => {
@@ -70,8 +74,13 @@ export const initializeAuthListener = () => (dispatch) => {
 
 export const signupUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
+  dispatch(setError(null));
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await createUserDoc(userCredential.user);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
@@ -84,8 +93,13 @@ export const signupUser = (email, password) => async (dispatch) => {
 
 export const loginUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
+  dispatch(setError(null));
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await createUserDoc(userCredential.user);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
@@ -98,6 +112,7 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 export const loginWithGoogle = () => async (dispatch) => {
   dispatch(setLoading(true));
+  dispatch(setError(null));
   try {
     const googleProvider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, googleProvider);
@@ -125,4 +140,3 @@ export const logoutUser = () => async (dispatch) => {
 };
 
 export default authSlice.reducer;
-
