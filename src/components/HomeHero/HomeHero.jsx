@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 
 import "./HomeHero.css";
+import { Link } from "react-router-dom";
 
 export const HomeHero = () => {
   // Parallax Effect
@@ -30,7 +31,9 @@ export const HomeHero = () => {
         Elevate your game with the{" "}
         <span className="title-span">ultimate sports</span> training.
       </h1>
-      <ButtonHome className={"hero-button"} text={"get started"} />
+      <Link to={"get-started"}>
+        <ButtonHome className={"hero-button"} text={"get started"} />
+      </Link>
     </section>
   );
 };

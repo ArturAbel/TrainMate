@@ -35,7 +35,7 @@ const Card = () => {
             <BiShekel className="trainer-card-icon" />
             90
           </div>
-          <CiHeart  className="trainer-card-like" />
+          <CiHeart className="trainer-card-like" />
         </div>
         <div>
           <button className="button-transparent" id="trainer-card-button">
