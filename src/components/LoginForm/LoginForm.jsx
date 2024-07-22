@@ -48,7 +48,7 @@ export const LoginForm = () => {
   }, [errorMessage]);
 
   return (
-    <form className="login-form" onSubmit={handleUserLogin}>
+    <form className="login-form">
       <h4 className="login-form-title">Log in</h4>
       <span className="login-form-text">
         <Link to={"/sign-up-trainee"} className="login-form-link" href="#">
@@ -89,7 +89,11 @@ export const LoginForm = () => {
       ) : (
         <p className="login-form-error-message"></p>
       )}
-      <button className="button-transparent" id="login-button">
+      <button
+        className="button-transparent"
+        onClick={handleUserLogin}
+        id="login-button"
+      >
         Log in
       </button>
       <p className="login-form-policies">

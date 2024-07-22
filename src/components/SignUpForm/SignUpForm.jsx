@@ -53,7 +53,7 @@ export const SignUpForm = ({ title }) => {
   }, [errorMessage]);
 
   return (
-    <form className="sign-up-form" onSubmit={handleSignUp}>
+    <form className="sign-up-form">
       <h4 className="sign-up-form-title">{`Sign up as a ${title}`}</h4>
       <span className="sign-up-form-text">
         Already have an account?
@@ -100,7 +100,11 @@ export const SignUpForm = ({ title }) => {
       ) : (
         <p className="sign-up-form-error-message"></p>
       )}
-      <button className="button-transparent" id="sign-up-button">
+      <button
+        className="button-transparent"
+        onClick={handleSignUp}
+        id="sign-up-button"
+      >
         Sign Up
       </button>
       <p className="sign-up-form-policies">
