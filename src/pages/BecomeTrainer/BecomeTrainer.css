@@ -1,0 +1,67 @@
+.become-trainer-section {
+  justify-content: center;
+  align-items: center;
+  margin-top: 10vh;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.become-trainer-content-container {
+  background-color: azure;
+  flex-direction: column;
+  display: flex;
+  height: 80vh;
+  width: 50vw;
+  gap: 5rem;
+}
+
+.become-trainer-title {
+  font-family: var(--font-title);
+  letter-spacing: -2px;
+  font-size: 7vh;
+}
+
+.become-trainer-steps-container {
+  display: flex;
+  gap: 4vw;
+}
+
+.become-trainer-step {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
+.become-trainer-step-number-container {
+  background-color: rgb(146, 146, 146);
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  display: flex;
+  height: 5rem;
+  width: 5rem;
+}
+
+.become-trainer-number {
+  font-size: 3rem;
+}
+
+.become-trainer-step-content {
+}
+
+.become-trainer-step-title {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+
+.become-trainer-step-text {
+  font-size: 1.4rem;
+  width: 70%;
+}
+
+.become-trainer-image-container {
+  background-color: rgb(49, 178, 178);
+  height: 80vh;
+  width: 35vw;
+}
