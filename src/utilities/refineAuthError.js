@@ -3,10 +3,10 @@ export const refinedFirebaseAuthErrorMessage = (error) => {
     return "Unknown error";
   }
 
-  const parts = error.split("auth/");
-  if (parts.length < 2) {
+  const splitError = error.split("auth/");
+  if (splitError.length < 2) {
     return "Unknown error";
   }
 
-  return parts[1].replace(/-/g, " ").split(")")[0];
+  return splitError[1].replace(/-/g, " ").split(")")[0];
 };
