@@ -37,7 +37,7 @@ export const Navbar = () => {
         <nav className="navbar">
           <div className="navbar-left-container">
             <div>logo</div>
-            <Link className="navbar-link">Find Trainers</Link>
+            <Link to={'trainers'} className="navbar-link">Find Trainers</Link>
             <Link className="navbar-link">Become a TrainMate</Link>
           </div>
           <div className="navbar-right-container">
