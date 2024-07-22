@@ -20,7 +20,3 @@
   --font-title: "Inter", sans-serif;
 }
 
-.trainer-card-button {
-  background-color: var(--background-secondary1);
-  height: 5rem;
-}
