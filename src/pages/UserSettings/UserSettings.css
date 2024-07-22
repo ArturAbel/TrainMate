@@ -1,0 +1,41 @@
+.user-settings-section {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  margin-top: 10vh;
+  padding-top: 5rem;
+}
+
+.account-settings-navbar{
+  width: 20%;
+}
+
+.account-settings-container {
+  border: 1px solid black;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.account-settings-title{
+  width: 100%;
+   font-size: 3.2rem;
+}
+
+.account-settings-image-container{
+  width: 100%;
+  border: 1px solid rgb(206, 7, 7);
+  /* margin-top: 1rem; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-display-box-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
