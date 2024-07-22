@@ -1,0 +1,47 @@
+.trainer-card-container {
+  border: 2px solid var(--color-input-placeholder-border);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  width: 60vw;
+}
+
+.trainer-card-container:hover {
+  border-color: #000000;
+}
+
+.trainer-card-image-container {
+  padding: 1rem;
+  height: 35vh;
+  width: 25vw;
+}
+
+.trainer-card-image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.trainer-card-content-container {
+}
+
+.trainer-card-name {
+  font-size: 3rem;
+}
+
+.trainer-card-sport,
+.trainer-card-level {
+}
+
+.trainer-card-information {
+}
+
+.trainer-card-right-content-container {
+  flex-direction: column;
+  display: flex;
+}
+
+.trainer-card-right-data{
+  display: flex;
+}
