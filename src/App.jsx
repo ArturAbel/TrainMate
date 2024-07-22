@@ -4,6 +4,7 @@ import Trainers from "./pages/Trainers/Trainers";
 import { SignUp } from "./pages/SignUp/SignUp";
 import { Login } from "./pages/Login/Login";
 import { Home } from "./pages/Home/Home";
+import UserSettings from "./pages/UserSettings/UserSettings";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "trainers",
         element: <Trainers />,
+      },
+      {
+        path: "settings",
+        element: <UserSettings />,
       },
     ],
   },
