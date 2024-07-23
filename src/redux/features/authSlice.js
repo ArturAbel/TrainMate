@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, db } from "../../config/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const authSlice = createSlice({
   name: "auth",
@@ -109,7 +109,6 @@ export const loginUser = (email, password) => async (dispatch) => {
       email,
       password
     );
-    await createUserDoc(userCredential.user);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -125,7 +124,11 @@ export const loginWithGoogle = () => async (dispatch) => {
   try {
     const googleProvider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, googleProvider);
-    await createUserDoc(result.user);
+    const userDocRef = doc(db, "users", result.user.uid);
+    const userDoc = await getDoc(userDocRef);
+    if (!userDoc.exists()) {
+      await createUserDoc(result.user);
+    }
     dispatch(setUser(serializeUser(result.user)));
     dispatch(setLoading(false));
   } catch (error) {

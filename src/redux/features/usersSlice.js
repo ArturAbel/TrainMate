@@ -9,6 +9,7 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
@@ -35,11 +36,11 @@ const usersSlice = createSlice({
 export const { setUsers, setLoading, setError } = usersSlice.actions;
 
 export const addFavorite = (userId, favoriteItem) => async (dispatch) => {
-  dispatch(setLoading(true)); 
+  dispatch(setLoading(true));
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc(db, "users", userId); 
     await updateDoc(userDocRef, {
-      favorites: arrayUnion(favoriteItem),
+      favorites: arrayUnion(favoriteItem), 
     });
     dispatch(setLoading(false)); 
   } catch (error) {
@@ -49,17 +50,17 @@ export const addFavorite = (userId, favoriteItem) => async (dispatch) => {
 };
 export const removeFavorite =
   (userId, favoriteItemToRemove) => async (dispatch) => {
-    dispatch(setLoading(true)); 
+    dispatch(setLoading(true));
 
     try {
       const userDocRef = doc(db, "users", userId);
       await updateDoc(userDocRef, {
-        favorites: arrayRemove(favoriteItemToRemove), 
+        favorites: arrayRemove(favoriteItemToRemove),
       });
-      dispatch(setLoading(false)); 
+      dispatch(setLoading(false));
     } catch (error) {
-      dispatch(setError(error.message)); 
-      dispatch(setLoading(false)); 
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
     }
   };
 
