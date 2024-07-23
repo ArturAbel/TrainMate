@@ -6,9 +6,10 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
+  deleteUser as deleteAuthUser,
 } from "firebase/auth";
 import { auth, db } from "../../config/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const authSlice = createSlice({
   name: "auth",
@@ -39,17 +40,17 @@ const serializeUser = (user) => ({
   photoURL: user.photoURL,
 });
 
-const createUserDoc = async (user) => {
+const createUserDoc = async (user, userName) => {
   const userDocRef = doc(db, "users", user.uid);
   await setDoc(
     userDocRef,
     {
       uid: user.uid,
-      phone: "0538278775",
-      age: 27,
+      phone: '',
+      age: '',
       email: user.email,
-      displayName: user.displayName || user.name || "unknown",
-      photoURL: user.photoURL,
+      displayName: user.displayName || userName || "unknown",
+      photoURL: user.photoURL || '/person1.jpg',
       createdAt: new Date(),
       bookedLessons: [],
       filtersRef: [],
@@ -77,7 +78,7 @@ export const initializeAuthListener = () => (dispatch) => {
 };
 
 
-export const signupUser = (email, password) => async (dispatch) => {
+export const signupUser = (email, password, userName) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
@@ -86,7 +87,7 @@ export const signupUser = (email, password) => async (dispatch) => {
       email,
       password
     );
-    await createUserDoc(userCredential.user);
+    await createUserDoc(userCredential.user, userName);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -105,7 +106,6 @@ export const loginUser = (email, password) => async (dispatch) => {
       email,
       password
     );
-    await createUserDoc(userCredential.user);
     dispatch(setUser(serializeUser(userCredential.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -121,7 +121,11 @@ export const loginWithGoogle = () => async (dispatch) => {
   try {
     const googleProvider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, googleProvider);
-    await createUserDoc(result.user);
+    const userDocRef = doc(db, "users", result.user.uid);
+    const userDoc = await getDoc(userDocRef);
+    if (!userDoc.exists()) {
+      await createUserDoc(result.user);
+    }
     dispatch(setUser(serializeUser(result.user)));
     dispatch(setLoading(false));
   } catch (error) {
@@ -141,6 +145,22 @@ export const logoutUser = () => async (dispatch) => {
     dispatch(setError(error.message));
     dispatch(setLoading(false));
     console.error("Error logging out:", error);
+  }
+};
+
+export const deleteUserAccount = () => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      await deleteAuthUser(user);
+      dispatch(setUser(null));
+      dispatch(setLoading(false));
+    }
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error deleting user:", error);
   }
 };
 

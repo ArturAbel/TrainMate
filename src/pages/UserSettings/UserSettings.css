@@ -156,10 +156,32 @@
   transition: opacity 0.3s ease;
 }
 
+.remove-favorite-trainer-button {
+  position: absolute;
+  opacity: 0;
+  top: 5px;
+  right: 5px;
+  border: none;
+  border-radius: 1rem;
+  color: rgb(0, 0, 0);
+  background-color: #e7e5e5;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-favorite-trainer-button:hover {
+  background-color: #fff;
+  font-weight: bold;
+}
+
 .mini-card:hover {
   transform: scale(1.05);
 }
 
+.mini-card:hover .remove-favorite-trainer-button {
+  opacity: 1;
+}
 .mini-card:hover .mini-card-info {
   opacity: 1;
 }

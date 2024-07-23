@@ -47,8 +47,7 @@ export const addFavorite = (userId, favoriteItem) => async (dispatch) => {
     dispatch(setLoading(false)); 
   }
 };
-export const removeFavorite =
-  (userId, favoriteItemToRemove) => async (dispatch) => {
+export const removeFavorite = (userId, favoriteItemToRemove) => async (dispatch) => {
     dispatch(setLoading(true)); 
 
     try {
