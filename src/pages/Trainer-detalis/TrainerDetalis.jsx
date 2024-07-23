@@ -53,7 +53,6 @@ const TrainerDetails = () => {
     return (
       <section className="trainer-profile-section" key={trainer.id}>
         <div className="trainer-profile-content-container">
-
           {/* Intro */}
           <div className="trainer-profile-content-intro">
             <div className="trainer-profile-image-container">
@@ -61,7 +60,9 @@ const TrainerDetails = () => {
             </div>
             <div className="trainer-profile-intro-container">
               <h1 className="trainer-profile-intro-name">{name}</h1>
-              <p className="trainer-profile-intro-description">some description about the trainer</p>
+              <p className="trainer-profile-intro-description">
+                some description about the trainer
+              </p>
               <p className="trainer-profile-intro-teach">
                 <strong>teaches:</strong> {sport}
               </p>
@@ -70,20 +71,16 @@ const TrainerDetails = () => {
 
           {/* About Me */}
 
-        <div></div>
-          <div className="profile-details">
-            <p className="profile-level">
-              <strong>Level:</strong> {level}
-            </p>
-            <p className="profile-location">
-              <strong>Location:</strong> {location}
-            </p>
-            <p className="profile-description">{description}</p>
-            <p className="profile-reviews">
-              <strong>Reviews:</strong> {reviews}★
-            </p>
-            <p className="profile-price">
-              <strong>Price:</strong> ₪{price}
+          <div className="trainer-profile-about-me-container">
+            <h1 className="trainer-profile-about-me-title">about me</h1>
+            <p className="trainer-profile-about-me-content">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore
+              consequuntur officia distinctio tenetur, dignissimos inventore!
+              Quibusdam fugiat earum, porro eligendi quidem odit necessitatibus
+              impedit cumque laudantium maxime! Id asperiores similique,
+              doloremque inventore dolor qui debitis ullam exercitationem harum
+              ratione corporis quae laborum, ipsam sunt molestiae, assumenda
+              adipisci cumque fugit nemo?
             </p>
           </div>
         </div>
