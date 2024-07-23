@@ -6,6 +6,20 @@ import { fetchTrainers } from "../../redux/features/trainerSlice";
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
 import "./Trainers.css";
+import { db } from "../../config/firebaseConfig";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  setDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
 
 const Trainers = () => {
   const dispatch = useDispatch();
@@ -22,6 +36,8 @@ const Trainers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -132,6 +148,36 @@ const Trainers = () => {
     setOverlayVisible(visible);
   };
 
+  const fetchFavorites = async (userId) => {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userDocRef);
+      if (!userSnap.exists()) {
+        return [];
+      } else {
+        const userData = userSnap.data();
+        return userData.favorites || [];
+      }
+    } catch (error) {
+      console.error("Error fetching favorites: ", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (user) {
+        const favoriteTrainers = await fetchFavorites(user.uid);
+        setFavorites(favoriteTrainers);
+      }
+    };
+    loadFavorites();
+  }, [user]);
+
+  const isTrainerInFavorites = (trainerId) => {
+    return favorites.includes(trainerId);
+  };
+
   return (
     <>
       <FilterOverlay
@@ -189,6 +235,7 @@ const Trainers = () => {
       </section>
     </>
   );
+  
 };
 
 export default Trainers;
