@@ -1,16 +1,25 @@
+/* Add styles to hide the navigation bar and footer */
+ footer {
+  display: none;
+}
+
 .test-container {
   display: flex;
   height: 100vh;
+  position: relative;
+  z-index: 10;
 }
 
 .left-section {
   flex: 1;
-  background-color: pink;
+  background-color: #ff4081; /* Pink background color */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  color: white;
+  position: relative;
 }
 
 .right-section {
@@ -20,47 +29,100 @@
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
+  position: relative;
+  background-color: aliceblue;
+  
+}
+
+h1 {
+  font-size: 3rem; /* Larger font size for question */
+  margin: 0;
+}
+
+.note, .subNote {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 10px 0;
 }
 
 .option {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
+  background: white;
+  border: 1px solid #000; /* Black border */
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .option input {
   margin-right: 10px;
+  border: 1px solid #000; /* Black border */
 }
 
-.show-all,
-.skip-button,
-.continue-button,
-.previous-button {
+.option label {
+  font-size: 1.5rem; /* Larger font size for options */
+  color: #333;
+}
+
+.show-all, .skip-button, .continue-button, .previous-button {
   margin-top: 20px;
 }
 
 .show-all {
-  display: block;
   background-color: transparent;
   border: none;
   color: blue;
   cursor: pointer;
+  font-size: 1.2rem;
+  text-decoration: underline;
 }
 
-.skip-button,
-.continue-button {
-  background-color: pink;
-  border: none;
+.skip-button, .continue-button {
+  background-color: #ff4081; /* Pink button color */
+  border: 1px solid #000; /* Black border */
   padding: 10px 20px;
   cursor: pointer;
+  color: white;
+  font-size: 1.5rem; /* Larger font size */
+  border-radius: 5px;
+}
+
+.skip-button {
+  position: absolute;
+  right: 20px;
+  top: 80px; /* Moved down */
 }
 
 .previous-button {
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: 30px;
+  bottom: 30px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 2.5rem; /* Larger font size */
+  color: white;
+}
+
+.slider-container {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.slider {
+  width: 100%;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+}
+
+.slider-value {
+  font-size: 1.5rem;
+  margin-top: 10px;
 }
