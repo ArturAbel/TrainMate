@@ -36,7 +36,6 @@
   color: inherit;
 }
 
-/* In order to overwrite the utilities */
 #login-button,
 #login-google-button {
   font-size: 1.8rem;
@@ -47,7 +46,6 @@
   margin-right: 1rem;
 }
 
-/* In order to overwrite the utilities */
 #login-button {
   background: var(--background-secondary1);
   margin-top: 1rem;

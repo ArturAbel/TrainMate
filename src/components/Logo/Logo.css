@@ -1,0 +1,14 @@
+.logo-container {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.logo-image {
+  width: 3rem;
+}
+
+.logo-text {
+  color: black;
+}

@@ -1,14 +1,18 @@
+import { refinedFirebaseAuthErrorMessage } from "../../utilities/refineAuthError";
 import { loginWithGoogle, signupUser } from "../../redux/features/authSlice";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useFormHook } from "../../hooks/useFormHook";
-import { FaGoogle } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { FaGoogle } from "react-icons/fa";
 
 import "./SignUpForm.css";
 
 export const SignUpForm = ({ title }) => {
+  const { user, error } = useSelector((state) => state.auth);
   const { input, handleInputChange } = useFormHook();
+  const [errorMessage, setErrorMessage] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,20 +20,41 @@ export const SignUpForm = ({ title }) => {
     e.preventDefault();
     if (title === "trainee") {
       dispatch(signupUser(input.email, input.password));
-      navigate("/login");
     }
     if (title === "trainer") {
       // Logic for sign up trainer
     }
   };
 
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp = (e) => {
+    e.preventDefault();
     dispatch(loginWithGoogle());
-    navigate("/trainers");
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate("/trainers");
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (error) {
+      const refinedError = refinedFirebaseAuthErrorMessage(error);
+      setErrorMessage(refinedError);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => setErrorMessage(null), 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [errorMessage]);
+
   return (
-    <form className="sign-up-form" onSubmit={handleSignUp}>
+    <form className="sign-up-form">
       <h4 className="sign-up-form-title">{`Sign up as a ${title}`}</h4>
       <span className="sign-up-form-text">
         Already have an account?
@@ -53,7 +78,6 @@ export const SignUpForm = ({ title }) => {
           label={"name"}
           name={"name"}
           type={"name"}
-          required
         />
       ) : (
         ""
@@ -64,7 +88,6 @@ export const SignUpForm = ({ title }) => {
         label={"email"}
         name={"email"}
         type={"email"}
-        required
       />
       <LoginInput
         onChange={handleInputChange}
@@ -72,10 +95,18 @@ export const SignUpForm = ({ title }) => {
         label={"password"}
         name={"password"}
         type={"password"}
-        required
       />
-      <button className="button-transparent" id="sign-up-button">
-        Sign In
+      {error ? (
+        <p className="sign-up-form-error-message">{errorMessage}</p>
+      ) : (
+        <p className="sign-up-form-error-message"></p>
+      )}
+      <button
+        className="button-transparent"
+        onClick={handleSignUp}
+        id="sign-up-button"
+      >
+        Sign Up
       </button>
       <p className="sign-up-form-policies">
         By clicking Log in or Continue with, you agree to TrainMate&apos;s

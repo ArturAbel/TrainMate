@@ -1,8 +1,14 @@
+import { logoutUser } from "../../redux/features/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { BiMessageSquareDetail } from "react-icons/bi";
 import { MdOutlineLogin } from "react-icons/md";
+import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { Logo } from "../Logo/Logo";
 import { useState } from "react";
+
 import "./Navbar.css";
-import { useSelector } from "react-redux";
+
 export const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
 
@@ -12,44 +18,72 @@ export const Navbar = () => {
 
   const { user } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
+  const handleLogoutUser = () => {
+    dispatch(logoutUser());
+  };
+
   return (
     <>
-      {user ? (
-        <div className="navbar">
-          <div className="navbar-left-container">
-            <div className="navbar-link">logo</div>
-          </div>
+      <nav className="navbar">
+        <div className="navbar-left-container">
+          <Link to={user ? "/trainers" : "/"}>
+            <Logo />
+          </Link>
+          <Link to="/trainers" className="navbar-link">
+            Find Trainers
+          </Link>
+          {!user && (
+            <Link to="/become-trainer" className="navbar-link">
+              Become a TrainMate
+            </Link>
+          )}
+        </div>
+        {user ? (
           <div className="navbar-right-container">
-            <div className="navbar-link">favorites</div>
-
-            <div className="dropdown-container ">
-              <div onClick={showOrHide}> picture</div>
-              {showSettings && (
-                <ul className="navbarList">
-                  <li>Messages</li>
-                  <li>Logout</li>
-                </ul>
-              )}
+            <div className="navbar-icons-container">
+              <Link>
+                <BiMessageSquareDetail className="navbar-icon" />
+              </Link>
+              <Link>
+                <FiHeart className="navbar-icon" />
+              </Link>
+              <div className="dropdown-container ">
+                <div onClick={showOrHide}>
+                  <img
+                    className="navbar-user-image"
+                    src={user.photoURL || ""}
+                    alt="image"
+                  />
+                </div>
+                {showSettings && (
+                  <ul className="navbarList">
+                    <Link to={"/settings"} className="navbarList-item">
+                      settings
+                    </Link>
+                    <Link className="navbarList-item">Messages</Link>
+                    <Link
+                      className="navbarList-item logout-link"
+                      onClick={handleLogoutUser}
+                    >
+                      Logout
+                    </Link>
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <nav className="navbar">
-          <div className="navbar-left-container">
-            <div>logo</div>
-            <Link to={'trainers'} className="navbar-link">Find Trainers</Link>
-            <Link className="navbar-link">Become a TrainMate</Link>
-          </div>
+        ) : (
           <div className="navbar-right-container">
-        <Link to={"login"}>
+            <Link to="login">
               <button className="navbar-login-button button-transparent">
                 <MdOutlineLogin className="navbar-login-icon" />
-                log in
+                Log in
               </button>
             </Link>
           </div>
-        </nav>
-      )}
+        )}
+      </nav>
     </>
   );
 };

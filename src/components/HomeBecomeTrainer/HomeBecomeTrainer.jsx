@@ -1,4 +1,6 @@
 import { ButtonHome } from "../ButtonHome/ButtonHome";
+import { Link } from "react-router-dom";
+
 import "./HomeBecomeTrainer.css";
 
 export const HomeBecomeTrainer = () => {
@@ -10,10 +12,24 @@ export const HomeBecomeTrainer = () => {
       <div className="home-trainer-content-container">
         <h1 className="home-trainer-title">Become a Trainer</h1>
         <p className="home-trainer-text">
-          Earn money sharing your expert knowledge with students. Sign up to
-          start tutoring online with Preply *need to change - testing only*{" "}
+          Start earning by sharing your expertise with trainees.
         </p>
-        <ButtonHome className={""} text={"become a trainer"} />
+        <p className="home-trainer-text">
+          Build your reputation by showcasing your expertise and earning
+          positive reviews from satisfied clients. Enjoy the flexibility to
+          manage your training sessions according to your convenience, with
+          trainMate&apos;s adaptable scheduling options.
+        </p>
+        <p className="home-trainer-text">
+          Join trainMate today and elevate your training business to new
+          heights.
+        </p>
+        <Link to={"become-trainer"}>
+          <ButtonHome
+            className={"become-trainer-button"}
+            text={"become a trainer"}
+          />
+        </Link>
       </div>
     </section>
   );
