@@ -1,4 +1,3 @@
-/* TrainerDetails.css */
 .trainer-profile-section {
   justify-content: center;
   margin-top: 20vh;
@@ -8,19 +7,12 @@
 }
 
 .trainer-profile-content-container {
-  background-color: rgb(149, 133, 121);
-  height: 100vh;
+  height: 100%h;
+  padding: 2rem;
   width: 60vw;
 }
 
-.trainer-profile-actions-container {
-  background-color: rgb(232, 168, 122);
-  height: 100vh;
-  width: 30vw;
-}
-
 .trainer-profile-content-intro {
-  background-color: rgb(227, 254, 161);
   font-family: var(--font-content);
   align-items: flex-start;
   display: flex;
@@ -29,8 +21,8 @@
 
 .trainer-profile-image-container {
   border: 1px solid #ff7e7e;
-  border-radius: 8px;
   margin-bottom: 20px;
+  border-radius: 8px;
   object-fit: cover;
   height: 150px;
   width: 150px;
@@ -40,7 +32,6 @@
 }
 
 .trainer-profile-intro-container {
-  border: 1px solid #ff7e7e;
   flex-direction: column;
   margin-left: 2rem;
   display: flex;
@@ -54,5 +45,104 @@
 
 .trainer-profile-intro-description,
 .trainer-profile-intro-teach {
+  text-transform: capitalize;
   font-size: 1.5rem;
+}
+
+.trainer-profile-about-me-container {
+  background-color: var(--background-secondary2);
+  border-radius: 8px;
+  line-height: 1.4;
+  padding: 2rem;
+}
+
+.trainer-profile-reviews-container,
+.trainer-profile-teach-container {
+  padding: 2rem;
+}
+
+.trainer-profile-about-me-title,
+.trainer-profile-teach-title {
+  font-family: var(--font-title);
+  text-transform: capitalize;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.trainer-profile-about-me-content {
+  font-size: 1.6rem;
+}
+
+.trainer-profile-teach-spans {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.trainer-profile-teach-span-level {
+  background-color: var(--background-secondary6);
+  border-radius: 5px;
+  padding: 0.2rem 1rem;
+}
+
+.trainer-profile-actions-container {
+  background-color: var(--background-secondary3);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  position: sticky;
+  padding: 2rem;
+  display: flex;
+  height: 90vh;
+  width: 30vw;
+  top: 5vh;
+}
+
+.trainer-profile-actions-map {
+  border: 1px solid #ff7e7e;
+  border-radius: 10px;
+  height: 40%;
+  width: 100%;
+}
+
+.trainer-profile-actions-data-container {
+  border: 1px solid #ff7e7e;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 20%;
+}
+
+.trainer-profile-actions-buttons-container {
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 40%;
+  gap: 1rem;
+}
+
+#trainer-book-button,
+#trainer-profile-button {
+  justify-content: center;
+  font-size: 1.7rem;
+  height: 4.5rem;
+  display: flex;
+}
+
+#trainer-book-button {
+  background-color: var(--background-secondary1);
+}
+
+#trainer-book-button:hover {
+  filter: brightness(0.9);
+}
+
+.trainer-profile-button-icon {
+  margin-right: 1rem;
+  font-size: 2rem;
 }

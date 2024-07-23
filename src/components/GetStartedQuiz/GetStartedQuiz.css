@@ -1,8 +1,4 @@
 /* Add styles to hide the navigation bar and footer */
- footer {
-  display: none;
-}
-
 .test-container {
   display: flex;
   height: 100vh;
