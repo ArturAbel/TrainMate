@@ -1,16 +1,12 @@
-// components/Search/Search.jsx
-import React, { useState, useRef } from "react";
+import { IoSearch } from "react-icons/io5";
+import { useState, useRef } from "react";
+
 import "./Search.css";
 
-const Search = ({
-  onSearch,
-  onVailerChange,
-  toggleOverlay,
-  onSortByRating,
-}) => {
-  const [query, setQuery] = useState("");
-  const [vailer, setVailer] = useState("");
+const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [vailer, setVailer] = useState("");
+  const [query, setQuery] = useState("");
   const debounceTimeout = useRef(null);
 
   const handleInputChange = (event) => {
@@ -37,10 +33,6 @@ const Search = ({
     }
   };
 
-  const handleFocus = () => {
-    toggleOverlay(true);
-  };
-
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
     toggleOverlay(!dropdownOpen);
@@ -49,21 +41,12 @@ const Search = ({
   const handleSortByRating = () => {
     setVailer("sort by best rating");
     onSortByRating();
-    toggleOverlay(false);
     setDropdownOpen(false);
+    toggleOverlay(false);
   };
 
   return (
-    <div className="search-container filter-overlay-content">
-      <input
-        type="text"
-        className="search-input"
-        placeholder="Search trainer by name"
-        value={query}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        onFocus={handleFocus}
-      />
+    <div className="search-container">
       <div
         className="vailer-dropdown vailer-container"
         onClick={toggleDropdown}
@@ -73,12 +56,23 @@ const Search = ({
           <span className="dropdown-arrow">&#9662;</span>
         </div>
         {dropdownOpen && (
-          <div className="dropdown-content scrollable">
+          <div className="vailer-dropdown-content scrollable">
             <a href="#" onClick={handleSortByRating}>
               sort by best rating
             </a>
           </div>
         )}
+      </div>
+      <div className="search-trainer-container">
+        <IoSearch className="search-trainer-icon" />
+        <input
+          placeholder={"Search trainer by name"}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          className="search-input"
+          value={query}
+          type="text"
+        />
       </div>
     </div>
   );

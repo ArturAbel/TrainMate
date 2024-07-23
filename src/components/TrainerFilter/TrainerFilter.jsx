@@ -106,15 +106,15 @@ export const TrainerFilter = ({
       ref={filterRef}
     >
       <div className="filter" onClick={() => toggleDropdown("learn")}>
-        <label>
-          <span>Sport</span>
-          <span className="bolded">
-            <strong>{selectedSport}</strong>
+        <label className="filter-container-label">
+          <span className="filter-container-label-upper">
+            i want to train in
           </span>
+          <span className="filter-container-inner-lower">{selectedSport}</span>
           {dropdowns.learn && (
             <div className="dropdown-content scrollable">
               <a href="#" onClick={() => handleSportFilterChange(null)}>
-                Add All
+                All
               </a>
               {sports.map((sport, index) => (
                 <a
@@ -130,36 +130,35 @@ export const TrainerFilter = ({
         </label>
       </div>
       <div className="filter">
-        <label onClick={() => toggleDropdown("price")}>
-          <span>Price per lesson</span>
-          <span className="bolded">
-            <strong>
-              ₪{priceRange.min} - ₪{priceRange.max}
-            </strong>
+        <label
+          className="filter-container-label"
+          onClick={() => toggleDropdown("price")}
+        >
+          <span className="filter-container-label-upper">Price per lesson</span>
+          <span className="filter-container-inner-lower">
+            ₪{priceRange.min} - ₪{priceRange.max}
           </span>
         </label>
         {dropdowns.price && (
           <div className="dropdown-content">
             <PriceSlider
-              min={5}
-              max={100}
+              onRangeChange={handlePriceRangeChange}
               initialMinValue={priceRange.min}
               initialMaxValue={priceRange.max}
-              onRangeChange={handlePriceRangeChange}
+              max={100}
+              min={5}
             />
           </div>
         )}
       </div>
       <div className="filter" onClick={() => toggleDropdown("level")}>
-        <label>
-          <span>Level</span>
-          <span className="bolded">
-            <strong>{selectedLevel}</strong>
-          </span>
+        <label className="filter-container-label">
+          <span className="filter-container-label-upper">Level</span>
+          <span className="filter-container-inner-lower">{selectedLevel}</span>
           {dropdowns.level && (
             <div className="dropdown-content scrollable">
               <a href="#" onClick={() => handleLevelFilterChange(null)}>
-                Add All
+                All
               </a>
               {levels.map((level, index) => (
                 <a
@@ -175,15 +174,15 @@ export const TrainerFilter = ({
         </label>
       </div>
       <div className="filter" onClick={() => toggleDropdown("available")}>
-        <label>
-          <span>Address</span>
-          <span className="bolded">
-            <strong>{selectedAddress}</strong>
+        <label className="filter-container-label">
+          <span className="filter-container-label-upper">Address</span>
+          <span className="filter-container-inner-lower">
+            {selectedAddress}
           </span>
           {dropdowns.available && (
             <div className="dropdown-content scrollable">
               <a href="#" onClick={() => handleAddressFilterChange(null)}>
-                Add All
+                All
               </a>
               {addresses.map((address, index) => (
                 <a
@@ -199,15 +198,15 @@ export const TrainerFilter = ({
         </label>
       </div>
       <div className="filter" onClick={() => toggleDropdown("sort")}>
-        <label>
-          <span>Session duration</span>
-          <span className="bolded">
-            <strong>{selectedLessonLength}</strong>
+        <label className="filter-container-label">
+          <span className="filter-container-label-upper">Session duration</span>
+          <span className="filter-container-inner-lower">
+            {selectedLessonLength}
           </span>
           {dropdowns.sort && (
             <div className="dropdown-content scrollable">
               <a href="#" onClick={() => handleLessonLengthFilterChange(null)}>
-                Add All
+                All
               </a>
               {lessonLengths.map((length, index) => (
                 <a
