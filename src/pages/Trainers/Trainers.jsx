@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
@@ -36,7 +36,7 @@ const Trainers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -174,68 +174,73 @@ const Trainers = () => {
     loadFavorites();
   }, [user]);
 
-  const isTrainerInFavorites = (trainerId) => {
-    return favorites.includes(trainerId);
-  };
+  const isTrainerInFavorites = useCallback(
+    (trainerId) => favorites.includes(trainerId),
+    [favorites]
+  );
 
   return (
     <>
-      <FilterOverlay
-        isVisible={overlayVisible}
-        onClose={() => toggleOverlay(false)}
-      />
-      <section className="trainers-section">
-        <h1 className="trainers-header-title">
-          Find Your Perfect Sports Trainer with trainMate:
-        </h1>
-        <TrainerFilter
-          onPriceFilterChange={handlePriceFilterChange}
-          onSportFilterChange={handleSportFilterChange}
-          onLevelFilterChange={handleLevelFilterChange}
-          onAddressFilterChange={handleAddressFilterChange}
-          onLessonLengthFilterChange={handleLessonLengthFilterChange}
-          sports={sports}
-          levels={levels}
-          addresses={addresses}
-          lessonLengths={lessonLengths}
-          toggleOverlay={toggleOverlay}
-        />
-        <Search
-          onSearch={handleSearch}
-          onVailerChange={handleVailerChange}
-          toggleOverlay={toggleOverlay}
-          onSortByRating={handleSortByRating}
-        />
-        <section className="team-container">
-          {loading && <p>Loading...</p>}
-          {error && <p>Error: {error}</p>}
-          {!loading &&
-            !error &&
-            filteredTrainers.map((trainer) => (
-              <TrainerCard
-                favorite={isTrainerInFavorites(trainer.uid)}
-                key={trainer.uid}
-                id={trainer.uid}
-                imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
-                experience={trainer.experience}
-                expertise={trainer.expertise}
-                name={trainer.name}
-                ratings={trainer.ratings}
-                price={trainer.price}
-                sport={trainer.sport}
-                level={trainer.level}
-                address={trainer.address}
-                lessonLength={trainer.lessonLength}
-                information={trainer.information}
-              />
-            ))}
-          {!loading && !error && filteredTrainers.length === 0 && (
-            <p>No matches found</p>
-          )}
-        </section>
-      </section>
+      {!favorites ? (
+        <div>Loading favorites...</div>
+      ) : (
+        <>
+          <FilterOverlay
+            isVisible={overlayVisible}
+            onClose={() => toggleOverlay(false)}
+          />
+          <section className="trainers-section">
+            <h1 className="trainers-header-title">
+              Find Your Perfect Sports Trainer with trainMate:
+            </h1>
+            <TrainerFilter
+              onPriceFilterChange={handlePriceFilterChange}
+              onSportFilterChange={handleSportFilterChange}
+              onLevelFilterChange={handleLevelFilterChange}
+              onAddressFilterChange={handleAddressFilterChange}
+              onLessonLengthFilterChange={handleLessonLengthFilterChange}
+              sports={sports}
+              levels={levels}
+              addresses={addresses}
+              lessonLengths={lessonLengths}
+              toggleOverlay={toggleOverlay}
+            />
+            <Search
+              onSearch={handleSearch}
+              onVailerChange={handleVailerChange}
+              toggleOverlay={toggleOverlay}
+              onSortByRating={handleSortByRating}
+            />
+            <section className="team-container">
+              {!loading &&
+                !error &&
+                filteredTrainers.length > 0 &&
+                filteredTrainers.map((trainer) => (
+                  <TrainerCard
+                    favorite={() => isTrainerInFavorites(trainer.uid)}
+                    key={trainer.uid}
+                    id={trainer.uid}
+                    imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
+                    experience={trainer.experience}
+                    expertise={trainer.expertise}
+                    name={trainer.name}
+                    ratings={trainer.ratings}
+                    price={trainer.price}
+                    sport={trainer.sport}
+                    level={trainer.level}
+                    address={trainer.address}
+                    lessonLength={trainer.lessonLength}
+                    information={trainer.information}
+                  />
+                ))}
+              {!loading && !error && filteredTrainers.length === 0 && (
+                <p>No matches found</p>
+              )}
+            </section>
+          </section>
+        </>
+      )}
     </>
   );
 };
-
 export default Trainers;
