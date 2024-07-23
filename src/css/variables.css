@@ -8,6 +8,7 @@
   --background-secondary3: #e0dac9;
   --background-secondary4: rgb(76, 172, 200);
   --background-secondary5: rgb(222, 173, 92);
+  --background-secondary6: rgb(204, 226, 255);
 
   /*------------ Colors ------------*/
   /* Colors -> Buttons */
@@ -19,4 +20,3 @@
   --font-content: "Figtree", sans-serif;
   --font-title: "Inter", sans-serif;
 }
-

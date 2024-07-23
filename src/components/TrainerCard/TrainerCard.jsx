@@ -1,9 +1,11 @@
-import { BiShekel } from "react-icons/bi";
-import { GoStarFill } from "react-icons/go";
-import { FiHeart } from "react-icons/fi";
-import "./TrainerCard.css";
-import { useSelector, useDispatch } from "react-redux";
 import { addFavorite } from "../../redux/features/usersSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { GoStarFill } from "react-icons/go";
+import { BiShekel } from "react-icons/bi";
+import { FiHeart } from "react-icons/fi";
+import { Link } from "react-router-dom";
+
+import "./TrainerCard.css";
 
 const TrainerCard = ({
   id,
@@ -51,9 +53,11 @@ const TrainerCard = ({
           />
         </div>
         <div>
-          <button className="button-transparent" id="trainer-card-button">
-            book a session
-          </button>
+          <Link to={`/trainers/${id}`}>
+            <button className="button-transparent" id="trainer-card-button">
+              book a session
+            </button>
+          </Link>
         </div>
       </div>
     </div>

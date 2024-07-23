@@ -14,8 +14,8 @@
   text-transform: capitalize;
   align-self: flex-start;
   letter-spacing: -3px;
-  font-weight: 700;
   margin: 0 0 2vh 2vw;
+  font-weight: 700;
   font-size: 7rem;
 }
 
