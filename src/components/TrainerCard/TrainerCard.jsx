@@ -9,34 +9,39 @@ import "./TrainerCard.css";
 import { useState } from "react";
 import {
   addFavorite,
-  fetchUsers,
   removeFavorite,
 } from "../../redux/features/usersSlice";
+import { truncateText } from "../../utilities/truncateText";
+
 const TrainerCard = ({
   favorite,
   id,
   imgSrc,
-  experience,
-  expertise,
   name,
   reviews,
+  ratings,
   price,
   sport,
   level,
-  location,
-  information,
+  address,
+  about,
+  description,
+  lessonLength
 }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [isFavorited, setIsFavorited] = useState(favorite);
+
   const handleAddFavorite = (userId, id) => {
     dispatch(addFavorite(userId, id));
     setIsFavorited(true);
   };
+
   const handleRemoveFavorite = (userId, id) => {
     dispatch(removeFavorite(userId, id));
     setIsFavorited(false);
   };
+
   return (
     <div className="trainer-card-container">
       <div className="trainer-card-image-container">
@@ -44,20 +49,27 @@ const TrainerCard = ({
       </div>
       <div className="trainer-card-content-container">
         <h1 className="trainer-card-name">{name}</h1>
+        <p className="trainer-card-information">{description}</p>
         <span className="trainer-card-sport">{sport}</span>
-        <p className="trainer-card-level">{level}</p>
-        <p className="trainer-card-location">{location}</p>
-        <p className="trainer-card-information">{information}</p>
+        <p className="trainer-card-level">{level.join(", ")}</p>
+        <p className="trainer-card-location">{address}</p>
+        <p className="trainer-card-information">{truncateText(about, 30)}</p>
       </div>
       <div className="trainer-card-right-content-container">
         <div className="trainer-card-right-data">
-          <div className="trainer-card-reviews">
-            <GoStarFill className="trainer-card-icon" />
-            {reviews}
+          <div className="trainer-card-reviews-container">
+            <div className="trainer-card-reviews">
+              <GoStarFill className="trainer-card-icon" />
+              {ratings}
+            </div>
+            {`${reviews.length} reviews`}
           </div>
-          <div className="trainer-card-price">
-            <BiShekel className="trainer-card-icon" />
-            {price}
+          <div className="trainer-card-price-lesson-length-container">
+            <div className="trainer-card-price">
+              <BiShekel className="trainer-card-icon" />
+              {price}
+            </div>
+            {`${lessonLength} Min Lesson`}
           </div>
           {!isFavorited ? (
             <FiHeart
