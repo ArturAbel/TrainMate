@@ -3,6 +3,7 @@
   display: flex;
   justify-content: flex-end;
   width: 100%; /* Ensure the container takes the full width */
+  z-index: 1000; /* Z-index of overlay is 1001*/
 }
 
 .search-input {
@@ -11,4 +12,31 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  margin-left: 4rem;
+  gap: 10px;
+}
+.vailer-dropdown {
+}
+
+.vailer-container {
+  background-color: #fff;
+  border: 2px solid #dcdce5;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 15px 20px;
+  position: relative;
+  width: 100%;
+
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  text-align: center;
+
+  width: 20%;
+  height: 40%;
+  border-width: 3px;
+  margin: 15px;
 }
