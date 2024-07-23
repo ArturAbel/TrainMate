@@ -74,7 +74,7 @@ const Trainers = () => {
   return (
     <section className="trainers-section">
       <h1 className="trainers-header-title">
-        Find Your Perfect Sports Trainer with trainMate:
+        Find your perfect sports trainer with train.mate:
       </h1>
       <TrainerFilter
         onPriceFilterChange={handlePriceFilterChange}

@@ -1,5 +1,6 @@
 .trainer-card-container {
   border: 2px solid var(--color-input-placeholder-border);
+  margin-bottom: 1.5rem;
   border-radius: 5px;
   padding: 1rem;
   display: flex;
@@ -93,6 +94,7 @@
 
 .trainer-card-icon {
   margin-right: 0.5rem;
+  font-size: 2.2rem;
 }
 
 #trainer-card-button {

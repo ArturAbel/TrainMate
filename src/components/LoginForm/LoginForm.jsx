@@ -21,7 +21,8 @@ export const LoginForm = () => {
     dispatch(loginUser(input.email, input.password));
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = (e) => {
+    e.preventDefault();
     dispatch(loginWithGoogle());
   };
 

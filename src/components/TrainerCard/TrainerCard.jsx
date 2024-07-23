@@ -1,6 +1,6 @@
 import { BiShekel } from "react-icons/bi";
 import { GoStarFill } from "react-icons/go";
-import { CiHeart } from "react-icons/ci";
+import { FiHeart } from "react-icons/fi";
 import "./TrainerCard.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addFavorite } from "../../redux/features/usersSlice";
@@ -45,7 +45,7 @@ const TrainerCard = ({
             <BiShekel className="trainer-card-icon" />
             {price}
           </div>
-          <CiHeart
+          <FiHeart
             className="trainer-card-like"
             onClick={() => handleAddFavorite(user.uid, id)}
           />

@@ -8,7 +8,6 @@
 }
 
 .become-trainer-content-container {
-  background-color: azure;
   flex-direction: column;
   display: flex;
   height: 80vh;
@@ -34,7 +33,6 @@
 }
 
 .become-trainer-step-number-container {
-  background-color: rgb(146, 146, 146);
   justify-content: center;
   align-items: center;
   border-radius: 7px;
@@ -43,25 +41,54 @@
   width: 5rem;
 }
 
+.number-container-1 {
+  background-color: var(--background-secondary1);
+}
+
+.number-container-2 {
+  background-color: var(--background-secondary2);
+}
+
+.number-container-3 {
+  background-color: var(--background-secondary2);
+}
+
 .become-trainer-number {
   font-size: 3rem;
 }
 
-.become-trainer-step-content {
-}
-
 .become-trainer-step-title {
+  letter-spacing: -1px;
   font-size: 2.5rem;
   margin-top: 1rem;
 }
 
 .become-trainer-step-text {
+  font-family: var(--font-content);
   font-size: 1.4rem;
+  margin-top: 1rem;
   width: 70%;
+}
+
+#become-trainer-button {
+  background-color: var(--background-secondary1);
+  font-size: 1.8rem;
+  width: 30rem;
+  height: 5rem;
+}
+
+#become-trainer-button:hover {
+  filter: brightness(0.9);
 }
 
 .become-trainer-image-container {
   background-color: rgb(49, 178, 178);
-  height: 80vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 60vh;
   width: 35vw;
+}
+
+.become-trainer-image {
 }
