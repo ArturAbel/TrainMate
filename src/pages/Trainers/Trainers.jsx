@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import FilterOverlay from "../../components/FilterOverlay/FilterOverlay.jsx";
+import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
 import "./Trainers.css";
 
@@ -48,46 +48,34 @@ const Trainers = () => {
 
     if (selectedSport) {
       filtered = filtered.filter((trainer) => trainer.sport === selectedSport);
-      console.log("After sport filter:", filtered);
     }
 
     if (selectedLevel) {
       filtered = filtered.filter((trainer) => trainer.level === selectedLevel);
-      console.log("After level filter:", filtered);
     }
 
     if (selectedAddress) {
       filtered = filtered.filter(
         (trainer) => trainer.address === selectedAddress
       );
-      console.log("After address filter:", filtered);
     }
 
     if (selectedLessonLength) {
       filtered = filtered.filter(
         (trainer) => trainer.lessonLength === selectedLessonLength
       );
-      console.log("After session duration filter:", filtered);
     }
 
     if (searchQuery) {
       filtered = filtered.filter((trainer) =>
         trainer.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      console.log("After search filter:", filtered);
     }
 
     filtered = filtered.filter(
       (trainer) =>
         trainer.price >= priceRange.min && trainer.price <= priceRange.max
     );
-    console.log("After price filter:", filtered);
-
-    console.log("Filtered trainers:", filtered);
-
-    if (filtered.length === 0) {
-      console.log("No matches found");
-    }
 
     setFilteredTrainers(filtered);
   }, [
@@ -124,6 +112,22 @@ const Trainers = () => {
     setSearchQuery(query);
   };
 
+  const handleVailerChange = (value) => {
+    console.log(value);
+  };
+
+  const handleSortByRating = () => {
+    console.log("Sorting by ratings");
+    console.log("Current filtered trainers:", filteredTrainers);
+
+    const sortedTrainers = [...filteredTrainers].sort(
+      (a, b) => b.ratings - a.ratings
+    );
+
+    console.log("Sorted trainers:", sortedTrainers);
+    setFilteredTrainers(sortedTrainers);
+  };
+
   const toggleOverlay = (visible) => {
     setOverlayVisible(visible);
   };
@@ -150,7 +154,12 @@ const Trainers = () => {
           lessonLengths={lessonLengths}
           toggleOverlay={toggleOverlay}
         />
-        <Search onSearch={handleSearch} />
+        <Search
+          onSearch={handleSearch}
+          onVailerChange={handleVailerChange}
+          toggleOverlay={toggleOverlay}
+          onSortByRating={handleSortByRating}
+        />
         <section className="team-container">
           {loading && <p>Loading...</p>}
           {error && <p>Error: {error}</p>}
@@ -164,7 +173,7 @@ const Trainers = () => {
                 experience={trainer.experience}
                 expertise={trainer.expertise}
                 name={trainer.name}
-                reviews={trainer.reviews}
+                ratings={trainer.ratings}
                 price={trainer.price}
                 sport={trainer.sport}
                 level={trainer.level}
