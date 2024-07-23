@@ -234,45 +234,8 @@ const Trainers = () => {
         </section>
       </section>
     </>
-    <section className="trainers-section">
-      <h1 className="trainers-header-title">
-        Find your perfect sports trainer with train.mate:
-      </h1>
-      <TrainerFilter
-        onPriceFilterChange={handlePriceFilterChange}
-        onSportFilterChange={handleSportFilterChange}
-        onLevelFilterChange={handleLevelFilterChange}
-        sports={sports}
-        levels={levels}
-      />
-      <section className="team-container">
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error}</p>}
-        {!loading &&
-          !error &&
-          filteredTrainers.map((trainer) => (
-            <TrainerCard
-              favorite={isTrainerInFavorites(trainer.uid)}
-              key={trainer.uid}
-              id={trainer.uid}
-              imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
-              experience={trainer.experience}
-              expertise={trainer.expertise}
-              name={trainer.name}
-              reviews={trainer.reviews}
-              price={trainer.price}
-              sport={trainer.sport}
-              level={trainer.level}
-              location={trainer.location}
-              information={trainer.information}
-            />
-          ))}
-        {!loading && !error && filteredTrainers.length === 0 && (
-          <p>No matches found</p>
-        )}
-      </section>
-    </section>
   );
+  
 };
 
 export default Trainers;
