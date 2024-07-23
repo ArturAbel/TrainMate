@@ -95,7 +95,7 @@ const GetStartedQuiz = () => {
               <input type="radio" name="option" id={`option${index}`} />
               <label htmlFor={`option${index}`}>{option}</label>
             </div>
-          ))
+          ))//s
         )}
         {questions[currentQuestion].showAll && (
           <button className="show-all">Show all</button>
