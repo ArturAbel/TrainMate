@@ -19,7 +19,7 @@ export const SignUpForm = ({ title }) => {
   const handleSignUp = (e) => {
     e.preventDefault();
     if (title === "trainee") {
-      dispatch(signupUser(input.email, input.password));
+      dispatch(signupUser(input.email, input.password, input.name));
     }
     if (title === "trainer") {
       // Logic for sign up trainer
