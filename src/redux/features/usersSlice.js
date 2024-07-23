@@ -10,7 +10,8 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
-import { db } from "../../config/firebaseConfig";
+import { db, storage } from "../../config/firebaseConfig";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const usersSlice = createSlice({
   name: "users",
@@ -118,6 +119,23 @@ export const deleteUser = (userId) => async (dispatch) => {
     dispatch(setLoading(false));
     console.error("Error deleting user:", error);
     alert("Error deleting user: " + error.message);
+  }
+};
+
+export const uploadUserProfileImage = (file, userId) => async (dispatch) => {
+  dispatch(setLoading(true));
+  const storageRef = ref(storage, `users/${userId}/${file.name}`);
+  try {
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    await updateDoc(doc(db, "users", userId), { photoURL: downloadURL });
+    dispatch(fetchUsers()); 
+    dispatch(setLoading(false));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error uploading image:", error);
+    alert("Error uploading image: " + error.message);
   }
 };
 

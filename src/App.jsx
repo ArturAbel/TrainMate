@@ -45,7 +45,6 @@ const router = createBrowserRouter([
         path: "get-started",
         element: <GetStartedQuiz />,
       },
-
       {
         path: "trainers/:id",
         element: <TrainerDetails />,
