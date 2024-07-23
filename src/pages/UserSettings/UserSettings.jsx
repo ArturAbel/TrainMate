@@ -40,7 +40,7 @@ const UserSettings = () => {
   }, [dispatch]);
 
   if (!user) {
-    return <div className="">Loading...</div>
+    return <div className="">Loading...</div>;
   }
 
  
