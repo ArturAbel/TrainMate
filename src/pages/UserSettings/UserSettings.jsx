@@ -153,7 +153,7 @@ const UserSettings = () => {
                 {usersError && <p>Error fetching trainers: {usersError}</p>}
                 {filteredFavoriteTrainers.length > 0 ? (filteredFavoriteTrainers.map(trainer => (
                   <div key={trainer.uid} className="mini-card">
-                    <img src={trainer.photo} alt={trainer.name} className="mini-card-photo" />
+                    <img src={trainer.image} alt={trainer.name} className="mini-card-photo" />
                     <button className="remove-favorite-trainer-button" onClick={(e)=> handleRemoveFavorite(e,trainer.uid)}>
                       x
                     </button>
