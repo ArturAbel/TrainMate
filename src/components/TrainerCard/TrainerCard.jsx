@@ -1,17 +1,17 @@
+import { truncateText } from "../../utilities/truncateText";
 import { useSelector, useDispatch } from "react-redux";
 import { GoStarFill } from "react-icons/go";
 import { BiShekel } from "react-icons/bi";
+import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
-
-import { FaHeart } from "react-icons/fa6";
-import "./TrainerCard.css";
 import { useState } from "react";
 import {
   addFavorite,
   removeFavorite,
 } from "../../redux/features/usersSlice";
-import { truncateText } from "../../utilities/truncateText";
+
+import "./TrainerCard.css";
 
 const TrainerCard = ({
   favorite,
