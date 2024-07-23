@@ -94,3 +94,15 @@ label span {
   border-color: black;
   border-radius: 5px;
 }
+
+.filter-input-container {
+  display: block;
+  text-align: end;
+  margin-top: 10px;
+}
+
+.filter-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
