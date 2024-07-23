@@ -1,4 +1,3 @@
-import { addFavorite } from "../../redux/features/usersSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { GoStarFill } from "react-icons/go";
 import { BiShekel } from "react-icons/bi";
