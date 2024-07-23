@@ -1,34 +1,42 @@
-import { TbCameraUp } from "react-icons/tb";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
+import { deleteUser, fetchUsers, removeFavorite, updateUser, uploadUserProfileImage } from "../../redux/features/usersSlice";
+import { deleteUserAccount } from "../../redux/features/authSlice";
+import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
+
 import { LoginInput } from '../../components/LoginInput/LoginInput';
 import './UserSettings.css';
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { fetchTrainers } from "../../redux/features/trainerSlice";
-import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
-import { deleteUser, fetchUsers, removeFavorite, updateUser } from "../../redux/features/usersSlice";
-import { deleteUserAccount } from "../../redux/features/authSlice";
-import { useNavigate } from "react-router";
+import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
+import FavoriteTrainersSettings from "../../components/FavoriteTrainersSettings/FavoriteTrainersSettings";
+
 
 const UserSettings = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { users, loading: usersLoading, error: usersError } = useSelector(state => state.users);
   const { trainers, loading: trainersLoading, error: trainersError } = useSelector(state => state.trainer);
   const { user } = useSelector(state => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formState, setFormState] = useState({
-    displayName: user?.displayName || "",
-    phone: "",
-    age: "",
-  });
-  const navigate = useNavigate();
+  const [formState, setFormState] = useState({ displayName: user?.displayName || "", phone: "", age: "" });
 
-  const handleDeleteClick = () => {
-    setIsModalOpen(true);
-  };
+  useEffect(() => {
+    dispatch(fetchUsers());
+    dispatch(fetchTrainers());
+  }, [dispatch]);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    if (users.length > 0 && user) {
+      const userData = users.find(userObj => userObj.uid === user.uid);
+      if (userData) {
+        setFormState({ displayName: userData.displayName || "", phone: userData.phone || "", age: userData.age || "" });
+      }
+    }
+  }, [users, user]);
+
+  const handleDeleteClick = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const handleDeleteAccount = async () => {
     try {
@@ -43,61 +51,48 @@ const UserSettings = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormState(prevState => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUser(user.uid, formState)).then(() => {
-      dispatch(fetchUsers()); 
+      dispatch(fetchUsers());
     });
   };
 
-  const handleRemoveFavorite = (e ,trainerId) => {
+  const handleRemoveFavorite = (e, trainerId) => {
     e.preventDefault();
     try {
       dispatch(removeFavorite(user.uid, trainerId));
       dispatch(fetchUsers());
     } catch (error) {
-      console.log(error.message);
+      throw new Error(error.message);
     }
   };
 
-  useEffect(() => {
-    dispatch(fetchUsers());
-    dispatch(fetchTrainers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (users.length > 0 && user) {
-      const userData = users.find(userObj => userObj.uid === user.uid);
-      if (userData) {
-        setFormState({
-          displayName: userData.displayName || "",
-          phone: userData.phone || "",
-          age: userData.age || "",
-        });
-      }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      dispatch(uploadUserProfileImage(file, user.uid));
     }
-  }, [users, user]);
+  };
 
   if (!user || usersLoading || trainersLoading) {
-    return <div className="">Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   const userData = users.find(userObj => userObj.uid === user.uid);
-
   if (!userData) {
-    return <div className="">Loading user data...</div>;
+    return <div>Loading user data...</div>;
   }
 
-  const filteredFavoriteTrainers = trainers.filter(trainer => userData.favorites.includes(trainer.uid));
+  const profileImageUrl = userData.photoURL ||
+    (user.providerData && user.providerData.length > 0 && user.providerData[0].providerId === 'google.com' ? user.photoURL : '/public/person1.jpg');
 
   return (
     <>
+      {usersError && <div>{usersError.message}</div>}
       <section className="user-settings-section">
         <nav className="account-settings-navbar">
           <button className="account-settings-link-button" onClick={handleDeleteClick}>
@@ -105,66 +100,13 @@ const UserSettings = () => {
           </button>
         </nav>
         <div className="account-settings-container">
-          <h1 className="account-settings-title">
-            Account Settings
-          </h1>
-          <div className="account-settings-image-container">
-            <div className="image-display-left-box">
-              <img src={user?.photoURL || '/public/person1.jpg'} alt="" className="image-display" />
-              <button className="image-edit-button">Edit</button>
-            </div>
-            <div className="image-upload-right-box">
-              <button className="image-upload-button button-transparent">
-                <TbCameraUp className="camera-icon" />
-                Upload Image
-              </button>
-              <p className="image-upload-restrictions">
-                Maximum size – 2MB
-                JPG or PNG format
-              </p>
-            </div>
-          </div>
+          <h1 className="account-settings-title">Account Settings</h1>
+          <ProfileImageUploader profileImageUrl={profileImageUrl} handleImageChange={handleImageChange} />
           <form className="account-settings-form" onSubmit={handleSubmit}>
-            <LoginInput
-              label="Full Name"
-              name="displayName"
-              value={formState.displayName}
-              type="text"
-              onChange={handleChange}
-            />
-            <LoginInput
-              label="Phone Number"
-              name="phone"
-              value={formState.phone}
-              type="tel"
-              onChange={handleChange}
-            />
-            <LoginInput
-              label="Age"
-              name="age"
-              value={formState.age}
-              type="number"
-              onChange={handleChange}
-            />
-            <div className="favorite-trainers-container">
-              <h1>Favorite Trainers</h1>
-              <div className="favorite-trainers-grid">
-                {usersLoading && <p>Loading favorites...</p>}
-                {usersError && <p>Error fetching trainers: {usersError}</p>}
-                {filteredFavoriteTrainers.length > 0 ? (filteredFavoriteTrainers.map(trainer => (
-                  <div key={trainer.uid} className="mini-card">
-                    <img src={trainer.photo} alt={trainer.name} className="mini-card-photo" />
-                    <button className="remove-favorite-trainer-button" onClick={(e)=> handleRemoveFavorite(e,trainer.uid)}>
-                      x
-                    </button>
-                    <div className="mini-card-info">
-                      <h4>{trainer.name}</h4>
-                      <p>{trainer.sport}</p>
-                    </div>
-                  </div>)
-                )) : ("No Favorites Added")}
-              </div>
-            </div>
+            <LoginInput label="Full Name" name="displayName" value={formState.displayName} type="text" onChange={handleChange} />
+            <LoginInput label="Phone Number" name="phone" value={formState.phone} type="tel" onChange={handleChange} />
+            <LoginInput label="Age" name="age" value={formState.age} type="number" onChange={handleChange} />
+            <FavoriteTrainersSettings trainers={trainers} userData={userData} handleRemoveFavorite={handleRemoveFavorite} usersLoading={usersLoading} trainersError={trainersError} />
             <button type="submit" className="save-changes-button button-transparent">Save Changes</button>
           </form>
         </div>
@@ -179,3 +121,7 @@ const UserSettings = () => {
 };
 
 export default UserSettings;
+
+
+
+
