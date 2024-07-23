@@ -1,0 +1,23 @@
+/* src/components/FilterOverlay/FilterOverlay.css */
+.filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  backdrop-filter: blur(5px); /* Applies a blur effect to the background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* High z-index to cover other content */
+  pointer-events: auto; /* Ensures the overlay catches clicks */
+}
+
+.filter-overlay-content {
+  position: relative;
+  z-index: 1001; /* Ensure the content is above the overlay */
+  background: none;
+  padding: 1rem;
+  border-radius: 8px;
+}
