@@ -17,7 +17,6 @@
 .filter-overlay-content {
   position: relative;
   z-index: 1001; /* Ensure the content is above the overlay */
-  background: none;
-  padding: 1rem;
   border-radius: 8px;
+  background: none;
 }

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
-import "./Trainers.css";
 import { db } from "../../config/firebaseConfig";
-import { createSlice } from "@reduxjs/toolkit";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+
 import {
   collection,
   getDocs,
@@ -20,6 +20,8 @@ import {
   arrayRemove,
   getDoc,
 } from "firebase/firestore";
+
+import "./Trainers.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();
@@ -67,7 +69,9 @@ const Trainers = () => {
     }
 
     if (selectedLevel) {
-      filtered = filtered.filter((trainer) => trainer.level === selectedLevel);
+      filtered = filtered.filter((trainer) =>
+        trainer.level.includes(selectedLevel)
+      );
     }
 
     if (selectedAddress) {
@@ -128,19 +132,10 @@ const Trainers = () => {
     setSearchQuery(query);
   };
 
-  const handleVailerChange = (value) => {
-    console.log(value);
-  };
-
   const handleSortByRating = () => {
-    console.log("Sorting by ratings");
-    console.log("Current filtered trainers:", filteredTrainers);
-
     const sortedTrainers = [...filteredTrainers].sort(
       (a, b) => b.ratings - a.ratings
     );
-
-    console.log("Sorted trainers:", sortedTrainers);
     setFilteredTrainers(sortedTrainers);
   };
 
@@ -188,24 +183,25 @@ const Trainers = () => {
         <h1 className="trainers-header-title">
           Find Your Perfect Sports Trainer with trainMate:
         </h1>
-        <TrainerFilter
-          onPriceFilterChange={handlePriceFilterChange}
-          onSportFilterChange={handleSportFilterChange}
-          onLevelFilterChange={handleLevelFilterChange}
-          onAddressFilterChange={handleAddressFilterChange}
-          onLessonLengthFilterChange={handleLessonLengthFilterChange}
-          sports={sports}
-          levels={levels}
-          addresses={addresses}
-          lessonLengths={lessonLengths}
-          toggleOverlay={toggleOverlay}
-        />
-        <Search
-          onSearch={handleSearch}
-          onVailerChange={handleVailerChange}
-          toggleOverlay={toggleOverlay}
-          onSortByRating={handleSortByRating}
-        />
+        <div className="trainers-filter-search-container">
+          <TrainerFilter
+            onLessonLengthFilterChange={handleLessonLengthFilterChange}
+            onAddressFilterChange={handleAddressFilterChange}
+            onPriceFilterChange={handlePriceFilterChange}
+            onSportFilterChange={handleSportFilterChange}
+            onLevelFilterChange={handleLevelFilterChange}
+            sports={sports}
+            levels={levels}
+            addresses={addresses}
+            lessonLengths={lessonLengths}
+            toggleOverlay={toggleOverlay}
+          />
+          <Search
+            onSortByRating={handleSortByRating}
+            toggleOverlay={toggleOverlay}
+            onSearch={handleSearch}
+          />
+        </div>
         <section className="team-container">
           {loading && <p>Loading...</p>}
           {error && <p>Error: {error}</p>}
@@ -214,26 +210,27 @@ const Trainers = () => {
             filteredTrainers.map((trainer) => (
               <TrainerCard
                 favorite={isTrainerInFavorites(trainer.uid)}
+                lessonLength={trainer.lessonLength}
                 description={trainer.description}
-                key={trainer.uid}
-                id={trainer.uid}
-                imgSrc={trainer.image}
-                name={trainer.name}
+                information={trainer.information}
                 ratings={trainer.ratings}
+                address={trainer.address}
+                reviews={trainer.reviews}
+                imgSrc={trainer.image}
                 price={trainer.price}
                 sport={trainer.sport}
                 level={trainer.level}
-                address={trainer.address}
-                lessonLength={trainer.lessonLength}
-                information={trainer.information}
                 about={trainer.about}
-                reviews={trainer.reviews}
+                name={trainer.name}
+                key={trainer.uid}
+                id={trainer.uid}
               />
             ))}
           {!loading && !error && filteredTrainers.length === 0 && (
             <p>No matches found</p>
           )}
         </section>
+        <HomeDivider />
       </section>
     </>
   );

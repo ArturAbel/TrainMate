@@ -1,5 +1,5 @@
+import { useState, useRef, useEffect } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useState, useRef } from "react";
 
 import "./Search.css";
 
@@ -8,6 +8,7 @@ const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
   const [vailer, setVailer] = useState("");
   const [query, setQuery] = useState("");
   const debounceTimeout = useRef(null);
+  const container = useRef(null);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -45,8 +46,22 @@ const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
     toggleOverlay(false);
   };
 
+  const handleClickOutside = (event) => {
+    if (container.current && !container.current.contains(event.target)) {
+      setDropdownOpen(false);
+      toggleOverlay(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="search-container">
+    <div className="search-container" ref={container}>
       <div
         className="vailer-dropdown vailer-container"
         onClick={toggleDropdown}

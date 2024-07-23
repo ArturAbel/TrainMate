@@ -2,10 +2,11 @@
   border: 2px solid var(--color-input-placeholder-border);
   margin-bottom: 1.5rem;
   border-radius: 5px;
+  min-height: 40vh;
+  max-height: 50vh;
   padding: 1rem;
   display: flex;
   width: 65vw;
-  max-height: 40vh;
 }
 
 .trainer-card-container:hover {
@@ -93,8 +94,6 @@
 }
 
 .trainer-card-like:hover {
-  filter: invert(15%) sepia(91%) saturate(7445%) hue-rotate(3deg)
-    brightness(122%) contrast(128%);
   transform: scale(1.1);
   transition: 0.5s;
   cursor: pointer;

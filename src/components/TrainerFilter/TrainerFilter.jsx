@@ -3,16 +3,16 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import "./TrainerFilter.css";
 
 export const TrainerFilter = ({
+  onLessonLengthFilterChange,
+  onAddressFilterChange,
   onPriceFilterChange,
   onSportFilterChange,
   onLevelFilterChange,
-  onAddressFilterChange,
-  onLessonLengthFilterChange,
-  sports,
-  levels,
-  addresses,
-  lessonLengths,
   toggleOverlay,
+  lessonLengths,
+  addresses,
+  levels,
+  sports,
 }) => {
   const [dropdowns, setDropdowns] = useState({
     available: false,
@@ -73,8 +73,7 @@ export const TrainerFilter = ({
       }
 
       logTimeoutRef.current = setTimeout(() => {
-        console.log("Price range:", range);
-        onPriceFilterChange(range); // Call the filter function after timeout
+        onPriceFilterChange(range);
       }, 4000);
     },
     [onPriceFilterChange]
@@ -83,22 +82,40 @@ export const TrainerFilter = ({
   const handleSportFilterChange = (sport) => {
     setSelectedSport(sport);
     onSportFilterChange(sport);
+    if (sport === null) {
+      setSelectedSport("Select Sport");
+    }
   };
 
   const handleLevelFilterChange = (level) => {
+    
     setSelectedLevel(level);
     onLevelFilterChange(level);
+    if (level === null) {
+      setSelectedLevel("Select Level");
+    }
   };
 
   const handleAddressFilterChange = (address) => {
     setSelectedAddress(address);
     onAddressFilterChange(address);
+    if (address === null) {
+      setSelectedAddress("Select Address");
+    }
   };
 
   const handleLessonLengthFilterChange = (lessonLength) => {
     setSelectedLessonLength(lessonLength);
     onLessonLengthFilterChange(lessonLength);
+    if (lessonLength === null) {
+      setSelectedLessonLength("Select Duration");
+    }
   };
+
+  const uniqueLessonLengths = [...new Set(lessonLengths.sort((a, b) => a - b))];
+  const uniqueAddresses = [...new Set(addresses.sort())];
+  const uniqueLevels = [...new Set(levels.flat())];
+  const uniqueSports = [...new Set(sports.sort())];
 
   return (
     <section
@@ -116,7 +133,7 @@ export const TrainerFilter = ({
               <a href="#" onClick={() => handleSportFilterChange(null)}>
                 All
               </a>
-              {sports.map((sport, index) => (
+              {uniqueSports.map((sport, index) => (
                 <a
                   key={index}
                   href="#"
@@ -160,7 +177,7 @@ export const TrainerFilter = ({
               <a href="#" onClick={() => handleLevelFilterChange(null)}>
                 All
               </a>
-              {levels.map((level, index) => (
+              {uniqueLevels.map((level, index) => (
                 <a
                   key={index}
                   href="#"
@@ -184,7 +201,7 @@ export const TrainerFilter = ({
               <a href="#" onClick={() => handleAddressFilterChange(null)}>
                 All
               </a>
-              {addresses.map((address, index) => (
+              {uniqueAddresses.map((address, index) => (
                 <a
                   key={index}
                   href="#"
@@ -208,7 +225,7 @@ export const TrainerFilter = ({
               <a href="#" onClick={() => handleLessonLengthFilterChange(null)}>
                 All
               </a>
-              {lessonLengths.map((length, index) => (
+              {uniqueLessonLengths.map((length, index) => (
                 <a
                   key={index}
                   href="#"
