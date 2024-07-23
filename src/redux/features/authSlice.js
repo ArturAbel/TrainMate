@@ -61,20 +61,16 @@ const createUserDoc = async (user) => {
   );
 };
 
+
 export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      const userExists = await checkUserDocExists(user.uid);
-      if (userExists) {
-        dispatch(setUser(serializeUser(user)));
-      } else {
-        await signOut(auth); // Sign out if the user document does not exist
-        dispatch(setUser(null));
-        dispatch(setError("User data not found. Please contact support."));
-      }
+      dispatch(setUser(serializeUser(user)));
     } else {
+      await signOut(auth); 
       dispatch(setUser(null));
+      dispatch(setError("User data not found. Please contact support."));
     }
     dispatch(setLoading(false));
   });
