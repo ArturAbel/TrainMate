@@ -5,6 +5,7 @@
   padding: 1rem;
   display: flex;
   width: 65vw;
+  max-height: 40vh;
 }
 
 .trainer-card-container:hover {
@@ -82,6 +83,13 @@
   font-size: 2.5rem;
   font-weight: 600;
   display: flex;
+}
+
+.trainer-card-reviews-container ,
+.trainer-card-price-lesson-length-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .trainer-card-like:hover {
