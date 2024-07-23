@@ -181,21 +181,19 @@ export const TrainerFilter = ({
             <strong>{selectedAddress}</strong>
           </span>
           {dropdowns.available && (
-            <div className="overlay-filter">
-              <div className="dropdown-content scrollable">
-                <a href="#" onClick={() => handleAddressFilterChange(null)}>
-                  Add All
+            <div className="dropdown-content scrollable">
+              <a href="#" onClick={() => handleAddressFilterChange(null)}>
+                Add All
+              </a>
+              {addresses.map((address, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  onClick={() => handleAddressFilterChange(address)}
+                >
+                  {address}
                 </a>
-                {addresses.map((address, index) => (
-                  <a
-                    key={index}
-                    href="#"
-                    onClick={() => handleAddressFilterChange(address)}
-                  >
-                    {address}
-                  </a>
-                ))}
-              </div>
+              ))}
             </div>
           )}
         </label>
@@ -207,24 +205,19 @@ export const TrainerFilter = ({
             <strong>{selectedLessonLength}</strong>
           </span>
           {dropdowns.sort && (
-            <div className="overlay-filter">
-              <div className="dropdown-content scrollable">
+            <div className="dropdown-content scrollable">
+              <a href="#" onClick={() => handleLessonLengthFilterChange(null)}>
+                Add All
+              </a>
+              {lessonLengths.map((length, index) => (
                 <a
+                  key={index}
                   href="#"
-                  onClick={() => handleLessonLengthFilterChange(null)}
+                  onClick={() => handleLessonLengthFilterChange(length)}
                 >
-                  Add All
+                  {length}
                 </a>
-                {lessonLengths.map((length, index) => (
-                  <a
-                    key={index}
-                    href="#"
-                    onClick={() => handleLessonLengthFilterChange(length)}
-                  >
-                    {length}
-                  </a>
-                ))}
-              </div>
+              ))}
             </div>
           )}
         </label>
