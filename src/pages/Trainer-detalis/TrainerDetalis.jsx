@@ -34,7 +34,7 @@ const TrainerDetails = () => {
   }
 
   // Find the trainer with matching ID, converting trainer.id to a number if necessary
-  const trainer = trainers.find((trainer) => Number(trainer.id) === Number(id));
+  const trainer = trainers.find((trainer) => trainer.uid === id);
 
   if (trainer) {
     console.log("Success: Matching trainer found:", trainer);
@@ -51,33 +51,45 @@ const TrainerDetails = () => {
     } = trainer;
 
     return (
-      <div className="profile-container" key={trainer.id}>
-        <header className="profile-header">
-          <h1>Trainer Profile</h1>
-        </header>
-        <div className="profile-picture">
-          <img src={imgSrc} alt={name} />
+      <section className="trainer-profile-section" key={trainer.id}>
+        <div className="trainer-profile-content-container">
+
+          {/* Intro */}
+          <div className="trainer-profile-content-intro">
+            <div className="trainer-profile-image-container">
+              <img className="trainer-profile-image" src={imgSrc} alt={name} />
+            </div>
+            <div className="trainer-profile-intro-container">
+              <h1 className="trainer-profile-intro-name">{name}</h1>
+              <p className="trainer-profile-intro-description">some description about the trainer</p>
+              <p className="trainer-profile-intro-teach">
+                <strong>teaches:</strong> {sport}
+              </p>
+            </div>
+          </div>
+
+          {/* About Me */}
+
+        <div></div>
+          <div className="profile-details">
+            <p className="profile-level">
+              <strong>Level:</strong> {level}
+            </p>
+            <p className="profile-location">
+              <strong>Location:</strong> {location}
+            </p>
+            <p className="profile-description">{description}</p>
+            <p className="profile-reviews">
+              <strong>Reviews:</strong> {reviews}★
+            </p>
+            <p className="profile-price">
+              <strong>Price:</strong> ₪{price}
+            </p>
+          </div>
         </div>
-        <div className="profile-details">
-          <h2 className="profile-name">{name}</h2>
-          <p className="profile-sport">
-            <strong>Sport:</strong> {sport}
-          </p>
-          <p className="profile-level">
-            <strong>Level:</strong> {level}
-          </p>
-          <p className="profile-location">
-            <strong>Location:</strong> {location}
-          </p>
-          <p className="profile-description">{description}</p>
-          <p className="profile-reviews">
-            <strong>Reviews:</strong> {reviews}★
-          </p>
-          <p className="profile-price">
-            <strong>Price:</strong> ₪{price}
-          </p>
-        </div>
-      </div>
+
+        <div className="trainer-profile-actions-container"></div>
+      </section>
     );
   } else {
     console.log("Trainer not found");

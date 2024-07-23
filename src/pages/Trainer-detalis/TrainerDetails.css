@@ -1,54 +1,58 @@
 /* TrainerDetails.css */
-
-.profile-header {
-  background-color: #3546c3;
-  color: white;
-  text-align: center;
-  padding: 20px 0;
-  margin-bottom: 20px;
-}
-
-.profile-container {
+.trainer-profile-section {
+  justify-content: center;
+  margin-top: 20vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  width: 100%;
 }
 
-.profile-picture img {
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border: 3px solid #3546c3;
+.trainer-profile-content-container {
+  background-color: rgb(149, 133, 121);
+  height: 100vh;
+  width: 60vw;
+}
+
+.trainer-profile-actions-container {
+  background-color: rgb(232, 168, 122);
+  height: 100vh;
+  width: 30vw;
+}
+
+.trainer-profile-content-intro {
+  background-color: rgb(227, 254, 161);
+  font-family: var(--font-content);
+  align-items: flex-start;
+  display: flex;
+  height: 40vh;
+}
+
+.trainer-profile-image-container {
+  border: 1px solid #ff7e7e;
+  border-radius: 8px;
   margin-bottom: 20px;
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
 }
 
-.profile-details {
-  text-align: center;
+.trainer-profile-image {
 }
 
-.profile-name {
-  font-size: 24px;
-  margin-bottom: 10px;
+.trainer-profile-intro-container {
+  border: 1px solid #ff7e7e;
+  flex-direction: column;
+  margin-left: 2rem;
+  display: flex;
+  gap: 1rem;
 }
 
-.profile-sport,
-.profile-level,
-.profile-location,
-.profile-description,
-.profile-reviews,
-.profile-price {
-  font-size: 18px;
-  margin: 5px 0;
+.trainer-profile-intro-name {
+  font-family: var(--font-title);
+  font-size: 3.5rem;
 }
 
-.profile-description {
-  font-size: 16px;
-  color: #555;
+.trainer-profile-intro-description,
+.trainer-profile-intro-teach {
+  font-size: 1.5rem;
 }
