@@ -213,6 +213,7 @@ const Trainers = () => {
             !error &&
             filteredTrainers.map((trainer) => (
               <TrainerCard
+                favorite={isTrainerInFavorites(trainer.uid)}
                 key={trainer.uid}
                 id={trainer.uid}
                 imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
@@ -235,7 +236,6 @@ const Trainers = () => {
       </section>
     </>
   );
-  
 };
 
 export default Trainers;
