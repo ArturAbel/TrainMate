@@ -214,11 +214,10 @@ const Trainers = () => {
             filteredTrainers.map((trainer) => (
               <TrainerCard
                 favorite={isTrainerInFavorites(trainer.uid)}
+                description={trainer.description}
                 key={trainer.uid}
                 id={trainer.uid}
-                imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
-                experience={trainer.experience}
-                expertise={trainer.expertise}
+                imgSrc={trainer.image}
                 name={trainer.name}
                 ratings={trainer.ratings}
                 price={trainer.price}
@@ -227,6 +226,8 @@ const Trainers = () => {
                 address={trainer.address}
                 lessonLength={trainer.lessonLength}
                 information={trainer.information}
+                about={trainer.about}
+                reviews={trainer.reviews}
               />
             ))}
           {!loading && !error && filteredTrainers.length === 0 && (
