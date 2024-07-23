@@ -5,16 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
-import { deleteUser } from "../../redux/features/usersSlice";
-import { logoutUser } from "../../redux/features/authSlice";
+import { deleteUser, fetchUsers, removeFavorite, updateUser } from "../../redux/features/usersSlice";
+import { deleteUserAccount } from "../../redux/features/authSlice";
 import { useNavigate } from "react-router";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
-  const { trainers, loading, error } = useSelector(state => state.trainer);
+  const { users, loading: usersLoading, error: usersError } = useSelector(state => state.users);
+  const { trainers, loading: trainersLoading, error: trainersError } = useSelector(state => state.trainer);
   const { user } = useSelector(state => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [fullName, setFullName] = useState(user?.displayName || "");
+  const [formState, setFormState] = useState({
+    displayName: user?.displayName || "",
+    phone: "",
+    age: "",
+  });
   const navigate = useNavigate();
 
   const handleDeleteClick = () => {
@@ -25,25 +30,71 @@ const UserSettings = () => {
     setIsModalOpen(false);
   };
 
-  const handleDeleteAccount = () => {
-    dispatch(deleteUser(user.uid)).then(() => {
-      dispatch(logoutUser());
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUser(user.uid));
+      dispatch(deleteUserAccount());
       setIsModalOpen(false);
       navigate('/');
-    }).catch((error) => {
+    } catch (error) {
       console.error("Error deleting account: ", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateUser(user.uid, formState)).then(() => {
+      dispatch(fetchUsers()); 
     });
   };
 
+  const handleRemoveFavorite = (e ,trainerId) => {
+    e.preventDefault();
+    try {
+      dispatch(removeFavorite(user.uid, trainerId));
+      dispatch(fetchUsers());
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
+    dispatch(fetchUsers());
     dispatch(fetchTrainers());
   }, [dispatch]);
 
-  if (!user) {
-    return <div className="">Loading...</div>
+  useEffect(() => {
+    if (users.length > 0 && user) {
+      const userData = users.find(userObj => userObj.uid === user.uid);
+      if (userData) {
+        setFormState({
+          displayName: userData.displayName || "",
+          phone: userData.phone || "",
+          age: userData.age || "",
+        });
+      }
+    }
+  }, [users, user]);
+
+  if (!user || usersLoading || trainersLoading) {
+    return <div className="">Loading...</div>;
   }
 
- 
+  const userData = users.find(userObj => userObj.uid === user.uid);
+
+  if (!userData) {
+    return <div className="">Loading user data...</div>;
+  }
+
+  const filteredFavoriteTrainers = trainers.filter(trainer => userData.favorites.includes(trainer.uid));
 
   return (
     <>
@@ -73,40 +124,45 @@ const UserSettings = () => {
               </p>
             </div>
           </div>
-          <form className="account-settings-form">
+          <form className="account-settings-form" onSubmit={handleSubmit}>
             <LoginInput
               label="Full Name"
-              name="fullName"
-              value={user.name}
+              name="displayName"
+              value={formState.displayName}
               type="text"
-              onChange={(e) => setFullName(e.target.value)}
+              onChange={handleChange}
             />
             <LoginInput
               label="Phone Number"
-              name="phoneNumber"
-              value={user?.phone || ''}
+              name="phone"
+              value={formState.phone}
               type="tel"
+              onChange={handleChange}
             />
             <LoginInput
               label="Age"
               name="age"
-              value={user?.age || ''}
+              value={formState.age}
               type="number"
+              onChange={handleChange}
             />
             <div className="favorite-trainers-container">
               <h1>Favorite Trainers</h1>
               <div className="favorite-trainers-grid">
-                {loading && <p>Loading trainers...</p>}
-                {error && <p>Error fetching trainers: {error}</p>}
-                {trainers.length > 0 && trainers.map(trainer => (
+                {usersLoading && <p>Loading favorites...</p>}
+                {usersError && <p>Error fetching trainers: {usersError}</p>}
+                {filteredFavoriteTrainers.length > 0 ? (filteredFavoriteTrainers.map(trainer => (
                   <div key={trainer.uid} className="mini-card">
                     <img src={trainer.photo} alt={trainer.name} className="mini-card-photo" />
+                    <button className="remove-favorite-trainer-button" onClick={(e)=> handleRemoveFavorite(e,trainer.uid)}>
+                      x
+                    </button>
                     <div className="mini-card-info">
                       <h4>{trainer.name}</h4>
                       <p>{trainer.sport}</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)
+                )) : ("No Favorites Added")}
               </div>
             </div>
             <button type="submit" className="save-changes-button button-transparent">Save Changes</button>
@@ -123,4 +179,3 @@ const UserSettings = () => {
 };
 
 export default UserSettings;
-
