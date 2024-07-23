@@ -1,13 +1,18 @@
 import PriceSlider from "../Slider/PriceSlider";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import "./TrainerFilter.css";
 
 export const TrainerFilter = ({
   onPriceFilterChange,
   onSportFilterChange,
   onLevelFilterChange,
+  onAddressFilterChange,
+  onLessonLengthFilterChange,
   sports,
   levels,
+  addresses,
+  lessonLengths,
+  toggleOverlay,
 }) => {
   const [dropdowns, setDropdowns] = useState({
     available: false,
@@ -20,16 +25,44 @@ export const TrainerFilter = ({
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [selectedSport, setSelectedSport] = useState("Select Sport");
   const [selectedLevel, setSelectedLevel] = useState("Select Level");
-  const [selectedAvailability, setSelectedAvailability] = useState(
-    "Select Availability"
-  );
-  const [selectedSort, setSelectedSort] = useState("Select Sort Option");
+  const [selectedAddress, setSelectedAddress] = useState("Select Address");
+  const [selectedLessonLength, setSelectedLessonLength] =
+    useState("Select Duration");
 
   const logTimeoutRef = useRef(null);
+  const filterRef = useRef(null);
 
   const toggleDropdown = (key) => {
-    setDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
+    setDropdowns((prev) => {
+      const newState = { ...prev, [key]: !prev[key] };
+      toggleOverlay(Object.values(newState).some((value) => value));
+      return newState;
+    });
   };
+
+  const closeDropdowns = () => {
+    setDropdowns({
+      available: false,
+      country: false,
+      price: false,
+      learn: false,
+      sort: false,
+    });
+    toggleOverlay(false);
+  };
+
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      closeDropdowns();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handlePriceRangeChange = useCallback(
     (range) => {
@@ -42,7 +75,7 @@ export const TrainerFilter = ({
       logTimeoutRef.current = setTimeout(() => {
         console.log("Price range:", range);
         onPriceFilterChange(range); // Call the filter function after timeout
-      }, 1000);
+      }, 4000);
     },
     [onPriceFilterChange]
   );
@@ -57,16 +90,21 @@ export const TrainerFilter = ({
     onLevelFilterChange(level);
   };
 
-  const handleAvailabilityChange = (availability) => {
-    setSelectedAvailability(availability);
+  const handleAddressFilterChange = (address) => {
+    setSelectedAddress(address);
+    onAddressFilterChange(address);
   };
 
-  const handleSortChange = (sortOption) => {
-    setSelectedSort(sortOption);
+  const handleLessonLengthFilterChange = (lessonLength) => {
+    setSelectedLessonLength(lessonLength);
+    onLessonLengthFilterChange(lessonLength);
   };
 
   return (
-    <section className="filter-container">
+    <section
+      className="filter-container filter-overlay-content"
+      ref={filterRef}
+    >
       <div className="filter" onClick={() => toggleDropdown("learn")}>
         <label>
           <span>Sport</span>
@@ -75,6 +113,9 @@ export const TrainerFilter = ({
           </span>
           {dropdowns.learn && (
             <div className="dropdown-content scrollable">
+              <a href="#" onClick={() => handleSportFilterChange(null)}>
+                Add All
+              </a>
               {sports.map((sport, index) => (
                 <a
                   key={index}
@@ -88,35 +129,38 @@ export const TrainerFilter = ({
           )}
         </label>
       </div>
-      <div className="filter" onClick={() => toggleDropdown("price")}>
-        <label>
+      <div className="filter">
+        <label onClick={() => toggleDropdown("price")}>
           <span>Price per lesson</span>
           <span className="bolded">
             <strong>
               ₪{priceRange.min} - ₪{priceRange.max}
             </strong>
           </span>
-          {dropdowns.price && (
-            <div className="dropdown-content">
-              <PriceSlider
-                min={5}
-                max={100}
-                initialMinValue={priceRange.min}
-                initialMaxValue={priceRange.max}
-                onRangeChange={handlePriceRangeChange}
-              />
-            </div>
-          )}
         </label>
+        {dropdowns.price && (
+          <div className="dropdown-content">
+            <PriceSlider
+              min={5}
+              max={100}
+              initialMinValue={priceRange.min}
+              initialMaxValue={priceRange.max}
+              onRangeChange={handlePriceRangeChange}
+            />
+          </div>
+        )}
       </div>
-      <div className="filter" onClick={() => toggleDropdown("country")}>
+      <div className="filter" onClick={() => toggleDropdown("level")}>
         <label>
           <span>Level</span>
           <span className="bolded">
             <strong>{selectedLevel}</strong>
           </span>
-          {dropdowns.country && (
+          {dropdowns.level && (
             <div className="dropdown-content scrollable">
+              <a href="#" onClick={() => handleLevelFilterChange(null)}>
+                Add All
+              </a>
               {levels.map((level, index) => (
                 <a
                   key={index}
@@ -132,42 +176,55 @@ export const TrainerFilter = ({
       </div>
       <div className="filter" onClick={() => toggleDropdown("available")}>
         <label>
-          <span>I&apos;m available</span>
+          <span>Address</span>
           <span className="bolded">
-            <strong>{selectedAvailability}</strong>
+            <strong>{selectedAddress}</strong>
           </span>
           {dropdowns.available && (
-            <div className="dropdown-content">
-              <a href="#" onClick={() => handleAvailabilityChange("Morning")}>
-                Morning
-              </a>
-              <a href="#" onClick={() => handleAvailabilityChange("Afternoon")}>
-                Afternoon
-              </a>
-              <a href="#" onClick={() => handleAvailabilityChange("Evening")}>
-                Evening
-              </a>
+            <div className="overlay-filter">
+              <div className="dropdown-content scrollable">
+                <a href="#" onClick={() => handleAddressFilterChange(null)}>
+                  Add All
+                </a>
+                {addresses.map((address, index) => (
+                  <a
+                    key={index}
+                    href="#"
+                    onClick={() => handleAddressFilterChange(address)}
+                  >
+                    {address}
+                  </a>
+                ))}
+              </div>
             </div>
           )}
         </label>
       </div>
       <div className="filter" onClick={() => toggleDropdown("sort")}>
         <label>
-          <span>Sort by</span>
+          <span>Session duration</span>
           <span className="bolded">
-            <strong>{selectedSort}</strong>
+            <strong>{selectedLessonLength}</strong>
           </span>
           {dropdowns.sort && (
-            <div className="dropdown-content">
-              <a href="#" onClick={() => handleSortChange("Top picks")}>
-                Top picks
-              </a>
-              <a href="#" onClick={() => handleSortChange("Ratings")}>
-                Ratings
-              </a>
-              <a href="#" onClick={() => handleSortChange("Price")}>
-                Price
-              </a>
+            <div className="overlay-filter">
+              <div className="dropdown-content scrollable">
+                <a
+                  href="#"
+                  onClick={() => handleLessonLengthFilterChange(null)}
+                >
+                  Add All
+                </a>
+                {lessonLengths.map((length, index) => (
+                  <a
+                    key={index}
+                    href="#"
+                    onClick={() => handleLessonLengthFilterChange(length)}
+                  >
+                    {length}
+                  </a>
+                ))}
+              </div>
             </div>
           )}
         </label>
