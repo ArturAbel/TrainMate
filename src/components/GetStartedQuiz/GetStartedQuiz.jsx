@@ -19,15 +19,7 @@ const questions = [
   },
   {
     question: "What's your level?",
-    options: [
-      "BeginnerIntermediate",
-      "Intermediate",
-      "Beginner",
-      "Expert,adavnced",
-      "Advanced",
-      "Master",
-      "IntermediateAdvanced",
-    ],
+    options: ["Beginner", "Intermediate", "Advanced", "Expert", "Master"],
   },
   {
     question: "Looking for a specific culture or accent?",
