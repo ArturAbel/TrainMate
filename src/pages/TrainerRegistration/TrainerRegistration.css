@@ -3,16 +3,48 @@
   justify-content: center;
   align-items: center;
   min-height: 90vh;
-  margin-top: 10vh;
+  margin-top: 20vh;
   max-height: 100%;
   display: flex;
   width: 100%;
   gap: 2rem;
 }
 
-.trainer-registration-rules-container,
-.trainer-registration-form-container {
-  background-color: azure;
+.trainer-registration-instructions-container {
+  background-color: var(--background-secondary2);
+  border-radius: 15px;
   min-height: 90vh;
-  width: 40vw;
+  padding: 4vw;
+  width: 35vw;
 }
+
+.trainer-registration-instructions-title {
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 4rem;
+}
+
+.trainer-registration-instructions-explanation {
+  font-size: 1.8rem;
+  margin-top: 5vh;
+}
+
+.trainer-registration-form-container {
+  background-color: rgb(193, 193, 193);
+  min-height: 90vh;
+  padding: 4vw;
+  width: 45vw;
+}
+
+.trainer-registration-input-container{
+   flex-direction: column;
+   display: flex;
+}
+
+.trainer-registration-form-label {
+  text-transform: capitalize;
+  font-size: 2.5rem;
+  text-align: left;
+  display: block;
+}
+
