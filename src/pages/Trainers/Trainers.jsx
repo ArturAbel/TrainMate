@@ -183,25 +183,6 @@ const Trainers = () => {
         <h1 className="trainers-header-title">
           Find Your Perfect Sports Trainer with trainMate:
         </h1>
-<<<<<<< HEAD
-        <TrainerFilter
-          onPriceFilterChange={handlePriceFilterChange}
-          onSportFilterChange={handleSportFilterChange}
-          onLevelFilterChange={handleLevelFilterChange}
-          onAddressFilterChange={handleAddressFilterChange}
-          onLessonLengthFilterChange={handleLessonLengthFilterChange}
-          sports={sports}
-          levels={levels}
-          addresses={addresses}
-          lessonLengths={lessonLengths}
-          toggleOverlay={toggleOverlay}
-        />
-        <Search
-          onSearch={handleSearch}
-          onVailerChange={handleVailerChange}
-          onSortByRating={handleSortByRating}
-        />
-=======
         <div className="trainers-filter-search-container">
           <TrainerFilter
             onLessonLengthFilterChange={handleLessonLengthFilterChange}
@@ -221,7 +202,6 @@ const Trainers = () => {
             onSearch={handleSearch}
           />
         </div>
->>>>>>> main
         <section className="team-container">
           {loading && <p>Loading...</p>}
           {error && <p>Error: {error}</p>}
