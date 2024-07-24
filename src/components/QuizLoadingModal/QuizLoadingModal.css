@@ -5,7 +5,7 @@
   right: 0;
   left: 0;
   height: 100vh;
-  background-color: #FF7AAC;
+  background-color: var(--background-secondary1);
   z-index: 10;
   display: flex;
   align-items: center;
