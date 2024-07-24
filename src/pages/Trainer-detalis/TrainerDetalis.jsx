@@ -1,24 +1,25 @@
-import { useState, useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { useParams } from "react-router-dom";
-import { IoMdArrowRoundBack } from "react-icons/io";
+import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
-import { GoStarFill } from "react-icons/go";
-import { FiHeart } from "react-icons/fi";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdFitnessCenter } from "react-icons/md";
+import { db } from "../../config/firebaseConfig";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { GoStarFill } from "react-icons/go";
+import { useSelector } from "react-redux";
+import { FiHeart } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { db } from "../../config/firebaseConfig";
-import CalenderModal from "../../components/CalenderModal/CalenderModal";
+
 import "./TrainerDetails.css";
-import { useSelector } from "react-redux";
 
 const TrainerDetails = () => {
-  const { id: trainerId } = useParams();
-  const [trainer, setTrainer] = useState(null);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
   const [bookedLessons, setBookedLessons] = useState([]);
   const { user } = useSelector((state) => state.auth);
+  const [trainer, setTrainer] = useState(null);
+  const { id: trainerId } = useParams();
 
   const generateAvailableHours = (date) => {
     const hours = [];
@@ -43,7 +44,7 @@ const TrainerDetails = () => {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
-    const formatDate = (date) => date.toISOString().split('T')[0];
+    const formatDate = (date) => date.toISOString().split("T")[0];
 
     for (let day = today.getDate(); day <= 31; day++) {
       const date = new Date(currentYear, currentMonth, day);
@@ -66,7 +67,11 @@ const TrainerDetails = () => {
         let trainerData = trainerDoc.data();
         if (!trainerData.availableSchedule) {
           trainerData.availableSchedule = generateAvailableSchedule();
-          await setDoc(trainerRef, { availableSchedule: trainerData.availableSchedule }, { merge: true });
+          await setDoc(
+            trainerRef,
+            { availableSchedule: trainerData.availableSchedule },
+            { merge: true }
+          );
         }
         setTrainer(trainerData);
         setBookedLessons(trainerData.bookedLessons || []);
@@ -107,47 +112,63 @@ const TrainerDetails = () => {
         </Link>
         <div className="trainer-profile-content-intro">
           <div className="trainer-profile-image-container">
-            <img className="trainer-profile-image" src={trainer.image} alt={trainer.name} />
+            <img
+              className="trainer-profile-image"
+              src={trainer.image}
+              alt={trainer.name}
+            />
           </div>
           <div className="trainer-profile-intro-container">
             <h1 className="trainer-profile-intro-name">{trainer.name}</h1>
-            <p className="trainer-profile-intro-description">{trainer.description}</p>
+            <p className="trainer-profile-intro-description">
+              {trainer.description}
+            </p>
             <p className="trainer-profile-intro-teach">
               <strong>Teaches:</strong>
               <span> {trainer.sport}</span>
             </p>
             <p className="trainer-profile-intro-teach">
               <strong>Location:</strong>
-              <span> {trainer.location}</span>
+              <span> {trainer.address}</span>
             </p>
           </div>
         </div>
 
+        {/* About me */}
         <div className="trainer-profile-about-me-container">
           <h1 className="trainer-profile-about-me-title">About Me</h1>
-          <p className="trainer-profile-about-me-content">{trainer.description}</p>
+          <p className="trainer-profile-about-me-content">{trainer.about}</p>
         </div>
 
+        {/* I teach */}
         <div className="trainer-profile-teach-container">
           <h1 className="trainer-profile-teach-title">I Teach</h1>
           <span className="trainer-profile-teach-spans">
             <span>{trainer.sport}</span>
-            <span className="trainer-profile-teach-span-level">{trainer.level}</span>
+            <span>
+              {trainer.level.map((level, index) => (
+                <span className="trainer-profile-teach-span-level" key={index}>
+                  {level}
+                </span>
+              ))}
+            </span>
           </span>
         </div>
 
+        {/* My reviews */}
         <div className="trainer-profile-reviews-container">
           <h1 className="trainer-profile-teach-title">My Reviews</h1>
           <p>add reviews here</p>
         </div>
       </div>
 
+      {/* Right container */}
       <div className="trainer-profile-actions-container">
         <div className="trainer-profile-actions-map">add map</div>
         <div className="trainer-profile-actions-data-container">
           <div className="trainer-profile-actions-data-item">
             <GoStarFill className="trainer-profile-button-icon" />
-            <p>{trainer.reviews}</p>
+            <p>{trainer.ratings}</p>
           </div>
           <div className="trainer-profile-actions-data-item">
             <BiShekel className="trainer-profile-button-icon" />
@@ -159,7 +180,11 @@ const TrainerDetails = () => {
           </div>
         </div>
         <div className="trainer-profile-actions-buttons-container">
-          <button className="button-transparent" id="trainer-book-button" onClick={handleOpenCalender}>
+          <button
+            className="button-transparent"
+            onClick={handleOpenCalender}
+            id="trainer-book-button"
+          >
             <MdFitnessCenter className="trainer-profile-button-icon" />
             Book a Training
           </button>
@@ -178,8 +203,8 @@ const TrainerDetails = () => {
           availableSchedule={trainer.availableSchedule}
           bookedLessons={bookedLessons}
           onClose={handleCloseCalender}
-          trainerId={trainerId}
           userId={user && user.uid}
+          trainerId={trainerId}
         />
       )}
     </section>
@@ -187,8 +212,3 @@ const TrainerDetails = () => {
 };
 
 export default TrainerDetails;
-
-
-
-
-
