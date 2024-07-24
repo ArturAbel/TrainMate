@@ -42,23 +42,25 @@ const PriceSlider = ({
 
   return (
     <div className="price-slider">
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={minValue}
-        onChange={handleMinValueChange}
-        className="thumb thumb--left"
-        style={{ zIndex: minValue > max - 100 && "5" }}
-      />
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={maxValue}
-        onChange={handleMaxValueChange}
-        className="thumb thumb--right"
-      />
+      <div className="price-slider-input-container">
+        <input
+          style={{ zIndex: minValue > max - 100 && "5" }}
+          onChange={handleMinValueChange}
+          className="thumb thumb--left"
+          value={minValue}
+          type="range"
+          min={min}
+          max={max}
+        />
+        <input
+          onChange={handleMaxValueChange}
+          className="thumb thumb--right"
+          value={maxValue}
+          type="range"
+          min={min}
+          max={max}
+        />
+      </div>
 
       <div className="slider">
         <div className="slider__track"></div>

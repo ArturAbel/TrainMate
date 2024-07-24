@@ -62,6 +62,7 @@
 
 .navbar-user-image {
   border-radius: 20%;
+  cursor: pointer;
   height: 3rem;
   width: 3rem;
 }
