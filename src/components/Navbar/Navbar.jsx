@@ -60,8 +60,8 @@ export const Navbar = () => {
               <Link>
                 <FiHeart className="navbar-icon" />
               </Link>
-              <div className="dropdown-container ">
-                <div onClick={showOrHide} ref={dropdownRef}>
+              <div className="dropdown-container " ref={dropdownRef}>
+                <div onClick={showOrHide} >
                   <img
                     className="navbar-user-image"
                     src={user.photoURL || ""}
