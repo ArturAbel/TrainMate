@@ -7,6 +7,7 @@ import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
 import { db } from "../../config/firebaseConfig";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+
 import {
   collection,
   getDocs,
@@ -19,9 +20,10 @@ import {
   arrayRemove,
   getDoc,
 } from "firebase/firestore";
-import "./Trainers.css";
 
-const Trainers = () => {
+import "./FavoriteTrainers.css";
+
+const FavoriteTrainers = () => {
   const dispatch = useDispatch();
   const { trainers, loading, error } = useSelector((state) => state.trainer);
   const [filteredTrainers, setFilteredTrainers] = useState([]);
@@ -38,29 +40,10 @@ const Trainers = () => {
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [favorites, setFavorites] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const { answers } = useSelector((state) => state.quiz);
 
-  console.log(answers);
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
-
-  useEffect(() => {
-    const initializeFilters = () => {
-      if (answers && answers.length > 0) {
-        setSelectedSport(answers[0] || null);
-        setSelectedLevel(answers[1] || null);
-        setSelectedAddress(answers[2] || null);
-        setPriceRange({ min: 5, max: answers[3] || 100 });
-      } else {
-        setSelectedSport(null);
-        setSelectedLevel(null);
-        setSelectedAddress(null);
-        setPriceRange({ min: 5, max: 100 });
-      }
-    };
-    initializeFilters();
-  }, [answers]);
 
   useEffect(() => {
     setFilteredTrainers(trainers);
@@ -227,24 +210,27 @@ const Trainers = () => {
               {error && <p>Error: {error}</p>}
               {!loading &&
                 !error &&
-                filteredTrainers.map((trainer) => (
-                  <TrainerCard
-                    favorite={isTrainerInFavorites(trainer.uid)}
-                    lessonLength={trainer.lessonLength}
-                    description={trainer.description}
-                    ratings={trainer.ratings}
-                    address={trainer.address}
-                    reviews={trainer.reviews}
-                    imgSrc={trainer.image}
-                    price={trainer.price}
-                    sport={trainer.sport}
-                    level={trainer.level}
-                    about={trainer.about}
-                    name={trainer.name}
-                    key={trainer.uid}
-                    id={trainer.uid}
-                  />
-                ))}
+                filteredTrainers.map((trainer) => {
+                  const isFavorite = isTrainerInFavorites(trainer.uid);
+                  return isFavorite ? (
+                    <TrainerCard
+                      favorite={isFavorite}
+                      lessonLength={trainer.lessonLength}
+                      description={trainer.description}
+                      ratings={trainer.ratings}
+                      address={trainer.address}
+                      reviews={trainer.reviews}
+                      imgSrc={trainer.image}
+                      price={trainer.price}
+                      sport={trainer.sport}
+                      level={trainer.level}
+                      about={trainer.about}
+                      name={trainer.name}
+                      key={trainer.uid}
+                      id={trainer.uid}
+                    />
+                  ) : null;
+                })}
               {!loading && !error && filteredTrainers.length === 0 && (
                 <p>No matches found</p>
               )}
@@ -258,5 +244,4 @@ const Trainers = () => {
     </>
   );
 };
-export default Trainers;
-
+export default FavoriteTrainers;
