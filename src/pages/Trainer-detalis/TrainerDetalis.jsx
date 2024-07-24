@@ -13,8 +13,8 @@ import "./TrainerDetails.css";
 
 const TrainerDetails = () => {
   // Get the ID from the URL parameters
-  const { id } = useParams();
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const { trainers, loading, error } = useSelector((state) => state.trainer);
 
@@ -22,28 +22,35 @@ const TrainerDetails = () => {
     if (trainers.length === 0) {
       console.log("Trainers array is empty. Fetching trainers...");
       dispatch(fetchTrainers());
-    } else {
-      console.log("Trainers already loaded:", trainers.length);
     }
   }, [dispatch, trainers.length]);
 
   if (loading) {
-    console.log("Loading trainers...");
     return <div>Loading...</div>;
   }
 
   if (error) {
-    console.log("Error loading trainers:", error);
     return <div>Error: {error}</div>;
   }
 
   const trainer = trainers.find((trainer) => trainer.uid === id);
 
   if (trainer) {
-    console.log("Success: Matching trainer found:", trainer);
+    const {
+      lessonLength,
+      description,
+      address,
+      reviews,
+      ratings,
+      image,
+      sport,
+      price,
+      level,
+      name,
+      about,
+    } = trainer;
 
-    const { description, location, reviews, image, sport, price, level, name } =
-      trainer;
+    console.log(trainer);
 
     return (
       <section className="trainer-profile-section" key={trainer.id}>
@@ -58,16 +65,14 @@ const TrainerDetails = () => {
             </div>
             <div className="trainer-profile-intro-container">
               <h1 className="trainer-profile-intro-name">{name}</h1>
-              <p className="trainer-profile-intro-description">
-                some description about the trainer
-              </p>
+              <p className="trainer-profile-intro-description">{description}</p>
               <p className="trainer-profile-intro-teach">
                 <strong>teaches:</strong>
                 <span> {sport}</span>
               </p>
               <p className="trainer-profile-intro-teach">
                 <strong>location:</strong>
-                <span> {location}</span>
+                <span> {address}</span>
               </p>
             </div>
           </div>
@@ -75,15 +80,7 @@ const TrainerDetails = () => {
           {/* About Me */}
           <div className="trainer-profile-about-me-container">
             <h1 className="trainer-profile-about-me-title">about me</h1>
-            <p className="trainer-profile-about-me-content">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore
-              consequuntur officia distinctio tenetur, dignissimos inventore!
-              Quibusdam fugiat earum, porro eligendi quidem odit necessitatibus
-              impedit cumque laudantium maxime! Id asperiores similique,
-              doloremque inventore dolor qui debitis ullam exercitationem harum
-              ratione corporis quae laborum, ipsam sunt molestiae, assumenda
-              adipisci cumque fugit nemo?
-            </p>
+            <p className="trainer-profile-about-me-content">{about}</p>
           </div>
 
           {/* I Teach */}
@@ -91,7 +88,16 @@ const TrainerDetails = () => {
             <h1 className="trainer-profile-teach-title">i teach</h1>
             <span className="trainer-profile-teach-spans">
               <span>{sport}</span>
-              <span className="trainer-profile-teach-span-level">{level}</span>
+              <span>
+                {level.map((level, index) => (
+                  <span
+                    className="trainer-profile-teach-span-level"
+                    key={index}
+                  >
+                    {level}
+                  </span>
+                ))}
+              </span>
             </span>
           </div>
 
@@ -108,7 +114,7 @@ const TrainerDetails = () => {
           <div className="trainer-profile-actions-data-container">
             <div className="trainer-profile-actions-data-item">
               <GoStarFill className="trainer-profile-button-icon" />
-              <p>{reviews}</p>
+              <p>{ratings}</p>
             </div>
             <div className="trainer-profile-actions-data-item">
               <BiShekel className="trainer-profile-button-icon" />
@@ -116,7 +122,7 @@ const TrainerDetails = () => {
             </div>
             <div className="trainer-profile-actions-data-item">
               <IoTime className="trainer-profile-button-icon" />
-              <p>45 </p>
+              <p>{lessonLength}</p>
             </div>
           </div>
           <div className="trainer-profile-actions-buttons-container">

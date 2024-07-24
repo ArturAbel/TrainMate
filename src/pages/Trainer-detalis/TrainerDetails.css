@@ -96,8 +96,9 @@
 
 .trainer-profile-teach-span-level {
   background-color: var(--background-secondary6);
-  border-radius: 5px;
   padding: 0.2rem 1rem;
+  border-radius: 5px;
+  margin-left: 0.5rem;
 }
 
 .trainer-profile-actions-container {
