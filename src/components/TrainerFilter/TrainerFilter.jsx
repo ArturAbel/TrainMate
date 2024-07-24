@@ -1,6 +1,7 @@
 import PriceSlider from "../Slider/PriceSlider";
 import { useState, useCallback, useRef, useEffect } from "react";
 import "./TrainerFilter.css";
+import { useSelector } from "react-redux";
 
 export const TrainerFilter = ({
   onLessonLengthFilterChange,
@@ -21,7 +22,7 @@ export const TrainerFilter = ({
     learn: false,
     sort: false,
   });
-
+  const { answers } = useSelector((state) => state.quiz);
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [selectedSport, setSelectedSport] = useState("Select Sport");
   const [selectedLevel, setSelectedLevel] = useState("Select Level");
