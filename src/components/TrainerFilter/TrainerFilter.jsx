@@ -74,7 +74,7 @@ export const TrainerFilter = ({
 
       logTimeoutRef.current = setTimeout(() => {
         onPriceFilterChange(range);
-      }, 4000);
+      }, 1000);
     },
     [onPriceFilterChange]
   );
@@ -88,7 +88,6 @@ export const TrainerFilter = ({
   };
 
   const handleLevelFilterChange = (level) => {
-    
     setSelectedLevel(level);
     onLevelFilterChange(level);
     if (level === null) {
