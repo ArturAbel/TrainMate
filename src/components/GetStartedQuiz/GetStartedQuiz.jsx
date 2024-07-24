@@ -1,6 +1,9 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GetStartedQuiz.css";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAnswer } from "../../redux/features/quizSlice";
+// import QuizLoadingModal from "../QuizLoadingModal/QuizLoadingModal";
 
 
 const questions = [
@@ -15,7 +18,7 @@ const questions = [
       "Basketball",
       "Soccer",
     ],
-    type: "dropdown", // Adding type to specify dropdown
+    type: "dropdown",
   },
   {
     question: "What's your level?",
@@ -45,13 +48,24 @@ const questions = [
 const GetStartedQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [sliderValue, setSliderValue] = useState(70);
+  // const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
+  const answers = useSelector((state) => state.quiz.answers);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleNext = () => {
+    if (questions[currentQuestion].slider) {
+      dispatch(updateAnswer({index: currentQuestion, answer: `${sliderValue}`}));
+    } else if (!answers[currentQuestion] || answers[currentQuestion] === " ") {
+      dispatch(updateAnswer({ index: currentQuestion, answer: null }));
+    }
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      navigate("/trainers"); // Navigate to /trainers path
+      // setIsLoadingModalOpen(true);
+      navigate("/trainers"); 
+      console.log(answers);
     }
   };
 
@@ -65,7 +79,15 @@ const GetStartedQuiz = () => {
     setSliderValue(event.target.value);
   };
 
+  const handleOptionChange = (index) => (event) => {
+    dispatch(updateAnswer({ index: currentQuestion, answer: event.target.value }));
+    console.log(answers);
+  };
+
+  console.log(answers);
   return (
+    <>
+    {/* {isLoadingModalOpen && <QuizLoadingModal/>} */}
     <div className="test-container">
       <div className="left-section">
         {currentQuestion > 0 && (
@@ -87,7 +109,7 @@ const GetStartedQuiz = () => {
             <input
               type="range"
               min="5"
-              max="135"
+              max="100"
               value={sliderValue}
               onChange={handleSliderChange}
               className="slider"
@@ -103,7 +125,11 @@ const GetStartedQuiz = () => {
             </p>
           </div>
         ) : questions[currentQuestion].type === "dropdown" ? (
-          <select className="dropdown">
+          <select
+            className="dropdown"
+            onChange={handleOptionChange(currentQuestion)}
+            value={answers[currentQuestion]}
+          >
             {questions[currentQuestion].options.map((option, index) => (
               <option key={index} value={option}>
                 {option}
@@ -113,7 +139,14 @@ const GetStartedQuiz = () => {
         ) : (
           questions[currentQuestion].options.map((option, index) => (
             <div key={index} className="option">
-              <input type="radio" name="option" id={`option${index}`} />
+              <input
+                type="radio"
+                name="option"
+                id={`option${index}`}
+                value={option}
+                onChange={handleOptionChange(index)}
+                checked={answers[currentQuestion] === option}
+              />
               <label htmlFor={`option${index}`}>{option}</label>
             </div>
           ))
@@ -129,7 +162,9 @@ const GetStartedQuiz = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 
 export default GetStartedQuiz;
+
