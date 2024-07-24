@@ -7,7 +7,6 @@ import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
 import { db } from "../../config/firebaseConfig";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-
 import {
   collection,
   getDocs,
@@ -20,7 +19,6 @@ import {
   arrayRemove,
   getDoc,
 } from "firebase/firestore";
-
 import "./Trainers.css";
 
 const Trainers = () => {
@@ -39,13 +37,24 @@ const Trainers = () => {
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  const { user } = useSelector((state) => state.auth); 
+  const { user } = useSelector((state) => state.auth);
   const { answers } = useSelector((state) => state.quiz);
-  
 
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
+
+  useEffect(() => {
+    const initializeFilters = () => {
+      if (answers) {
+        setSelectedSport(answers[0]);
+        setSelectedLevel(answers[1]);
+        setSelectedAddress(answers[2]);
+        setPriceRange({ min: 5, max: answers[3] });
+      }
+    };
+    initializeFilters();
+  }, [answers]);
 
   useEffect(() => {
     setFilteredTrainers(trainers);
@@ -238,3 +247,4 @@ const Trainers = () => {
 };
 
 export default Trainers;
+
