@@ -5,6 +5,10 @@
   gap: 1rem;
 }
 
+.logo-container:focus {
+  outline: none;
+}
+
 .logo-image {
   width: 3rem;
 }
