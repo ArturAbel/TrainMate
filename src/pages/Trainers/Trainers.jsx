@@ -176,64 +176,62 @@ const Trainers = () => {
 
   return (
     <>
-      {!favorites ? (
-        <div>Loading favorites...</div>
-      ) : (
-        <>
-          <FilterOverlay
-            isVisible={overlayVisible}
-            onClose={() => toggleOverlay(false)}
+      <FilterOverlay
+        isVisible={overlayVisible}
+        onClose={() => toggleOverlay(false)}
+      />
+      <section className="trainers-section">
+        <h1 className="trainers-header-title">
+          Find Your Perfect Sports Trainer with trainMate:
+        </h1>
+        <div className="trainers-filter-search-container">
+          <TrainerFilter
+            onLessonLengthFilterChange={handleLessonLengthFilterChange}
+            onAddressFilterChange={handleAddressFilterChange}
+            onPriceFilterChange={handlePriceFilterChange}
+            onSportFilterChange={handleSportFilterChange}
+            onLevelFilterChange={handleLevelFilterChange}
+            sports={sports}
+            levels={levels}
+            addresses={addresses}
+            lessonLengths={lessonLengths}
+            toggleOverlay={toggleOverlay}
           />
-          <section className="trainers-section">
-            <h1 className="trainers-header-title">
-              Find Your Perfect Sports Trainer with trainMate:
-            </h1>
-            <TrainerFilter
-              onPriceFilterChange={handlePriceFilterChange}
-              onSportFilterChange={handleSportFilterChange}
-              onLevelFilterChange={handleLevelFilterChange}
-              onAddressFilterChange={handleAddressFilterChange}
-              onLessonLengthFilterChange={handleLessonLengthFilterChange}
-              sports={sports}
-              levels={levels}
-              addresses={addresses}
-              lessonLengths={lessonLengths}
-              toggleOverlay={toggleOverlay}
-            />
-            <Search
-              onSearch={handleSearch}
-              toggleOverlay={toggleOverlay}
-              onSortByRating={handleSortByRating}
-            />
-            <section className="team-container">
-              {!loading &&
-                !error &&
-                filteredTrainers.length > 0 &&
-                filteredTrainers.map((trainer) => (
-                  <TrainerCard
-                    favorite={() => isTrainerInFavorites(trainer.uid)}
-                    key={trainer.uid}
-                    id={trainer.uid}
-                    imgSrc={trainer.imgSrc || "https://i.imgur.com/rYTB1zu.jpg"}
-                    experience={trainer.experience}
-                    expertise={trainer.expertise}
-                    name={trainer.name}
-                    ratings={trainer.ratings}
-                    price={trainer.price}
-                    sport={trainer.sport}
-                    level={trainer.level}
-                    address={trainer.address}
-                    lessonLength={trainer.lessonLength}
-                    information={trainer.information}
-                  />
-                ))}
-              {!loading && !error && filteredTrainers.length === 0 && (
-                <p>No matches found</p>
-              )}
-            </section>
-          </section>
-        </>
-      )}
+          <Search
+            onSortByRating={handleSortByRating}
+            toggleOverlay={toggleOverlay}
+            onSearch={handleSearch}
+          />
+        </div>
+        <section className="team-container">
+          {loading && <p>Loading...</p>}
+          {error && <p>Error: {error}</p>}
+          {!loading &&
+            !error &&
+            filteredTrainers.map((trainer) => (
+              <TrainerCard
+                favorite={isTrainerInFavorites(trainer.uid)}
+                lessonLength={trainer.lessonLength}
+                description={trainer.description}
+                ratings={trainer.ratings}
+                address={trainer.address}
+                reviews={trainer.reviews}
+                imgSrc={trainer.image}
+                price={trainer.price}
+                sport={trainer.sport}
+                level={trainer.level}
+                about={trainer.about}
+                name={trainer.name}
+                key={trainer.uid}
+                id={trainer.uid}
+              />
+            ))}
+          {!loading && !error && filteredTrainers.length === 0 && (
+            <p>No matches found</p>
+          )}
+        </section>
+        <HomeDivider />
+      </section>
     </>
   );
 };
