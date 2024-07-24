@@ -57,11 +57,11 @@ export const Navbar = () => {
               <Link>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link>
+              <Link to={"/favorites"}>
                 <FiHeart className="navbar-icon" />
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>
-                <div onClick={showOrHide} >
+                <div onClick={showOrHide}>
                   <img
                     className="navbar-user-image"
                     src={user.photoURL || ""}
