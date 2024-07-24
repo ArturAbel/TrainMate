@@ -1,75 +1,79 @@
-/* Add styles for the dropdown */
-footer{
-    display: none;
-}
-.dropdown {
-
-  width: 100%;
+.quiz-dropdown {
+  border: 2px solid var(--color-input-placeholder-border);
+  font-family: var(--font-content);
+  border-radius: 8px;
+  font-size: 2rem;
   padding: 10px;
-  font-size: 1.5rem;
-  border: 1px solid #000; /* Black border */
-  border-radius: 5px;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
-.test-container {
+.quiz-dropdown:hover {
+  border: 2px solid black;
+}
+
+.quiz-container-section {
+  scrollbar-width: none;
+  position: absolute;
   display: flex;
   height: 100vh;
-  position: relative;
+  width: 100vw;
   z-index: 2;
 }
 
-.left-section {
-  flex: 1;
-  background-color: #ff4081; /* Pink background color */
-  display: flex;
-  flex-direction: column;
+.quiz-left-section {
+  background-color: var(--background-secondary1);
+  font-family: var(--font-title);
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   text-align: center;
-  color: white;
   position: relative;
-  
+  display: flex;
+  color: white;
+  flex: 1;
 }
 
-.right-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.quiz-left-section-title {
+  font-size: 5rem;
+}
+
+.quiz-right-section {
+  background-color: var(--background-main1);
   justify-content: center;
   align-items: flex-start;
-  padding: 20px;
+  flex-direction: column;
   position: relative;
-  background-color: white;
-}
-
-h1 {
-  font-size: 3rem; /* Larger font size for question */
-  margin: 0;
-}
-
-.note,
-.subNote {
-  font-size: 1.2rem;
-  color: #666;
-  margin: 10px 0;
-}
-
-.option {
+  padding: 10rem;
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  width: 100%;
-  background: white;
-  border: 1px solid #000; /* Black border */
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  flex: 1;
 }
 
-.option input {
+.quiz-radio-container {
+  scrollbar-color: var(--background-main1) var(--background-main1);
+  overflow-y: scroll;
+  max-height: 60vh;
+  width: 100%;
+}
+
+.quiz-option {
+  border: 2px solid var(--color-input-placeholder-border);
+  align-items: center;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 1rem;
+  display: flex;
+  width: 100%;
+}
+
+.quiz-option:hover {
+  border: 2px solid black;
+}
+
+.quiz-option input {
+  border: 2px solid black;
   margin-right: 10px;
-  border: 1px solid #000; /* Black border */
 }
 
 .option label {
@@ -77,48 +81,38 @@ h1 {
   color: #333;
 }
 
-.show-all,
-.skip-button,
-.continue-button,
-.previous-button {
-  margin-top: 20px;
-}
-
-.show-all {
-  background-color: transparent;
-  border: none;
-  color: blue;
-  cursor: pointer;
-  font-size: 1.2rem;
-  text-decoration: underline;
-}
-
-.skip-button,
-.continue-button {
-  background-color: #ff4081; /* Pink button color */
-  border: 1px solid #000; /* Black border */
-  padding: 10px 20px;
-  cursor: pointer;
-  color: rgb(7, 1, 1);
-  font-size: 1.5rem; /* Larger font size */
-  border-radius: 5px;
-}
-
-.skip-button {
+#quiz-skip-button {
   position: absolute;
-  right: 20px;
-  top: 80px; /* Moved down */
+  font-size: 2rem;
+  height: 5rem;
+  right: 5vw;
+  top: 5vh;
 }
 
-.previous-button {
-  position: absolute;
-  left: 30px;
-  bottom: 30px;
+.quiz-continue-button-container {
+  display: flex;
+  width: 100%;
+}
+
+#quiz-continue-button {
+  background-color: var(--background-secondary1);
+  margin-top: 10vh;
+  font-size: 2rem;
+  height: 5rem;
+  width: 100%;
+}
+
+#quiz-continue-button:hover {
+  filter: brightness(0.9);
+}
+
+.quiz-previous-button {
   background-color: transparent;
-  border: none;
+  position: absolute;
   cursor: pointer;
-  font-size: 2.5rem; /* Larger font size */
-  color: rgb(11, 1, 1);
+  font-size: 4vh;
+  left: 2vw;
+  top: 5vh;
 }
 
 .slider-container {
@@ -126,8 +120,31 @@ h1 {
   margin: 20px 0;
 }
 
-.slider {
+.quiz-slider {
+  background: var(--background-secondary3);
+  -webkit-appearance: none;
+  border-radius: 15px;
+  height: 2rem;
   width: 100%;
+}
+
+.quiz-slider:focus {
+  outline: none;
+}
+
+.quiz-slider::-webkit-slider-thumb {
+  background-color: var(--background-secondary1);
+  -webkit-appearance: none;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 4rem;
+  width: 4rem;
+}
+
+.quiz-slider-rate-range {
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+  font-size: 2rem;
 }
 
 .slider-labels {
@@ -137,6 +154,6 @@ h1 {
 }
 
 .slider-value {
-  font-size: 1.5rem;
+  font-size: 3rem;
   margin-top: 10px;
 }
