@@ -11,7 +11,9 @@ import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { initializeAuthListener } from "./redux/features/authSlice";
+import TrainerPanel from "./components/TrainerPanel/TrainerPanel"
 import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
+
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "become-trainer",
         element: <BecomeTrainer />,
+      },
+      {
+        path: "trainer-panel",
+        element: <TrainerPanel />,
       },
     ],
   },
