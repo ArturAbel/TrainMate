@@ -1,9 +1,11 @@
 import { TrainerRegistration } from "./pages/TrainerRegistration/TrainerRegistration";
+import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TrainerDetails from "./pages/Trainer-detalis/TrainerDetalis";
 import { BecomeTrainer } from "./pages/BecomeTrainer/BecomeTrainer";
 import { initializeAuthListener } from "./redux/features/authSlice";
+import TrainerPanel from "./components/TrainerPanel/TrainerPanel";
 import UserSettings from "./pages/UserSettings/UserSettings";
 import { Layout } from "./components/Layout/Layout";
 import Trainers from "./pages/Trainers/Trainers";
@@ -12,9 +14,6 @@ import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
-import TrainerPanel from "./components/TrainerPanel/TrainerPanel"
-import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
-
 
 const router = createBrowserRouter([
   {
@@ -63,7 +62,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trainer-registration",
-        element: <TrainerRegistration/>,
+        element: <TrainerRegistration />,
       },
       {
         path: "trainer-panel",
@@ -74,7 +73,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-
   const dispatch = useDispatch();
 
   useEffect(() => {

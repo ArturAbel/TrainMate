@@ -1,23 +1,42 @@
-import { BsHandThumbsDown, BsHandThumbsUp } from "react-icons/bs";
-import { sports } from "../../utilities/constants";
-
-import "./TrainerRegistration.css";
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
 import { uploadUserProfileImage } from "../../redux/features/usersSlice";
-import { useDispatch } from "react-redux";
+import { BsHandThumbsDown, BsHandThumbsUp } from "react-icons/bs";
+import { sports } from "../../utilities/constants";
+import { useDispatch, useSelector } from "react-redux";
+
+import "./TrainerRegistration.css";
 
 export const TrainerRegistration = () => {
+  const { trainers, loading, error } = useSelector((state) => state.trainer);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
 
   const handleImageChange = (e) => {
-    // const file = e.target.files[0];
-    // if (file) {
-    //   useDispatch(uploadUserProfileImage(file, ));
-    // }
+    const file = e.target.files[0];
+    if (file) {
+      dispatch(uploadUserProfileImage(file));
+    }
   };
 
-  //  const profileImageUrl = userData.photoURL ||
-  //  (user.providerData && user.providerData.length > 0 && user.providerData[0].providerId === 'google.com' ? user.photoURL : '/public/person1.jpg');
+
+  const trainerData = trainers.find(
+    (trainerObj) => trainerObj.uid === user.uid
+  );
+  if (!trainerData) {
+    return <div>Loading trainer data...</div>;
+  }
+
+
+  const profileImageUrl =
+    trainerData.photoURL ||
+    (user.providerData &&
+    user.providerData.length > 0 &&
+    user.providerData[0].providerId === "google.com"
+      ? user.photoURL
+      : "/public/person1.jpg");
+
+
 
   return (
     <section className="trainer-registration-section">
@@ -192,7 +211,7 @@ export const TrainerRegistration = () => {
             </div>
             <div className="trainer-registration-form-upload-image">
               <ProfileImageUploader
-                profileImageUrl={"profileImageUrl"}
+                profileImageUrl={profileImageUrl}
                 handleImageChange={handleImageChange}
               />
             </div>

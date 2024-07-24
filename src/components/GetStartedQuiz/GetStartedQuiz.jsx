@@ -1,61 +1,57 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./GetStartedQuiz.css";
-import { useDispatch, useSelector } from "react-redux";
-import { updateAnswer } from "../../redux/features/quizSlice";
 import QuizLoadingModal from "../QuizLoadingModal/QuizLoadingModal";
+import { updateAnswer } from "../../redux/features/quizSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import { useState } from "react";
 
-
-const questions = [
-  {
-    question: "I want to Learn",
-    options: [
-      "Add All",
-      "Tennis",
-      "Boxing",
-      "Swimming",
-      "BodyBuilding",
-      "Basketball",
-      "Soccer",
-    ],
-    type: "dropdown",
-  },
-  {
-    question: "What's your level?",
-    options: ["Beginner", "Intermediate", "Advanced", "Expert", "Master"],
-  },
-  {
-    question: "Looking for a specific culture or accent?",
-    options: [
-      "Jerusalem",
-      "Haifa",
-      "Tel-Aviv",
-      "Eliat",
-      "Kfar-Saba",
-      "Migdal-Haemek",
-      "Rishon-Lezion",
-      "Afula",
-    ],
-    showAll: true,
-  },
-  {
-    question: "What's your budget per lesson?",
-    options: ["₪5 - ₪135+"],
-    slider: true,
-  },
-];
+import "./GetStartedQuiz.css";
 
 const GetStartedQuiz = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [sliderValue, setSliderValue] = useState(70);
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
   const answers = useSelector((state) => state.quiz.answers);
+  const { trainers } = useSelector((state) => state.trainer);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [sliderValue, setSliderValue] = useState(70);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const sportsOptions = Array.from(
+    new Set(trainers.map((trainer) => trainer.sport).sort())
+  );
+
+  const locationOptions = Array.from(
+    new Set(trainers.map((trainer) => trainer.address).sort())
+  );
+
+  const questions = [
+    {
+      question: "What do you want to train in?",
+      options: ["Add All", ...sportsOptions],
+
+      type: "dropdown",
+    },
+    {
+      question: "Whats your level?",
+      options: ["Beginner", "Intermediate", "Advanced", "Expert", "Master"],
+    },
+    {
+      question: "In which location?",
+      options: [...locationOptions],
+      showAll: true,
+    },
+    {
+      question: "What's your budget per lesson?",
+      options: ["₪5 - ₪100+"],
+      slider: true,
+    },
+  ];
+
   const handleNext = () => {
     if (questions[currentQuestion].slider) {
-      dispatch(updateAnswer({index: currentQuestion, answer: `${sliderValue}`}));
+      dispatch(
+        updateAnswer({ index: currentQuestion, answer: `${sliderValue}` })
+      );
     } else if (!answers[currentQuestion] || answers[currentQuestion] === " ") {
       dispatch(updateAnswer({ index: currentQuestion, answer: null }));
     }
@@ -65,7 +61,7 @@ const GetStartedQuiz = () => {
     } else {
       setIsLoadingModalOpen(true);
       setTimeout(() => {
-        setIsLoadingModalOpen(false); 
+        setIsLoadingModalOpen(false);
         navigate("/trainers");
       }, 7000);
     }
@@ -82,89 +78,98 @@ const GetStartedQuiz = () => {
   };
 
   const handleOptionChange = (index) => (event) => {
-    dispatch(updateAnswer({ index: currentQuestion, answer: event.target.value }));
+    dispatch(
+      updateAnswer({ index: currentQuestion, answer: event.target.value })
+    );
   };
 
   return (
     <>
-    {isLoadingModalOpen && <QuizLoadingModal/>}
-    <div className="test-container">
-      <div className="left-section">
-        {currentQuestion > 0 && (
-          <button className="previous-button" onClick={handlePrevious}>
-            ←
-          </button>
-        )}
-        <h1>{questions[currentQuestion].question}</h1>
-        {questions[currentQuestion].note && (
-          <p className="note">{questions[currentQuestion].note}</p>
-        )}
-        {questions[currentQuestion].subNote && (
-          <p className="subNote">{questions[currentQuestion].subNote}</p>
-        )}
-      </div>
-      <div className="right-section">
-        {questions[currentQuestion].slider ? (
-          <div className="slider-container">
-            <input
-              type="range"
-              min="5"
-              max="100"
-              value={sliderValue}
-              onChange={handleSliderChange}
-              className="slider"
+      {isLoadingModalOpen && <QuizLoadingModal />}
+      <div className="quiz-container-section">
+        <div className="quiz-left-section">
+          {currentQuestion > 0 && (
+            <FaArrowLeft
+              onClick={handlePrevious}
+              className="quiz-previous-button"
             />
-            <div className="slider-labels">
-              <span>₪5</span>
-              <span>₪135+</span>
-            </div>
-            <div className="slider-value">Price: ₪{sliderValue}</div>
-            <p className="note">
-              Your first trial lesson is free. Prices are filtered for our
-              standard 50-min lessons after trial.
-            </p>
-          </div>
-        ) : questions[currentQuestion].type === "dropdown" ? (
-          <select
-            className="dropdown"
-            onChange={handleOptionChange(currentQuestion)}
-            value={answers[currentQuestion]}
-          >
-            {questions[currentQuestion].options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        ) : (
-          questions[currentQuestion].options.map((option, index) => (
-            <div key={index} className="option">
+          )}
+          <h1 className="quiz-left-section-title">
+            {questions[currentQuestion].question}
+          </h1>
+          {questions[currentQuestion].note && (
+            <p className="note">{questions[currentQuestion].note}</p>
+          )}
+          {questions[currentQuestion].subNote && (
+            <p className="subNote">{questions[currentQuestion].subNote}</p>
+          )}
+        </div>
+        <div className="quiz-right-section">
+          {questions[currentQuestion].slider ? (
+            <div className="slider-container">
               <input
-                type="radio"
-                name="option"
-                id={`option${index}`}
-                value={option}
-                onChange={handleOptionChange(index)}
-                checked={answers[currentQuestion] === option}
+                onChange={handleSliderChange}
+                className="quiz-slider"
+                value={sliderValue}
+                type="range"
+                max="100"
+                min="5"
               />
-              <label htmlFor={`option${index}`}>{option}</label>
+              <div className="slider-labels">
+                <span className="quiz-slider-rate-range">₪5</span>
+                <span className="quiz-slider-rate-range">₪100+</span>
+              </div>
+              <div className="slider-value">Budget: ₪{sliderValue}</div>
             </div>
-          ))
-        )}
-        {questions[currentQuestion].showAll && (
-          <button className="show-all">Show all</button>
-        )}
-        <button className="skip-button" onClick={handleNext}>
-          Skip
-        </button>
-        <button className="continue-button" onClick={handleNext}>
-          Continue
-        </button>
+          ) : questions[currentQuestion].type === "dropdown" ? (
+            <select
+              className="quiz-dropdown"
+              onChange={handleOptionChange(currentQuestion)}
+              value={answers[currentQuestion]}
+            >
+              {questions[currentQuestion].options.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <div className="quiz-radio-container">
+              {questions[currentQuestion].options.map((option, index) => (
+                <div key={index} className="quiz-option">
+                  <input
+                    type="radio"
+                    name="option"
+                    id={`option${index}`}
+                    value={option}
+                    onChange={handleOptionChange(index)}
+                    checked={answers[currentQuestion] === option}
+                  />
+                  <label htmlFor={`option${index}`}>{option}</label>
+                </div>
+              ))}
+            </div>
+          )}
+          <button
+            className="button-transparent"
+            id="quiz-skip-button"
+            onClick={handleNext}
+          >
+            Skip
+          </button>
+          <div className="quiz-continue-button-container">
+            <button
+              className="button-transparent"
+              id="quiz-continue-button"
+              onClick={handleNext}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
     </>
   );
 };
 
 export default GetStartedQuiz;
-
