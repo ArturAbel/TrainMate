@@ -65,6 +65,18 @@ export const TrainerFilter = ({
     };
   }, []);
 
+  useEffect(() => {
+    const initializeFilters = () => {
+      if (answers) {
+        setSelectedSport(answers[0] || "Select Sport");
+        setSelectedLevel(answers[1] || "Select Level");
+        setSelectedAddress(answers[2] || "Select Address");
+        setPriceRange({ min: 5, max: answers[3] || 100 });
+      }
+    };
+    initializeFilters();
+  }, [answers]);
+
   const handlePriceRangeChange = useCallback(
     (range) => {
       setPriceRange(range);
@@ -125,7 +137,7 @@ export const TrainerFilter = ({
       <div className="filter" onClick={() => toggleDropdown("learn")}>
         <label className="filter-container-label">
           <span className="filter-container-label-upper">
-            i want to train in
+            I want to train in
           </span>
           <span className="filter-container-inner-lower">{selectedSport}</span>
           {dropdowns.learn && (
