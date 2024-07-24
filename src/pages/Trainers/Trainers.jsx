@@ -203,7 +203,6 @@ const Trainers = () => {
         <Search
           onSearch={handleSearch}
           onVailerChange={handleVailerChange}
-          toggleOverlay={toggleOverlay}
           onSortByRating={handleSortByRating}
         />
         <section className="team-container">
