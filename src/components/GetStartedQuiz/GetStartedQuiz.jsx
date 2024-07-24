@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./GetStartedQuiz.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAnswer } from "../../redux/features/quizSlice";
-// import QuizLoadingModal from "../QuizLoadingModal/QuizLoadingModal";
+import QuizLoadingModal from "../QuizLoadingModal/QuizLoadingModal";
 
 
 const questions = [
@@ -48,7 +48,7 @@ const questions = [
 const GetStartedQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [sliderValue, setSliderValue] = useState(70);
-  // const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
+  const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
   const answers = useSelector((state) => state.quiz.answers);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,9 +63,11 @@ const GetStartedQuiz = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // setIsLoadingModalOpen(true);
-      navigate("/trainers"); 
-      console.log(answers);
+      setIsLoadingModalOpen(true);
+      setTimeout(() => {
+        setIsLoadingModalOpen(false); 
+        navigate("/trainers");
+      }, 7000);
     }
   };
 
@@ -81,13 +83,11 @@ const GetStartedQuiz = () => {
 
   const handleOptionChange = (index) => (event) => {
     dispatch(updateAnswer({ index: currentQuestion, answer: event.target.value }));
-    console.log(answers);
   };
 
-  console.log(answers);
   return (
     <>
-    {/* {isLoadingModalOpen && <QuizLoadingModal/>} */}
+    {isLoadingModalOpen && <QuizLoadingModal/>}
     <div className="test-container">
       <div className="left-section">
         {currentQuestion > 0 && (
