@@ -1,5 +1,4 @@
 .trainer-registration-section {
-  background-color: beige;
   justify-content: center;
   align-items: center;
   min-height: 90vh;
@@ -7,7 +6,7 @@
   max-height: 100%;
   display: flex;
   width: 100%;
-  gap: 2rem;
+  gap: 10rem;
 }
 
 .trainer-registration-instructions-container {
@@ -30,7 +29,6 @@
 }
 
 .trainer-registration-form-container {
-  background-color: rgb(193, 193, 193);
   min-height: 90vh;
   padding: 4vw;
   width: 45vw;
@@ -44,7 +42,8 @@
 
 .trainer-registration-form-label {
   text-transform: capitalize;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
+  margin-top: 2rem;
   text-align: left;
   display: block;
 }
@@ -52,9 +51,30 @@
 .trainer-registration-form-input {
   background-color: var(--background-main1);
   font-size: 2rem;
+  height: 3.5rem;
   width: 15vw;
   border: none;
   border-bottom: 2px solid var(--color-input-placeholder-border);
+}
+
+.form-input-longer {
+  width: 100%;
+}
+
+.form-textarea {
+  height: 10rem;
+  width: 100%;
+}
+
+.trainer-registration-form-input::placeholder {
+  font-family: var(--font-content);
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  opacity: 0.4;
+}
+
+.form-textarea::placeholder {
+  font-family: var(--font-content);
 }
 
 .trainer-registration-form-input:hover {
@@ -68,4 +88,29 @@
 .trainer-registration-form-option {
   text-transform: capitalize;
   font-size: 1.5rem;
+}
+
+.trainer-registration-input-container-level {
+  display: flex;
+  gap: 3rem;
+}
+
+.trainer-registration-level-container {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.trainer-registration-form-input-checkbox {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.trainer-registration-form-level-label {
+  font-size: 1.2rem;
+}
+
+.trainer-registration-form-upload-image{
+   justify-content: flex-start;
+   margin-top: 5vh;
 }
