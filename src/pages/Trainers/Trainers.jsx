@@ -212,7 +212,6 @@ const Trainers = () => {
                 favorite={isTrainerInFavorites(trainer.uid)}
                 lessonLength={trainer.lessonLength}
                 description={trainer.description}
-                information={trainer.information}
                 ratings={trainer.ratings}
                 address={trainer.address}
                 reviews={trainer.reviews}
