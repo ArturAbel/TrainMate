@@ -36,9 +36,10 @@
   width: 45vw;
 }
 
-.trainer-registration-input-container{
-   flex-direction: column;
-   display: flex;
+.trainer-registration-input-container {
+  flex-direction: column;
+  display: flex;
+  gap: 1rem;
 }
 
 .trainer-registration-form-label {
@@ -48,3 +49,23 @@
   display: block;
 }
 
+.trainer-registration-form-input {
+  background-color: var(--background-main1);
+  font-size: 2rem;
+  width: 15vw;
+  border: none;
+  border-bottom: 2px solid var(--color-input-placeholder-border);
+}
+
+.trainer-registration-form-input:hover {
+  border-color: black;
+}
+
+.trainer-registration-form-input:focus {
+  outline: none;
+}
+
+.trainer-registration-form-option {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+}

@@ -30,9 +30,13 @@ export const TrainerRegistration = () => {
             <label className="trainer-registration-form-label">
               choose your sport
             </label>
-            <select className="trainer-registration-form-label" name="sport">
+            <select className="trainer-registration-form-input" name="sport">
               {sports.map((sport, index) => (
-                <option key={index} value={sport}>
+                <option
+                  className="trainer-registration-form-option"
+                  value={sport}
+                  key={index}
+                >
                   {sport}
                 </option>
               ))}
