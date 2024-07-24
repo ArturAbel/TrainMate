@@ -1,6 +1,7 @@
 import PriceSlider from "../Slider/PriceSlider";
 import { useState, useCallback, useRef, useEffect } from "react";
 import "./TrainerFilter.css";
+import { useSelector } from "react-redux";
 
 export const TrainerFilter = ({
   onLessonLengthFilterChange,
@@ -21,7 +22,7 @@ export const TrainerFilter = ({
     learn: false,
     sort: false,
   });
-
+  const { answers } = useSelector((state) => state.quiz);
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [selectedSport, setSelectedSport] = useState("Select Sport");
   const [selectedLevel, setSelectedLevel] = useState("Select Level");
@@ -64,6 +65,18 @@ export const TrainerFilter = ({
     };
   }, []);
 
+  useEffect(() => {
+    const initializeFilters = () => {
+      if (answers) {
+        setSelectedSport(answers[0] || "Select Sport");
+        setSelectedLevel(answers[1] || "Select Level");
+        setSelectedAddress(answers[2] || "Select Address");
+        setPriceRange({ min: 5, max: answers[3] || 100 });
+      }
+    };
+    initializeFilters();
+  }, [answers]);
+
   const handlePriceRangeChange = useCallback(
     (range) => {
       setPriceRange(range);
@@ -74,7 +87,7 @@ export const TrainerFilter = ({
 
       logTimeoutRef.current = setTimeout(() => {
         onPriceFilterChange(range);
-      }, 4000);
+      }, 1000);
     },
     [onPriceFilterChange]
   );
@@ -88,7 +101,6 @@ export const TrainerFilter = ({
   };
 
   const handleLevelFilterChange = (level) => {
-    
     setSelectedLevel(level);
     onLevelFilterChange(level);
     if (level === null) {
@@ -125,7 +137,7 @@ export const TrainerFilter = ({
       <div className="filter" onClick={() => toggleDropdown("learn")}>
         <label className="filter-container-label">
           <span className="filter-container-label-upper">
-            i want to train in
+            I want to train in
           </span>
           <span className="filter-container-inner-lower">{selectedSport}</span>
           {dropdowns.learn && (

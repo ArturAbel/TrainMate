@@ -1,9 +1,22 @@
-/* Add styles to hide the navigation bar and footer */
+/* Add styles for the dropdown */
+footer{
+    display: none;
+}
+.dropdown {
+
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5rem;
+  border: 1px solid #000; /* Black border */
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
 .test-container {
   display: flex;
   height: 100vh;
   position: relative;
-  z-index: 10;
+  z-index: 2;
 }
 
 .left-section {
@@ -16,6 +29,7 @@
   text-align: center;
   color: white;
   position: relative;
+  
 }
 
 .right-section {
@@ -26,8 +40,7 @@
   align-items: flex-start;
   padding: 20px;
   position: relative;
-  background-color: aliceblue;
-  
+  background-color: white;
 }
 
 h1 {
@@ -35,7 +48,8 @@ h1 {
   margin: 0;
 }
 
-.note, .subNote {
+.note,
+.subNote {
   font-size: 1.2rem;
   color: #666;
   margin: 10px 0;
@@ -63,7 +77,10 @@ h1 {
   color: #333;
 }
 
-.show-all, .skip-button, .continue-button, .previous-button {
+.show-all,
+.skip-button,
+.continue-button,
+.previous-button {
   margin-top: 20px;
 }
 
@@ -76,12 +93,13 @@ h1 {
   text-decoration: underline;
 }
 
-.skip-button, .continue-button {
+.skip-button,
+.continue-button {
   background-color: #ff4081; /* Pink button color */
   border: 1px solid #000; /* Black border */
   padding: 10px 20px;
   cursor: pointer;
-  color: white;
+  color: rgb(7, 1, 1);
   font-size: 1.5rem; /* Larger font size */
   border-radius: 5px;
 }
@@ -100,7 +118,7 @@ h1 {
   border: none;
   cursor: pointer;
   font-size: 2.5rem; /* Larger font size */
-  color: white;
+  color: rgb(11, 1, 1);
 }
 
 .slider-container {

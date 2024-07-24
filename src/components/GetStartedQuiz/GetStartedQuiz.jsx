@@ -1,27 +1,42 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GetStartedQuiz.css";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAnswer } from "../../redux/features/quizSlice";
+// import QuizLoadingModal from "../QuizLoadingModal/QuizLoadingModal";
+
 
 const questions = [
   {
     question: "I want to Learn",
-    options: ["Swimming", "BodyBuilding", "Basketball", "Soccer"],
+    options: [
+      "Add All",
+      "Tennis",
+      "Boxing",
+      "Swimming",
+      "BodyBuilding",
+      "Basketball",
+      "Soccer",
+    ],
+    type: "dropdown",
   },
   {
     question: "What's your level?",
-    options: ["Beginner", "Expert,adavnced", "advanced", "Master"],
+    options: ["Beginner", "Intermediate", "Advanced", "Expert", "Master"],
   },
   {
     question: "Looking for a specific culture or accent?",
-    options: ["Jerusalem", "Haifa", "Acre", "alramla", "Safed"],
+    options: [
+      "Jerusalem",
+      "Haifa",
+      "Tel-Aviv",
+      "Eliat",
+      "Kfar-Saba",
+      "Migdal-Haemek",
+      "Rishon-Lezion",
+      "Afula",
+    ],
     showAll: true,
-  },
-  {
-    question: "i'm available",
-    options: ["Morning", "Afternoon", "Evening"],
-  },
-  {
-    question: "Sort by",
-    options: ["Top picks", "Ratings", "Price"],
   },
   {
     question: "What's your budget per lesson?",
@@ -33,12 +48,24 @@ const questions = [
 const GetStartedQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [sliderValue, setSliderValue] = useState(70);
+  // const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
+  const answers = useSelector((state) => state.quiz.answers);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleNext = () => {
+    if (questions[currentQuestion].slider) {
+      dispatch(updateAnswer({index: currentQuestion, answer: `${sliderValue}`}));
+    } else if (!answers[currentQuestion] || answers[currentQuestion] === " ") {
+      dispatch(updateAnswer({ index: currentQuestion, answer: null }));
+    }
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      alert("Test completed");
+      // setIsLoadingModalOpen(true);
+      navigate("/trainers"); 
+      console.log(answers);
     }
   };
 
@@ -52,7 +79,15 @@ const GetStartedQuiz = () => {
     setSliderValue(event.target.value);
   };
 
+  const handleOptionChange = (index) => (event) => {
+    dispatch(updateAnswer({ index: currentQuestion, answer: event.target.value }));
+    console.log(answers);
+  };
+
+  console.log(answers);
   return (
+    <>
+    {/* {isLoadingModalOpen && <QuizLoadingModal/>} */}
     <div className="test-container">
       <div className="left-section">
         {currentQuestion > 0 && (
@@ -89,13 +124,32 @@ const GetStartedQuiz = () => {
               standard 50-min lessons after trial.
             </p>
           </div>
+        ) : questions[currentQuestion].type === "dropdown" ? (
+          <select
+            className="dropdown"
+            onChange={handleOptionChange(currentQuestion)}
+            value={answers[currentQuestion]}
+          >
+            {questions[currentQuestion].options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         ) : (
           questions[currentQuestion].options.map((option, index) => (
             <div key={index} className="option">
-              <input type="radio" name="option" id={`option${index}`} />
+              <input
+                type="radio"
+                name="option"
+                id={`option${index}`}
+                value={option}
+                onChange={handleOptionChange(index)}
+                checked={answers[currentQuestion] === option}
+              />
               <label htmlFor={`option${index}`}>{option}</label>
             </div>
-          ))//s
+          ))
         )}
         {questions[currentQuestion].showAll && (
           <button className="show-all">Show all</button>
@@ -108,7 +162,9 @@ const GetStartedQuiz = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 
 export default GetStartedQuiz;
+
