@@ -21,3 +21,7 @@
   display: flex;
   width: 100%;
 }
+
+.trainers-filter-search-container{
+  padding: 0 5vw;
+}

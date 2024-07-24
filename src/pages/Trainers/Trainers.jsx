@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
-import "./Trainers.css";
 import { db } from "../../config/firebaseConfig";
-import { createSlice } from "@reduxjs/toolkit";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+
 import {
   collection,
   getDocs,
@@ -20,6 +20,8 @@ import {
   arrayRemove,
   getDoc,
 } from "firebase/firestore";
+
+import "./Trainers.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();
@@ -67,7 +69,9 @@ const Trainers = () => {
     }
 
     if (selectedLevel) {
-      filtered = filtered.filter((trainer) => trainer.level === selectedLevel);
+      filtered = filtered.filter((trainer) =>
+        trainer.level.includes(selectedLevel)
+      );
     }
 
     if (selectedAddress) {
@@ -128,19 +132,10 @@ const Trainers = () => {
     setSearchQuery(query);
   };
 
-  const handleVailerChange = (value) => {
-    console.log(value);
-  };
-
   const handleSortByRating = () => {
-    console.log("Sorting by ratings");
-    console.log("Current filtered trainers:", filteredTrainers);
-
     const sortedTrainers = [...filteredTrainers].sort(
       (a, b) => b.ratings - a.ratings
     );
-
-    console.log("Sorted trainers:", sortedTrainers);
     setFilteredTrainers(sortedTrainers);
   };
 

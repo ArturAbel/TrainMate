@@ -2,6 +2,8 @@
   border: 2px solid var(--color-input-placeholder-border);
   margin-bottom: 1.5rem;
   border-radius: 5px;
+  min-height: 40vh;
+  max-height: 50vh;
   padding: 1rem;
   display: flex;
   width: 65vw;
@@ -84,9 +86,14 @@
   display: flex;
 }
 
+.trainer-card-reviews-container ,
+.trainer-card-price-lesson-length-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .trainer-card-like:hover {
-  filter: invert(15%) sepia(91%) saturate(7445%) hue-rotate(3deg)
-    brightness(122%) contrast(128%);
   transform: scale(1.1);
   transition: 0.5s;
   cursor: pointer;
