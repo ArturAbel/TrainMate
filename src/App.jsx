@@ -12,6 +12,9 @@ import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { initializeAuthListener } from "./redux/features/authSlice";
+import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "trainers",
         element: <Trainers />,
+      },
+      {
+        path: "favorites",
+        element: <FavoriteTrainers />,
       },
       {
         path: "settings",
