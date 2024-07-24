@@ -1,27 +1,47 @@
-import React, { useState } from "react";
+import  { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GetStartedQuiz.css";
+
 
 const questions = [
   {
     question: "I want to Learn",
-    options: ["Swimming", "BodyBuilding", "Basketball", "Soccer"],
+    options: [
+      "Add All",
+      "Tennis",
+      "Boxing",
+      "Swimming",
+      "BodyBuilding",
+      "Basketball",
+      "Soccer",
+    ],
+    type: "dropdown", // Adding type to specify dropdown
   },
   {
     question: "What's your level?",
-    options: ["Beginner", "Expert,adavnced", "advanced", "Master"],
+    options: [
+      "BeginnerIntermediate",
+      "Intermediate",
+      "Beginner",
+      "Expert,adavnced",
+      "Advanced",
+      "Master",
+      "IntermediateAdvanced",
+    ],
   },
   {
     question: "Looking for a specific culture or accent?",
-    options: ["Jerusalem", "Haifa", "Acre", "alramla", "Safed"],
+    options: [
+      "Jerusalem",
+      "Haifa",
+      "Tel-Aviv",
+      "Eliat",
+      "Kfar-Saba",
+      "Migdal-Haemek",
+      "Rishon-Lezion",
+      "Afula",
+    ],
     showAll: true,
-  },
-  {
-    question: "i'm available",
-    options: ["Morning", "Afternoon", "Evening"],
-  },
-  {
-    question: "Sort by",
-    options: ["Top picks", "Ratings", "Price"],
   },
   {
     question: "What's your budget per lesson?",
@@ -33,12 +53,13 @@ const questions = [
 const GetStartedQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [sliderValue, setSliderValue] = useState(70);
+  const navigate = useNavigate();
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      alert("Test completed");
+      navigate("/trainers"); // Navigate to /trainers path
     }
   };
 
@@ -89,13 +110,21 @@ const GetStartedQuiz = () => {
               standard 50-min lessons after trial.
             </p>
           </div>
+        ) : questions[currentQuestion].type === "dropdown" ? (
+          <select className="dropdown">
+            {questions[currentQuestion].options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         ) : (
           questions[currentQuestion].options.map((option, index) => (
             <div key={index} className="option">
               <input type="radio" name="option" id={`option${index}`} />
               <label htmlFor={`option${index}`}>{option}</label>
             </div>
-          ))//s
+          ))
         )}
         {questions[currentQuestion].showAll && (
           <button className="show-all">Show all</button>
