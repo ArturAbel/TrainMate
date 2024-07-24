@@ -13,7 +13,6 @@ import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import "./TrainerDetails.css";
 import { useSelector } from "react-redux";
 
-
 const TrainerDetails = () => {
   const { id: trainerId } = useParams();
   const [trainer, setTrainer] = useState(null);
@@ -25,9 +24,6 @@ const TrainerDetails = () => {
     const hours = [];
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();
-  // Get the ID from the URL parameters
-  const dispatch = useDispatch();
-  const { id } = useParams();
 
     for (let i = 10; i <= 18; i += 2) {
       const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
@@ -87,12 +83,8 @@ const TrainerDetails = () => {
       let trainerData = trainerDoc.data();
       setTrainer(trainerData);
       setBookedLessons(trainerData.bookedLessons || []);
-    if (trainers.length === 0) {
-      console.log("Trainers array is empty. Fetching trainers...");
-      dispatch(fetchTrainers());
     }
   };
-
 
   if (!trainer) {
     return <div>Loading...</div>;
@@ -128,91 +120,13 @@ const TrainerDetails = () => {
               <strong>Location:</strong>
               <span> {trainer.location}</span>
             </p>
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  const trainer = trainers.find((trainer) => trainer.uid === id);
-
-  if (trainer) {
-    const {
-      lessonLength,
-      description,
-      address,
-      reviews,
-      ratings,
-      image,
-      sport,
-      price,
-      level,
-      name,
-      about,
-    } = trainer;
-
-    console.log(trainer);
-
-    return (
-      <section className="trainer-profile-section" key={trainer.id}>
-        <div className="trainer-profile-content-container">
-          <Link to={"/trainers"}>
-            <IoMdArrowRoundBack className="trainer-profile-back-icon" />
-          </Link>
-          {/* Intro */}
-          <div className="trainer-profile-content-intro">
-            <div className="trainer-profile-image-container">
-              <img className="trainer-profile-image" src={image} alt={name} />
-            </div>
-            <div className="trainer-profile-intro-container">
-              <h1 className="trainer-profile-intro-name">{name}</h1>
-              <p className="trainer-profile-intro-description">{description}</p>
-              <p className="trainer-profile-intro-teach">
-                <strong>teaches:</strong>
-                <span> {sport}</span>
-              </p>
-              <p className="trainer-profile-intro-teach">
-                <strong>location:</strong>
-                <span> {address}</span>
-              </p>
-            </div>
-          </div>
-
-          {/* About Me */}
-          <div className="trainer-profile-about-me-container">
-            <h1 className="trainer-profile-about-me-title">about me</h1>
-            <p className="trainer-profile-about-me-content">{about}</p>
-
           </div>
         </div>
-
 
         <div className="trainer-profile-about-me-container">
           <h1 className="trainer-profile-about-me-title">About Me</h1>
           <p className="trainer-profile-about-me-content">{trainer.description}</p>
         </div>
-
-          {/* I Teach */}
-          <div className="trainer-profile-teach-container">
-            <h1 className="trainer-profile-teach-title">i teach</h1>
-            <span className="trainer-profile-teach-spans">
-              <span>{sport}</span>
-              <span>
-                {level.map((level, index) => (
-                  <span
-                    className="trainer-profile-teach-span-level"
-                    key={index}
-                  >
-                    {level}
-                  </span>
-                ))}
-              </span>
-            </span>
-          </div>
-
 
         <div className="trainer-profile-teach-container">
           <h1 className="trainer-profile-teach-title">I Teach</h1>
@@ -228,7 +142,6 @@ const TrainerDetails = () => {
         </div>
       </div>
 
-
       <div className="trainer-profile-actions-container">
         <div className="trainer-profile-actions-map">add map</div>
         <div className="trainer-profile-actions-data-container">
@@ -239,24 +152,6 @@ const TrainerDetails = () => {
           <div className="trainer-profile-actions-data-item">
             <BiShekel className="trainer-profile-button-icon" />
             <p>{trainer.price}/lesson</p>
-
-        {/* Right container */}
-        <div className="trainer-profile-actions-container">
-          <div className="trainer-profile-actions-map">add map</div>
-          <div className="trainer-profile-actions-data-container">
-            <div className="trainer-profile-actions-data-item">
-              <GoStarFill className="trainer-profile-button-icon" />
-              <p>{ratings}</p>
-            </div>
-            <div className="trainer-profile-actions-data-item">
-              <BiShekel className="trainer-profile-button-icon" />
-              <p>{price}/lesson</p>
-            </div>
-            <div className="trainer-profile-actions-data-item">
-              <IoTime className="trainer-profile-button-icon" />
-              <p>{lessonLength}</p>
-            </div>
-
           </div>
           <div className="trainer-profile-actions-data-item">
             <IoTime className="trainer-profile-button-icon" />
@@ -292,6 +187,7 @@ const TrainerDetails = () => {
 };
 
 export default TrainerDetails;
+
 
 
 
