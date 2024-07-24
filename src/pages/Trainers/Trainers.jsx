@@ -39,7 +39,9 @@ const Trainers = () => {
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth); 
+  const { answers } = useSelector((state) => state.quiz);
+  
 
   useEffect(() => {
     dispatch(fetchTrainers());
