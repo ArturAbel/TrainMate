@@ -1,144 +1,194 @@
-import { fetchTrainers } from "../../redux/features/trainerSlice";
-import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useParams } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { MdFitnessCenter } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { GoStarFill } from "react-icons/go";
 import { FiHeart } from "react-icons/fi";
+import { MdFitnessCenter } from "react-icons/md";
 import { IoTime } from "react-icons/io5";
-import { useEffect } from "react";
-
+import { Link } from "react-router-dom";
+import { db } from "../../config/firebaseConfig";
+import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import "./TrainerDetails.css";
+import { useSelector } from "react-redux";
+
 
 const TrainerDetails = () => {
-  // Get the ID from the URL parameters
-  const { id } = useParams();
-  const dispatch = useDispatch();
+  const { id: trainerId } = useParams();
+  const [trainer, setTrainer] = useState(null);
+  const [isCalenderOpen, setIsCalenderOpen] = useState(false);
+  const [bookedLessons, setBookedLessons] = useState([]);
+  const { user } = useSelector((state) => state.auth);
 
-  const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const generateAvailableHours = (date) => {
+    const hours = [];
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+
+    for (let i = 10; i <= 18; i += 2) {
+      const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
+      const hourDate = new Date(date);
+      hourDate.setHours(i, 0, 0, 0);
+
+      if (!isToday || (isToday && hourDate > now)) {
+        hours.push(hour);
+      }
+    }
+    return hours;
+  };
+
+  const generateAvailableSchedule = () => {
+    const availableSchedule = {};
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    for (let day = today.getDate(); day <= 31; day++) {
+      const date = new Date(currentYear, currentMonth, day);
+      if (date.getMonth() !== currentMonth) break;
+
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek >= 0 && dayOfWeek <= 4) {
+        const formattedDate = formatDate(date);
+        availableSchedule[formattedDate] = generateAvailableHours(date);
+      }
+    }
+    return availableSchedule;
+  };
 
   useEffect(() => {
-    if (trainers.length === 0) {
-      console.log("Trainers array is empty. Fetching trainers...");
-      dispatch(fetchTrainers());
-    } else {
-      console.log("Trainers already loaded:", trainers.length);
-    }
-  }, [dispatch, trainers.length]);
+    const fetchTrainer = async () => {
+      const trainerRef = doc(db, "trainers", trainerId);
+      const trainerDoc = await getDoc(trainerRef);
+      if (trainerDoc.exists()) {
+        let trainerData = trainerDoc.data();
+        if (!trainerData.availableSchedule) {
+          trainerData.availableSchedule = generateAvailableSchedule();
+          await setDoc(trainerRef, { availableSchedule: trainerData.availableSchedule }, { merge: true });
+        }
+        setTrainer(trainerData);
+        setBookedLessons(trainerData.bookedLessons || []);
+      }
+    };
 
-  if (loading) {
-    console.log("Loading trainers...");
+    fetchTrainer();
+  }, [trainerId]);
+
+  const refetchTrainer = async () => {
+    const trainerRef = doc(db, "trainers", trainerId);
+    const trainerDoc = await getDoc(trainerRef);
+    if (trainerDoc.exists()) {
+      let trainerData = trainerDoc.data();
+      setTrainer(trainerData);
+      setBookedLessons(trainerData.bookedLessons || []);
+    }
+  };
+
+  if (!trainer) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    console.log("Error loading trainers:", error);
-    return <div>Error: {error}</div>;
-  }
+  const handleOpenCalender = () => {
+    setIsCalenderOpen(true);
+  };
 
-  const trainer = trainers.find((trainer) => trainer.uid === id);
+  const handleCloseCalender = () => {
+    setIsCalenderOpen(false);
+    refetchTrainer();
+  };
 
-  if (trainer) {
-    console.log("Success: Matching trainer found:", trainer);
-
-    const { description, location, reviews, image, sport, price, level, name } =
-      trainer;
-
-    return (
-      <section className="trainer-profile-section" key={trainer.id}>
-        <div className="trainer-profile-content-container">
-          <Link to={"/trainers"}>
-            <IoMdArrowRoundBack className="trainer-profile-back-icon" />
-          </Link>
-          {/* Intro */}
-          <div className="trainer-profile-content-intro">
-            <div className="trainer-profile-image-container">
-              <img className="trainer-profile-image" src={image} alt={name} />
-            </div>
-            <div className="trainer-profile-intro-container">
-              <h1 className="trainer-profile-intro-name">{name}</h1>
-              <p className="trainer-profile-intro-description">
-                some description about the trainer
-              </p>
-              <p className="trainer-profile-intro-teach">
-                <strong>teaches:</strong>
-                <span> {sport}</span>
-              </p>
-              <p className="trainer-profile-intro-teach">
-                <strong>location:</strong>
-                <span> {location}</span>
-              </p>
-            </div>
+  return (
+    <section className="trainer-profile-section" key={trainerId}>
+      <div className="trainer-profile-content-container">
+        <Link to={"/trainers"}>
+          <IoMdArrowRoundBack className="trainer-profile-back-icon" />
+        </Link>
+        <div className="trainer-profile-content-intro">
+          <div className="trainer-profile-image-container">
+            <img className="trainer-profile-image" src={trainer.image} alt={trainer.name} />
           </div>
-
-          {/* About Me */}
-          <div className="trainer-profile-about-me-container">
-            <h1 className="trainer-profile-about-me-title">about me</h1>
-            <p className="trainer-profile-about-me-content">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore
-              consequuntur officia distinctio tenetur, dignissimos inventore!
-              Quibusdam fugiat earum, porro eligendi quidem odit necessitatibus
-              impedit cumque laudantium maxime! Id asperiores similique,
-              doloremque inventore dolor qui debitis ullam exercitationem harum
-              ratione corporis quae laborum, ipsam sunt molestiae, assumenda
-              adipisci cumque fugit nemo?
+          <div className="trainer-profile-intro-container">
+            <h1 className="trainer-profile-intro-name">{trainer.name}</h1>
+            <p className="trainer-profile-intro-description">{trainer.description}</p>
+            <p className="trainer-profile-intro-teach">
+              <strong>Teaches:</strong>
+              <span> {trainer.sport}</span>
+            </p>
+            <p className="trainer-profile-intro-teach">
+              <strong>Location:</strong>
+              <span> {trainer.location}</span>
             </p>
           </div>
-
-          {/* I Teach */}
-          <div className="trainer-profile-teach-container">
-            <h1 className="trainer-profile-teach-title">i teach</h1>
-            <span className="trainer-profile-teach-spans">
-              <span>{sport}</span>
-              <span className="trainer-profile-teach-span-level">{level}</span>
-            </span>
-          </div>
-
-          {/* My Reviews */}
-          <div className="trainer-profile-reviews-container">
-            <h1 className="trainer-profile-teach-title">my reviews</h1>
-            <p>add reviews here</p>
-          </div>
         </div>
 
-        {/* Right container */}
-        <div className="trainer-profile-actions-container">
-          <div className="trainer-profile-actions-map">add map</div>
-          <div className="trainer-profile-actions-data-container">
-            <div className="trainer-profile-actions-data-item">
-              <GoStarFill className="trainer-profile-button-icon" />
-              <p>{reviews}</p>
-            </div>
-            <div className="trainer-profile-actions-data-item">
-              <BiShekel className="trainer-profile-button-icon" />
-              <p>{price}/lesson</p>
-            </div>
-            <div className="trainer-profile-actions-data-item">
-              <IoTime className="trainer-profile-button-icon" />
-              <p>45 </p>
-            </div>
+        <div className="trainer-profile-about-me-container">
+          <h1 className="trainer-profile-about-me-title">About Me</h1>
+          <p className="trainer-profile-about-me-content">{trainer.description}</p>
+        </div>
+
+        <div className="trainer-profile-teach-container">
+          <h1 className="trainer-profile-teach-title">I Teach</h1>
+          <span className="trainer-profile-teach-spans">
+            <span>{trainer.sport}</span>
+            <span className="trainer-profile-teach-span-level">{trainer.level}</span>
+          </span>
+        </div>
+
+        <div className="trainer-profile-reviews-container">
+          <h1 className="trainer-profile-teach-title">My Reviews</h1>
+          <p>add reviews here</p>
+        </div>
+      </div>
+
+      <div className="trainer-profile-actions-container">
+        <div className="trainer-profile-actions-map">add map</div>
+        <div className="trainer-profile-actions-data-container">
+          <div className="trainer-profile-actions-data-item">
+            <GoStarFill className="trainer-profile-button-icon" />
+            <p>{trainer.reviews}</p>
           </div>
-          <div className="trainer-profile-actions-buttons-container">
-            <button className="button-transparent" id="trainer-book-button">
-              <MdFitnessCenter className="trainer-profile-button-icon" />
-              book a training
-            </button>
-            <button className="button-transparent" id="trainer-profile-button">
-              <BiMessageSquareDetail className="trainer-profile-button-icon" />
-              send message
-            </button>
-            <button className="button-transparent" id="trainer-profile-button">
-              <FiHeart className="trainer-profile-button-icon" />
-              add to favorite
-            </button>
+          <div className="trainer-profile-actions-data-item">
+            <BiShekel className="trainer-profile-button-icon" />
+            <p>{trainer.price}/lesson</p>
+          </div>
+          <div className="trainer-profile-actions-data-item">
+            <IoTime className="trainer-profile-button-icon" />
+            <p>45</p>
           </div>
         </div>
-      </section>
-    );
-  } else {
-    return <div>Trainer not found</div>;
-  }
+        <div className="trainer-profile-actions-buttons-container">
+          <button className="button-transparent" id="trainer-book-button" onClick={handleOpenCalender}>
+            <MdFitnessCenter className="trainer-profile-button-icon" />
+            Book a Training
+          </button>
+          <button className="button-transparent" id="trainer-profile-button">
+            <BiMessageSquareDetail className="trainer-profile-button-icon" />
+            Send Message
+          </button>
+          <button className="button-transparent" id="trainer-profile-button">
+            <FiHeart className="trainer-profile-button-icon" />
+            Add to Favorite
+          </button>
+        </div>
+      </div>
+      {isCalenderOpen && (
+        <CalenderModal
+          availableSchedule={trainer.availableSchedule}
+          bookedLessons={bookedLessons}
+          onClose={handleCloseCalender}
+          trainerId={trainerId}
+          userId={user && user.uid}
+        />
+      )}
+    </section>
+  );
 };
 
 export default TrainerDetails;
+
+
+
+

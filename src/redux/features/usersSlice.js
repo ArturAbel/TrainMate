@@ -140,4 +140,27 @@ export const uploadUserProfileImage = (file, userId) => async (dispatch) => {
   }
 };
 
+export const bookLesson = (trainerId, userId, booking) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const trainerRef = doc(db, "trainers", trainerId);
+    const userRef = doc(db, "users", userId);
+
+    await updateDoc(trainerRef, {
+      bookedLessons: arrayUnion(booking),
+    });
+
+    await updateDoc(userRef, {
+      bookedLessons: arrayUnion(booking),
+    });
+
+    dispatch(setLoading(false));
+    alert("Lesson booked successfully!");
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    alert("Error booking lesson: " + error.message);
+  }
+};
+
 export default usersSlice.reducer;
