@@ -5,16 +5,28 @@ import { MdOutlineLogin } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
-import { useState } from "react";
-
+import { useState, useRef, useEffect } from "react";
 import "./Navbar.css";
 
 export const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
-
+  const dropdownRef = useRef(null);
   function showOrHide() {
     setShowSettings(!showSettings);
   }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowSettings(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -49,7 +61,7 @@ export const Navbar = () => {
                 <FiHeart className="navbar-icon" />
               </Link>
               <div className="dropdown-container ">
-                <div onClick={showOrHide}>
+                <div onClick={showOrHide} ref={dropdownRef}>
                   <img
                     className="navbar-user-image"
                     src={user.photoURL || ""}
