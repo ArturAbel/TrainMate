@@ -1,4 +1,3 @@
-import React from "react";
 import './QuizLoadingModal.css';
 
 const QuizLoadingModal = () => {

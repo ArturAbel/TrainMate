@@ -109,7 +109,7 @@ const GetStartedQuiz = () => {
             <input
               type="range"
               min="5"
-              max="135"
+              max="100"
               value={sliderValue}
               onChange={handleSliderChange}
               className="slider"

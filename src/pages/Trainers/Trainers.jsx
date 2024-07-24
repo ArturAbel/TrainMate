@@ -40,17 +40,23 @@ const Trainers = () => {
   const { user } = useSelector((state) => state.auth);
   const { answers } = useSelector((state) => state.quiz);
 
+  console.log(answers);
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
   useEffect(() => {
     const initializeFilters = () => {
-      if (answers) {
-        setSelectedSport(answers[0]);
-        setSelectedLevel(answers[1]);
-        setSelectedAddress(answers[2]);
-        setPriceRange({ min: 5, max: answers[3] });
+      if (answers && answers.length > 0) {
+        setSelectedSport(answers[0] || null);
+        setSelectedLevel(answers[1] || null);
+        setSelectedAddress(answers[2] || null);
+        setPriceRange({ min: 5, max: answers[3] || 100 });
+      } else {
+        setSelectedSport(null);
+        setSelectedLevel(null);
+        setSelectedAddress(null);
+        setPriceRange({ min: 5, max: 100 });
       }
     };
     initializeFilters();
