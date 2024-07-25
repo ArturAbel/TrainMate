@@ -1,71 +1,103 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchTrainers,
+  updateTrainer,
+} from "../../redux/features/trainerSlice";
 import "./TrainerPanel.css";
 
 const TrainerPanel = () => {
-  const [pendingSessions, setPendingSessions] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2024-07-25",
-      imageUrl: "https://via.placeholder.com/100",
-    },
-    // Add more sample data if needed
-  ]);
+  const dispatch = useDispatch();
+  const trainers = useSelector((state) => state.trainer.trainers);
+  const loading = useSelector((state) => state.trainer.loading);
+  const error = useSelector((state) => state.trainer.error);
+  const user = useSelector((state) => state.auth.user);
 
-  const [bookedSessions, setBookedSessions] = useState([]);
+  const dummy = "8vYgnqL5o7sElCv6Hguf";
+  const specificTrainer = trainers.find((trainer) => trainer.uid === dummy);
 
-  const handleMoveToBooked = (id) => {
-    const sessionToMove = pendingSessions.find((session) => session.id === id);
-    setBookedSessions([...bookedSessions, sessionToMove]);
-    setPendingSessions(pendingSessions.filter((session) => session.id !== id));
+  const [filteredBookedLessons, setFilteredBookedLessons] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchTrainers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!loading && trainers.length > 0 && specificTrainer) {
+      console.log(specificTrainer);
+      filterBookedLessons(specificTrainer.bookedLessons);
+    } else if (!loading && trainers.length > 0) {
+      console.log(`Trainer with uid ${dummy} not found.`);
+    }
+  }, [loading, trainers, specificTrainer]);
+
+  const filterBookedLessons = (lessons) => {
+    const filtered = lessons.filter((lesson) => !lesson.approved);
+    setFilteredBookedLessons(filtered);
   };
 
-  const handleMoveToPending = (id) => {
-    const sessionToMove = bookedSessions.find((session) => session.id === id);
-    setPendingSessions([...pendingSessions, sessionToMove]);
-    setBookedSessions(bookedSessions.filter((session) => session.id !== id));
+  const handleApproveLesson = (lessonIndex) => {
+    if (specificTrainer) {
+      const lesson = specificTrainer.bookedLessons[lessonIndex];
+      const updatedBookedLessons = specificTrainer.bookedLessons.map(
+        (l, index) => (index === lessonIndex ? { ...l, approved: true } : l)
+      );
+      const updatedApprovedSessions = [
+        ...specificTrainer.approvedSessions,
+        { date: lesson.date, hour: lesson.hour },
+      ];
+      const updatedData = {
+        bookedLessons: updatedBookedLessons,
+        approvedSessions: updatedApprovedSessions,
+      };
+      dispatch(updateTrainer(specificTrainer.uid, updatedData));
+      filterBookedLessons(updatedBookedLessons);
+    }
   };
 
   return (
     <div className="trainer-panel-container">
       <div className="content">
-        <div className="left-content">
-          <h2>Pending Sessions</h2>
-          {pendingSessions.map((session) => (
-            <div key={session.id} className="card">
-              <img src={session.imageUrl} alt="owner" className="card-img" />
-              <div className="card-details">
-                <p>Name: {session.name}</p>
-                <p>Date: {session.date}</p>
-                <button
-                  className="move-button"
-                  onClick={() => handleMoveToBooked(session.id)}
-                >
-                  Move to Booked
-                </button>
-              </div>
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        {!loading && specificTrainer && (
+          <>
+            <div className="left-content">
+              <h2>Booked Lessons</h2>
+              {filteredBookedLessons.map((lesson, index) => (
+                <div key={index} className="card">
+                  <div className="card-details">
+                    <p>Date: {lesson.date}</p>
+                    <p>Hour: {lesson.hour}</p>
+                    <p>Approved: {lesson.approved ? "Yes" : "No"}</p>
+                    {!lesson.approved && (
+                      <button onClick={() => handleApproveLesson(index)}>
+                        Approve seassion
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="right-content">
-          <h2>Booked Sessions</h2>
-          {bookedSessions.map((session) => (
-            <div key={session.id} className="card">
-              <img src={session.imageUrl} alt="owner" className="card-img" />
-              <div className="card-details">
-                <p>Name: {session.name}</p>
-                <p>Date: {session.date}</p>
-                <button
-                  className="move-button"
-                  onClick={() => handleMoveToPending(session.id)}
-                >
-                  Move to Pending
-                </button>
-              </div>
+            <div className="right-content">
+              <h2>Approved Sessions</h2>
+              {specificTrainer.approvedSessions.map((session, index) => (
+                <div key={index} className="card">
+                  <div className="card-details">
+                    <p>Date: {session.date}</p>
+                    <p>Hour: {session.hour}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
+      {user && (
+        <div className="user-info">
+          <h3>Current User ID: {user.uid}</h3>
+        </div>
+      )}
     </div>
   );
 };
