@@ -69,7 +69,7 @@ export const Navbar = () => {
                   />
                 </div>
                 {showSettings && (
-                  <ul className="navbarList">
+                  <div className="navbarList">
                     <Link to={"/settings"} className="navbarList-item">
                       settings
                     </Link>
@@ -80,7 +80,7 @@ export const Navbar = () => {
                     >
                       Logout
                     </Link>
-                  </ul>
+                  </div>
                 )}
               </div>
             </div>
