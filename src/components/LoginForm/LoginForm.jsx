@@ -16,6 +16,8 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+console.log(user);
+
   const handleUserLogin = (e) => {
     e.preventDefault();
     dispatch(loginUser(input.email, input.password));
