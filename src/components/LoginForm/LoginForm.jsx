@@ -16,8 +16,6 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-console.log(user);
-
   const handleUserLogin = (e) => {
     e.preventDefault();
     dispatch(loginUser(input.email, input.password));
@@ -25,12 +23,16 @@ console.log(user);
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginWithGoogle());
+    dispatch(loginWithGoogle("trainee"));
   };
 
   useEffect(() => {
     if (user) {
-      navigate("/trainers");
+      if (user.role === "trainer") {
+        navigate("/trainer-panel");
+      } else {
+        navigate("/trainers");
+      }
     }
   }, [user, navigate]);
 
@@ -117,3 +119,4 @@ console.log(user);
     </form>
   );
 };
+

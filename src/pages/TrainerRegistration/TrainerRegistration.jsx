@@ -1,5 +1,4 @@
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
-import { uploadUserProfileImage } from "../../redux/features/usersSlice";
 import { BsHandThumbsDown, BsHandThumbsUp } from "react-icons/bs";
 import { sports } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,11 +7,14 @@ import { fetchTrainers, updateTrainer, uploadTrainerProfileImage } from "../../r
 import { isFormValid } from "./TrainerRegistrationlib";
 
 import "./TrainerRegistration.css";
+import { useNavigate } from "react-router";
 
 export const TrainerRegistration = () => {
-  const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const { trainers, loading } = useSelector((state) => state.trainer);
+  const [localLoading, setLocalLoading] = useState(true);
   const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -26,12 +28,13 @@ export const TrainerRegistration = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchTrainers());
+    dispatch(fetchTrainers()).then(() => setLocalLoading(false));
   }, [dispatch]);
 
-  const trainerData = trainers.find(
-    (trainerObj) => trainerObj.uid === "8vYgnqL5o7sElCv6Hguf" //*todo - put user.uid here -
+  const trainerData = user && trainers.find(
+    (trainerObj) => trainerObj.uid === user.uid 
   );
+
 
   useEffect(() => {
     if (trainerData) {
@@ -73,18 +76,16 @@ export const TrainerRegistration = () => {
     e.preventDefault();
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
+      navigate('/trainer-panel');
     }
   };
 
-  if (!trainerData || loading) {
+  if (localLoading || loading) {
     return <div>Loading trainer data...</div>;
   }
 
-  const profileImageUrl =
-    trainerData.image ||
-    (user && user.photoURL
-      ? user.photoURL
-      : "/public/person1.jpg");
+  const profileImageUrl = trainerData?.image ||
+    (user && user.photoURL ? user.photoURL : "/public/person1.jpg");
 
   return (
     <section className="trainer-registration-section">
@@ -103,7 +104,7 @@ export const TrainerRegistration = () => {
         </div>
         <div className="trainer-registration-instructions-dos">
           <BsHandThumbsDown />
-          dont's
+          donts
         </div>
       </div>
 
@@ -140,7 +141,7 @@ export const TrainerRegistration = () => {
               type="text"
               className="trainer-registration-form-input"
               name="name"
-              value={trainerData.name}
+              value={formData.name}
               onChange={handleInputChange}
             />
           </div>

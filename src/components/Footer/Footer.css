@@ -29,17 +29,17 @@
   align-items: flex-end;
   padding-right: 3vw;
   width: 18vw;
-
 }
 
-.footer-logo-container{
+.footer-logo-container {
   justify-content: center;
   display: flex;
   width: 100%;
 }
 
-.footer-logo{
-  filter: invert(99%) sepia(3%) saturate(5327%) hue-rotate(299deg) brightness(119%) contrast(89%);
+.footer-logo {
+  filter: invert(99%) sepia(3%) saturate(5327%) hue-rotate(299deg)
+    brightness(119%) contrast(89%);
 }
 
 .footer-image-container {
@@ -56,6 +56,7 @@
 .footer-links-container {
   flex-direction: column;
   display: flex;
+  gap: 0.3rem;
 }
 
 .footer-link {

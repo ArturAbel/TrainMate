@@ -14,8 +14,8 @@
   padding-left: 3rem;
   border-radius: 8px;
   font-size: 1.5rem;
+  width: 17.2vw;
   height: 5rem;
-  width: 17vw;
 }
 
 .search-input:hover {
@@ -29,7 +29,6 @@
   border-radius: 8px;
   display: block;
   padding: 1rem;
-  width: 100%;
   z-index: 21;
   top: 9vh;
   left: 0;
@@ -38,7 +37,7 @@
 .vailer-dropdown-content a {
   font-family: var(--font-content);
   text-decoration: solid;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 400;
   display: block;
   color: black;
@@ -64,7 +63,7 @@
   display: flex;
   min-width: 0;
   height: 5rem;
-  width: 18vw;
+  width: 10vw;
 }
 
 .vailer-container:hover {

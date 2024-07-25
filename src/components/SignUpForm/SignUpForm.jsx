@@ -1,66 +1,43 @@
 import { refinedFirebaseAuthErrorMessage } from "../../utilities/refineAuthError";
-import {
-  loginWithGoogle,
-  signupTrainer,
-  signupUser,
-} from "../../redux/features/authSlice";
+import { signupTrainer, signupUser, loginWithGoogle } from "../../redux/features/authSlice";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useFormHook } from "../../hooks/useFormHook";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../config/firebaseConfig";
 import "./SignUpForm.css";
 
 export const SignUpForm = ({ title }) => {
-  const { user, error } = useSelector((state) => state.auth);
+  const { error } = useSelector((state) => state.auth);
   const { input, handleInputChange } = useFormHook();
   const [errorMessage, setErrorMessage] = useState();
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isAlreadyUser = async (id) => {
-    try {
-      const userRef = doc(db, "users", id);
-      const userSnap = await getDoc(userRef);
-      return userSnap.exists();
-    } catch (error) {
-      console.error("Error checking user existence:", error);
-      return false;
-    }
-  };
-
-  const isAlreadyTrainer = async (id) => {
-    try {
-      const userRef = doc(db, "trainers", id);
-      const userSnap = await getDoc(userRef);
-      return userSnap.exists();
-    } catch (error) {
-      console.error("Error checking user existence:", error);
-      return false;
-    }
-  };
-
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (title === "trainee" && !isAlreadyTrainer(user.uid)) {
+    if (title === "trainee") {
       dispatch(signupUser(input.email, input.password, input.name));
     }
-    if (title === "trainer" && !isAlreadyUser(user.uid)) {
+    if (title === "trainer") {
       dispatch(signupTrainer(input.email, input.password, input.name));
     }
   };
 
   const handleGoogleSignUp = (e) => {
     e.preventDefault();
-    dispatch(loginWithGoogle());
+    dispatch(loginWithGoogle(title));
   };
 
   useEffect(() => {
     if (user) {
-      navigate("/trainers");
+      if (user.role === "trainee") {
+        navigate("/trainers");
+      } else if (user.role === "trainer") {
+        navigate("/trainer-registration");
+      }
     }
   }, [user, navigate]);
 
@@ -153,3 +130,4 @@ export const SignUpForm = ({ title }) => {
     </form>
   );
 };
+

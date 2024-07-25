@@ -16,6 +16,7 @@ import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
 import TrainerSessionHistory from "./components/TrainerSessionHistory/TrainerSessionHistory";
 import TrainerMessages from "./components/TrainerMessages/TrainerMessages";
+import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "trainer-messages",
         element: <TrainerMessages />,
+      },
+      {
+        path: "trainer-settings",
+        element: <TrainerSettings />,
       },
     ],
   },

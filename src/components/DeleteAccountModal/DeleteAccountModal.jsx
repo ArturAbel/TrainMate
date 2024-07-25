@@ -1,4 +1,6 @@
-import './DeleteAccountModal.css';
+import { IoClose } from "react-icons/io5";
+
+import "./DeleteAccountModal.css";
 
 const DeleteAccountModal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
@@ -6,7 +8,9 @@ const DeleteAccountModal = ({ isOpen, onClose, children }) => {
   return (
     <div className="delete-account-modal-overlay">
       <div className="delete-account-modal-content">
-        <button className="delete-account-modal-close-button" onClick={onClose}>X</button>
+        <button className="delete-account-modal-close-button" onClick={onClose}>
+          <IoClose />
+        </button>
         {children}
       </div>
     </div>
