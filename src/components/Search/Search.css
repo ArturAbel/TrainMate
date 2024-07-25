@@ -15,7 +15,7 @@
   border-radius: 8px;
   font-size: 1.5rem;
   height: 5rem;
-  width: 18vw;
+  width: 17vw;
 }
 
 .search-input:hover {
@@ -30,7 +30,7 @@
   display: block;
   padding: 1rem;
   width: 100%;
-  z-index: 1001;
+  z-index: 21;
   top: 9vh;
   left: 0;
 }
@@ -55,7 +55,7 @@
   flex-direction: column;
   line-height: 1.25rem;
   border-radius: 8px;
-  padding: 15px 20px;
+  padding: 1.5rem 2rem;
   position: relative;
   text-align: center;
   font-size: 1.6rem;
