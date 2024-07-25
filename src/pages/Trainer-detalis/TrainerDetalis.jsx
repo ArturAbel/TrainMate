@@ -1,4 +1,5 @@
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -105,109 +106,115 @@ const TrainerDetails = () => {
   };
 
   return (
-    <section className="trainer-profile-section" key={trainerId}>
-      <div className="trainer-profile-content-container">
-        <Link to={"/trainers"}>
-          <IoMdArrowRoundBack className="trainer-profile-back-icon" />
-        </Link>
-        <div className="trainer-profile-content-intro">
-          <div className="trainer-profile-image-container">
-            <img
-              className="trainer-profile-image"
-              src={trainer.image}
-              alt={trainer.name}
-            />
+    <>
+      <section className="trainer-profile-section" key={trainerId}>
+        <div className="trainer-profile-content-container">
+          <Link to={"/trainers"}>
+            <IoMdArrowRoundBack className="trainer-profile-back-icon" />
+          </Link>
+          <div className="trainer-profile-content-intro">
+            <div className="trainer-profile-image-container">
+              <img
+                className="trainer-profile-image"
+                src={trainer.image}
+                alt={trainer.name}
+              />
+            </div>
+            <div className="trainer-profile-intro-container">
+              <h1 className="trainer-profile-intro-name">{trainer.name}</h1>
+              <p className="trainer-profile-intro-description">
+                {trainer.description}
+              </p>
+              <p className="trainer-profile-intro-teach">
+                <strong>Teaches:</strong>
+                <span> {trainer.sport}</span>
+              </p>
+              <p className="trainer-profile-intro-teach">
+                <strong>Location:</strong>
+                <span> {trainer.address}</span>
+              </p>
+            </div>
           </div>
-          <div className="trainer-profile-intro-container">
-            <h1 className="trainer-profile-intro-name">{trainer.name}</h1>
-            <p className="trainer-profile-intro-description">
-              {trainer.description}
-            </p>
-            <p className="trainer-profile-intro-teach">
-              <strong>Teaches:</strong>
-              <span> {trainer.sport}</span>
-            </p>
-            <p className="trainer-profile-intro-teach">
-              <strong>Location:</strong>
-              <span> {trainer.address}</span>
-            </p>
+
+          {/* About me */}
+          <div className="trainer-profile-about-me-container">
+            <h1 className="trainer-profile-about-me-title">About Me</h1>
+            <p className="trainer-profile-about-me-content">{trainer.about}</p>
           </div>
-        </div>
 
-        {/* About me */}
-        <div className="trainer-profile-about-me-container">
-          <h1 className="trainer-profile-about-me-title">About Me</h1>
-          <p className="trainer-profile-about-me-content">{trainer.about}</p>
-        </div>
-
-        {/* I teach */}
-        <div className="trainer-profile-teach-container">
-          <h1 className="trainer-profile-teach-title">I Teach</h1>
-          <span className="trainer-profile-teach-spans">
-            <span>{trainer.sport}</span>
-            <span>
-              {trainer.level.map((level, index) => (
-                <span className="trainer-profile-teach-span-level" key={index}>
-                  {level}
-                </span>
-              ))}
+          {/* I teach */}
+          <div className="trainer-profile-teach-container">
+            <h1 className="trainer-profile-teach-title">I Teach</h1>
+            <span className="trainer-profile-teach-spans">
+              <span>{trainer.sport}</span>
+              <span>
+                {trainer.level.map((level, index) => (
+                  <span
+                    className="trainer-profile-teach-span-level"
+                    key={index}
+                  >
+                    {level}
+                  </span>
+                ))}
+              </span>
             </span>
-          </span>
+          </div>
+
+          {/* My reviews */}
+          <div className="trainer-profile-reviews-container">
+            <h1 className="trainer-profile-teach-title">My Reviews</h1>
+            <p>add reviews here</p>
+          </div>
         </div>
 
-        {/* My reviews */}
-        <div className="trainer-profile-reviews-container">
-          <h1 className="trainer-profile-teach-title">My Reviews</h1>
-          <p>add reviews here</p>
-        </div>
-      </div>
-
-      {/* Right container */}
-      <div className="trainer-profile-actions-container">
-        <div className="trainer-profile-actions-map">add map</div>
-        <div className="trainer-profile-actions-data-container">
-          <div className="trainer-profile-actions-data-item">
-            <GoStarFill className="trainer-profile-button-icon" />
-            <p>{trainer.ratings}</p>
+        {/* Right container */}
+        <div className="trainer-profile-actions-container">
+          <div className="trainer-profile-actions-map">add map</div>
+          <div className="trainer-profile-actions-data-container">
+            <div className="trainer-profile-actions-data-item">
+              <GoStarFill className="trainer-profile-button-icon" />
+              <p>{trainer.ratings}</p>
+            </div>
+            <div className="trainer-profile-actions-data-item">
+              <BiShekel className="trainer-profile-button-icon" />
+              <p>{trainer.price}/lesson</p>
+            </div>
+            <div className="trainer-profile-actions-data-item">
+              <IoTime className="trainer-profile-button-icon" />
+              <p>45</p>
+            </div>
           </div>
-          <div className="trainer-profile-actions-data-item">
-            <BiShekel className="trainer-profile-button-icon" />
-            <p>{trainer.price}/lesson</p>
-          </div>
-          <div className="trainer-profile-actions-data-item">
-            <IoTime className="trainer-profile-button-icon" />
-            <p>45</p>
+          <div className="trainer-profile-actions-buttons-container">
+            <button
+              className="button-transparent"
+              onClick={handleOpenCalender}
+              id="trainer-book-button"
+            >
+              <MdFitnessCenter className="trainer-profile-button-icon" />
+              Book a Training
+            </button>
+            <button className="button-transparent" id="trainer-profile-button">
+              <BiMessageSquareDetail className="trainer-profile-button-icon" />
+              Send Message
+            </button>
+            <button className="button-transparent" id="trainer-profile-button">
+              <FiHeart className="trainer-profile-button-icon" />
+              Add to Favorite
+            </button>
           </div>
         </div>
-        <div className="trainer-profile-actions-buttons-container">
-          <button
-            className="button-transparent"
-            onClick={handleOpenCalender}
-            id="trainer-book-button"
-          >
-            <MdFitnessCenter className="trainer-profile-button-icon" />
-            Book a Training
-          </button>
-          <button className="button-transparent" id="trainer-profile-button">
-            <BiMessageSquareDetail className="trainer-profile-button-icon" />
-            Send Message
-          </button>
-          <button className="button-transparent" id="trainer-profile-button">
-            <FiHeart className="trainer-profile-button-icon" />
-            Add to Favorite
-          </button>
-        </div>
-      </div>
-      {isCalenderOpen && (
-        <CalenderModal
-          availableSchedule={trainer.availableSchedule}
-          bookedLessons={bookedLessons}
-          onClose={handleCloseCalender}
-          userId={user && user.uid}
-          trainerId={trainerId}
-        />
-      )}
-    </section>
+        {isCalenderOpen && (
+          <CalenderModal
+            availableSchedule={trainer.availableSchedule}
+            bookedLessons={bookedLessons}
+            onClose={handleCloseCalender}
+            userId={user && user.uid}
+            trainerId={trainerId}
+          />
+        )}
+      </section>
+      <HomeDivider />
+    </>
   );
 };
 
