@@ -1,0 +1,139 @@
+.calender-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 60vh;
+  width: 50%;
+  border: none;
+  border-radius: 1rem;
+  background-color: #f8eeee;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+.calender-modal-exit-button {
+  width: 100%;
+  position: relative;
+}
+
+.exit-button {
+  font-size: 2.5rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.exit-button:hover {
+  transform: scale(1.3);
+  color: red;
+}
+
+.calender-modal-bottom-buttons-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* Custom styles for react-calendar */
+.react-calendar {
+  border: none;
+  background-color: #ffffff00;
+  width: 90%;
+  height: 85%;
+  border-radius: 8px;
+}
+
+.react-calendar__tile {
+  padding: 2rem;
+  font-size: 1.6rem;
+  background: #ca040400;
+  border-radius: 4px;
+  margin: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.react-calendar__tile--now {
+  background: #e6e6e6;
+}
+
+.react-calendar__tile--active {
+  background: #007bff;
+  color: white;
+}
+
+.react-calendar__tile--disabled {
+  background: #d3d3d3;
+  cursor: not-allowed;
+}
+
+
+.react-calendar__navigation button {
+  /* display: none; */
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.react-calendar__navigation button:disabled {
+  background: #d3d3d3;
+  cursor: not-allowed;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: red;
+}
+
+/* Styles for available hours */
+.available-hours {
+  width: 50%;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  padding: 1rem;
+}
+
+.available-hours h3 {
+  margin-bottom: 10px;
+}
+
+.available-hours ul {
+  list-style: none;
+  padding: 0;
+}
+
+.available-hours li {
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.available-hours li.selected-hour {
+  background-color: #007bff !important;
+  color: white;
+}
+.available-hours li:hover {
+  transform: scale(1.03);
+   background-color: #d3d2d2;
+}
+
+.booked-hour {
+  text-decoration: line-through;
+  cursor: not-allowed;
+  color: red;
+}
+
