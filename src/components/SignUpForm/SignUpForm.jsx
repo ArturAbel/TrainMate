@@ -13,7 +13,7 @@ import { FaGoogle } from "react-icons/fa";
 import "./SignUpForm.css";
 
 export const SignUpForm = ({ title }) => {
-  const { user, error } = useSelector((state) => state.auth);
+  const { error } = useSelector((state) => state.auth);
   const { input, handleInputChange } = useFormHook();
   const [errorMessage, setErrorMessage] = useState();
   const dispatch = useDispatch();
@@ -23,10 +23,11 @@ export const SignUpForm = ({ title }) => {
     e.preventDefault();
     if (title === "trainee") {
       dispatch(signupUser(input.email, input.password, input.name));
+      navigate("/trainers");
     }
     if (title === "trainer") {
       dispatch(signupTrainer(input.email, input.password));
-      navigate('/Trainer-Registration');
+      navigate('/trainer-registration');
     }
   };
 
@@ -35,11 +36,6 @@ export const SignUpForm = ({ title }) => {
     dispatch(loginWithGoogle());
   };
 
-  useEffect(() => {
-    if (user) {
-      navigate("/trainers");
-    }
-  }, [user, navigate]);
 
   useEffect(() => {
     if (error) {
