@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 
 import "./Footer.css";
 import { Logo } from "../Logo/Logo";
@@ -35,7 +35,7 @@ export const Footer = () => {
             <FaInstagram />
           </div>
           <div className="footer-social">
-            <FaWhatsapp />
+          <FaTiktok />
           </div>
         </div>
       </div>
