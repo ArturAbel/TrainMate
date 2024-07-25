@@ -164,21 +164,20 @@ export const loginUser = (email, password) => async (dispatch) => {
   }
 };
 
-// Sign up with trainer google account
+// Log in with trainer google account
 export const loginWithTrainerGoogle = () => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
-    // const googleProvider = new GoogleAuthProvider();
-    // const result = await signInWithPopup(auth, googleProvider);
-    // const userDocRef = doc(db, "users", result.user.uid);
-    // const userDoc = await getDoc(userDocRef);
-    // console.log(userDocRef);
-    // if (!userDoc.exists()) {
-    //   await createUserDoc(result.user);
-    // }
-    // dispatch(setUser(serializeUser(result.user)));
-    // dispatch(setLoading(false));
+    const googleProvider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, googleProvider);
+    const trainerDocRef = doc(db, "trainers", result.user.uid);
+    const userDoc = await getDoc(trainerDocRef);
+    if (!userDoc.exists()) {
+      await createTrainerDoc(result.user);
+    }
+    dispatch(setUser(serializeUser(result.user)));
+    dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
     dispatch(setLoading(false));
@@ -186,6 +185,7 @@ export const loginWithTrainerGoogle = () => async (dispatch) => {
   }
 };
 
+// Log in with user google account
 export const loginWithGoogle = () => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
