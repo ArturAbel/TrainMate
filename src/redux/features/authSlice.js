@@ -96,7 +96,20 @@ export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      dispatch(setUser(serializeUser(user)));
+      const trainerDocRef = doc(db, "trainers", user.uid);
+      const trainerDoc = await getDoc(trainerDocRef);
+
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      let userRole = "";
+      if (trainerDoc.exists()) {
+        userRole = "trainer";
+      } else if (userDoc.exists()) {
+        userRole = "trainee";
+      }
+
+      dispatch(setUser(serializeUser(user, userRole)));
     } else {
       await signOut(auth);
       dispatch(setUser(null));
@@ -114,9 +127,7 @@ export const signupTrainer = (email, password, userName) => async (dispatch) => 
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await createTrainerDoc(userCredential.user, userName);
     const serializedUser = serializeUser(userCredential.user, "trainer");
-    console.log(`trainer: ${serializeUser(userCredential.user, "trainer") }`);
     dispatch(setUser(serializedUser));
-    console.log(serializedUser);
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -133,9 +144,7 @@ export const signupUser = (email, password, userName) => async (dispatch) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await createUserDoc(userCredential.user, userName);
     const serializedUser = serializeUser(userCredential.user, "trainee");
-    console.log(serializedUser);
     dispatch(setUser(serializedUser));
-    console.log(serializedUser);
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -144,17 +153,26 @@ export const signupUser = (email, password, userName) => async (dispatch) => {
   }
 };
 
-
 export const loginUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    dispatch(setUser(serializeUser(userCredential.user)));
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+    const trainerDocRef = doc(db, "trainers", userCredential.user.uid);
+    const trainerDoc = await getDoc(trainerDocRef);
+
+    const userDocRef = doc(db, "users", userCredential.user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    let userRole = "";
+    if (trainerDoc.exists()) {
+      userRole = "trainer";
+    } else if (userDoc.exists()) {
+      userRole = "trainee";
+    }
+
+    dispatch(setUser({ ...serializeUser(userCredential.user), role: userRole }));
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -163,34 +181,14 @@ export const loginUser = (email, password) => async (dispatch) => {
   }
 };
 
-// Log in with trainer google account
-export const loginWithTrainerGoogle = () => async (dispatch) => {
-  dispatch(setLoading(true));
-  dispatch(setError(null));
-  try {
-    const googleProvider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, googleProvider);
-    const trainerDocRef = doc(db, "trainers", result.user.uid);
-    const userDoc = await getDoc(trainerDocRef);
-    if (!userDoc.exists()) {
-      await createTrainerDoc(result.user);
-    }
-    dispatch(setUser(serializeUser(result.user)));
-    dispatch(setLoading(false));
-  } catch (error) {
-    dispatch(setError(error.message));
-    dispatch(setLoading(false));
-    console.error("Error logging in with Google:", error);
-  }
-};
-
-// Log in with user google account
+// Log in with Google
 export const loginWithGoogle = (usertype) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
     const googleProvider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, googleProvider);
+
     const trainerDocRef = doc(db, "trainers", result.user.uid);
     const trainerDoc = await getDoc(trainerDocRef);
 
@@ -201,11 +199,8 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
     if (trainerDoc.exists() || userDoc.exists()) {
       if (trainerDoc.exists()) {
         userRole = "trainer";
-        console.log(trainerDoc.exists());
-      }
-      if (userDoc.exists()) {
+      } else if (userDoc.exists()) {
         userRole = "trainee";
-        console.log(userDoc.exists());
       }
     } else {
       if (usertype === "trainee") {
@@ -217,7 +212,6 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
         userRole = "trainer";
       }
     }
-
 
     dispatch(setUser({ ...serializeUser(result.user), role: userRole }));
     dispatch(setLoading(false));

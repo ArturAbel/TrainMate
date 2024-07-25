@@ -26,9 +26,8 @@ export const LoginForm = () => {
     dispatch(loginWithGoogle("trainee"));
   };
 
-
   useEffect(() => {
-    if (user && user.role) {
+    if (user) {
       if (user.role === "trainer") {
         navigate("/trainer-panel");
       } else {
