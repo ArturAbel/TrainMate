@@ -79,21 +79,22 @@ export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
   }
 };
 
-export const uploadTrainerProfileImage = (file, trainerId) => async (dispatch) => {
-  dispatch(setLoading(true));
-  const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
-  try {
-    await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(storageRef);
-    await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
-    dispatch(fetchTrainers());
-    dispatch(setLoading(false));
-  } catch (error) {
-    dispatch(setError(error.message));
-    dispatch(setLoading(false));
-    console.error("Error uploading image:", error);
-    alert("Error uploading image: " + error.message);
-  }
-};
+export const uploadTrainerProfileImage =
+  (file, trainerId) => async (dispatch) => {
+    dispatch(setLoading(true));
+    const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
+    try {
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
+      dispatch(fetchTrainers());
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
+      console.error("Error uploading image:", error);
+      alert("Error uploading image: " + error.message);
+    }
+  };
 
 export default trainerSlice.reducer;

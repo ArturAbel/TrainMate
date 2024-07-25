@@ -1,0 +1,31 @@
+/* TrainerSessionHistory.css */
+
+.trainer-session-history-container {
+  padding: 20px;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.approved-sessions {
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-details p {
+  margin: 5px 0;
+}

@@ -17,6 +17,7 @@ const TrainerPanel = () => {
   const specificTrainer = trainers.find((trainer) => trainer.uid === dummy);
 
   const [filteredBookedLessons, setFilteredBookedLessons] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -36,22 +37,33 @@ const TrainerPanel = () => {
     setFilteredBookedLessons(filtered);
   };
 
-  const handleApproveLesson = (lessonIndex) => {
+  const handleApproveLesson = async (lessonDate, lessonHour) => {
+    setButtonLoading(true);
     if (specificTrainer) {
-      const lesson = specificTrainer.bookedLessons[lessonIndex];
+      const lessonIndex = specificTrainer.bookedLessons.findIndex(
+        (lesson) => lesson.date === lessonDate && lesson.hour === lessonHour
+      );
+
+      if (lessonIndex === -1) {
+        console.error("Lesson not found in bookedLessons");
+        setButtonLoading(false);
+        return;
+      }
+
       const updatedBookedLessons = specificTrainer.bookedLessons.map(
         (l, index) => (index === lessonIndex ? { ...l, approved: true } : l)
       );
       const updatedApprovedSessions = [
         ...specificTrainer.approvedSessions,
-        { date: lesson.date, hour: lesson.hour },
+        { date: lessonDate, hour: lessonHour },
       ];
       const updatedData = {
         bookedLessons: updatedBookedLessons,
         approvedSessions: updatedApprovedSessions,
       };
-      dispatch(updateTrainer(specificTrainer.uid, updatedData));
+      await dispatch(updateTrainer(specificTrainer.uid, updatedData));
       filterBookedLessons(updatedBookedLessons);
+      setButtonLoading(false);
     }
   };
 
@@ -71,8 +83,12 @@ const TrainerPanel = () => {
                     <p>Hour: {lesson.hour}</p>
                     <p>Approved: {lesson.approved ? "Yes" : "No"}</p>
                     {!lesson.approved && (
-                      <button onClick={() => handleApproveLesson(index)}>
-                        Approve seassion
+                      <button
+                        onClick={() =>
+                          handleApproveLesson(lesson.date, lesson.hour)
+                        }
+                      >
+                        Approve Lesson
                       </button>
                     )}
                   </div>
@@ -93,6 +109,7 @@ const TrainerPanel = () => {
           </>
         )}
       </div>
+      {buttonLoading && <div className="loader-quiz"></div>}
       {user && (
         <div className="user-info">
           <h3>Current User ID: {user.uid}</h3>

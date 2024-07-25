@@ -14,6 +14,8 @@ import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
+import TrainerSessionHistory from "./components/TrainerSessionHistory/TrainerSessionHistory";
+import TrainerMessages from "./components/TrainerMessages/TrainerMessages";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +69,14 @@ const router = createBrowserRouter([
       {
         path: "trainer-panel",
         element: <TrainerPanel />,
+      },
+      {
+        path: "trainer-session-history",
+        element: <TrainerSessionHistory />,
+      },
+      {
+        path: "trainer-messages",
+        element: <TrainerMessages />,
       },
     ],
   },
