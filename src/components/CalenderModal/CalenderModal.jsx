@@ -39,18 +39,19 @@ const CalenderModal = ({ availableSchedule, bookedLessons, onClose, trainerId, u
     }
     return hours;
   };
+const isDateAvailable = (date) => {
+  const formattedDate = date.toISOString().split('T')[0];
+  return Object.prototype.hasOwnProperty.call(availableSchedule, formattedDate);
+};
 
-  const isDateAvailable = (date) => {
-    const formattedDate = date.toISOString().split('T')[0];
-    return Object.prototype.hasOwnProperty.call(availableSchedule, formattedDate);
-  };
-
-  const tileDisabled = ({ date, view }) => {
-    if (view === 'month') {
-      return !isDateAvailable(date);
-    }
-    return false;
-  };
+const tileDisabled = ({ date, view }) => {
+  if (view === 'month') {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return date < now || !isDateAvailable(date);
+  }
+  return false;
+}
 
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
