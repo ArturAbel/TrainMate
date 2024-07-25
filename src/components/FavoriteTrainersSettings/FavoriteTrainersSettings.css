@@ -5,9 +5,14 @@
 }
 
 .favorite-trainers-grid {
-  display: grid;
   grid-template-columns: repeat(4, 1fr);
+  display: grid;
   gap: 2rem;
+}
+
+.favorite-trainers-title {
+  text-align: center;
+  font-size: 2rem;
 }
 
 .mini-card {

@@ -5,7 +5,7 @@ const FavoriteTrainersSettings = ({ trainers, userData, handleRemoveFavorite, us
 
   return (
     <div className="favorite-trainers-container">
-      <h1>Favorite Trainers</h1>
+      <h1 className='favorite-trainers-title'>Favorite Trainers</h1>
       <div className="favorite-trainers-grid">
         {usersLoading && <p>Loading favorites...</p>}
         {trainersError && <p>Error fetching trainers: {trainersError}</p>}

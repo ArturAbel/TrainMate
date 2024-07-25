@@ -1,25 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
-import Search from "../../components/Search/Search";
 import { db } from "../../config/firebaseConfig";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-
-import {
-  collection,
-  getDocs,
-  addDoc,
-  setDoc,
-  doc,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 import "./FavoriteTrainers.css";
 
@@ -182,14 +168,12 @@ const FavoriteTrainers = () => {
             isVisible={overlayVisible}
             onClose={() => toggleOverlay(false)}
           />
-          <section className="trainers-section">
-            <h1 className="trainers-header-title">
-              Trainers you love. Guarented!
+          <section className="favorite-trainers-section">
+            <h1 className="favorite-trainers-header-title">
+              Your favorite trainers:
             </h1>
-            <div className="trainers-filter-search-container">
-      
-            </div>
-            <section className="team-container">
+            <div className="favorite-trainers-filter-search-container"></div>
+            <section className="favorite-trainers-container">
               {loading && <p>Loading...</p>}
               {error && <p>Error: {error}</p>}
               {!loading &&
@@ -223,7 +207,7 @@ const FavoriteTrainers = () => {
           </section>
         </>
       ) : (
-        "Loading..."
+        <p>Loading...</p>
       )}
     </>
   );
