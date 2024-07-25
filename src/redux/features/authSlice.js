@@ -194,7 +194,6 @@ export const loginWithGoogle = () => async (dispatch) => {
     const result = await signInWithPopup(auth, googleProvider);
     const userDocRef = doc(db, "users", result.user.uid);
     const userDoc = await getDoc(userDocRef);
-    console.log(userDocRef);
     if (!userDoc.exists()) {
       await createUserDoc(result.user);
     }
