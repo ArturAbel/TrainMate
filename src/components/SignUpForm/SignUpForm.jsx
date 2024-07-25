@@ -16,6 +16,7 @@ export const SignUpForm = ({ title }) => {
   const { error } = useSelector((state) => state.auth);
   const { input, handleInputChange } = useFormHook();
   const [errorMessage, setErrorMessage] = useState();
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,20 +24,29 @@ export const SignUpForm = ({ title }) => {
     e.preventDefault();
     if (title === "trainee") {
       dispatch(signupUser(input.email, input.password, input.name));
-      navigate("/trainers");
+      console.log(user);
     }
     if (title === "trainer") {
       dispatch(signupTrainer(input.email, input.password));
-      navigate('/trainer-registration');
+      console.log(user);
     }
   };
-
+  console.log(user);
   const handleGoogleSignUp = (e) => {
     e.preventDefault();
-    dispatch(loginWithGoogle());
+    dispatch(loginWithGoogle(title));
   };
-
-
+  console.log(user);
+  useEffect(() => {
+    if (user) {
+      if (user.role === "trainee") {
+        navigate("/trainers");
+      } else if (user.role === "trainer") {
+        navigate("/trainer-registration");
+      }
+    }
+  }, [user, navigate]);
+  console.log(user);
   useEffect(() => {
     if (error) {
       const refinedError = refinedFirebaseAuthErrorMessage(error);
