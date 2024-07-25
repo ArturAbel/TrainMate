@@ -12,29 +12,29 @@ export const TrainerRegistration = () => {
   const { user } = useSelector((state) => state.auth);
 
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      dispatch(uploadUserProfileImage(file));
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     dispatch(uploadUserProfileImage(file));
+  //   }
+  // };
 
 
-  const trainerData = trainers.find(
-    (trainerObj) => trainerObj.uid === user.uid
-  );
-  if (!trainerData) {
-    return <div>Loading trainer data...</div>;
-  }
+  // const trainerData = trainers.find(
+  //   (trainerObj) => trainerObj.uid === user.uid
+  // );
+  // if (!trainerData) {
+  //   return <div>Loading trainer data...</div>;
+  // }
 
 
-  const profileImageUrl =
-    trainerData.photoURL ||
-    (user.providerData &&
-    user.providerData.length > 0 &&
-    user.providerData[0].providerId === "google.com"
-      ? user.photoURL
-      : "/public/person1.jpg");
+  // const profileImageUrl =
+  //   trainerData.photoURL ||
+  //   (user.providerData &&
+  //   user.providerData.length > 0 &&
+  //   user.providerData[0].providerId === "google.com"
+  //     ? user.photoURL
+  //     : "/public/person1.jpg");
 
 
 
@@ -211,8 +211,8 @@ export const TrainerRegistration = () => {
             </div>
             <div className="trainer-registration-form-upload-image">
               <ProfileImageUploader
-                profileImageUrl={profileImageUrl}
-                handleImageChange={handleImageChange}
+                profileImageUrl={"profileImageUrl"}
+                handleImageChange={"handleImageChange"}
               />
             </div>
           </div>
