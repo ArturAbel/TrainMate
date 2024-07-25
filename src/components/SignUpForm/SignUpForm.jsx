@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../config/firebaseConfig";
 import "./SignUpForm.css";
 
 export const SignUpForm = ({ title }) => {
@@ -21,35 +19,13 @@ export const SignUpForm = ({ title }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isAlreadyUser = async (id) => {
-    try {
-      const userRef = doc(db, "users", id);
-      const userSnap = await getDoc(userRef);
-      return userSnap.exists();
-    } catch (error) {
-      console.error("Error checking user existence:", error);
-      return false;
-    }
-  };
-
-  const isAlreadyTrainer = async (id) => {
-    try {
-      const userRef = doc(db, "trainers", id);
-      const userSnap = await getDoc(userRef);
-      return userSnap.exists();
-    } catch (error) {
-      console.error("Error checking user existence:", error);
-      return false;
-    }
-  };
-
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (title === "trainee" && !isAlreadyTrainer(user.uid)) {
-      dispatch(signupUser(input.email, input.password, input.name));
+    if (title === "trainee") {
+      dispatch(signupUser(input.email, input.password));
     }
-    if (title === "trainer" && !isAlreadyUser(user.uid)) {
-      dispatch(signupTrainer(input.email, input.password, input.name));
+    if (title === "trainer") {
+      dispatch(signupTrainer(input.email, input.password));
     }
   };
 
