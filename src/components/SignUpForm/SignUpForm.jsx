@@ -1,9 +1,5 @@
 import { refinedFirebaseAuthErrorMessage } from "../../utilities/refineAuthError";
-import {
-  loginWithGoogle,
-  signupTrainer,
-  signupUser,
-} from "../../redux/features/authSlice";
+import { signupTrainer, signupUser, loginWithGoogle } from "../../redux/features/authSlice";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useFormHook } from "../../hooks/useFormHook";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,19 +20,17 @@ export const SignUpForm = ({ title }) => {
     e.preventDefault();
     if (title === "trainee") {
       dispatch(signupUser(input.email, input.password, input.name));
-      console.log(user);
     }
     if (title === "trainer") {
-      dispatch(signupTrainer(input.email, input.password));
-      console.log(user);
+      dispatch(signupTrainer(input.email, input.password, input.name));
     }
   };
-  console.log(user);
+
   const handleGoogleSignUp = (e) => {
     e.preventDefault();
     dispatch(loginWithGoogle(title));
   };
-  console.log(user);
+
   useEffect(() => {
     if (user) {
       if (user.role === "trainee") {
@@ -46,7 +40,7 @@ export const SignUpForm = ({ title }) => {
       }
     }
   }, [user, navigate]);
-  console.log(user);
+
   useEffect(() => {
     if (error) {
       const refinedError = refinedFirebaseAuthErrorMessage(error);
@@ -136,3 +130,4 @@ export const SignUpForm = ({ title }) => {
     </form>
   );
 };
+
