@@ -6,7 +6,8 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../config/firebaseConfig";
+import { db, storage } from "../../config/firebaseConfig";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const trainerSlice = createSlice({
   name: "trainer",
@@ -75,6 +76,23 @@ export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
     dispatch(setLoading(false));
     console.error("Error updating trainer:", error);
     alert("Error updating trainer: " + error.message);
+  }
+};
+
+export const uploadTrainerProfileImage = (file, trainerId) => async (dispatch) => {
+  dispatch(setLoading(true));
+  const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
+  try {
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
+    dispatch(fetchTrainers());
+    dispatch(setLoading(false));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error uploading image:", error);
+    alert("Error uploading image: " + error.message);
   }
 };
 

@@ -4,7 +4,7 @@ import { BsHandThumbsDown, BsHandThumbsUp } from "react-icons/bs";
 import { sports } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { fetchTrainers, updateTrainer } from "../../redux/features/trainerSlice";
+import { fetchTrainers, updateTrainer, uploadTrainerProfileImage } from "../../redux/features/trainerSlice";
 
 import "./TrainerRegistration.css";
 
@@ -29,7 +29,7 @@ export const TrainerRegistration = () => {
   }, [dispatch]);
 
   const trainerData = trainers.find(
-    (trainerObj) => trainerObj.uid === "8vYgnqL5o7sElCv6Hguf" //*todo - put user.uid here - 
+    (trainerObj) => trainerObj.uid === "8vYgnqL5o7sElCv6Hguf" //*todo - put user.uid here -
   );
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const TrainerRegistration = () => {
         description: trainerData.description || '',
         about: trainerData.about || '',
         address: trainerData.address || '',
-        level: trainerData.level || [],  
+        level: trainerData.level || [],
         lessonLength: trainerData.lessonLength || '',
         price: trainerData.price || ''
       });
@@ -50,7 +50,7 @@ export const TrainerRegistration = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      dispatch(uploadUserProfileImage(file));
+      dispatch(uploadTrainerProfileImage(file, trainerData.uid));
     }
   };
 
@@ -79,13 +79,11 @@ export const TrainerRegistration = () => {
     return <div>Loading trainer data...</div>;
   }
 
-  // const profileImageUrl =
-  //   trainerData.photoURL ||
-  //   (user.providerData &&
-  //   user.providerData.length > 0 &&
-  //   user.providerData[0].providerId === "google.com"
-  //     ? user.photoURL
-  //     : "/public/person1.jpg");
+  const profileImageUrl =
+    trainerData.image ||
+    (user && user.photoURL
+      ? user.photoURL
+      : "/public/person1.jpg");
 
   return (
     <section className="trainer-registration-section">
@@ -104,7 +102,7 @@ export const TrainerRegistration = () => {
         </div>
         <div className="trainer-registration-instructions-dos">
           <BsHandThumbsDown />
-          Don'ts
+          dont's
         </div>
       </div>
 
@@ -306,10 +304,10 @@ export const TrainerRegistration = () => {
               />
             </div>
             <div className="trainer-registration-form-upload-image">
-              {/* <ProfileImageUploader
+              <ProfileImageUploader
                 profileImageUrl={profileImageUrl}
                 handleImageChange={handleImageChange}
-              /> */}
+              />
             </div>
           </div>
           <button className="button-transparent" type="submit">
@@ -320,3 +318,4 @@ export const TrainerRegistration = () => {
     </section>
   );
 };
+
