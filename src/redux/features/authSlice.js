@@ -69,7 +69,7 @@ const createTrainerDoc = async (user, userName) => {
   await setDoc(
     trainerDocRef,
     {
-      name: user.displayName || userName || "unknown",
+      name: user.displayName || userName || " ",
       image: user.photoURL || "/person1.jpg",
       createdAt: new Date(),
       email: user.email,

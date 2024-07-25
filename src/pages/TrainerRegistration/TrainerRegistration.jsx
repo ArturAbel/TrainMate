@@ -1,5 +1,4 @@
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
-import { uploadUserProfileImage } from "../../redux/features/usersSlice";
 import { BsHandThumbsDown, BsHandThumbsUp } from "react-icons/bs";
 import { sports } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +9,9 @@ import { isFormValid } from "./TrainerRegistrationlib";
 import "./TrainerRegistration.css";
 
 export const TrainerRegistration = () => {
-  const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const { trainers, loading } = useSelector((state) => state.trainer);
   const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -29,8 +28,9 @@ export const TrainerRegistration = () => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
-  const trainerData = trainers.find(
-    (trainerObj) => trainerObj.uid === "8vYgnqL5o7sElCv6Hguf" //*todo - put user.uid here -
+
+  const trainerData = user && trainers.find(
+    (trainerObj) => trainerObj.uid === user.uid 
   );
 
   useEffect(() => {
@@ -86,6 +86,7 @@ export const TrainerRegistration = () => {
       ? user.photoURL
       : "/public/person1.jpg");
 
+
   return (
     <section className="trainer-registration-section">
       <div className="trainer-registration-instructions-container">
@@ -103,7 +104,7 @@ export const TrainerRegistration = () => {
         </div>
         <div className="trainer-registration-instructions-dos">
           <BsHandThumbsDown />
-          dont's
+          donts
         </div>
       </div>
 
@@ -140,7 +141,7 @@ export const TrainerRegistration = () => {
               type="text"
               className="trainer-registration-form-input"
               name="name"
-              value={trainerData.name}
+              value={formData.name}
               onChange={handleInputChange}
             />
           </div>
