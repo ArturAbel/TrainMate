@@ -1,4 +1,4 @@
-.trainers-section {
+.favorite-trainers-section {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
@@ -7,22 +7,23 @@
   width: 100%;
 }
 
-.trainers-header-title {
+.favorite-trainers-header-title {
   align-self: flex-start;
+  margin-bottom: 5vh;
   font-size: 3rem;
   padding: 0 3vw;
   width: 100%;
 }
 
-.team-container {
+.favorite-trainers-filter-search-container {
+  padding: 0 5vw;
+  width: 100%;
+}
+
+.favorite-trainers-container {
   justify-content: flex-start;
   flex-wrap: wrap;
   padding: 0 3vw;
   display: flex;
-  width: 100%;
-}
-
-.trainers-filter-search-container{
-  padding: 0 5vw;
   width: 100%;
 }
