@@ -14,6 +14,7 @@ import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
+import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "trainer-panel",
         element: <TrainerPanel />,
+      },
+      {
+        path: "trainer-settings",
+        element: <TrainerSettings/>,
       },
     ],
   },
