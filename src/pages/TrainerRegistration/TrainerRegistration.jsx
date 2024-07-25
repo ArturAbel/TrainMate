@@ -10,6 +10,7 @@ import "./TrainerRegistration.css";
 
 export const TrainerRegistration = () => {
   const { trainers, loading } = useSelector((state) => state.trainer);
+  const [localLoading, setLocalLoading] = useState(true);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -25,13 +26,13 @@ export const TrainerRegistration = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchTrainers());
+    dispatch(fetchTrainers()).then(() => setLocalLoading(false));
   }, [dispatch]);
-
 
   const trainerData = user && trainers.find(
     (trainerObj) => trainerObj.uid === user.uid 
   );
+
 
   useEffect(() => {
     if (trainerData) {
@@ -76,16 +77,12 @@ export const TrainerRegistration = () => {
     }
   };
 
-  if (!trainerData || loading) {
+  if (localLoading || loading) {
     return <div>Loading trainer data...</div>;
   }
 
-  const profileImageUrl =
-    trainerData.image ||
-    (user && user.photoURL
-      ? user.photoURL
-      : "/public/person1.jpg");
-
+  const profileImageUrl = trainerData?.image ||
+    (user && user.photoURL ? user.photoURL : "/public/person1.jpg");
 
   return (
     <section className="trainer-registration-section">
