@@ -9,30 +9,30 @@
 .account-settings-image-container::after {
   content: "Profile Image";
   position: absolute;
-  top: -3rem;
   font-size: 1.4rem;
+  top: -3rem;
 }
 
 .image-display-left-box {
-  display: flex;
   flex-direction: column;
+  display: flex;
   gap: 1rem;
 }
 
 .image-display {
-  width: 16rem;
-  height: 16rem;
   border-radius: 1rem;
   object-fit: cover;
+  height: 16rem;
+  width: 16rem;
 }
 
 .image-edit-button {
+  background-color: transparent;
+  text-decoration: underline;
   width: 16rem;
   padding: 1rem;
   border: none;
-  background-color: transparent;
   cursor: pointer;
-  text-decoration: underline;
   font-weight: bold;
 }
 
