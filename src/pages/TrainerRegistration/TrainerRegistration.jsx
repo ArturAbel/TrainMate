@@ -7,12 +7,14 @@ import { fetchTrainers, updateTrainer, uploadTrainerProfileImage } from "../../r
 import { isFormValid } from "./TrainerRegistrationlib";
 
 import "./TrainerRegistration.css";
+import { useNavigate } from "react-router";
 
 export const TrainerRegistration = () => {
   const { trainers, loading } = useSelector((state) => state.trainer);
   const [localLoading, setLocalLoading] = useState(true);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -74,6 +76,7 @@ export const TrainerRegistration = () => {
     e.preventDefault();
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
+      navigate('/trainer-panel');
     }
   };
 
