@@ -40,17 +40,18 @@ const serializeUser = (user) => ({
   photoURL: user.photoURL,
 });
 
+// User
 const createUserDoc = async (user, userName) => {
   const userDocRef = doc(db, "users", user.uid);
   await setDoc(
     userDocRef,
     {
       uid: user.uid,
-      phone: '',
-      age: '',
+      phone: "",
+      age: "",
       email: user.email,
       displayName: user.displayName || userName || "unknown",
-      photoURL: user.photoURL || '/person1.jpg',
+      photoURL: user.photoURL || "/person1.jpg",
       createdAt: new Date(),
       bookedLessons: [],
       filtersRef: [],
@@ -62,6 +63,33 @@ const createUserDoc = async (user, userName) => {
   );
 };
 
+// trainer
+const createTrainerDoc = async (user, userName) => {
+  const trainerDocRef = doc(db, "trainers", user.uid);
+  await setDoc(
+    trainerDocRef,
+    {
+      name: user.displayName || userName || "unknown",
+      image: user.photoURL || "/person1.jpg",
+      createdAt: new Date(),
+      email: user.email,
+      uid: user.uid,
+      sport: "",
+      reviews: [],
+      ratings: 0,
+      price: "",
+      level: [],
+      lessonLength: "",
+      description: "",
+      about: "",
+      address: "",
+      availableSchedule: {},
+      bookedLessons: [],
+      approved: false,
+    },
+    { merge: true }
+  );
+};
 
 export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
@@ -69,7 +97,7 @@ export const initializeAuthListener = () => (dispatch) => {
     if (user) {
       dispatch(setUser(serializeUser(user)));
     } else {
-      await signOut(auth); 
+      await signOut(auth);
       dispatch(setUser(null));
       dispatch(setError("User data not found. Please contact support."));
     }
@@ -77,7 +105,28 @@ export const initializeAuthListener = () => (dispatch) => {
   });
 };
 
+// Sign up trainer
+export const signupTrainer =
+  (email, password, userName) => async (dispatch) => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await createTrainerDoc(userCredential.user, userName);
+      dispatch(setUser(serializeUser(userCredential.user)));
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
+      console.error("Error signing up:", error);
+    }
+  };
 
+// Sign up user
 export const signupUser = (email, password, userName) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
@@ -115,6 +164,28 @@ export const loginUser = (email, password) => async (dispatch) => {
   }
 };
 
+// Log in with trainer google account
+export const loginWithTrainerGoogle = () => async (dispatch) => {
+  dispatch(setLoading(true));
+  dispatch(setError(null));
+  try {
+    const googleProvider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, googleProvider);
+    const trainerDocRef = doc(db, "trainers", result.user.uid);
+    const userDoc = await getDoc(trainerDocRef);
+    if (!userDoc.exists()) {
+      await createTrainerDoc(result.user);
+    }
+    dispatch(setUser(serializeUser(result.user)));
+    dispatch(setLoading(false));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error logging in with Google:", error);
+  }
+};
+
+// Log in with user google account
 export const loginWithGoogle = () => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
@@ -123,6 +194,7 @@ export const loginWithGoogle = () => async (dispatch) => {
     const result = await signInWithPopup(auth, googleProvider);
     const userDocRef = doc(db, "users", result.user.uid);
     const userDoc = await getDoc(userDocRef);
+    console.log(userDocRef);
     if (!userDoc.exists()) {
       await createUserDoc(result.user);
     }

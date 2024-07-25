@@ -20,7 +20,7 @@ const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
 
     debounceTimeout.current = setTimeout(() => {
       onSearch(value);
-      toggleOverlay(value !== "");
+      // toggleOverlay(value !== "");
     }, 1000);
   };
 
@@ -30,7 +30,7 @@ const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
         clearTimeout(debounceTimeout.current);
       }
       onSearch(query);
-      toggleOverlay(query !== "");
+      // toggleOverlay(query !== "");
     }
   };
 

@@ -305,8 +305,8 @@ export const TrainerRegistration = () => {
             </div>
             <div className="trainer-registration-form-upload-image">
               <ProfileImageUploader
-                profileImageUrl={profileImageUrl}
-                handleImageChange={handleImageChange}
+                profileImageUrl={"profileImageUrl"}
+                handleImageChange={"handleImageChange"}
               />
             </div>
           </div>
