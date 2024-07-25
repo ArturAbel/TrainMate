@@ -5,6 +5,7 @@ import { sports } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { fetchTrainers, updateTrainer, uploadTrainerProfileImage } from "../../redux/features/trainerSlice";
+import { isFormValid } from "./TrainerRegistrationlib";
 
 import "./TrainerRegistration.css";
 
@@ -310,7 +311,7 @@ export const TrainerRegistration = () => {
               />
             </div>
           </div>
-          <button className="button-transparent" type="submit">
+          <button className="button-transparent" type="submit" disabled={!isFormValid(formData)}>
             Send Registration Details
           </button>
         </form>
