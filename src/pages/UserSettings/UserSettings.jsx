@@ -1,25 +1,43 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { fetchTrainers } from "../../redux/features/trainerSlice";
-import { deleteUser, fetchUsers, removeFavorite, updateUser, uploadUserProfileImage } from "../../redux/features/usersSlice";
-import { deleteUserAccount } from "../../redux/features/authSlice";
-import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
-
-import { LoginInput } from '../../components/LoginInput/LoginInput';
-import './UserSettings.css';
-import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
 import FavoriteTrainersSettings from "../../components/FavoriteTrainersSettings/FavoriteTrainersSettings";
+import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
+import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { LoginInput } from "../../components/LoginInput/LoginInput";
+import { deleteUserAccount } from "../../redux/features/authSlice";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import {
+  deleteUser,
+  fetchUsers,
+  removeFavorite,
+  updateUser,
+  uploadUserProfileImage,
+} from "../../redux/features/usersSlice";
 
+import "./UserSettings.css";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { users, loading: usersLoading, error: usersError } = useSelector(state => state.users);
-  const { trainers, loading: trainersLoading, error: trainersError } = useSelector(state => state.trainer);
-  const { user } = useSelector(state => state.auth);
+  const {
+    users,
+    loading: usersLoading,
+    error: usersError,
+  } = useSelector((state) => state.users);
+  const {
+    trainers,
+    loading: trainersLoading,
+    error: trainersError,
+  } = useSelector((state) => state.trainer);
+  const { user } = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formState, setFormState] = useState({ displayName: user?.displayName || "", phone: "", age: "" });
+  const [formState, setFormState] = useState({
+    displayName: user?.displayName || "",
+    phone: "",
+    age: "",
+  });
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -28,9 +46,13 @@ const UserSettings = () => {
 
   useEffect(() => {
     if (users.length > 0 && user) {
-      const userData = users.find(userObj => userObj.uid === user.uid);
+      const userData = users.find((userObj) => userObj.uid === user.uid);
       if (userData) {
-        setFormState({ displayName: userData.displayName || "", phone: userData.phone || "", age: userData.age || "" });
+        setFormState({
+          displayName: userData.displayName || "",
+          phone: userData.phone || "",
+          age: userData.age || "",
+        });
       }
     }
   }, [users, user]);
@@ -43,7 +65,7 @@ const UserSettings = () => {
       dispatch(deleteUser(user.uid));
       dispatch(deleteUserAccount());
       setIsModalOpen(false);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error("Error deleting account: ", error);
     }
@@ -51,7 +73,7 @@ const UserSettings = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState(prevState => ({ ...prevState, [name]: value }));
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -82,46 +104,100 @@ const UserSettings = () => {
     return <div>Loading...</div>;
   }
 
-  const userData = users.find(userObj => userObj.uid === user.uid);
+  const userData = users.find((userObj) => userObj.uid === user.uid);
   if (!userData) {
     return <div>Loading user data...</div>;
   }
 
-  const profileImageUrl = userData.photoURL ||
-    (user.providerData && user.providerData.length > 0 && user.providerData[0].providerId === 'google.com' ? user.photoURL : '/public/person1.jpg');
+  const profileImageUrl =
+    userData.photoURL ||
+    (user.providerData &&
+    user.providerData.length > 0 &&
+    user.providerData[0].providerId === "google.com"
+      ? user.photoURL
+      : "/public/person1.jpg");
 
   return (
     <>
       {usersError && <div>{usersError.message}</div>}
       <section className="user-settings-section">
         <nav className="account-settings-navbar">
-          <button className="account-settings-link-button" onClick={handleDeleteClick}>
+          <button
+            className="account-settings-link-button"
+            onClick={handleDeleteClick}
+          >
             Delete Account
           </button>
         </nav>
         <div className="account-settings-container">
           <h1 className="account-settings-title">Account Settings</h1>
-          <ProfileImageUploader profileImageUrl={profileImageUrl} handleImageChange={handleImageChange} />
+          <ProfileImageUploader
+            handleImageChange={handleImageChange}
+            profileImageUrl={profileImageUrl}
+          />
           <form className="account-settings-form" onSubmit={handleSubmit}>
-            <LoginInput label="Full Name" name="displayName" value={formState.displayName} type="text" onChange={handleChange} />
-            <LoginInput label="Phone Number" name="phone" value={formState.phone} type="tel" onChange={handleChange} />
-            <LoginInput label="Age" name="age" value={formState.age} type="number" onChange={handleChange} />
-            <FavoriteTrainersSettings trainers={trainers} userData={userData} handleRemoveFavorite={handleRemoveFavorite} usersLoading={usersLoading} trainersError={trainersError} />
-            <button type="submit" className="save-changes-button button-transparent">Save Changes</button>
+            <LoginInput
+              value={formState.displayName}
+              onChange={handleChange}
+              name="displayName"
+              label="Full Name"
+              type="text"
+            />
+            <LoginInput
+              value={formState.phone}
+              onChange={handleChange}
+              label="Phone Number"
+              name="phone"
+              type="tel"
+            />
+            <LoginInput
+              onChange={handleChange}
+              value={formState.age}
+              type="number"
+              label="Age"
+              name="age"
+            />
+            <FavoriteTrainersSettings
+              handleRemoveFavorite={handleRemoveFavorite}
+              trainersError={trainersError}
+              usersLoading={usersLoading}
+              trainers={trainers}
+              userData={userData}
+            />
+            <button
+              className="button-transparent"
+              id="save-changes-button"
+              type="submit"
+            >
+              Save Changes
+            </button>
           </form>
         </div>
       </section>
       <DeleteAccountModal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <h2>Are you sure you want to delete your account?</h2>
-        <button onClick={handleCloseModal}>Cancel</button>
-        <button onClick={handleDeleteAccount}>Confirm</button>
+        <h2 className="account-delete-title">
+          Are you sure you want to delete your account?
+        </h2>
+        <div className="account-delete-buttons-container">
+          <button
+            className="button-transparent"
+            onClick={handleCloseModal}
+            id="account-delete-cancel"
+          >
+            Cancel
+          </button>
+          <button
+            className="button-transparent"
+            onClick={handleDeleteAccount}
+            id="account-delete-confirm"
+          >
+            Confirm
+          </button>
+        </div>
       </DeleteAccountModal>
+      <HomeDivider />
     </>
   );
 };
 
 export default UserSettings;
-
-
-
-
