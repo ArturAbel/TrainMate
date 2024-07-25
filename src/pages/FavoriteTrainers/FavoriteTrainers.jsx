@@ -184,26 +184,10 @@ const FavoriteTrainers = () => {
           />
           <section className="trainers-section">
             <h1 className="trainers-header-title">
-              Find Your Perfect Sports Trainer with trainMate:
+              Trainers you love. Guarented!
             </h1>
             <div className="trainers-filter-search-container">
-              <TrainerFilter
-                onLessonLengthFilterChange={handleLessonLengthFilterChange}
-                onAddressFilterChange={handleAddressFilterChange}
-                onPriceFilterChange={handlePriceFilterChange}
-                onSportFilterChange={handleSportFilterChange}
-                onLevelFilterChange={handleLevelFilterChange}
-                sports={sports}
-                levels={levels}
-                addresses={addresses}
-                lessonLengths={lessonLengths}
-                toggleOverlay={toggleOverlay}
-              />
-              <Search
-                onSortByRating={handleSortByRating}
-                toggleOverlay={toggleOverlay}
-                onSearch={handleSearch}
-              />
+      
             </div>
             <section className="team-container">
               {loading && <p>Loading...</p>}
