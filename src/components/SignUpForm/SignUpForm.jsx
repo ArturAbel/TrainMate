@@ -22,10 +22,11 @@ export const SignUpForm = ({ title }) => {
   const handleSignUp = (e) => {
     e.preventDefault();
     if (title === "trainee") {
-      dispatch(signupUser(input.email, input.password));
+      dispatch(signupUser(input.email, input.password, input.name));
     }
     if (title === "trainer") {
       dispatch(signupTrainer(input.email, input.password));
+      navigate('/Trainer-Registration');
     }
   };
 

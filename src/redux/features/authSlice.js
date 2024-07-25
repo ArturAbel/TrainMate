@@ -69,7 +69,7 @@ const createTrainerDoc = async (user, userName) => {
   await setDoc(
     trainerDocRef,
     {
-      name: user.displayName || userName || "unknown",
+      name: user.displayName || userName || " ",
       image: user.photoURL || "/person1.jpg",
       createdAt: new Date(),
       email: user.email,
@@ -194,7 +194,6 @@ export const loginWithGoogle = () => async (dispatch) => {
     const result = await signInWithPopup(auth, googleProvider);
     const userDocRef = doc(db, "users", result.user.uid);
     const userDoc = await getDoc(userDocRef);
-    console.log(userDocRef);
     if (!userDoc.exists()) {
       await createUserDoc(result.user);
     }
