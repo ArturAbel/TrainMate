@@ -1,28 +1,48 @@
 import { parallaxEffect } from "../../utilities/parallaxEffect";
-import { heroImage } from "../../utilities/constants";
 import { ButtonHome } from "../ButtonHome/ButtonHome";
 import { FaCircleArrowUp } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 import "./HomeHero.css";
 
 export const HomeHero = () => {
   // Parallax Effect
   const containerReference = useRef(null);
+
   const handleMouseMove = (e) => {
     parallaxEffect(e, ".parallax-effect", containerReference, -80);
     parallaxEffect(e, ".home-hero-title", containerReference, 20);
     parallaxEffect(e, ".hero-button", containerReference, -10);
   };
-  useGSAP(
-    () => {
-      const container = containerReference.current;
-      container.addEventListener("mousemove", handleMouseMove);
-    },
-    { scope: containerReference }
-  );
+  useEffect(() => {
+    const container = containerReference.current;
+    container.addEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  const buttonRef = useRef(null);
+
+  // Button 
+  useEffect(() => {
+    const button = buttonRef.current;
+    gsap.set(".hero-div-2-icon", { scale: 0 });
+    const handleMouseEnter = () => {
+      gsap.to(".hero-div-2-icon", { scale: 10 });
+      gsap.to(".hero-div-2-text", { scale: 0 });
+      gsap.to(".hero-div-3-icon", { rotate: 50 });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(".hero-div-2-icon", { scale: 0 });
+      gsap.to(".hero-div-2-text", { scale: 1 });
+      gsap.to(".hero-div-3-icon", { rotate: 0 });
+    };
+
+    button.addEventListener("mouseenter", handleMouseEnter);
+    button.addEventListener("mouseleave", handleMouseLeave);
+  }, []);
 
   return (
     <section ref={containerReference} className="home-hero-section">
@@ -39,18 +59,18 @@ export const HomeHero = () => {
         </div>
       </div>
       <div className="parallax-effect hero-div hero-div-2">
-        <h2 className="hero-div-2-text">trainings crafted for you</h2>
-        <img className="hero-image" src={heroImage} alt="image" />
+        <h2 className="hero-div-2-text">Trainings crafted for you.</h2>
+        <FaHeart className="hero-div-2-icon" />
       </div>
       <div className="parallax-effect hero-div hero-div-3">
-        <h2 className="hero-div-3-text">fastest growing sports community</h2>
+        <h2 className="hero-div-3-text">Fastest growing sports community!</h2>
         <FaCircleArrowUp className="hero-div-3-icon" />
       </div>
       <h1 className="home-hero-title">
         Elevate your game with the
         <span className="title-span"> ultimate sports</span> training.
       </h1>
-      <Link to={"get-started"}>
+      <Link to={"get-started"} ref={buttonRef}>
         <ButtonHome className={"hero-button"} text={"get started"} />
       </Link>
     </section>
