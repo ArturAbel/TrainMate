@@ -1,5 +1,5 @@
 import { logoutUser } from "../../redux/features/authSlice";
-import { anonymousImage } from "../../utilities/constants";
+import { anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { useState, useRef, useEffect } from "react";
@@ -44,16 +44,21 @@ export const Navbar = () => {
       <div className="navbar-left-container">
         <Link
           to={
-            user && user.role === "trainee"
+            user && user.role === TRAINEE
               ? "/trainers"
-              : user && user.role === "trainer"
-              ? "/trainer-panel"
+              : user && user.role === TRAINER
+              ? `/trainer-panel/${user.uid}`
               : "/"
           }
         >
           <Logo />
         </Link>
-        {user && user.role === "trainee" && (
+        {user && user.role === TRAINEE && (
+          <Link to="/trainers" className="navbar-link">
+            Find Trainers
+          </Link>
+        )}
+        {!user && (
           <Link to="/trainers" className="navbar-link">
             Find Trainers
           </Link>
@@ -64,9 +69,8 @@ export const Navbar = () => {
           </Link>
         )}
       </div>
-
       {user ? (
-        user.role === "trainee" ? (
+        user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
               <Link>
@@ -100,7 +104,7 @@ export const Navbar = () => {
               </div>
             </div>
           </div>
-        ) : user.role === "trainer" ? (
+        ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
               <Link to={"/trainer-panel"}>

@@ -7,6 +7,38 @@ export const LOGO = "../../assets/logo/logo.svg";
 export const heroImage = "../../assets/img/hero/hero.jpg";
 export const anonymousImage = "../../assets/img/anonymous/anonymous.jpeg";
 
+// Home page Images
+export const homeCategoriesOne = [
+  "../../assets/img/home/home-category/1.png",
+  "../../assets/img/home/home-category/2.png",
+  "../../assets/img/home/home-category/3.png",
+  "../../assets/img/home/home-category/4.png",
+  "../../assets/img/home/home-category/5.png",
+  "../../assets/img/home/home-category/6.png",
+];
+export const homeCategoriesTwo = [
+  "../../assets/img/home/home-category/7.png",
+  "../../assets/img/home/home-category/8.png",
+  "../../assets/img/home/home-category/9.png",
+  "../../assets/img/home/home-category/10.png",
+  "../../assets/img/home/home-category/11.png",
+  "../../assets/img/home/home-category/12.png",
+];
+export const homeCategoriesThree = [
+  "../../assets/img/home/home-category/13.png",
+  "../../assets/img/home/home-category/14.png",
+  "../../assets/img/home/home-category/15.png",
+  "../../assets/img/home/home-category/16.png",
+  "../../assets/img/home/home-category/17.png",
+  "../../assets/img/home/home-category/18.png",
+];
+export const becomeTrainer =
+  "../../assets/img/home/become-trainer/becometrainer.jpg";
+export const footerGif = "../../assets/img/footer/gif.gif";
+
+// Become a trainer page
+export const becomeTrainerImage = "../../assets/img/become-trainer/trainer.jpg";
+
 // Text
 export const TRAINER = "trainer";
 export const TRAINEE = "trainee";

@@ -15,13 +15,19 @@
   width: 50%;
 }
 
+.home-trainer-image {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+}
+
 .home-trainer-content-container {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding-right: 4vw;
   display: flex;
   padding: 5rem;
-  padding-right: 4vw;
   gap: 3rem;
 }
 

@@ -24,14 +24,14 @@ export const HomeHero = () => {
 
   const buttonRef = useRef(null);
 
-  // Button 
+  // Button
   useEffect(() => {
     const button = buttonRef.current;
     gsap.set(".hero-div-2-icon", { scale: 0 });
     const handleMouseEnter = () => {
-      gsap.to(".hero-div-2-icon", { scale: 10 });
-      gsap.to(".hero-div-2-text", { scale: 0 });
-      gsap.to(".hero-div-3-icon", { rotate: 50 });
+      gsap.to(".hero-div-2-icon", { scale: 8, delay: 0.6 });
+      gsap.to(".hero-div-2-text", { scale: 0, delay: 0.4 });
+      gsap.to(".hero-div-3-icon", { rotate: 60, delay: 0.4 });
     };
 
     const handleMouseLeave = () => {
