@@ -49,7 +49,6 @@
 }
 
 .hero-div-1-text {
-  text-transform: capitalize;
   letter-spacing: -1px;
   font-size: 2.5vh;
 }
@@ -91,35 +90,32 @@
 }
 
 .hero-div-2 {
-  background-color: transparent;
+  background-color: var(--background-secondary2);
   object-fit: cover;
-  height: 50vh;
+  height: 30vh;
   width: 20vw;
-  right: 5vw;
-  top: 17vh;
+  right: 7vw;
+  top: 30vh;
 }
 
 .hero-div-2-text {
   transform: translate(-50%, -50%);
-  color: var(--background-main1);
-  text-transform: capitalize;
+  color: var(--background-main2);
   position: absolute;
   text-align: center;
-  font-size: 6vh;
+  line-height: 1.1;
+  font-size: 5vh;
   z-index: 3;
   left: 50%;
   top: 50%;
 }
 
-.hero-image {
-  border-radius: var(--border-radius-generic);
-  box-shadow: rgba(50, 50, 93, 0.25) -10px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) -10px 18px 36px -18px;
-  filter: brightness(0.7);
-  border-radius: 15px;
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
+.hero-div-2-icon {
+  color: var(--background-main1);
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }
 
 .hero-div-3 {
@@ -134,7 +130,6 @@
 }
 
 .hero-div-3-text {
-  text-transform: capitalize;
   letter-spacing: -1px;
   padding-left: 0.5rem;
   font-size: 3vh;
