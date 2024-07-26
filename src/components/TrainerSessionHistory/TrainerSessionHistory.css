@@ -1,19 +1,19 @@
 /* TrainerSessionHistory.css */
 
-.trainer-session-history-container {
+.tsh-container {
   padding: 20px;
 }
 
-.content {
+.tsh-content {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.approved-sessions {
+.tsh-approved-sessions {
   margin-top: 20px;
 }
 
-.card {
+.tsh-card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 1rem;
@@ -21,11 +21,11 @@
   margin-bottom: 1rem;
 }
 
-.card-details {
+.tsh-card-details {
   display: flex;
   flex-direction: column;
 }
 
-.card-details p {
+.tsh-card-details p {
   margin: 5px 0;
 }

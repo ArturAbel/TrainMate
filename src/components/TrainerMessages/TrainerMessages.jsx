@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import { fetchUsers } from "../../redux/features/usersSlice";
+import { fetchUsers, updateUser } from "../../redux/features/usersSlice";
 import "./TrainerMessages.css";
 
 const DUMMY_TRAINER_UID = "JU8g2TZmnFd2vhpmQs4l";
@@ -13,6 +13,7 @@ const TrainerMessages = () => {
 
   const [message, setMessage] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [currentUserMessages, setCurrentUserMessages] = useState([]);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -20,21 +21,30 @@ const TrainerMessages = () => {
   }, [dispatch]);
 
   const handleSendMessage = () => {
-    // Check if the trainer exists
     const trainer = trainers.find((t) => t.uid === DUMMY_TRAINER_UID);
-    // Check if the user exists
     const user = users.find((u) => u.email === userEmail);
 
     if (trainer && user) {
-      // If both exist, log success message
+      console.log("Trainer exists:", trainer);
+      console.log("User exists:", user);
       console.log("Success! Message:", message);
-      console.log("Trainer:", trainer);
-      console.log("User:", user);
-      // Clear input fields
+
+      const newMessage = {
+        message: message,
+        name: trainer.name,
+        image: "https://api.adorable.io/avatars/23/abott@adorable.png", // Placeholder image
+      };
+
+      const updatedData = {
+        messages: [...(user.messages || []), newMessage],
+      };
+
+      dispatch(updateUser(user.id, updatedData));
+      setCurrentUserMessages(updatedData.messages);
+
       setMessage("");
       setUserEmail("");
     } else {
-      // Handle validation error
       if (!trainer) {
         console.log("Trainer does not exist");
       }
@@ -44,12 +54,23 @@ const TrainerMessages = () => {
     }
   };
 
+  useEffect(() => {
+    if (userEmail) {
+      const user = users.find((u) => u.email === userEmail);
+      if (user) {
+        setCurrentUserMessages(user.messages || []);
+      } else {
+        setCurrentUserMessages([]);
+      }
+    }
+  }, [userEmail, users]);
+
   return (
-    <div className="trainer-messages-container">
+    <div className="tm-container">
       {/* Send Messages Container */}
-      <div className="send-message-container">
+      <div className="tm-send-message-container">
         <h2>Send Message</h2>
-        <div className="input-container">
+        <div className="tm-input-container">
           <input
             type="text"
             placeholder="Enter your message"
@@ -57,7 +78,7 @@ const TrainerMessages = () => {
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-        <div className="input-container">
+        <div className="tm-input-container">
           <input
             type="email"
             placeholder="Enter user's Gmail"
@@ -69,17 +90,20 @@ const TrainerMessages = () => {
       </div>
 
       {/* Messages Container */}
-      <div className="messages-container">
+      <div className="tm-messages-container">
         <h2>Messages</h2>
-        {/* Placeholder for displaying messages */}
-        <div className="message">
-          <img
-            src="https://api.adorable.io/avatars/23/abott@adorable.png"
-            alt="User"
-          />
-          <p>User Name: This is a sample message</p>
-        </div>
-        {/* More messages will be displayed here */}
+        {currentUserMessages.length > 0 ? (
+          currentUserMessages.map((msg, index) => (
+            <div key={index} className="tm-message">
+              <img src={msg.image} alt={msg.name} />
+              <p>
+                {msg.name}: {msg.message}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>No messages found</p>
+        )}
       </div>
     </div>
   );

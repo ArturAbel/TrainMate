@@ -1,11 +1,13 @@
-.trainer-messages-container {
+/* TrainerMessages.css */
+
+.tm-container {
   display: flex;
   justify-content: space-between;
   padding: 20px;
 }
 
-.send-message-container,
-.messages-container {
+.tm-send-message-container,
+.tm-messages-container {
   flex: 1;
   margin: 0 10px;
   padding: 20px;
@@ -14,7 +16,7 @@
   background-color: #f9f9f9;
 }
 
-.input-container {
+.tm-input-container {
   margin-bottom: 10px;
 }
 
@@ -31,19 +33,19 @@ button:hover {
   background-color: #0056b3;
 }
 
-.message {
+.tm-message {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.message img {
+.tm-message img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-.message p {
+.tm-message p {
   margin: 0;
 }

@@ -17,16 +17,16 @@ const TrainerSessionHistory = () => {
   }, [dispatch]);
 
   return (
-    <div className="trainer-session-history-container">
-      <div className="content">
+    <div className="tsh-container">
+      <div className="tsh-content">
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error}</p>}
         {!loading && specificTrainer && (
-          <div className="approved-sessions">
-            <h2>Session history</h2>
+          <div className="tsh-approved-sessions">
+            <h2>Session History</h2>
             {specificTrainer.approvedSessions.map((session, index) => (
-              <div key={index} className="card">
-                <div className="card-details">
+              <div key={index} className="tsh-card">
+                <div className="tsh-card-details">
                   <p>Date: {session.date}</p>
                   <p>Hour: {session.hour}</p>
                 </div>
