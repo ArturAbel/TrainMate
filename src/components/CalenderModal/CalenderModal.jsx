@@ -1,9 +1,8 @@
-import { bookLesson } from "../../redux/features/usersSlice";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import Calendar from "react-calendar";
-
+import { bookLesson } from "../../redux/features/usersSlice";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import "react-calendar/dist/Calendar.css";
 import "./CalenderModal.css";
 
@@ -13,6 +12,8 @@ const CalenderModal = ({
   onClose,
   trainerId,
   userId,
+  userName,
+  userImage
 }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableHours, setAvailableHours] = useState([]);
@@ -35,19 +36,23 @@ const CalenderModal = ({
       .filter((lesson) => lesson.date === formattedDate)
       .map((lesson) => lesson.hour);
 
-    for (let i = 10; i <= 18; i += 2) {
-      const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
-      const hourDate = new Date(date);
-      hourDate.setHours(i, 0, 0, 0);
+    if (availableSchedule[formattedDate]) {
+      availableSchedule[formattedDate].forEach((hour) => {
+        const formattedHour = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
+        const hourDate = new Date(date);
+        hourDate.setHours(hour, 0, 0, 0);
 
-      const isBooked = bookedHours.includes(hour);
+        const isBooked = bookedHours.includes(formattedHour);
 
-      if (!isToday || (isToday && hourDate > now)) {
-        hours.push({ hour, booked: isBooked });
-      }
+        if (!isToday || (isToday && hourDate > now)) {
+          hours.push({ hour: formattedHour, booked: isBooked });
+        }
+      });
     }
+
     return hours;
   };
+
   const isDateAvailable = (date) => {
     const formattedDate = date.toISOString().split("T")[0];
     return Object.prototype.hasOwnProperty.call(
@@ -83,10 +88,11 @@ const CalenderModal = ({
     const booking = {
       date: formattedDate,
       hour: selectedHour,
+      approved: false
     };
 
     try {
-      dispatch(bookLesson(trainerId, userId, booking));
+      await dispatch(bookLesson(trainerId, userId, booking, userName, userImage));
       setLocalBookedLessons((prevLessons) => [...prevLessons, booking]);
       setAvailableHours(generateAvailableHours(selectedDate));
     } catch (error) {
@@ -117,9 +123,8 @@ const CalenderModal = ({
               {availableHours.map(({ hour, booked }, index) => (
                 <li
                   key={index}
-                  className={`${selectedHour === hour ? "selected-hour" : ""} ${
-                    booked ? "booked-hour" : ""
-                  }`}
+                  className={`${selectedHour === hour ? "selected-hour" : ""} ${booked ? "booked-hour" : ""
+                    }`}
                   onClick={() => !booked && handleHourClick(hour)}
                 >
                   {hour}

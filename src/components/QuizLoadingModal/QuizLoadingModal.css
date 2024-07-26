@@ -6,7 +6,7 @@
   left: 0;
   height: 100vh;
   background-color: var(--background-secondary1);
-  z-index: 10;
+  z-index: 1; 
   display: flex;
   align-items: center;
   justify-content: center;

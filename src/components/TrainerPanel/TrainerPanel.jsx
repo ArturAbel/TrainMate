@@ -1,102 +1,63 @@
-import { MdOutlineCancel, MdOutlineDone } from "react-icons/md";
-import { LuMessageSquare } from "react-icons/lu";
-import { IoMdInformation } from "react-icons/io";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
+import LessonContainer from "../LessonContainer/LessonContainer";
 
 import "./TrainerPanel.css";
+import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 
 const TrainerPanel = () => {
-  const [pendingSessions, setPendingSessions] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      date: "2024-07-25",
-      imageUrl: "https://via.placeholder.com/100",
-    },
-    // Add more sample data if needed
-  ]);
+  const { trainerId } = useParams();
+  const { trainers } = useSelector((state) => state.trainer);
+  const [trainer, setTrainer] = useState(null);
+  const dispatch = useDispatch();
 
-  const [bookedSessions, setBookedSessions] = useState([]);
+  useEffect(() => {
+    dispatch(fetchTrainers());
+  }, [dispatch]);
 
-  const handleMoveToBooked = (id) => {
-    const sessionToMove = pendingSessions.find((session) => session.id === id);
-    setBookedSessions([...bookedSessions, sessionToMove]);
-    setPendingSessions(pendingSessions.filter((session) => session.id !== id));
-  };
+  useEffect(() => {
+    if (trainers) {
+      const trainerData = trainers.find(trainer => trainer.uid === trainerId);
+      if (trainerData) {
+        setTrainer(trainerData);
+      }
+    }
+  }, [trainers, trainerId]);
 
-  const handleMoveToPending = (id) => {
-    const sessionToMove = bookedSessions.find((session) => session.id === id);
-    setPendingSessions([...pendingSessions, sessionToMove]);
-    setBookedSessions(bookedSessions.filter((session) => session.id !== id));
-  };
+  if (!trainer) {
+    return <div>Loading...</div>;
+  }
+
+  const pendingLessons = trainer.bookedLessons.filter(lesson => !lesson.approved);
+  const approvedLessons = trainer.bookedLessons.filter(lesson => lesson.approved);
 
   return (
     <section className="trainer-panel-section">
       <div className="trainer-panel-containers">
-        <div className="trainer-panel-pending-container">
-          <h2 className="trainer-panel-container-title">Pending Sessions</h2>
-          <div className="trainer-panel-cards-container">
-            {pendingSessions.map((session) => (
-              <div key={session.id} className="trainer-panel-user-card">
-                <div className="trainer-panel-card-image-container">
-                  <img
-                    className="trainer-panel-card-image"
-                    src={session.imageUrl}
-                    alt="owner"
-                  />
-                </div>
-                <div className="trainer-panel-card-details">
-                  <p>time request sent</p>
-                  <p>{session.name}</p>
-                  <p>requested date:{session.date}</p>
-                  <p>requested time</p>
-                  <LuMessageSquare className="trainer-panel-button-icon card-icon-message" />
-                </div>
-                <div className="trainer-panel-card-icons">
-                  <div className="trainer-panel-card-icons-top">
-                    <IoMdInformation className="trainer-panel-button-icon" />
-                  </div>
-                  <div className="trainer-panel-card-icons-bottom">
-                    <MdOutlineCancel className="trainer-panel-button-icon" />
-                    <MdOutlineDone
-                      className="trainer-panel-button-icon"
-                      onClick={() => handleMoveToBooked(session.id)}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="trainer-panel-approved-container">
-          <h2 className="trainer-panel-container-title">Booked Sessions</h2>
-          <div className="trainer-panel-cards-container">
-            {bookedSessions.map((session) => (
-              <div key={session.id} className="trainer-panel-user-card">
-                <div className="trainer-panel-card-image-container">
-                  <img
-                    className="trainer-panel-card-image"
-                    src={session.imageUrl}
-                    alt="owner"
-                  />
-                </div>
-                <div className="card-details">
-                  <p>Name: {session.name}</p>
-                  <p>Date: {session.date}</p>
-                  <button
-                    className="move-button"
-                    onClick={() => handleMoveToPending(session.id)}
-                  >
-                    Move to Pending
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <LessonContainer
+          title="Pending Lessons"
+          lessons={pendingLessons}
+          onApprove={(lessonId) => approveLesson(trainerId, lessonId, setTrainer, trainer)}
+          onDelete={(lessonId) => deleteLesson(trainerId, lessonId, setTrainer, trainer)}
+          pending={true}
+        />
+        <LessonContainer
+          title="Approved Lessons"
+          lessons={approvedLessons}
+          onDelete={(lessonId) => deleteLesson(trainerId, lessonId, setTrainer, trainer)}
+          pending={false}
+        />
       </div>
     </section>
   );
 };
 
 export default TrainerPanel;
+
+
+
+
+
+
