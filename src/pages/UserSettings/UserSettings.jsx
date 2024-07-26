@@ -139,11 +139,15 @@ const UserSettings = () => {
             <LoginInput
               value={formState.displayName}
               onChange={handleChange}
+              labelClass={"login-input-label"}
+              inputClass={"login-input"}
               name="displayName"
               label="Full Name"
               type="text"
             />
             <LoginInput
+              labelClass={"login-input-label"}
+              inputClass={"login-input"}
               value={formState.phone}
               onChange={handleChange}
               label="Phone Number"
@@ -151,6 +155,8 @@ const UserSettings = () => {
               type="tel"
             />
             <LoginInput
+              labelClass={"login-input-label"}
+              inputClass={"login-input"}
               onChange={handleChange}
               value={formState.age}
               type="number"

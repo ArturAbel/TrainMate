@@ -69,7 +69,7 @@ label span {
 }
 
 .dropdown-content {
-  background-color: #f9f9f9;
+  background-color: var(--background-main1);
   border-color: black;
   position: absolute;
   border-radius: 8px;

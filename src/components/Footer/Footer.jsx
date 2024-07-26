@@ -10,8 +10,12 @@ export const Footer = () => {
       <div className="footer-upper-container">
         <div className="footer-upper-left-container">
           <div className="footer-links-container">
-            <Link className="footer-link">become trainer</Link>
-            <Link className="footer-link">our trainers</Link>
+            <Link to={"/sign-up-trainer"} className="footer-link">
+              become trainer
+            </Link>
+            <Link to={"/trainers"} className="footer-link">
+              our trainers
+            </Link>
             <Link className="footer-link">about</Link>
             <Link className="footer-link">blog</Link>
           </div>
@@ -35,7 +39,7 @@ export const Footer = () => {
             <FaInstagram />
           </div>
           <div className="footer-social">
-          <FaTiktok />
+            <FaTiktok />
           </div>
         </div>
       </div>

@@ -75,6 +75,8 @@ export const LoginForm = () => {
       <p className="login-form-text login-divider">or</p>
       <LoginInput
         onChange={handleInputChange}
+        labelClass={"login-input-label"}
+        inputClass={"login-input"}
         placeholder={"Your email"}
         label={"email"}
         name={"email"}
@@ -83,7 +85,9 @@ export const LoginForm = () => {
       />
       <LoginInput
         onChange={handleInputChange}
+        labelClass={"login-input-label"}
         placeholder={"Your password"}
+        inputClass={"login-input"}
         label={"password"}
         name={"password"}
         type={"password"}
@@ -119,4 +123,3 @@ export const LoginForm = () => {
     </form>
   );
 };
-

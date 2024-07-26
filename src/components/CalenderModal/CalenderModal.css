@@ -1,111 +1,94 @@
 .calender-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: var(--border-radius-generic);
+  background-color: var(--background-main1);
   transform: translate(-50%, -50%);
-  min-height: 60vh;
-  width: 50%;
-  border: none;
-  border-radius: 1rem;
-  background-color: #f8eeee;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  z-index: 10;
-  display: flex;
+  font-family: var(--font-content);
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  min-height: 40vh;
+  max-height: 100%;
+  display: flex;
   padding: 1rem;
+  border: none;
+  width: 50vw;
+  z-index: 23;
   gap: 2rem;
+  left: 50%;
+  top: 50%;
 }
 
 .calender-modal-exit-button {
-  width: 100%;
   position: relative;
+  width: 100%;
 }
 
 .exit-button {
-  font-size: 2.5rem;
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  cursor: pointer;
   transition: all 0.3s ease;
+  position: absolute;
+  font-size: 2.5rem;
+  cursor: pointer;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 .exit-button:hover {
-  transform: scale(1.3);
-  color: red;
-}
-
-.calender-modal-bottom-buttons-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  color: var(--background-secondary1);
+  transform: scale(1.2);
 }
 
 /* Custom styles for react-calendar */
 .react-calendar {
+  border-radius: var(--border-radius-generic);
+  background-color: white;
   border: none;
-  background-color: #ffffff00;
-  width: 90%;
   height: 85%;
-  border-radius: 8px;
+  width: 90%;
 }
 
 .react-calendar__tile {
-  padding: 2rem;
-  font-size: 1.6rem;
-  background: #ca040400;
-  border-radius: 4px;
-  margin: 2px;
+  background: white;
   text-align: center;
+  font-size: 1.6rem;
   cursor: pointer;
+  padding: 2rem;
 }
 
 .react-calendar__tile--now {
-  background: #e6e6e6;
+  background: var(--background-main1);
 }
 
-.react-calendar__tile--active {
-  background: #007bff;
+.react-calendar__tile--active .react-calendar__tile {
   color: white;
 }
 
 .react-calendar__tile--disabled {
-  background: #d3d3d3;
+  background: var(--color-hover-setting);
   cursor: not-allowed;
 }
 
-
-.react-calendar__navigation button {
-  /* display: none; */
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background-color: var(--background-secondary1);
 }
 
 .react-calendar__navigation button:disabled {
-  background: #d3d3d3;
-  cursor: not-allowed;
-}
-
-.react-calendar__month-view__days__day--weekend {
-  color: red;
+  display: none;
 }
 
 /* Styles for available hours */
 .available-hours {
-  width: 50%;
-  background-color: #fff;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  background-color: white;
   border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   padding: 1rem;
+  width: 50%;
 }
 
 .available-hours h3 {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .available-hours ul {
@@ -114,26 +97,54 @@
 }
 
 .available-hours li {
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: #f0f0f0;
+  background-color: white;
+  transition: all 0.3s ease;
+  margin-bottom: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 0.5rem;
 }
 
 .available-hours li.selected-hour {
-  background-color: #007bff !important;
+  background-color: var(--background-secondary1);
   color: white;
 }
 .available-hours li:hover {
+  background-color: var(--color-hover-setting);
   transform: scale(1.03);
-   background-color: #d3d2d2;
 }
 
 .booked-hour {
+  color: var(--background-secondary1);
   text-decoration: line-through;
   cursor: not-allowed;
-  color: red;
 }
 
+.react-calendar__navigation button {
+  background-color: var(--background-secondary1);
+  border-radius: var(--border-radius-generic);
+  pointer-events: none;
+  color: white;
+  padding: 1rem;
+}
+
+.calender-modal-bottom-buttons-container {
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  height: 8rem;
+  width: 100%;
+}
+
+#calender-cancel-button {
+  width: 15rem;
+}
+
+#calender-book-button {
+  background-color: var(--background-secondary1);
+  width: 15rem;
+}
+
+#calender-book-button:hover {
+  filter: brightness(0.9);
+}

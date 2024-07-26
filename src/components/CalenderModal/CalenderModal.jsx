@@ -1,12 +1,19 @@
-import { useState } from "react";
-import { IoIosCloseCircleOutline } from "react-icons/io";
-import Calendar from "react-calendar";
-import { useDispatch } from "react-redux";
-import 'react-calendar/dist/Calendar.css';
-import "./CalenderModal.css";
 import { bookLesson } from "../../redux/features/usersSlice";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import Calendar from "react-calendar";
 
-const CalenderModal = ({ availableSchedule, bookedLessons, onClose, trainerId, userId }) => {
+import "react-calendar/dist/Calendar.css";
+import "./CalenderModal.css";
+
+const CalenderModal = ({
+  availableSchedule,
+  bookedLessons,
+  onClose,
+  trainerId,
+  userId,
+}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableHours, setAvailableHours] = useState([]);
   const [selectedHour, setSelectedHour] = useState(null);
@@ -23,8 +30,10 @@ const CalenderModal = ({ availableSchedule, bookedLessons, onClose, trainerId, u
     const hours = [];
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();
-    const formattedDate = date.toISOString().split('T')[0];
-    const bookedHours = localBookedLessons.filter(lesson => lesson.date === formattedDate).map(lesson => lesson.hour);
+    const formattedDate = date.toISOString().split("T")[0];
+    const bookedHours = localBookedLessons
+      .filter((lesson) => lesson.date === formattedDate)
+      .map((lesson) => lesson.hour);
 
     for (let i = 10; i <= 18; i += 2) {
       const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
@@ -39,19 +48,22 @@ const CalenderModal = ({ availableSchedule, bookedLessons, onClose, trainerId, u
     }
     return hours;
   };
-const isDateAvailable = (date) => {
-  const formattedDate = date.toISOString().split('T')[0];
-  return Object.prototype.hasOwnProperty.call(availableSchedule, formattedDate);
-};
+  const isDateAvailable = (date) => {
+    const formattedDate = date.toISOString().split("T")[0];
+    return Object.prototype.hasOwnProperty.call(
+      availableSchedule,
+      formattedDate
+    );
+  };
 
-const tileDisabled = ({ date, view }) => {
-  if (view === 'month') {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    return date < now || !isDateAvailable(date);
-  }
-  return false;
-}
+  const tileDisabled = ({ date, view }) => {
+    if (view === "month") {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      return date < now || !isDateAvailable(date);
+    }
+    return false;
+  };
 
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -67,7 +79,7 @@ const tileDisabled = ({ date, view }) => {
       return;
     }
 
-    const formattedDate = selectedDate.toISOString().split('T')[0];
+    const formattedDate = selectedDate.toISOString().split("T")[0];
     const booking = {
       date: formattedDate,
       hour: selectedHour,
@@ -75,7 +87,7 @@ const tileDisabled = ({ date, view }) => {
 
     try {
       dispatch(bookLesson(trainerId, userId, booking));
-      setLocalBookedLessons(prevLessons => [...prevLessons, booking]);
+      setLocalBookedLessons((prevLessons) => [...prevLessons, booking]);
       setAvailableHours(generateAvailableHours(selectedDate));
     } catch (error) {
       alert("Error booking lesson: " + error.message);
@@ -90,21 +102,24 @@ const tileDisabled = ({ date, view }) => {
         <IoIosCloseCircleOutline className="exit-button" onClick={onClose} />
       </div>
       <Calendar
-        onChange={handleDateChange}
-        value={selectedDate}
         tileDisabled={tileDisabled}
+        onChange={handleDateChange}
         minDate={startOfMonth}
+        value={selectedDate}
         maxDate={endOfMonth}
+        locale="en-US"
       />
       {selectedDate && (
         <div className="available-hours">
-          <h3>Available Hours for {selectedDate.toDateString()}:</h3>
+          <h3>Available Hours for {selectedDate.toDateString()}</h3>
           {availableHours.length > 0 ? (
             <ul>
               {availableHours.map(({ hour, booked }, index) => (
                 <li
                   key={index}
-                  className={`${selectedHour === hour ? "selected-hour" : ""} ${booked ? "booked-hour" : ""}`}
+                  className={`${selectedHour === hour ? "selected-hour" : ""} ${
+                    booked ? "booked-hour" : ""
+                  }`}
                   onClick={() => !booked && handleHourClick(hour)}
                 >
                   {hour}
@@ -117,18 +132,23 @@ const tileDisabled = ({ date, view }) => {
         </div>
       )}
       <div className="calender-modal-bottom-buttons-container">
-        <button className="button-transparent" onClick={handleBookLesson}>Book Lesson</button>
-        <button className="button-transparent" onClick={onClose}>Cancel</button>
+        <button
+          className="button-transparent"
+          id="calender-cancel-button"
+          onClick={onClose}
+        >
+          Cancel
+        </button>
+        <button
+          className="button-transparent"
+          id="calender-book-button"
+          onClick={handleBookLesson}
+        >
+          Book Lesson
+        </button>
       </div>
     </div>
   );
 };
 
 export default CalenderModal;
-
-
-
-
-
-
-

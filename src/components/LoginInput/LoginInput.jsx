@@ -2,24 +2,30 @@ import "./LoginInput.css";
 
 export const LoginInput = ({
   placeholder,
+  labelClass,
+  inputClass,
   onChange,
+  value,
   label,
   type,
   name,
-  value
+  min,
+  max,
 }) => {
   return (
     <div className="login-input-container">
-      <label className="login-input-label" htmlFor={name}>
+      <label className={labelClass} htmlFor={name}>
         {label}
       </label>
       <input
         placeholder={placeholder}
-        className="login-input"
+        className={inputClass}
         onChange={onChange}
+        value={value}
         type={type}
         name={name}
-        value={value}
+        min={min}
+        max={max}
       />
     </div>
   );

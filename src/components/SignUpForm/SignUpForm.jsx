@@ -1,11 +1,16 @@
 import { refinedFirebaseAuthErrorMessage } from "../../utilities/refineAuthError";
-import { signupTrainer, signupUser, loginWithGoogle } from "../../redux/features/authSlice";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useFormHook } from "../../hooks/useFormHook";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import {
+  signupTrainer,
+  signupUser,
+  loginWithGoogle,
+} from "../../redux/features/authSlice";
+
 import "./SignUpForm.css";
 
 export const SignUpForm = ({ title }) => {
@@ -78,6 +83,8 @@ export const SignUpForm = ({ title }) => {
       {title === "trainee" ? (
         <LoginInput
           onChange={handleInputChange}
+          labelClass={"login-input-label"}
+          inputClass={"login-input"}
           placeholder={"Your name"}
           label={"name"}
           name={"name"}
@@ -88,6 +95,8 @@ export const SignUpForm = ({ title }) => {
       )}
       <LoginInput
         onChange={handleInputChange}
+        labelClass={"login-input-label"}
+        inputClass={"login-input"}
         placeholder={"Your email"}
         label={"email"}
         name={"email"}
@@ -95,7 +104,9 @@ export const SignUpForm = ({ title }) => {
       />
       <LoginInput
         onChange={handleInputChange}
+        labelClass={"login-input-label"}
         placeholder={"Your password"}
+        inputClass={"login-input"}
         label={"password"}
         name={"password"}
         type={"password"}
@@ -130,4 +141,3 @@ export const SignUpForm = ({ title }) => {
     </form>
   );
 };
-
