@@ -33,6 +33,7 @@
 
 .account-delete-buttons-container {
   justify-content: center;
+  padding-bottom: 1rem;
   align-items: center;
   display: flex;
   height: 100%;
@@ -56,6 +57,11 @@
 
 #account-delete-confirm {
   background-color: var(--background-secondary1);
+}
+
+#account-delete-confirm,
+#account-delete-cancel {
+  width: 15rem;
 }
 
 #account-delete-confirm:hover {
