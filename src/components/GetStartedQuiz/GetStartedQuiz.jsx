@@ -1,9 +1,10 @@
 import QuizLoadingModal from "../QuizLoadingModal/QuizLoadingModal";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { updateAnswer } from "../../redux/features/quizSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./GetStartedQuiz.css";
 
@@ -15,6 +16,10 @@ const GetStartedQuiz = () => {
   const [sliderValue, setSliderValue] = useState(70);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchTrainers());
+  }, [dispatch]);
 
   const sportsOptions = Array.from(
     new Set(trainers.map((trainer) => trainer.sport).sort())
@@ -77,7 +82,7 @@ const GetStartedQuiz = () => {
     setSliderValue(event.target.value);
   };
 
-  const handleOptionChange = (index) => (event) => {
+  const handleOptionChange = () => (event) => {
     dispatch(
       updateAnswer({ index: currentQuestion, answer: event.target.value })
     );

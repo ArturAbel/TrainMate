@@ -10,8 +10,8 @@ export const registrationInstructions = [
     title: "Provide a Short Description",
     text: "A short description gives an overview of your training services. This should be concise but informative.",
     guidelines: [
-      "Works: Certified personal trainer specializing in weight loss and muscle gain.",
-      "Don't work: Personal trainer.",
+      'Works: "Certified personal trainer specializing in weight loss and muscle gain."',
+      'Don\'t work: "Personal trainer."',
     ],
   },
   {

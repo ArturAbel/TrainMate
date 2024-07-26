@@ -22,6 +22,7 @@
 
 .quiz-left-section {
   background-color: var(--background-secondary1);
+  color: var(--background-main1);
   font-family: var(--font-title);
   justify-content: center;
   flex-direction: column;
@@ -29,7 +30,6 @@
   text-align: center;
   position: relative;
   display: flex;
-  color: white;
   flex: 1;
 }
 
