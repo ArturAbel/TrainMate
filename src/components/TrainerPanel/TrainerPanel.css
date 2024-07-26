@@ -1,101 +1,109 @@
-body {
-  font-family: Arial, sans-serif;
-}
-
-.trainer-panel-container {
-  display: flex;
+.trainer-panel-section {
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 160px); /* Adjust for navbar and footer */
-  margin: 0;
-  padding-top: 80px; /* Adjust for navbar height */
-  padding-bottom: 80px; /* Adjust for footer height */
+  margin-top: 10vh;
+  height: 100vh;
+  display: flex;
 }
 
-.content {
+.trainer-panel-containers {
+  justify-content: flex-start;
   display: flex;
-  flex-direction: row;
+  padding: 5rem;
+  width: 100vw;
+  gap: 2rem;
+}
+
+.trainer-panel-pending-container,
+.trainer-panel-approved-container {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: var(--background-secondary3);
+  border-radius: var(--border-radius-generic);
+  flex-direction: column;
+  display: flex;
+  padding: 1rem;
+  height: 60vh;
+  width: 30vw;
+  gap: 1rem;
+}
+
+.trainer-panel-container-title {
+  font-family: var(--font-title);
+  letter-spacing: -1px;
+  margin-bottom: 5rem;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.trainer-panel-user-card {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: var(--border-radius-generic);
   justify-content: space-between;
-  width: 60%;
-}
-
-.left-content,
-.right-content {
-  background-color: rgb(163, 198, 20);
-  width: 45%;
-  min-height: 300px;
-  padding: 20px;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-.left-content {
-  background-color: rgb(4, 255, 0);
-}
-
-.card {
   background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
+  transition: 0.5s;
+  max-height: 25vh;
+  min-height: 20vh;
+  padding: 1rem;
   display: flex;
-  align-items: center;
+  opacity: 0.7;
+  width: 100%;
 }
 
-.card-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
+.trainer-panel-user-card:hover {
+  transform: scale(1.05);
+  opacity: 1;
 }
 
-.card-details {
-  flex: 1;
+.trainer-panel-card-image-container {
+  max-height: 20vh;
+  width: 12vw;
 }
 
-.move-button {
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+.trainer-panel-card-image {
+  height: 100%;
+  width: 100%;
+}
+
+.trainer-panel-card-details {
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 0.5rem;
+  font-size: 1.4rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.card-icon-message {
+  margin-top: 0.5rem;
+}
+
+.trainer-panel-card-icons {
+  justify-content: space-between;
+  flex-direction: column;
+  display: flex;
+  max-height: 25vh;
+  min-height: 20vh;
+}
+.trainer-panel-card-icons-top,
+.trainer-panel-card-icons-bottom {
+  justify-content: flex-end;
+  align-items: flex-end;
+  display: flex;
+  gap: 2rem;
+}
+
+.trainer-panel-button-icon {
+  font-size: 2rem;
+  transition: 0.3s;
   cursor: pointer;
 }
 
-h2 {
-  text-align: center;
+.card-icon-message,
+.card-icon-top {
+  font-size: 1.8rem;
 }
 
-/* TrainerPanel.css */
-
-.loader-quiz {
-  width: 40px;
-  height: 40px;
-  --c: no-repeat linear-gradient(rgb(0, 0, 0) 0 0);
-  background: var(--c), var(--c), var(--c), var(--c);
-  background-size: 21px 21px;
-  animation: l5 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-@keyframes l5 {
-  0% {
-    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-  }
-  33% {
-    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-    width: 60px;
-    height: 60px;
-  }
-  66% {
-    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
-    width: 60px;
-    height: 60px;
-  }
-  100% {
-    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
-  }
+.trainer-panel-button-icon:hover {
+  color: var(--background-secondary1);
 }
