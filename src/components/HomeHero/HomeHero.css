@@ -25,38 +25,123 @@
   color: var(--background-main1);
 }
 
-/* Change Names */
-.div {
+.hero-div {
   box-shadow: rgba(0, 0, 0, 0.2) 0rem 2rem 3rem;
   background-color: var(--background-main1);
-  border-radius: 10px;
+  border-radius: 15px;
   position: absolute;
   cursor: pointer;
   z-index: 1;
 }
 
-/* Change Names */
-.div-1 {
+.hero-div-1 {
+  font-family: var(--font-title);
+  flex-direction: column;
+  align-items: center;
+  padding: 2vh 2vw;
+  display: flex;
   height: 30vh;
   width: 20vw;
   left: 4vw;
   top: 15vh;
+  gap: 1rem;
 }
 
-/* Change Names */
-.div-2 {
+.hero-div-1-text {
+  text-transform: capitalize;
+  letter-spacing: -1px;
+  font-size: 2.5vh;
+}
+
+.hero-div-1-number {
+  letter-spacing: -3px;
+  align-self: flex-end;
+  font-size: 5.5vh;
+}
+
+.hero-div-1-bars {
+  align-items: flex-end;
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.hero-bar {
+  background-color: var(--background-secondary3);
+  border-radius: var(--border-radius-generic);
+  width: 20%;
+}
+
+.bar-1 {
+  height: 3vh;
+}
+
+.bar-2 {
+  height: 5vh;
+}
+
+.bar-3 {
+  height: 7vh;
+}
+
+.bar-4 {
+  background-color: var(--background-secondary1);
+  height: 9vh;
+}
+
+.hero-div-2 {
+  object-fit: cover;
   height: 50vh;
   width: 20vw;
   right: 3vw;
   top: 20vh;
 }
 
-/* Change Names */
-.div-3 {
+.hero-div-2-text {
+  transform: translate(-50%, -50%);
+  color: var(--background-main1);
+  text-transform: capitalize;
+  position: absolute;
+  text-align: center;
+  font-size: 6vh;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+}
+
+.hero-image {
+  border-radius: var(--border-radius-generic);
+  box-shadow: rgba(50, 50, 93, 0.25) -10px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) -10px 18px 36px -18px;
+  filter: brightness(0.7);
+  border-radius: 15px;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.hero-div-3 {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 2rem;
   height: 20vh;
+  bottom: 10vh;
   width: 20vw;
   left: 15vw;
-  bottom: 7vh;
+}
+
+.hero-div-3-text {
+  text-transform: capitalize;
+  letter-spacing: -1px;
+  padding-left: 0.5rem;
+  font-size: 3vh;
+}
+
+.hero-div-3-icon {
+  color: var(--background-secondary1);
+  margin-top: 2rem;
+  font-size: 14vh;
 }
 
 .hero-button {
