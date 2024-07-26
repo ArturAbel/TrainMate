@@ -71,7 +71,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trainer-settings",
-        element: <TrainerSettings/>,
+        element: <TrainerSettings />,
       },
     ],
   },

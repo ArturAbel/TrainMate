@@ -18,12 +18,16 @@
   height: 5rem;
 }
 
+.vailer-select {
+  font-size: 1.3rem;
+}
+
 .search-input:hover {
   border: 2px solid black;
 }
 
 .vailer-dropdown-content {
-  background-color: #f9f9f9;
+  background-color: var(--background-main1);
   border-color: black;
   position: absolute;
   border-radius: 8px;
