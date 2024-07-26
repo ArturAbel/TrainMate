@@ -1,6 +1,15 @@
-export const LOGO = "../../assets/logo/logo.svg";
 export const chang = "change test";
+
+// Logo
+export const LOGO = "../../assets/logo/logo.svg";
+
+// Images
 export const heroImage = "../../assets/img/hero/hero.jpg";
+export const anonymousImage = "../../assets/img/anonymous/anonymous.jpeg";
+
+// Text
+export const TRAINER = "trainer";
+export const TRAINEE = "trainee";
 
 // Trainer Registration
 export const sports = [

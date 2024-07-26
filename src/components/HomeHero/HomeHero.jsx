@@ -48,7 +48,7 @@ export const HomeHero = () => {
       </div>
       <h1 className="home-hero-title">
         Elevate your game with the
-        <span className="title-span">ultimate sports</span> training.
+        <span className="title-span"> ultimate sports</span> training.
       </h1>
       <Link to={"get-started"}>
         <ButtonHome className={"hero-button"} text={"get started"} />
