@@ -67,6 +67,23 @@ const createUserDoc = async (user, userName) => {
 // Trainer
 const createTrainerDoc = async (user, userName) => {
   const trainerDocRef = doc(db, "trainers", user.uid);
+
+  // Create a default available schedule for the rest of the current month excluding weekends
+  const defaultSchedule = {};
+  const now = new Date();
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  for (let d = now; d <= endOfMonth; d.setDate(d.getDate() + 1)) {
+    if (d.getDay() !== 4 && d.getDay() !== 5) { // Exclude Fridays and Saturdays
+      const formattedDate = new Date(d).toISOString().split("T")[0];
+      const hours = [];
+      for (let i = 10; i <= 18; i += 2) {
+        hours.push(i);
+      }
+      defaultSchedule[formattedDate] = hours;
+    }
+  }
+
   await setDoc(
     trainerDocRef,
     {
@@ -84,7 +101,7 @@ const createTrainerDoc = async (user, userName) => {
       description: "",
       about: "",
       address: "",
-      availableSchedule: {},
+      availableSchedule: defaultSchedule,
       bookedLessons: [],
       approved: false,
     },

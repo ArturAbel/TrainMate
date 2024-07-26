@@ -140,18 +140,18 @@ export const uploadUserProfileImage = (file, userId) => async (dispatch) => {
   }
 };
 
-export const bookLesson = (trainerId, userId, booking) => async (dispatch) => {
+export const bookLesson = (trainerId, userId, booking, userName, userImage) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const trainerRef = doc(db, "trainers", trainerId);
     const userRef = doc(db, "users", userId);
 
     await updateDoc(trainerRef, {
-      bookedLessons: arrayUnion(booking),
+      bookedLessons: arrayUnion({...booking, userId: userId, userName: userName, userImage: userImage } ),
     });
 
     await updateDoc(userRef, {
-      bookedLessons: arrayUnion(booking),
+      bookedLessons: arrayUnion({ ...booking, trainerId: trainerId }),
     });
 
     dispatch(setLoading(false));

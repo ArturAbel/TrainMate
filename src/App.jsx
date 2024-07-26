@@ -50,10 +50,6 @@ const router = createBrowserRouter([
         element: <UserSettings />,
       },
       {
-        path: "get-started",
-        element: <GetStartedQuiz />,
-      },
-      {
         path: "trainers/:id",
         element: <TrainerDetails />,
       },
@@ -66,7 +62,7 @@ const router = createBrowserRouter([
         element: <TrainerRegistration />,
       },
       {
-        path: "trainer-panel",
+        path: "trainer-panel/:trainerId",
         element: <TrainerPanel />,
       },
       {
@@ -74,6 +70,10 @@ const router = createBrowserRouter([
         element: <TrainerSettings />,
       },
     ],
+  },
+  {
+    path: "get-started",
+    element: <GetStartedQuiz />,
   },
 ]);
 

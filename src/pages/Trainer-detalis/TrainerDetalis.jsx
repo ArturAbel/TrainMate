@@ -5,7 +5,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
 import { useSelector } from "react-redux";
@@ -21,6 +21,7 @@ const TrainerDetails = () => {
   const { user } = useSelector((state) => state.auth);
   const [trainer, setTrainer] = useState(null);
   const { id: trainerId } = useParams();
+  const navigate = useNavigate();
 
   const generateAvailableHours = (date) => {
     const hours = [];
@@ -97,6 +98,9 @@ const TrainerDetails = () => {
   }
 
   const handleOpenCalender = () => {
+    if (!user) {
+      navigate("/login");
+    }
     setIsCalenderOpen(true);
   };
 
@@ -209,6 +213,8 @@ const TrainerDetails = () => {
             bookedLessons={bookedLessons}
             onClose={handleCloseCalender}
             userId={user && user.uid}
+            userName={user && user.displayName}
+            userImage={user && user.photoURL}
             trainerId={trainerId}
           />
         )}
