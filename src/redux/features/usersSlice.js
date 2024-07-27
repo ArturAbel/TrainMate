@@ -1,18 +1,18 @@
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "../../config/firebaseConfig";
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  arrayRemove,
+  arrayUnion,
   collection,
+  deleteDoc,
+  updateDoc,
   getDocs,
   addDoc,
   setDoc,
   doc,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
   getDoc,
 } from "firebase/firestore";
-import { db, storage } from "../../config/firebaseConfig";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const usersSlice = createSlice({
   name: "users",
@@ -20,6 +20,7 @@ const usersSlice = createSlice({
     users: [],
     loading: false,
     error: null,
+    favoriteCount: 0,
   },
   reducers: {
     setUsers: (state, action) => {
@@ -31,32 +32,53 @@ const usersSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    increaseFavoriteCount: (state) => {
+      state.favoriteCount += 1;
+    },
+    decreaseFavoriteCount: (state) => {
+      state.favoriteCount -= 1;
+    },
+    resetFavoriteCount: (state) => {
+      state.favoriteCount = 0;
+    },
   },
 });
 
-export const { setUsers, setLoading, setError } = usersSlice.actions;
+export const {
+  decreaseFavoriteCount,
+  increaseFavoriteCount,
+  resetFavoriteCount,
+  favoriteCount,
+  setLoading,
+  setUsers,
+  setError,
+} = usersSlice.actions;
 
 export const addFavorite = (userId, favoriteItem) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const userDocRef = doc(db, "users", userId); 
+    const userDocRef = doc(db, "users", userId);
     await updateDoc(userDocRef, {
-      favorites: arrayUnion(favoriteItem), 
+      favorites: arrayUnion(favoriteItem),
     });
-    dispatch(setLoading(false)); 
+    dispatch(increaseFavoriteCount());
+    dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
-    dispatch(setLoading(false)); 
+    dispatch(setLoading(false));
   }
 };
-export const removeFavorite = (userId, favoriteItemToRemove) => async (dispatch) => {
-    dispatch(setLoading(true)); 
+
+export const removeFavorite =
+  (userId, favoriteItemToRemove) => async (dispatch) => {
+    dispatch(setLoading(true));
 
     try {
       const userDocRef = doc(db, "users", userId);
       await updateDoc(userDocRef, {
         favorites: arrayRemove(favoriteItemToRemove),
       });
+      dispatch(decreaseFavoriteCount());
       dispatch(setLoading(false));
     } catch (error) {
       dispatch(setError(error.message));
@@ -130,7 +152,7 @@ export const uploadUserProfileImage = (file, userId) => async (dispatch) => {
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
     await updateDoc(doc(db, "users", userId), { photoURL: downloadURL });
-    dispatch(fetchUsers()); 
+    dispatch(fetchUsers());
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -140,27 +162,33 @@ export const uploadUserProfileImage = (file, userId) => async (dispatch) => {
   }
 };
 
-export const bookLesson = (trainerId, userId, booking, userName, userImage) => async (dispatch) => {
-  dispatch(setLoading(true));
-  try {
-    const trainerRef = doc(db, "trainers", trainerId);
-    const userRef = doc(db, "users", userId);
+export const bookLesson =
+  (trainerId, userId, booking, userName, userImage) => async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const trainerRef = doc(db, "trainers", trainerId);
+      const userRef = doc(db, "users", userId);
 
-    await updateDoc(trainerRef, {
-      bookedLessons: arrayUnion({...booking, userId: userId, userName: userName, userImage: userImage } ),
-    });
+      await updateDoc(trainerRef, {
+        bookedLessons: arrayUnion({
+          ...booking,
+          userId: userId,
+          userName: userName,
+          userImage: userImage,
+        }),
+      });
 
-    await updateDoc(userRef, {
-      bookedLessons: arrayUnion({ ...booking, trainerId: trainerId }),
-    });
+      await updateDoc(userRef, {
+        bookedLessons: arrayUnion({ ...booking, trainerId: trainerId }),
+      });
 
-    dispatch(setLoading(false));
-    alert("Lesson booked successfully!");
-  } catch (error) {
-    dispatch(setError(error.message));
-    dispatch(setLoading(false));
-    alert("Error booking lesson: " + error.message);
-  }
-};
+      dispatch(setLoading(false));
+      alert("Lesson booked successfully!");
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
+      alert("Error booking lesson: " + error.message);
+    }
+  };
 
 export default usersSlice.reducer;
