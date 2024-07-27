@@ -1,15 +1,23 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
-
-export const approveLesson = async (trainerId, lessonId, setTrainer, trainer) => {
+export const approveLesson = async (
+  trainerId,
+  lessonId,
+  setTrainer,
+  trainer
+) => {
   const trainerRef = doc(db, "trainers", trainerId);
   const trainerDoc = await getDoc(trainerRef);
   if (trainerDoc.exists()) {
     const trainerData = trainerDoc.data();
-    const lessonToApprove = trainerData.bookedLessons.find(lesson => lesson.date + lesson.hour === lessonId);
-    const updatedLessons = trainerData.bookedLessons.map(lesson =>
-      lesson.date + lesson.hour === lessonId ? { ...lesson, approved: true } : lesson
+    const lessonToApprove = trainerData.bookedLessons.find(
+      (lesson) => lesson.date + lesson.hour === lessonId
+    );
+    const updatedLessons = trainerData.bookedLessons.map((lesson) =>
+      lesson.date + lesson.hour === lessonId
+        ? { ...lesson, approved: true }
+        : lesson
     );
     await updateDoc(trainerRef, { bookedLessons: updatedLessons });
 
@@ -17,8 +25,10 @@ export const approveLesson = async (trainerId, lessonId, setTrainer, trainer) =>
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      const updatedUserLessons = userData.bookedLessons.map(lesson =>
-        lesson.date + lesson.hour === lessonId ? { ...lesson, approved: true } : lesson
+      const updatedUserLessons = userData.bookedLessons.map((lesson) =>
+        lesson.date + lesson.hour === lessonId
+          ? { ...lesson, approved: true }
+          : lesson
       );
       await updateDoc(userRef, { bookedLessons: updatedUserLessons });
     }
@@ -27,13 +37,22 @@ export const approveLesson = async (trainerId, lessonId, setTrainer, trainer) =>
   }
 };
 
-export const deleteLesson = async (trainerId, lessonId, setTrainer, trainer) => {
+export const deleteLesson = async (
+  trainerId,
+  lessonId,
+  setTrainer,
+  trainer
+) => {
   const trainerRef = doc(db, "trainers", trainerId);
   const trainerDoc = await getDoc(trainerRef);
   if (trainerDoc.exists()) {
     const trainerData = trainerDoc.data();
-    const lessonToDelete = trainerData.bookedLessons.find(lesson => lesson.date + lesson.hour === lessonId);
-    const updatedLessons = trainerData.bookedLessons.filter(lesson => lesson.date + lesson.hour !== lessonId);
+    const lessonToDelete = trainerData.bookedLessons.find(
+      (lesson) => lesson.date + lesson.hour === lessonId
+    );
+    const updatedLessons = trainerData.bookedLessons.filter(
+      (lesson) => lesson.date + lesson.hour !== lessonId
+    );
 
     await updateDoc(trainerRef, { bookedLessons: updatedLessons });
 
@@ -41,7 +60,9 @@ export const deleteLesson = async (trainerId, lessonId, setTrainer, trainer) => 
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      const updatedUserLessons = userData.bookedLessons.filter(lesson => lesson.date + lesson.hour !== lessonId);
+      const updatedUserLessons = userData.bookedLessons.filter(
+        (lesson) => lesson.date + lesson.hour !== lessonId
+      );
       await updateDoc(userRef, { bookedLessons: updatedUserLessons });
     }
 

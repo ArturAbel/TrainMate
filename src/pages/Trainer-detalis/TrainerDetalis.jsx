@@ -8,10 +8,11 @@ import { db } from "../../config/firebaseConfig";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FiHeart } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { updateTrainer } from "../../redux/features/trainerSlice";
 
 import "./TrainerDetails.css";
 
@@ -22,6 +23,7 @@ const TrainerDetails = () => {
   const [trainer, setTrainer] = useState(null);
   const { id: trainerId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const generateAvailableHours = (date) => {
     const hours = [];
@@ -109,6 +111,31 @@ const TrainerDetails = () => {
     refetchTrainer();
   };
 
+  const handleReviewSubmit = () => {
+    const reviewText = document.querySelector(".review-text-input").value;
+    const reviewRating = document.querySelector(".review-rating-input").value;
+
+    if (!reviewText || !reviewRating) {
+      alert("Please provide a review and rating.");
+      return;
+    }
+
+    const newReview = {
+      userId: user.uid,
+      userName: user.displayName,
+      reviewText,
+      reviewRating,
+    };
+
+    const updatedReviews = [...(trainer.reviews || []), newReview];
+
+    const updatedData = {
+      reviews: updatedReviews,
+    };
+
+    dispatch(updateTrainer(trainerId, updatedData));
+  };
+
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
@@ -167,7 +194,32 @@ const TrainerDetails = () => {
           {/* My reviews */}
           <div className="trainer-profile-reviews-container">
             <h1 className="trainer-profile-teach-title">My Reviews</h1>
-            <p>add reviews here</p>
+            <div className="reviews-list">
+              {/* Existing reviews will be displayed here */}
+              <p>add reviews here</p>
+            </div>
+            <div className="review-input-container">
+              <textarea
+                className="review-text-input"
+                placeholder="Write your review here..."
+              ></textarea>
+              <select className="review-rating-input">
+                <option value="" disabled selected>
+                  Select rating
+                </option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+              </select>
+              <button
+                className="submit-review-button"
+                onClick={handleReviewSubmit}
+              >
+                Submit Review
+              </button>
+            </div>
           </div>
         </div>
 

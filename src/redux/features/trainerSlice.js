@@ -83,7 +83,7 @@ export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
 export const uploadTrainerProfileImage =
   (file, trainerId) => async (dispatch) => {
     dispatch(setLoading(true));
-    console.log(file, trainerId);
+
     const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
     try {
       await uploadBytes(storageRef, file);
@@ -113,5 +113,6 @@ export const deleteTrainer = (trainerId) => async (dispatch) => {
     alert("Error deleting trainer: " + error.message);
   }
 };
+
 
 export default trainerSlice.reducer;

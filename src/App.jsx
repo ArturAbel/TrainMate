@@ -14,7 +14,10 @@ import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
+import TrainerSessionHistory from "./components/TrainerSessionHistory/TrainerSessionHistory";
+import TrainerMessages from "./components/TrainerMessages/TrainerMessages";
 import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
+import TrainerReviews from "./components/TrainerReviews/TrainerReviews";
 
 const router = createBrowserRouter([
   {
@@ -66,8 +69,20 @@ const router = createBrowserRouter([
         element: <TrainerPanel />,
       },
       {
+        path: "trainer-session-history",
+        element: <TrainerSessionHistory />,
+      },
+      {
+        path: "trainer-messages",
+        element: <TrainerMessages />,
+      },
+      {
         path: "trainer-settings",
         element: <TrainerSettings />,
+      },
+      {
+        path: "trainer-reviews",
+        element: <TrainerReviews />,
       },
     ],
   },
