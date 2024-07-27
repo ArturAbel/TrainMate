@@ -1,3 +1,4 @@
+import { removeFavorite, addFavorite } from "../../redux/features/usersSlice";
 import { truncateText } from "../../utilities/truncateText";
 import { useSelector, useDispatch } from "react-redux";
 import { GoStarFill } from "react-icons/go";
@@ -6,27 +7,23 @@ import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {
-  addFavorite,
-  removeFavorite,
-} from "../../redux/features/usersSlice";
 
 import "./TrainerCard.css";
 
 const TrainerCard = ({
+  lessonLength,
+  description,
   favorite,
-  id,
-  imgSrc,
-  name,
   reviews,
+  address,
   ratings,
+  imgSrc,
   price,
   sport,
   level,
-  address,
   about,
-  description,
-  lessonLength
+  name,
+  id,
 }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();

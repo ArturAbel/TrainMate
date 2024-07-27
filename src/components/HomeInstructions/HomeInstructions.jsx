@@ -1,4 +1,10 @@
 import { HomeInstructionCard } from "../HomeInstructionCard/HomeInstructionCard";
+import {
+  instructionThree,
+  instructionTwo,
+  instructionOne,
+} from "./HomeInstructionsText";
+
 import "./HomeInstructions.css";
 
 export const HomeInstructions = () => {
@@ -9,41 +15,40 @@ export const HomeInstructions = () => {
       {/* Instruction 1 */}
       <div className="home-instruction-container">
         <HomeInstructionCard
-          content={
-            "We’ll connect you with a trainer who will motivate, challenge, and inspire you."
-          }
+          content={instructionOne.content}
+          number={instructionOne.number}
+          title={instructionOne.title}
           className={"instruction-1"}
-          title={"Find a Trainer"}
-          number={"1"}
         />
         <div className="home-instruction-image-container">
-          <img src="#" alt="image" />
+          <img className="home-instruction-one-image-one" src={instructionOne.image1} alt="image" />
+          <img className="home-instruction-one-image-two" src={instructionOne.image2} alt="image" />
         </div>
       </div>
 
       {/* Instruction 2 */}
       <div className="home-instruction-container">
         <div className="home-instruction-image-container">
-          <img src="#" alt="image" />
+          <img className="home-instruction-two-image" src={instructionTwo.image} alt="image" />
         </div>
         <HomeInstructionCard
-          content={"content"}
+          content={instructionTwo.content}
+          number={instructionTwo.number}
+          title={instructionTwo.title}
           className={"instruction-2"}
-          title={"title"}
-          number={"2"}
         />
       </div>
-      
+
       {/* Instruction 3 */}
       <div className="home-instruction-container">
         <HomeInstructionCard
-          content={"content"}
+          content={instructionThree.content}
+          number={instructionThree.number}
+          title={instructionThree.title}
           className={"instruction-3"}
-          title={"title"}
-          number={"3"}
         />
         <div className="home-instruction-image-container">
-          <img src="#" alt="image" />
+          <img className="home-instruction-three-image" src={instructionThree.image} alt="image" />
         </div>
       </div>
     </section>
