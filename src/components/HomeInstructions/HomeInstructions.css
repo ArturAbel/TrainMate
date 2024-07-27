@@ -11,7 +11,6 @@
 
 .home-instructions-title {
   font-family: var(--font-title);
-  text-transform: capitalize;
   align-self: flex-start;
   letter-spacing: -3px;
   margin: 0 0 2vh 2vw;
@@ -27,7 +26,43 @@
 }
 
 .home-instruction-image-container {
+  border-radius: var(--border-radius-generic);
   border-radius: 15px;
+  position: relative;
   height: 100%;
   width: 100%;
+}
+
+.home-instruction-one-image-one,
+.home-instruction-one-image-two {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: var(--border-radius-generic);
+  object-fit: contain;
+  position: absolute;
+  width: 80%;
+}
+.home-instruction-one-image-one {
+  object-fit: contain;
+  right: 1rem;
+  z-index: 1;
+}
+
+.home-instruction-one-image-two {
+  left: 1rem;
+  top: 20%;
+}
+
+.home-instruction-two-image {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 30px;
+  object-fit: contain;
+  width: 90%;
+}
+
+.home-instruction-three-image {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 30px;
+  object-fit: cover;
+  height: 80%;
+  width: 80%;
 }

@@ -1,20 +1,37 @@
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
-import { footerGif } from "../../utilities/constants";
+import { footerGif, TRAINER } from "../../utilities/constants";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
 
 import "./Footer.css";
 
 export const Footer = () => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <footer className="footer-section">
       <div className="footer-upper-container">
         <div className="footer-upper-left-container">
           <div className="footer-links-container">
-            <Link to={"/sign-up-trainer"} className="footer-link">
+            <Link
+              to={
+                user && user.role === TRAINER
+                  ? `/trainer-panel/${user.uid}`
+                  : "/sign-up-trainer"
+              }
+              className="footer-link"
+            >
               become trainer
             </Link>
-            <Link to={"/trainers"} className="footer-link">
+            <Link
+              to={
+                user && user.role === TRAINER
+                  ? `/trainer-panel/${user.uid}`
+                  : "/trainers"
+              }
+              className="footer-link"
+            >
               our trainers
             </Link>
             <Link className="footer-link">about</Link>
