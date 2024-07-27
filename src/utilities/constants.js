@@ -4,8 +4,8 @@ export const chang = "change test";
 export const LOGO = "../../assets/logo/logo.svg";
 
 // Images
-export const heroImage = "../../assets/img/hero/hero.jpg";
 export const anonymousImage = "../../assets/img/anonymous/anonymous.jpeg";
+export const heroImage = "../../assets/img/hero/hero.jpg";
 
 // Home page Images
 export const homeCategoriesOne = [
