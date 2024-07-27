@@ -1,3 +1,4 @@
+import { becomeTrainer } from "../../utilities/constants";
 import { ButtonHome } from "../ButtonHome/ButtonHome";
 import { Link } from "react-router-dom";
 
@@ -7,7 +8,7 @@ export const HomeBecomeTrainer = () => {
   return (
     <section className="home-trainer-section">
       <div className="home-trainer-image-container">
-        <img src="#" alt="image" />
+        <img className="home-trainer-image" src={becomeTrainer} alt="image" />
       </div>
       <div className="home-trainer-content-container">
         <h1 className="home-trainer-title">Become a Trainer</h1>

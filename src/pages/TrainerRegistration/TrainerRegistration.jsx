@@ -84,7 +84,8 @@ export const TrainerRegistration = () => {
     e.preventDefault();
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
-      navigate("/trainer-panel");
+      console.log(trainerData.uid);
+      navigate(`/trainer-panel/${trainerData.uid}`);
     }
   };
 

@@ -1,144 +1,68 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdOutlineCancel, MdOutlineDone } from "react-icons/md";
-import { LuMessageSquare } from "react-icons/lu";
-import { IoMdInformation } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
+import LessonContainer from "../LessonContainer/LessonContainer";
 
 import {
   fetchTrainers,
   updateTrainer,
 } from "../../redux/features/trainerSlice.js";
 import "./TrainerPanel.css";
+import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 
 const TrainerPanel = () => {
+  const { trainerId } = useParams();
+  const { trainers } = useSelector((state) => state.trainer);
+  const [trainer, setTrainer] = useState(null);
   const dispatch = useDispatch();
-
-  const { trainers, loading, error } = useSelector((state) => state.trainer);
-  const { user } = useSelector((state) => state.auth);
-
-  const dummy = "8vYgnqL5o7sElCv6Hguf";
-  const specificTrainer = trainers.find((trainer) => trainer.uid === dummy);
-
-  const [filteredBookedLessons, setFilteredBookedLessons] = useState([]);
-  const [buttonLoading, setButtonLoading] = useState(false); // if bro needs it
 
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
   useEffect(() => {
-    if (!loading && trainers.length > 0 && specificTrainer) {
-      console.log(specificTrainer);
-      filterBookedLessons(specificTrainer.bookedLessons);
-    } else if (!loading && trainers.length > 0) {
-      console.log(`Trainer with uid ${dummy} not found.`);
-    }
-  }, [loading, trainers, specificTrainer]);
-
-  const filterBookedLessons = (lessons) => {
-    const filtered = lessons.filter((lesson) => !lesson.approved);
-    setFilteredBookedLessons(filtered);
-  };
-
-  const handleApproveLesson = async (lessonDate, lessonHour) => {
-    setButtonLoading(true);
-    if (specificTrainer) {
-      const lessonIndex = specificTrainer.bookedLessons.findIndex(
-        (lesson) => lesson.date === lessonDate && lesson.hour === lessonHour
-      );
-
-      if (lessonIndex === -1) {
-        console.error("Lesson not found in bookedLessons");
-        setButtonLoading(false);
-        return;
+    if (trainers) {
+      const trainerData = trainers.find((trainer) => trainer.uid === trainerId);
+      if (trainerData) {
+        setTrainer(trainerData);
       }
-
-      const updatedBookedLessons = specificTrainer.bookedLessons.map(
-        (l, index) => (index === lessonIndex ? { ...l, approved: true } : l)
-      );
-      const updatedApprovedSessions = [
-        ...specificTrainer.approvedSessions,
-        { date: lessonDate, hour: lessonHour },
-      ];
-      const updatedData = {
-        bookedLessons: updatedBookedLessons,
-        approvedSessions: updatedApprovedSessions,
-      };
-      await dispatch(updateTrainer(specificTrainer.uid, updatedData));
-      filterBookedLessons(updatedBookedLessons);
-      setButtonLoading(false);
     }
-  };
+  }, [trainers, trainerId]);
+
+  if (!trainer) {
+    return <div>Loading...</div>;
+  }
+
+  const pendingLessons = trainer.bookedLessons.filter(
+    (lesson) => !lesson.approved
+  );
+  const approvedLessons = trainer.bookedLessons.filter(
+    (lesson) => lesson.approved
+  );
 
   return (
     <section className="trainer-panel-section">
       <div className="trainer-panel-containers">
-        <div className="trainer-panel-pending-container">
-          <h2 className="trainer-panel-container-title">Pending Sessions</h2>
-          <div className="trainer-panel-cards-container">
-            {filteredBookedLessons.map((session) => (
-              <div key={session.id} className="trainer-panel-user-card">
-                <div className="trainer-panel-card-image-container">
-                  <img
-                    className="trainer-panel-card-image"
-                    src={session.imageUrl}
-                    alt="owner"
-                  />
-                </div>
-                <div className="trainer-panel-card-details">
-                  <p>Time request sent</p>
-                  <p>{session.name}</p>
-                  <p>Requested date: {session.date}</p>
-                  <p>Requested time</p>
-                  <LuMessageSquare className="trainer-panel-button-icon card-icon-message" />
-                </div>
-                <div className="trainer-panel-card-icons">
-                  <div className="trainer-panel-card-icons-top">
-                    <IoMdInformation className="trainer-panel-button-icon" />
-                  </div>
-                  <div className="trainer-panel-card-icons-bottom">
-                    <MdOutlineCancel className="trainer-panel-button-icon" />
-                    <MdOutlineDone
-                      className="trainer-panel-button-icon"
-                      onClick={() =>
-                        handleApproveLesson(session.date, session.hour)
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="trainer-panel-approved-container">
-          <h2 className="trainer-panel-container-title">Booked Sessions</h2>
-          <div className="trainer-panel-cards-container">
-            {specificTrainer?.approvedSessions.map((session) => (
-              <div
-                key={session.date + session.hour}
-                className="trainer-panel-user-card"
-              >
-                <div className="trainer-panel-card-image-container">
-                  <img
-                    className="trainer-panel-card-image"
-                    src={session.imageUrl}
-                    alt="owner"
-                  />
-                </div>
-                <div className="card-details">
-                  <p>Name: {session.name}</p>
-                  <p>Date: {session.date}</p>
-                  <button
-                    className="move-button"
-                    onClick={() => console.log("Move to pending functionality")}
-                  >
-                    Move to Pending
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <LessonContainer
+          title="Pending Lessons"
+          lessons={pendingLessons}
+          onApprove={(lessonId) =>
+            approveLesson(trainerId, lessonId, setTrainer, trainer)
+          }
+          onDelete={(lessonId) =>
+            deleteLesson(trainerId, lessonId, setTrainer, trainer)
+          }
+          pending={true}
+        />
+        <LessonContainer
+          title="Approved Lessons"
+          lessons={approvedLessons}
+          onDelete={(lessonId) =>
+            deleteLesson(trainerId, lessonId, setTrainer, trainer)
+          }
+          pending={false}
+        />
       </div>
     </section>
   );

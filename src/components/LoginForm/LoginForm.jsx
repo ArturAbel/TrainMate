@@ -29,7 +29,7 @@ export const LoginForm = () => {
   useEffect(() => {
     if (user) {
       if (user.role === "trainer") {
-        navigate("/trainer-panel");
+        navigate(`/trainer-panel/${user.uid}`);
       } else {
         navigate("/trainers");
       }

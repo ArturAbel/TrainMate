@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
+import { footerGif } from "../../utilities/constants";
+import { Link } from "react-router-dom";
+import { Logo } from "../Logo/Logo";
 
 import "./Footer.css";
-import { Logo } from "../Logo/Logo";
 
 export const Footer = () => {
   return (
@@ -25,7 +26,7 @@ export const Footer = () => {
             <Logo className={"footer-logo"} />
           </div>
           <div className="footer-image-container">
-            <img className="footer-image" src="#" alt="image" />
+            <img className="footer-image" src={footerGif} alt="image" />
           </div>
         </div>
       </div>

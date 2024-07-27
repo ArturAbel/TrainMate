@@ -3,6 +3,11 @@ import { ScrollTrigger } from "gsap/all";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import gsap from "gsap";
+import {
+  homeCategoriesThree,
+  homeCategoriesTwo,
+  homeCategoriesOne,
+} from "../../utilities/constants";
 
 import "./HomeCategories.css";
 
@@ -59,9 +64,21 @@ export const HomeCategories = () => {
 
   return (
     <section ref={homeCategoriesRef} className="home-categories-section">
-      <HomeCategoriesStrip text={"pick"} className={"strip-1"} />
-      <HomeCategoriesStrip text={"any"} className={"strip-2"} />
-      <HomeCategoriesStrip text={"sport"} className={"strip-3"} />
+      <HomeCategoriesStrip
+        images={homeCategoriesOne}
+        className={"strip-1"}
+        text={"pick"}
+      />
+      <HomeCategoriesStrip
+        images={homeCategoriesTwo}
+        className={"strip-2"}
+        text={"any"}
+      />
+      <HomeCategoriesStrip
+        images={homeCategoriesThree}
+        className={"strip-3"}
+        text={"sport"}
+      />
     </section>
   );
 };

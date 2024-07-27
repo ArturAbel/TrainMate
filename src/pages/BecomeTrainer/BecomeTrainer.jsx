@@ -1,3 +1,4 @@
+import { becomeTrainerImage } from "../../utilities/constants";
 import { Link } from "react-router-dom";
 
 import "./BecomeTrainer.css";
@@ -53,7 +54,11 @@ export const BecomeTrainer = () => {
         </Link>
       </div>
       <div className="become-trainer-image-container">
-        <img className="become-trainer-image" src="" alt="image" />
+        <img
+          className="become-trainer-image"
+          src={becomeTrainerImage}
+          alt="image"
+        />
       </div>
     </section>
   );

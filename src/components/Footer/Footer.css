@@ -47,10 +47,13 @@
   border-radius: 15px;
   height: 35vh;
   width: 15vw;
-  /* remove */
-  justify-content: center;
-  align-items: center;
-  display: flex;
+}
+
+.footer-image {
+  border-radius: 15px;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 
 .footer-links-container {
