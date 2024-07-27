@@ -86,7 +86,9 @@ const TrainerMessages = () => {
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>
-        <button onClick={handleSendMessage}>Send</button>
+        <button className="message-button" onClick={handleSendMessage}>
+          Send
+        </button>
       </div>
 
       {/* Messages Container */}
