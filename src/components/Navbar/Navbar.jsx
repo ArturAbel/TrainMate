@@ -40,7 +40,6 @@ export const Navbar = () => {
     dispatch(logoutUser());
     setShowSettings((prev) => !prev);
   };
-  console.log(user);
 
   return (
     <nav className="navbar">
