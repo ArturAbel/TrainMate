@@ -1,15 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchTrainers } from "../../redux/features/trainerSlice";
-import LessonContainer from "../LessonContainer/LessonContainer";
-
 import {
   fetchTrainers,
   updateTrainer,
-} from "../../redux/features/trainerSlice.js";
-import "./TrainerPanel.css";
+} from "../../redux/features/trainerSlice";
+import LessonContainer from "../LessonContainer/LessonContainer";
 import { approveLesson, deleteLesson } from "./TrainerPanelLib";
+import "./TrainerPanel.css";
 
 const TrainerPanel = () => {
   const { trainerId } = useParams();
@@ -41,26 +39,30 @@ const TrainerPanel = () => {
     (lesson) => lesson.approved
   );
 
+  const handleApproveLesson = async (lessonId) => {
+    await approveLesson(trainerId, lessonId, setTrainer, trainer);
+    dispatch(fetchTrainers());
+  };
+
+  const handleDeleteLesson = async (lessonId, pending) => {
+    await deleteLesson(trainerId, lessonId, setTrainer, trainer);
+    dispatch(fetchTrainers());
+  };
+
   return (
     <section className="trainer-panel-section">
       <div className="trainer-panel-containers">
         <LessonContainer
           title="Pending Lessons"
           lessons={pendingLessons}
-          onApprove={(lessonId) =>
-            approveLesson(trainerId, lessonId, setTrainer, trainer)
-          }
-          onDelete={(lessonId) =>
-            deleteLesson(trainerId, lessonId, setTrainer, trainer)
-          }
+          onApprove={handleApproveLesson}
+          onDelete={(lessonId) => handleDeleteLesson(lessonId, true)}
           pending={true}
         />
         <LessonContainer
           title="Approved Lessons"
           lessons={approvedLessons}
-          onDelete={(lessonId) =>
-            deleteLesson(trainerId, lessonId, setTrainer, trainer)
-          }
+          onDelete={(lessonId) => handleDeleteLesson(lessonId, false)}
           pending={false}
         />
       </div>

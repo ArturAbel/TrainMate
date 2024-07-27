@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import TrainerSessionHistory from "./components/TrainerSessionHistory/TrainerSessionHistory";
 import TrainerMessages from "./components/TrainerMessages/TrainerMessages";
 import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
+import TrainerReviews from "./components/TrainerReviews/TrainerReviews";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: "trainer-settings",
         element: <TrainerSettings />,
+      },
+      {
+        path: "trainer-reviews",
+        element: <TrainerReviews />,
       },
     ],
   },
