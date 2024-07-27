@@ -1,5 +1,6 @@
-import { logoutUser } from "../../redux/features/authSlice";
 import { anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
+import { resetFavoriteCount } from "../../redux/features/usersSlice";
+import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { useState, useRef, useEffect } from "react";
@@ -12,6 +13,7 @@ import { Logo } from "../Logo/Logo";
 import "./Navbar.css";
 
 export const Navbar = () => {
+  const favoriteCount = useSelector((state) => state.users.favoriteCount);
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
@@ -38,6 +40,7 @@ export const Navbar = () => {
     dispatch(logoutUser());
     setShowSettings((prev) => !prev);
   };
+  console.log(user);
 
   return (
     <nav className="navbar">
@@ -76,8 +79,14 @@ export const Navbar = () => {
               <Link>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link to={"/favorites"}>
-                <FiHeart className="navbar-icon" />
+              <Link className="navbar-favorite-link" to={"/favorites"}>
+                <FiHeart
+                  className="navbar-icon"
+                  onClick={resetFavoriteCount()}
+                />
+                {favoriteCount > 0 && (
+                  <p className="navbar-favorite-counter">{favoriteCount}</p>
+                )}
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>
                 <div onClick={showOrHide}>
@@ -123,10 +132,12 @@ export const Navbar = () => {
                 </div>
                 {showSettings && (
                   <div className="navbarList">
-                    <Link to={"/settings"} className="navbarList-item">
+                    <Link to={"/trainer-settings"} className="navbarList-item">
                       settings
                     </Link>
-                    <Link className="navbarList-item">Messages</Link>
+                    <Link to={"/trainer-panel"} className="navbarList-item">
+                      Messages
+                    </Link>
                     <Link
                       className="navbarList-item logout-link"
                       onClick={handleLogoutUser}

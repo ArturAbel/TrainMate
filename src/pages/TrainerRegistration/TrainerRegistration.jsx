@@ -1,9 +1,9 @@
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
+import { anonymousImage, sports } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { isFormValid } from "./TrainerRegistrationlib";
-import { sports } from "../../utilities/constants";
 import { BsHandThumbsUp } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -95,7 +95,7 @@ export const TrainerRegistration = () => {
 
   const profileImageUrl =
     trainerData?.image ||
-    (user && user.photoURL ? user.photoURL : "/public/person1.jpg");
+    (user && user.photoURL ? user.photoURL : anonymousImage);
 
   return (
     <>
@@ -271,12 +271,12 @@ export const TrainerRegistration = () => {
                       Master
                     </label>
                     <input
-                      type="checkbox"
                       className="trainer-registration-form-input-checkbox"
-                      name="level"
-                      value="Master"
                       checked={formData.level.includes("Master")}
                       onChange={handleInputChange}
+                      type="checkbox"
+                      name="level"
+                      value="Master"
                     />
                   </div>
                 </div>
@@ -307,8 +307,8 @@ export const TrainerRegistration = () => {
               />
               <div className="trainer-registration-form-upload-image">
                 <ProfileImageUploader
-                  profileImageUrl={profileImageUrl}
                   handleImageChange={handleImageChange}
+                  profileImageUrl={profileImageUrl}
                 />
               </div>
             </div>

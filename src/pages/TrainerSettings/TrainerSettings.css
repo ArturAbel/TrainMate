@@ -1,94 +1,85 @@
-body {
-  font-family: Arial, sans-serif;
-}
-
 .trainer-settings-section {
-  display: flex;
+  background-color: var(--background-main1);
   justify-content: center;
-  padding: 20px;
-  background-color: #f9f9f9;
+  margin-top: 10vh;
+  display: flex;
+  padding: 1rem;
 }
 
 .trainer-settings-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  background-color: white;
+  border-radius: 10px;
+  max-width: 50vw;
+  padding: 20px;
   width: 100%;
 }
 
 .trainer-settings-title {
+  color: var(--background-main2);
+  font-family: var(--font-title);
+  margin-bottom: 2rem;
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+  font-size: 3rem;
 }
 
 .trainer-settings-form {
-  display: flex;
   flex-direction: column;
-}
-
-.form-group {
-  margin-bottom: 15px;
+  display: flex;
+  gap: 2rem;
 }
 
 .form-label {
-  font-weight: bold;
-  margin-bottom: 5px;
+  color: var(--color-input-placeholder-text);
+  font-family: var(--font-content);
+  font-size: 1.5rem;
   display: block;
-  color: #555;
 }
 
 .form-input,
-.form-textarea,
+.trainer-setting-form-textarea,
 .form-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
+  border: 2px solid var(--color-input-placeholder-border);
   border-radius: 5px;
+  padding: 10px;
+  width: 100%;
 }
 
-.form-input {
-  height: 40px;
+.form-input:hover,
+.trainer-setting-form-textarea:hover {
+  border: 2px solid var(--background-main2);
 }
 
-.form-textarea {
+.trainer-setting-form-textarea {
   resize: vertical;
-  height: 80px;
+  height: 20rem;
 }
 
 .form-checkbox-group {
-  display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  display: flex;
+  gap: 2rem;
 }
 
 .form-checkbox-container {
-  display: flex;
+  justify-content: center;
   align-items: center;
+  font-size: 1.5rem;
+  display: flex;
+  height: 100%;
+  gap: 0.5rem;
 }
 
-.form-checkbox {
-  margin-right: 5px;
+#trainer-setting-button {
+  background-color: var(--background-secondary1);
+  font-size: 1.8rem;
+  margin: 4rem 0;
+  height: 4.5rem;
 }
 
-.form-checkbox-label {
-  margin-right: 10px;
-  font-weight: normal;
-}
-
-.form-submit-button {
-  background-color: #ff6347;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 20px;
+#trainer-setting-button:hover {
+  filter: brightness(0.9);
 }
 
 .form-submit-button:hover {
@@ -96,9 +87,9 @@ body {
 }
 
 .profile-img {
-  display: block;
-  margin-top: 10px;
-  max-width: 100px;
-  max-height: 100px;
   border-radius: 50%;
+  max-height: 100px;
+  max-width: 100px;
+  margin-top: 10px;
+  display: block;
 }
