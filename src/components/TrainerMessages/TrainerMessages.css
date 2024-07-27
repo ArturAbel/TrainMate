@@ -20,7 +20,7 @@
   margin-bottom: 10px;
 }
 
-button {
+.message-button {
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
@@ -29,7 +29,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.message-button:hover {
   background-color: #0056b3;
 }
 
