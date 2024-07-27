@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../../config/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { anonymousImage } from "../../utilities/constants";
 
 const authSlice = createSlice({
   name: "auth",
@@ -49,10 +50,11 @@ const createUserDoc = async (user, userName) => {
     {
       uid: user.uid,
       phone: "",
+      gender:"",
       age: "",
       email: user.email,
       displayName: user.displayName || userName || "unknown",
-      photoURL: user.photoURL || "/person1.jpg",
+      photoURL: user.photoURL || anonymousImage,
       createdAt: new Date(),
       bookedLessons: [],
       filtersRef: [],
@@ -78,7 +80,7 @@ const createTrainerDoc = async (user, userName) => {
       const formattedDate = new Date(d).toISOString().split("T")[0];
       const hours = [];
       for (let i = 10; i <= 18; i += 2) {
-        hours.push(i);
+        hours.push(`${i}:00` + " " +  `${i > 12 ? `PM` : `AM` }`);
       }
       defaultSchedule[formattedDate] = hours;
     }
@@ -88,13 +90,14 @@ const createTrainerDoc = async (user, userName) => {
     trainerDocRef,
     {
       name: user.displayName || userName || " ",
-      image: user.photoURL || "/person1.jpg",
+      image: user.photoURL || anonymousImage,
       createdAt: new Date(),
       email: user.email,
       uid: user.uid,
+      gender: "",
       sport: "",
       reviews: [],
-      ratings: 0,
+      ratings: [],
       price: "",
       level: [],
       lessonLength: "",

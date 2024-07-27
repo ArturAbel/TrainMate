@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
+import { useParams } from "react-router";
+import ReactStars from "react-rating-stars-component";
 import "./TrainerReviews.css";
 
 const TrainerReviews = () => {
   const dispatch = useDispatch();
-  const trainers = useSelector((state) => state.trainer.trainers);
-  const dummyUid = "8vYgnqL5o7sElCv6Hguf";
-  const [averageRating, setAverageRating] = useState(0);
+  const { trainers } = useSelector((state) => state.trainer);
+  const { trainerId } = useParams();
+  const [trainer, setTrainer] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -16,60 +19,59 @@ const TrainerReviews = () => {
   useEffect(() => {
     if (trainers.length > 0) {
       const matchedTrainer = trainers.find(
-        (trainer) => trainer.uid === dummyUid
+        (trainer) => trainer.uid === trainerId
       );
+      setTrainer(matchedTrainer);
       if (matchedTrainer) {
-        console.log(matchedTrainer);
-
-        const totalRating = matchedTrainer.reviews.reduce(
-          (acc, review) => acc + parseInt(review.reviewRating, 10),
-          0
-        );
-        const avgRating = (totalRating / matchedTrainer.reviews.length).toFixed(
-          2
-        );
-        setAverageRating(avgRating);
-      } else {
-        console.log(`Trainer with uid ${dummyUid} not found.`);
+        setReviews(matchedTrainer.reviews);
       }
     }
-  }, [trainers]);
+  }, [trainers, trainerId]);
 
-  const matchedTrainer = trainers.find((trainer) => trainer.uid === dummyUid);
-
-  if (!matchedTrainer) {
+  if (!trainer) {
     return <div>Loading...</div>;
   }
 
   return (
     <section className="trainer-reviews-section">
       <h1 className="trainer-reviews-header">
-        Welcome to your reviews, {matchedTrainer.name}
+        Welcome to your reviews, {trainer.name}
       </h1>
-      <h2 className="trainer-reviews-average">
-        Your average review score is: {averageRating}
-      </h2>
-      <div className="reviews-container">
-        {matchedTrainer.reviews && matchedTrainer.reviews.length > 0 ? (
-          matchedTrainer.reviews.map((review, index) => (
-            <div key={index} className="review-card">
-              <p>
-                <strong>Reviewer:</strong> {review.userName}
-              </p>
-              <p>
-                <strong>Review:</strong> {review.reviewText}
-              </p>
-              <p>
-                <strong>Rating:</strong> {review.reviewRating}
-              </p>
+      {reviews && reviews.length > 0 ? (
+        <div className="reviews-container">
+          {reviews.map((review, index) => (
+            <div className="review-card" key={index}>
+              <div className="reviewer-info">
+                <img src={review.userImage} alt="Reviewer" />
+                <p>{review.userName}</p>
+              </div>
+              <p className="review-text">{review.reviewText}</p>
+              <div className="review-rating">
+                <ReactStars
+                  count={5}
+                  value={parseFloat(review.reviewRating)}
+                  size={20}
+                  activeColor="#ffd700"
+                  isHalf={false}
+                  edit={false}
+                />
+              </div>
             </div>
-          ))
-        ) : (
-          <p>No reviews available.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <h1 className="empty-reviews-message">
+          Sorry, you have no reviews yet.
+        </h1>
+      )}
     </section>
   );
 };
 
 export default TrainerReviews;
+
+
+
+
+
+
