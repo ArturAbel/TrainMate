@@ -1,22 +1,26 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineCancel, MdOutlineDone } from "react-icons/md";
 import { LuMessageSquare } from "react-icons/lu";
 import { IoMdInformation } from "react-icons/io";
-import { useState } from "react";
 
+import {
+  fetchTrainers,
+  updateTrainer,
+} from "../../redux/features/trainerSlice.js";
 import "./TrainerPanel.css";
 
 const TrainerPanel = () => {
   const dispatch = useDispatch();
-  const trainers = useSelector((state) => state.trainer.trainers);
-  const loading = useSelector((state) => state.trainer.loading);
-  const error = useSelector((state) => state.trainer.error);
-  const user = useSelector((state) => state.auth.user);
+
+  const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const { user } = useSelector((state) => state.auth);
 
   const dummy = "8vYgnqL5o7sElCv6Hguf";
   const specificTrainer = trainers.find((trainer) => trainer.uid === dummy);
 
   const [filteredBookedLessons, setFilteredBookedLessons] = useState([]);
-  const [buttonLoading, setButtonLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false); // if bro needs it
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -72,7 +76,7 @@ const TrainerPanel = () => {
         <div className="trainer-panel-pending-container">
           <h2 className="trainer-panel-container-title">Pending Sessions</h2>
           <div className="trainer-panel-cards-container">
-            {pendingSessions.map((session) => (
+            {filteredBookedLessons.map((session) => (
               <div key={session.id} className="trainer-panel-user-card">
                 <div className="trainer-panel-card-image-container">
                   <img
@@ -82,10 +86,10 @@ const TrainerPanel = () => {
                   />
                 </div>
                 <div className="trainer-panel-card-details">
-                  <p>time request sent</p>
+                  <p>Time request sent</p>
                   <p>{session.name}</p>
-                  <p>requested date:{session.date}</p>
-                  <p>requested time</p>
+                  <p>Requested date: {session.date}</p>
+                  <p>Requested time</p>
                   <LuMessageSquare className="trainer-panel-button-icon card-icon-message" />
                 </div>
                 <div className="trainer-panel-card-icons">
@@ -96,7 +100,9 @@ const TrainerPanel = () => {
                     <MdOutlineCancel className="trainer-panel-button-icon" />
                     <MdOutlineDone
                       className="trainer-panel-button-icon"
-                      onClick={() => handleMoveToBooked(session.id)}
+                      onClick={() =>
+                        handleApproveLesson(session.date, session.hour)
+                      }
                     />
                   </div>
                 </div>
@@ -107,8 +113,11 @@ const TrainerPanel = () => {
         <div className="trainer-panel-approved-container">
           <h2 className="trainer-panel-container-title">Booked Sessions</h2>
           <div className="trainer-panel-cards-container">
-            {bookedSessions.map((session) => (
-              <div key={session.id} className="trainer-panel-user-card">
+            {specificTrainer?.approvedSessions.map((session) => (
+              <div
+                key={session.date + session.hour}
+                className="trainer-panel-user-card"
+              >
                 <div className="trainer-panel-card-image-container">
                   <img
                     className="trainer-panel-card-image"
@@ -121,7 +130,7 @@ const TrainerPanel = () => {
                   <p>Date: {session.date}</p>
                   <button
                     className="move-button"
-                    onClick={() => handleMoveToPending(session.id)}
+                    onClick={() => console.log("Move to pending functionality")}
                   >
                     Move to Pending
                   </button>
