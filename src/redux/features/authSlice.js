@@ -50,7 +50,7 @@ const createUserDoc = async (user, userName) => {
     {
       uid: user.uid,
       phone: "",
-      gender:"",
+      gender: "",
       age: "",
       email: user.email,
       displayName: user.displayName || userName || "unknown",
@@ -81,7 +81,7 @@ const createTrainerDoc = async (user, userName) => {
       const formattedDate = new Date(d).toISOString().split("T")[0];
       const hours = [];
       for (let i = 10; i <= 18; i += 2) {
-        hours.push(`${i}:00` + " " +  `${i > 12 ? `PM` : `AM` }`);
+        hours.push(`${i}:00` + " " + `${i > 12 ? `PM` : `AM`}`);
       }
       defaultSchedule[formattedDate] = hours;
     }
@@ -124,7 +124,9 @@ export const initializeAuthListener = () => (dispatch) => {
       const userDoc = await getDoc(userDocRef);
 
       let userRole = "";
-      if (trainerDoc.exists()) {
+      if (user.email === "admin123@gmail.com") {
+        userRole = "admin";
+      } else if (trainerDoc.exists()) {
         userRole = "trainer";
       } else if (userDoc.exists()) {
         userRole = "trainee";
@@ -200,13 +202,12 @@ export const loginUser = (email, password) => async (dispatch) => {
     const userDoc = await getDoc(userDocRef);
 
     let userRole = "";
-    if (trainerDoc.exists()) {
+    if (email === "admin123@gmail.com") {
+      userRole = "admin";
+    } else if (trainerDoc.exists()) {
       userRole = "trainer";
     } else if (userDoc.exists()) {
       userRole = "trainee";
-    }
-    if (email == "admin@gmail.com") {
-      userRole = "admin";
     }
 
     dispatch(
@@ -252,9 +253,6 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
       }
     }
 
-    if (result.user.email === "admin@gmail.com") {
-      userRole = "admin";
-    }
     dispatch(setUser({ ...serializeUser(result.user), role: userRole }));
     dispatch(setLoading(false));
   } catch (error) {
