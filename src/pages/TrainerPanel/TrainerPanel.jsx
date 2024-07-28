@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
   fetchTrainers,
+  updateTrainer,
 } from "../../redux/features/trainerSlice";
-import LessonContainer from "../LessonContainer/LessonContainer";
+import LessonContainer from "../../components/LessonContainer/LessonContainer";
 import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 import "./TrainerPanel.css";
 
@@ -43,7 +44,7 @@ const TrainerPanel = () => {
     dispatch(fetchTrainers());
   };
 
-  const handleDeleteLesson = async (lessonId) => {
+  const handleDeleteLesson = async (lessonId, pending) => {
     await deleteLesson(trainerId, lessonId, setTrainer, trainer);
     dispatch(fetchTrainers());
   };
