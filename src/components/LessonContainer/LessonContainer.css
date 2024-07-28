@@ -4,10 +4,11 @@
   background-color: var(--background-secondary3);
   border-radius: var(--border-radius-generic);
   flex-direction: column;
+  min-height: 80vh;
+  max-height: 100%;
   display: flex;
   padding: 1rem;
-  height: 60vh;
-  width: 30vw;
+  width: 40vw;
   gap: 1rem;
 }
 
@@ -40,22 +41,32 @@
 }
 
 .trainer-panel-card-image-container {
-  max-height: 20vh;
+  min-height: 20vh;
+  padding: 1rem;
   width: 12vw;
 }
 
 .trainer-panel-card-image {
+  border-radius: var(--border-radius-generic);
+  object-fit: cover;
   height: 100%;
   width: 100%;
 }
 
 .trainer-panel-card-details {
   justify-content: center;
-  flex-direction: column;
   padding-left: 0.5rem;
-  font-size: 1.4rem;
+  align-items: center;
   display: flex;
   gap: 0.5rem;
+}
+
+.trainer-panel-card-content{
+  text-transform: capitalize;
+  flex-direction: column;
+  font-size: 1.3rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .card-icon-message {
@@ -69,13 +80,6 @@
   max-height: 25vh;
   min-height: 20vh;
 }
-.trainer-panel-card-icons-top,
-.trainer-panel-card-icons-bottom {
-  justify-content: flex-end;
-  align-items: flex-end;
-  display: flex;
-  gap: 2rem;
-}
 
 .trainer-panel-button-icon {
   font-size: 2rem;
@@ -83,11 +87,14 @@
   cursor: pointer;
 }
 
-.card-icon-message,
-.card-icon-top {
+.card-icon-message {
   font-size: 1.8rem;
 }
 
 .trainer-panel-button-icon:hover {
   color: var(--background-secondary1);
+}
+
+.approved-cards{
+  background-color: var(--background-approved);
 }

@@ -1,15 +1,22 @@
 import { MdOutlineCancel, MdOutlineDone } from "react-icons/md";
 import { LuMessageSquare } from "react-icons/lu";
-import { IoMdInformation } from "react-icons/io";
+
 import "./LessonContainer.css";
 
 const LessonContainer = ({ title, lessons, onApprove, onDelete, pending }) => {
   return (
-    <div className={`trainer-panel-${pending ? "pending" : "approved"}-container`}>
+    <section
+      className={`trainer-panel-${pending ? "pending" : "approved"}-container`}
+    >
       <h2 className="trainer-panel-container-title">{title}</h2>
       <div className="trainer-panel-cards-container">
         {lessons.map((lesson) => (
-          <div key={lesson.date + lesson.hour} className="trainer-panel-user-card">
+          <div
+            key={lesson.date + lesson.hour}
+            className={`trainer-panel-user-card ${
+              pending !== "pending" ? "approved-cards" : ""
+            }`}
+          >
             <div className="trainer-panel-card-details">
               <div className="trainer-panel-card-image-container">
                 <img
@@ -18,34 +25,35 @@ const LessonContainer = ({ title, lessons, onApprove, onDelete, pending }) => {
                   alt="owner"
                 />
               </div>
-              <h2></h2>
-              <p>id:{lesson.userId}</p>
-              <p>Name:{lesson.userName}</p>
-              <p>requested date: {lesson.date}</p>
-              <p>requested time: {lesson.hour}</p>
-              <LuMessageSquare className="trainer-panel-button-icon card-icon-message" />
+              <div className="trainer-panel-card-content">
+                <p className="trainer-panel-card-content-item">
+                  Name: {lesson.userName}
+                </p>
+                <p className="trainer-panel-card-content-item">
+                  requested date: {lesson.date}
+                </p>
+                <p className="trainer-panel-card-content-item">
+                  requested time: {lesson.hour}
+                </p>
+                <LuMessageSquare className="trainer-panel-button-icon card-icon-message" />
+              </div>
             </div>
             <div className="trainer-panel-card-icons">
-              <div className="trainer-panel-card-icons-top">
-                <IoMdInformation className="trainer-panel-button-icon" />
-              </div>
-              <div className="trainer-panel-card-icons-bottom">
-                <MdOutlineCancel
+              <MdOutlineCancel
+                className="trainer-panel-button-icon"
+                onClick={() => onDelete(lesson.date + lesson.hour)}
+              />
+              {pending && (
+                <MdOutlineDone
                   className="trainer-panel-button-icon"
-                  onClick={() => onDelete(lesson.date + lesson.hour)}
+                  onClick={() => onApprove(lesson.date + lesson.hour)}
                 />
-                {pending && (
-                  <MdOutlineDone
-                    className="trainer-panel-button-icon"
-                    onClick={() => onApprove(lesson.date + lesson.hour)}
-                  />
-                )}
-              </div>
+              )}
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
