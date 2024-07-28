@@ -7,10 +7,9 @@
 }
 
 .trainer-panel-containers {
-  justify-content: flex-start;
+  justify-content: center;
   display: flex;
   padding: 5rem;
   width: 100vw;
   gap: 2rem;
 }
-

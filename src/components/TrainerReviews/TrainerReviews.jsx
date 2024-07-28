@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+
 import "./TrainerReviews.css";
 
 const TrainerReviews = () => {
@@ -48,12 +49,12 @@ const TrainerReviews = () => {
               <p className="review-text">{review.reviewText}</p>
               <div className="review-rating">
                 <ReactStars
-                  count={5}
                   value={parseFloat(review.reviewRating)}
-                  size={20}
                   activeColor="#ffd700"
                   isHalf={false}
                   edit={false}
+                  count={5}
+                  size={20}
                 />
               </div>
             </div>
