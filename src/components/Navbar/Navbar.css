@@ -106,7 +106,8 @@
   border-radius: 15px;
   position: absolute;
   font-size: 1.7rem;
-  height: 13rem;
+  min-height: 5rem;
+  max-height: 13rem;
   padding: 2rem;
   display: flex;
   width: 12rem;
