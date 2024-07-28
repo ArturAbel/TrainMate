@@ -1,6 +1,7 @@
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
 import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { anonymousImage, sports } from "../../utilities/constants";
 import { deleteUserAccount } from "../../redux/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,29 +25,29 @@ const TrainerSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Find the trainer
-  const trainerData = trainers.find(
-    (trainerObj) => trainerObj.uid === user.uid
-  );
-
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
   useEffect(() => {
-    if (trainerData && user) {
-      setInput({
-        lessonLength: trainerData.lessonLength || "",
-        description: trainerData.description || "",
-        address: trainerData.address || "",
-        sport: trainerData.sport || "",
-        about: trainerData.about || "",
-        level: trainerData.level || [],
-        price: trainerData.price || "",
-        name: trainerData.name,
-      });
+    if (trainers.length > 0 && user) {
+      const trainerData = trainers.find(
+        (trainerObj) => trainerObj.uid === user.uid
+      );
+      if (trainerData) {
+        setInput({
+          lessonLength: trainerData.lessonLength || "",
+          description: trainerData.description || "",
+          address: trainerData.address || "",
+          sport: trainerData.sport || "",
+          about: trainerData.about || "",
+          level: trainerData.level || [],
+          price: trainerData.price || "",
+          name: trainerData.name,
+        });
+      }
     }
-  }, [trainerData]);
+  }, [trainers, user]);
 
   // Delete trainer modal
   const handleDeleteModal = () =>
@@ -65,6 +66,9 @@ const TrainerSettings = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const trainerData = trainers.find(
+      (trainerObj) => trainerObj.uid === user.uid
+    );
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, input));
     }
@@ -77,17 +81,19 @@ const TrainerSettings = () => {
     }
   };
 
-  const profileImageUrl =
-    trainerData.image ||
-    (user.providerData &&
-    user.providerData.length > 0 &&
-    user.providerData[0].providerId === "google.com"
-      ? user.photoURL
-      : anonymousImage);
-
-  if (!trainerData || loading) {
-    return <div>Loading trainer data...</div>;
+  if (loading || !user) {
+    return <div>Loading...</div>;
   }
+
+  const trainerData = trainers.find(
+    (trainerObj) => trainerObj.uid === user.uid
+  );
+
+  if (!trainerData) {
+    return <div>Trainer data not found...</div>;
+  }
+
+  const profileImageUrl = trainerData.image || user.photoURL || anonymousImage;
 
   return (
     <>
@@ -104,46 +110,47 @@ const TrainerSettings = () => {
           <h1 className="trainer-settings-title">Trainer Settings</h1>
           <form className="trainer-settings-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="form-label"></label>
               <ProfileImageUploader
                 handleImageChange={handleImageChange}
                 profileImageUrl={profileImageUrl}
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Full Name</label>
-              <input
+              <LoginInput
+                label="Full Name"
                 onChange={handleInputChange}
-                className="form-input"
                 value={input.name}
                 type="text"
                 name="name"
+                labelClass="form-label"
+                inputClass="form-input"
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Choose Your Sport</label>
-              <select
+              <LoginInput
+                label="Choose Your Sport"
                 onChange={handleInputChange}
                 value={input.sport}
-                className="form-input"
+                type="select"
                 name="sport"
-              >
-                {sports.map((sport, index) => (
-                  <option className="form-option" value={sport} key={index}>
-                    {sport}
-                  </option>
-                ))}
-              </select>
+                labelClass="form-label"
+                inputClass="form-input"
+                options={sports.map((sport) => ({
+                  value: sport,
+                  label: sport,
+                }))}
+              />
             </div>
             <div className="form-group">
-              <label className="form-label">Short Description</label>
-              <input
-                placeholder="Enter a short description."
+              <LoginInput
+                label="Short Description"
                 onChange={handleInputChange}
                 value={input.description}
-                className="form-input"
-                name="description"
                 type="text"
+                name="description"
+                placeholder="Enter a short description."
+                labelClass="form-label"
+                inputClass="form-input"
               />
             </div>
             <div className="form-group">
@@ -157,14 +164,15 @@ const TrainerSettings = () => {
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Address</label>
-              <input
+              <LoginInput
+                label="Address"
                 onChange={handleInputChange}
-                placeholder="Ex: Tel Aviv"
                 value={input.address}
-                className="form-input"
-                name="address"
                 type="text"
+                name="address"
+                placeholder="Ex: Tel Aviv"
+                labelClass="form-label"
+                inputClass="form-input"
               />
             </div>
             <div className="form-group">
@@ -194,29 +202,31 @@ const TrainerSettings = () => {
               </div>
             </div>
             <div className="form-group">
-              <label className="form-label">Lesson Length (minutes)</label>
-              <input
+              <LoginInput
+                label="Lesson Length (minutes)"
                 value={input.lessonLength}
                 onChange={handleInputChange}
-                placeholder="In minutes"
-                className="form-input"
-                name="lessonLength"
                 type="number"
-                max={120}
+                name="lessonLength"
+                placeholder="In minutes"
+                labelClass="form-label"
+                inputClass="form-input"
                 min={45}
+                max={120}
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Price per Lesson (₪)</label>
-              <input
+              <LoginInput
+                label="Price per Lesson (₪)"
                 onChange={handleInputChange}
                 value={input.price}
-                className="form-input"
-                placeholder="In ₪"
                 type="number"
                 name="price"
-                max={130}
+                placeholder="In ₪"
+                labelClass="form-label"
+                inputClass="form-input"
                 min={1}
+                max={130}
               />
             </div>
             <button
@@ -256,3 +266,5 @@ const TrainerSettings = () => {
 };
 
 export default TrainerSettings;
+
+

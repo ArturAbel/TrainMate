@@ -5,7 +5,7 @@ const ProfileImageUploader = ({ profileImageUrl, handleImageChange }) => (
   <div className="account-settings-image-container">
     <div className="image-display-left-box">
       <img src={profileImageUrl} alt="Profile" className="image-display" />
-      <button className="image-edit-button">Edit</button>
+      <button className="image-edit-button" type="button">Edit</button>
     </div>
     <div className="image-upload-right-box">
       <input
