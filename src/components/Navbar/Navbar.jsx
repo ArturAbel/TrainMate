@@ -3,6 +3,7 @@ import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessageSquareDetail } from "react-icons/bi";
+import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
 import { MdOutlineReviews } from "react-icons/md";
 import { MdOutlineLogin } from "react-icons/md";
@@ -75,6 +76,9 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
+              <Link to={""}>
+                <MdOutlineHistoryEdu className="navbar-icon history-icon" />
+              </Link>
               <Link>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
@@ -115,6 +119,9 @@ export const Navbar = () => {
         ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
+              <Link to={"/trainer-session-history"}>
+                <MdOutlineHistoryEdu className="navbar-icon history-icon" />
+              </Link>
               <Link to={"/trainer-panel"}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>

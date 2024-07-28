@@ -64,6 +64,11 @@
   position: relative;
 }
 
+.history-icon{
+  font-size: 2.4rem;
+}
+
+
 .navbar-favorite-counter {
   border: 2px solid var(--background-main1);
   background: var(--background-main2);
