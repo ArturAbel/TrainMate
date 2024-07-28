@@ -17,6 +17,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./UserSettings.css";
+import { anonymousImage } from "../../utilities/constants";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const UserSettings = () => {
     displayName: user?.displayName || "",
     phone: "",
     age: "",
+    gender: "",
   });
 
   useEffect(() => {
@@ -52,6 +54,7 @@ const UserSettings = () => {
           displayName: userData.displayName || "",
           phone: userData.phone || "",
           age: userData.age || "",
+          gender: userData.gender || "",
         });
       }
     }
@@ -112,10 +115,10 @@ const UserSettings = () => {
   const profileImageUrl =
     userData.photoURL ||
     (user.providerData &&
-    user.providerData.length > 0 &&
-    user.providerData[0].providerId === "google.com"
+      user.providerData.length > 0 &&
+      user.providerData[0].providerId === "google.com"
       ? user.photoURL
-      : "/public/person1.jpg");
+      : anonymousImage);
 
   return (
     <>
@@ -163,6 +166,20 @@ const UserSettings = () => {
               label="Age"
               name="age"
             />
+            <LoginInput
+              labelClass={"login-input-label"}
+              inputClass={"login-input"}
+              onChange={handleChange}
+              value={formState.gender}
+              type="select"
+              name="gender"
+              label="Gender"
+              options={[
+                { value: "male", label: "Male" },
+                { value: "female", label: "Female" },
+                { value: "other", label: "Other" },
+              ]}
+            />
             <FavoriteTrainersSettings
               handleRemoveFavorite={handleRemoveFavorite}
               trainersError={trainersError}
@@ -207,3 +224,4 @@ const UserSettings = () => {
 };
 
 export default UserSettings;
+

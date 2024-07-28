@@ -118,7 +118,7 @@ export const Navbar = () => {
               <Link to={"/trainer-panel"}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link to={"/trainer-panel"}>
+              <Link to={`/trainer-reviews/${user.uid}`}>
                 <MdOutlineReviews className="navbar-icon" />
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>
