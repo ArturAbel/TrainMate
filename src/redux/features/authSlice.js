@@ -74,7 +74,8 @@ const createTrainerDoc = async (user, userName) => {
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
   for (let d = now; d <= endOfMonth; d.setDate(d.getDate() + 1)) {
-    if (d.getDay() !== 4 && d.getDay() !== 5) { // Exclude Fridays and Saturdays
+    if (d.getDay() !== 4 && d.getDay() !== 5) {
+      // Exclude Fridays and Saturdays
       const formattedDate = new Date(d).toISOString().split("T")[0];
       const hours = [];
       for (let i = 10; i <= 18; i += 2) {
@@ -137,28 +138,37 @@ export const initializeAuthListener = () => (dispatch) => {
 };
 
 // Sign up trainer
-export const signupTrainer = (email, password, userName) => async (dispatch) => {
-  dispatch(setLoading(true));
-  dispatch(setError(null));
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await createTrainerDoc(userCredential.user, userName);
-    const serializedUser = serializeUser(userCredential.user, "trainer");
-    dispatch(setUser(serializedUser));
-    dispatch(setLoading(false));
-  } catch (error) {
-    dispatch(setError(error.message));
-    dispatch(setLoading(false));
-    console.error("Error signing up:", error);
-  }
-};
+export const signupTrainer =
+  (email, password, userName) => async (dispatch) => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await createTrainerDoc(userCredential.user, userName);
+      const serializedUser = serializeUser(userCredential.user, "trainer");
+      dispatch(setUser(serializedUser));
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
+      console.error("Error signing up:", error);
+    }
+  };
 
 // Sign up user
 export const signupUser = (email, password, userName) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await createUserDoc(userCredential.user, userName);
     const serializedUser = serializeUser(userCredential.user, "trainee");
     dispatch(setUser(serializedUser));
@@ -174,7 +184,11 @@ export const loginUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
     const trainerDocRef = doc(db, "trainers", userCredential.user.uid);
     const trainerDoc = await getDoc(trainerDocRef);
@@ -188,8 +202,13 @@ export const loginUser = (email, password) => async (dispatch) => {
     } else if (userDoc.exists()) {
       userRole = "trainee";
     }
+    if (email == "admin@gmail.com") {
+      userRole = "admin";
+    }
 
-    dispatch(setUser({ ...serializeUser(userCredential.user), role: userRole }));
+    dispatch(
+      setUser({ ...serializeUser(userCredential.user), role: userRole })
+    );
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -230,6 +249,9 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
       }
     }
 
+    if (result.user.email === "admin@gmail.com") {
+      userRole = "admin";
+    }
     dispatch(setUser({ ...serializeUser(result.user), role: userRole }));
     dispatch(setLoading(false));
   } catch (error) {
