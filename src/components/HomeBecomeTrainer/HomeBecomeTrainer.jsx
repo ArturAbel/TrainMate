@@ -22,7 +22,7 @@ export const HomeBecomeTrainer = () => {
           trainMate&apos;s adaptable scheduling options.
         </p>
         <p className="home-trainer-text">
-          Join trainMate today and elevate your training business to new
+          Join train.mate today and elevate your training business to new
           heights.
         </p>
         <Link to={"become-trainer"}>
