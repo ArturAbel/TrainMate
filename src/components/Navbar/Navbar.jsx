@@ -1,4 +1,3 @@
-import { anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
 import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +9,12 @@ import { MdOutlineLogin } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
+import {
+  anonymousImage,
+  TRAINEE,
+  TRAINER,
+  ADMIN,
+} from "../../utilities/constants";
 
 import "./Navbar.css";
 
@@ -68,6 +73,16 @@ export const Navbar = () => {
         )}
         {!user && (
           <Link to="/become-trainer" className="navbar-link">
+            Become a TrainMate
+          </Link>
+        )}
+        {user && user.role === ADMIN && (
+          <Link to="/admin" className="navbar-link">
+            Find Trainers
+          </Link>
+        )}
+        {user && user.role === ADMIN && (
+          <Link to="/admin" className="navbar-link">
             Become a TrainMate
           </Link>
         )}

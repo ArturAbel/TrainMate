@@ -42,6 +42,7 @@ export const becomeTrainerImage = "../../assets/img/become-trainer/trainer.jpg";
 // Text
 export const TRAINER = "trainer";
 export const TRAINEE = "trainee";
+export const ADMIN = "admin";
 
 // Trainer Registration
 export const sports = [
