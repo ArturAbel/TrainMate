@@ -4,10 +4,10 @@ import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormHook } from "../../hooks/useFormHook";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 
 import "./LoginForm.css";
-import { useEffect, useState } from "react";
 
 export const LoginForm = () => {
   const { user, error } = useSelector((state) => state.auth);
@@ -30,6 +30,9 @@ export const LoginForm = () => {
     if (user) {
       if (user.role === "trainer") {
         navigate(`/trainer-panel/${user.uid}`);
+      }
+      if (user.role === "admin") {
+        navigate(`/admin`);
       } else {
         navigate("/trainers");
       }

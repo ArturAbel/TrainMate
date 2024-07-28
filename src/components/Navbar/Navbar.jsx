@@ -73,17 +73,17 @@ export const Navbar = () => {
         )}
         {!user && (
           <Link to="/become-trainer" className="navbar-link">
-            Become a TrainMate
+            Become a train.mate
           </Link>
         )}
         {user && user.role === ADMIN && (
           <Link to="/admin" className="navbar-link">
-            Find Trainers
+            Pending Trainings
           </Link>
         )}
         {user && user.role === ADMIN && (
           <Link to="/admin" className="navbar-link">
-            Become a TrainMate
+            Users
           </Link>
         )}
       </div>
@@ -168,6 +168,28 @@ export const Navbar = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        ) : user.role === ADMIN ? (
+          <div className="navbar-right-container">
+            <div className="dropdown-container " ref={dropdownRef}>
+              <div onClick={showOrHide}>
+                <img
+                  className="navbar-user-image"
+                  src={user.photoURL || anonymousImage}
+                  alt="image"
+                />
+              </div>
+              {showSettings && (
+                <div className="navbarList">
+                  <Link
+                    className="navbarList-item logout-link"
+                    onClick={handleLogoutUser}
+                  >
+                    Logout
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         ) : null

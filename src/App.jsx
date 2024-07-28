@@ -1,10 +1,14 @@
+import TrainerSessionHistory from "./pages/TrainerSessionHistory/TrainerSessionHistory";
 import { TrainerRegistration } from "./pages/TrainerRegistration/TrainerRegistration";
 import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import TrainerMessages from "./pages/TrainerMessages/TrainerMessages";
+import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
 import TrainerDetails from "./pages/Trainer-detalis/TrainerDetalis";
 import { BecomeTrainer } from "./pages/BecomeTrainer/BecomeTrainer";
 import { initializeAuthListener } from "./redux/features/authSlice";
+import TrainerReviews from "./pages/TrainerReviews/TrainerReviews";
 import TrainerPanel from "./pages/TrainerPanel/TrainerPanel";
 import UserSettings from "./pages/UserSettings/UserSettings";
 import { Layout } from "./components/Layout/Layout";
@@ -13,11 +17,8 @@ import { SignUp } from "./pages/SignUp/SignUp";
 import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
+import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
-import TrainerSessionHistory from "./pages/TrainerSessionHistory/TrainerSessionHistory";
-import TrainerMessages from "./pages/TrainerMessages/TrainerMessages";
-import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
-import TrainerReviews from "./pages/TrainerReviews/TrainerReviews";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       {
         path: "trainer-reviews/:trainerId",
         element: <TrainerReviews />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
       },
     ],
   },
