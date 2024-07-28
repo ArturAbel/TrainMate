@@ -114,5 +114,19 @@ export const deleteTrainer = (trainerId) => async (dispatch) => {
   }
 };
 
-
+export const approveTrainer = (trainerId) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const trainerDocRef = doc(db, "trainers", trainerId);
+    await updateDoc(trainerDocRef, { approved: true });
+    dispatch(fetchTrainers()); // Assuming this action fetches the updated list of trainers
+    dispatch(setLoading(false));
+    alert("Trainer approval was successful");
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error approving trainer:", error);
+    alert("Error approving trainer: " + error.message);
+  }
+};
 export default trainerSlice.reducer;

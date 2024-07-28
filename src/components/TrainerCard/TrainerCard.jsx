@@ -9,7 +9,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import "./TrainerCard.css";
-
+import {
+  deleteTrainer,
+  approveTrainer,
+} from "../../redux/features/trainerSlice";
 const TrainerCard = ({
   lessonLength,
   description,
@@ -24,6 +27,7 @@ const TrainerCard = ({
   about,
   name,
   id,
+  inAdmin = null,
 }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -32,6 +36,13 @@ const TrainerCard = ({
   const handleAddFavorite = (userId, id) => {
     dispatch(addFavorite(userId, id));
     setIsFavorited(true);
+  };
+  const handleDeleteTrainer = (id) => {
+    dispatch(deleteTrainer(id));
+  };
+  //approveTrainer
+  const handleApproveTrainer = (id) => {
+    dispatch(approveTrainer(id));
   };
 
   const handleRemoveFavorite = (userId, id) => {
@@ -68,24 +79,47 @@ const TrainerCard = ({
             </div>
             {`${lessonLength} Min Lesson`}
           </div>
-          {!isFavorited ? (
-            <FiHeart
-              className="trainer-card-like"
-              onClick={() => handleAddFavorite(user.uid, id)}
-            />
-          ) : (
-            <FaHeart
-              className="trainer-card-like"
-              onClick={() => handleRemoveFavorite(user.uid, id)}
-            />
-          )}
+          {
+  !inAdmin ? 
+    (!isFavorited ? (
+      <FiHeart
+        className="trainer-card-like"
+        onClick={() => handleAddFavorite(user.uid, id)}
+      />
+    ) : (
+      <FaHeart
+        className="trainer-card-like"
+        onClick={() => handleRemoveFavorite(user.uid, id)}
+      />
+    )) 
+    : null
+}
         </div>
         <div>
-          <Link to={`/trainers/${id}`}>
-            <button className="button-transparent" id="trainer-card-button">
-              book a session
-            </button>
-          </Link>
+          {!inAdmin ? (
+            <Link to={`/trainers/${id}`}>
+              <button className="button-transparent" id="trainer-card-button">
+                book a session
+              </button>
+            </Link>
+          ) : (
+            <>
+              <button
+                className="admin-approve"
+                id=""
+                onClick={() => approveTrainer(id)}
+              >
+                Approve
+              </button>
+              <button
+                className="button-transparent"
+                id="trainer-card-button"
+                onClick={() => deleteTrainer(id)}
+              >
+                reject
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
