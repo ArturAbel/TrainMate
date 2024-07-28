@@ -7,10 +7,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/Search/Search";
 import { db } from "../../config/firebaseConfig";
-import {
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 import "./Trainers.css";
 
