@@ -19,7 +19,8 @@ const AdminRemoveUsersAndTrainers = () => {
     loading: trainersLoading,
     error: trainersError,
   } = useSelector((state) => state.trainer);
-  const [filteredByEmail, setFilteredByEmail] = useState(users);
+  const [filteredTrainerByName, setFilteredTrainerByName] = useState([]);
+  const [filteredUserByEmail, setFilteredUserByEmail] = useState([]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
@@ -39,17 +40,28 @@ const AdminRemoveUsersAndTrainers = () => {
     }
   };
 
+  // Search users and trainers by email
+  useEffect(() => {
+    setFilteredUserByEmail(users);
+    setFilteredTrainerByName(trainers);
+  }, [users, trainers]);
+
   const handleSearch = (e) => {
     const search = e.target.value;
     setInput(search);
 
     if (search === "") {
-      setFilteredByEmail(users);
+      setFilteredUserByEmail(users);
+      setFilteredTrainerByName(trainers);
       return;
     }
 
-    const filterData = users.filter((user) => user.email.includes(search));
-    setFilteredByEmail(filterData);
+    const filterUserData = users.filter((user) => user.email.includes(search));
+    const filterTrainerData = trainers.filter((trainer) =>
+      trainer.name.toLowerCase().includes(search)
+    );
+    setFilteredUserByEmail(filterUserData);
+    setFilteredTrainerByName(filterTrainerData);
   };
 
   return (
@@ -76,7 +88,7 @@ const AdminRemoveUsersAndTrainers = () => {
             ) : usersError ? (
               <p>Error loading users: {usersError}</p>
             ) : (
-             filteredByEmail.map((user) => (
+              filteredUserByEmail.map((user) => (
                 <div key={user.id} className="admin-users-card">
                   <p>{user.email}</p>
                   <button
@@ -100,7 +112,7 @@ const AdminRemoveUsersAndTrainers = () => {
             ) : trainersError ? (
               <p>Error loading trainers: {trainersError}</p>
             ) : (
-              trainers.map((trainer) => (
+              filteredTrainerByName.map((trainer) => (
                 <div key={trainer.uid} className="admin-users-card">
                   <p className="admin-users-card-trainer-name">
                     {trainer.name}
