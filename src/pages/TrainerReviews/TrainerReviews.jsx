@@ -1,14 +1,15 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
+import { useParams } from "react-router";
+import { useEffect } from "react";
+
 import "./TrainerReviews.css";
 
 const TrainerReviews = () => {
-  const dispatch = useDispatch();
   const trainers = useSelector((state) => state.trainer.trainers);
   const { trainerId } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -19,7 +20,7 @@ const TrainerReviews = () => {
   if (!matchedTrainer) {
     return <div className="loading">Loading...</div>;
   }
-
+  
   return (
     <section className="trainer-reviews-section">
       <h1 className="trainer-reviews-header">
@@ -29,17 +30,21 @@ const TrainerReviews = () => {
         {matchedTrainer.reviews && matchedTrainer.reviews.length > 0 ? (
           matchedTrainer.reviews.map((review, index) => (
             <div key={index} className="review-card">
-              <img src={review.userImage} alt={review.userName} className="review-user-image" />
+              <img
+                className="review-user-image"
+                src={review.userImage}
+                alt={review.userName}
+              />
               <div className="review-content">
                 <p className="reviewer-name">{review.userName}</p>
                 <p className="review-text">{review.reviewText}</p>
                 <div className="rating-container">
                   <ReactStars
-                    count={5}
                     value={review.userRating}
+                    activeColor="#ffd700"
+                    count={5}
                     edit={false}
                     size={24}
-                    activeColor="#ffd700"
                   />
                 </div>
               </div>
@@ -54,7 +59,3 @@ const TrainerReviews = () => {
 };
 
 export default TrainerReviews;
-
-
-
-

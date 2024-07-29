@@ -1,3 +1,4 @@
+import { resetReviewCount } from "../../redux/features/trainerSlice";
 import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +21,7 @@ import "./Navbar.css";
 
 export const Navbar = () => {
   const favoriteCount = useSelector((state) => state.users.favoriteCount);
+  const reviewsCount = useSelector((state) => state.trainer.reviewCount);
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
@@ -46,7 +48,7 @@ export const Navbar = () => {
     dispatch(logoutUser());
     setShowSettings((prev) => !prev);
   };
-  
+
   return (
     <nav className="navbar">
       <div className="navbar-left-container">
@@ -101,7 +103,7 @@ export const Navbar = () => {
               <Link>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link className="navbar-favorite-link" to={"/favorites"}>
+              <Link className="navbar-counter-link" to={"/favorites"}>
                 <FiHeart
                   className="navbar-icon"
                   onClick={resetFavoriteCount()}
@@ -144,7 +146,14 @@ export const Navbar = () => {
               <Link to={"/trainer-panel"}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link to={`/trainer-reviews/${user.uid}`}>
+              <Link
+                className="navbar-counter-link"
+                to={`/trainer-reviews/${user.uid}`}
+                onClick={resetReviewCount()}
+              >
+                {reviewsCount > 0 && (
+                  <p className="navbar-favorite-counter">{favoriteCount}</p>
+                )}
                 <MdOutlineReviews className="navbar-icon" />
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>

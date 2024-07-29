@@ -21,6 +21,8 @@ import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
 import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/AdminRemoveUsersAndTrainers";
 import PendingTrainer from "./pages/PendingTrainer/PendingTrainer";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
 
 const router = createBrowserRouter([
   {
@@ -45,15 +47,18 @@ const router = createBrowserRouter([
       },
       {
         path: "trainers",
-        element: <Trainers />,
+        element: <PrivateRoute allowedRoles={[TRAINEE]} />,
+        children: [{ path: "", element: <Trainers /> }],
       },
       {
         path: "favorites",
-        element: <FavoriteTrainers />,
+        element: <PrivateRoute allowedRoles={[TRAINEE]} />,
+        children: [{ path: "", element: <FavoriteTrainers /> }],
       },
       {
         path: "settings",
-        element: <UserSettings />,
+        element: <PrivateRoute allowedRoles={[TRAINEE]} />,
+        children: [{ path: "", element: <UserSettings /> }],
       },
       {
         path: "trainers/:id",
@@ -65,35 +70,43 @@ const router = createBrowserRouter([
       },
       {
         path: "trainer-registration",
-        element: <TrainerRegistration />,
+        element: <PrivateRoute allowedRoles={[TRAINEE]} />,
+        children: [{ path: "", element: <TrainerRegistration /> }],
       },
       {
         path: "trainer-panel/:trainerId",
-        element: <TrainerPanel />,
+        element: <PrivateRoute allowedRoles={[TRAINER]} />,
+        children: [{ path: "", element: <TrainerPanel /> }],
       },
       {
         path: "trainer-session-history",
-        element: <TrainerSessionHistory />,
+        element: <PrivateRoute allowedRoles={[TRAINER]} />,
+        children: [{ path: "", element: <TrainerSessionHistory /> }],
       },
       {
         path: "trainer-messages",
-        element: <TrainerMessages />,
+        element: <PrivateRoute allowedRoles={[TRAINER]} />,
+        children: [{ path: "", element: <TrainerMessages /> }],
       },
       {
         path: "trainer-settings",
-        element: <TrainerSettings />,
+        element: <PrivateRoute allowedRoles={[TRAINER]} />,
+        children: [{ path: "", element: <TrainerSettings /> }],
       },
       {
         path: "admin-settings",
-        element:<AdminRemoveUsersAndTrainers/>
+        element: <PrivateRoute allowedRoles={[ADMIN]} />,
+        children: [{ path: "", element: <AdminRemoveUsersAndTrainers /> }],
       },
       {
         path: "trainer-reviews/:trainerId",
-        element: <TrainerReviews />,
+        element: <PrivateRoute allowedRoles={[TRAINER]} />,
+        children: [{ path: "", element: <TrainerReviews /> }],
       },
       {
         path: "admin",
-        element: <Admin />,
+        element: <PrivateRoute allowedRoles={[ADMIN]} />,
+        children: [{ path: "", element: <Admin /> }],
       },
     ],
   },
@@ -104,7 +117,7 @@ const router = createBrowserRouter([
   {
     path: "pending-trainer",
     element: <PendingTrainer />,
-  }
+  },
 ]);
 
 function App() {
