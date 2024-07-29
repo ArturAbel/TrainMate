@@ -31,6 +31,7 @@ const TrainerDetails = () => {
   const [trainer, setTrainer] = useState(null);
   const { id: trainerId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const generateAvailableHours = (date) => {
     const hours = [];
