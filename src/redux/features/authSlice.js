@@ -50,7 +50,7 @@ const createUserDoc = async (user, userName) => {
     {
       uid: user.uid,
       phone: "",
-      gender:"",
+      gender: "",
       age: "",
       email: user.email,
       displayName: user.displayName || userName || "unknown",
@@ -70,20 +70,37 @@ const createUserDoc = async (user, userName) => {
 const createTrainerDoc = async (user, userName) => {
   const trainerDocRef = doc(db, "trainers", user.uid);
 
-  // Create a default available schedule for the rest of the current month excluding weekends
   const defaultSchedule = {};
   const now = new Date();
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  console.log(now);
 
-  for (let d = now; d <= endOfMonth; d.setDate(d.getDate() + 1)) {
-    if (d.getDay() !== 4 && d.getDay() !== 5) {
-      // Exclude Fridays and Saturdays
-      const formattedDate = new Date(d).toISOString().split("T")[0];
+  // Adjust the end date to be one day past the last day of the month to ensure inclusivity
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  console.log(endOfMonth);
+
+  const formatDate = (date) => date.toISOString().split("T")[0];
+
+  // Adjust the loop to ensure the end date is inclusive
+  for (let date = new Date(now); date < endOfMonth; date.setDate(date.getDate() + 1)) {
+    if (date.getDay() !== 5 && date.getDay() !== 6) { // Exclude Fridays and Saturdays
+      const formattedDate = formatDate(date);
+      console.log(formattedDate);
       const hours = [];
+      const isToday = date.toDateString() === now.toDateString();
+
       for (let i = 10; i <= 18; i += 2) {
-        hours.push(`${i}:00` + " " +  `${i > 12 ? `PM` : `AM` }`);
+        const hourDate = new Date(date);
+        hourDate.setHours(i, 0, 0, 0);
+
+        if (!isToday || (isToday && hourDate > now)) {
+          const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
+          hours.push(hour);
+        }
       }
-      defaultSchedule[formattedDate] = hours;
+
+      if (hours.length > 0) {
+        defaultSchedule[formattedDate] = hours;
+      }
     }
   }
 
@@ -113,6 +130,9 @@ const createTrainerDoc = async (user, userName) => {
   );
 };
 
+
+
+
 export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
   onAuthStateChanged(auth, async (user) => {
@@ -124,7 +144,9 @@ export const initializeAuthListener = () => (dispatch) => {
       const userDoc = await getDoc(userDocRef);
 
       let userRole = "";
-      if (trainerDoc.exists()) {
+      if (user.email === "admin123@gmail.com") {
+        userRole = "admin";
+      } else if (trainerDoc.exists()) {
         userRole = "trainer";
       } else if (userDoc.exists()) {
         userRole = "trainee";
@@ -200,13 +222,12 @@ export const loginUser = (email, password) => async (dispatch) => {
     const userDoc = await getDoc(userDocRef);
 
     let userRole = "";
-    if (trainerDoc.exists()) {
+    if (email === "admin123@gmail.com") {
+      userRole = "admin";
+    } else if (trainerDoc.exists()) {
       userRole = "trainer";
     } else if (userDoc.exists()) {
       userRole = "trainee";
-    }
-    if (email == "admin@gmail.com") {
-      userRole = "admin";
     }
 
     dispatch(
@@ -252,9 +273,6 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
       }
     }
 
-    if (result.user.email === "admin@gmail.com") {
-      userRole = "admin";
-    }
     dispatch(setUser({ ...serializeUser(result.user), role: userRole }));
     dispatch(setLoading(false));
   } catch (error) {

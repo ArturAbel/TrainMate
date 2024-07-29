@@ -1,4 +1,3 @@
-import { anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
 import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +9,12 @@ import { MdOutlineLogin } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
+import {
+  anonymousImage,
+  TRAINEE,
+  TRAINER,
+  ADMIN,
+} from "../../utilities/constants";
 
 import "./Navbar.css";
 
@@ -68,7 +73,17 @@ export const Navbar = () => {
         )}
         {!user && (
           <Link to="/become-trainer" className="navbar-link">
-            Become a TrainMate
+            Become a train.mate
+          </Link>
+        )}
+        {user && user.role === ADMIN && (
+          <Link to="/admin" className="navbar-link">
+            Pending Trainings
+          </Link>
+        )}
+        {user && user.role === ADMIN && (
+          <Link to="/admin" className="navbar-link">
+            Users
           </Link>
         )}
       </div>
@@ -153,6 +168,28 @@ export const Navbar = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        ) : user.role === ADMIN ? (
+          <div className="navbar-right-container">
+            <div className="dropdown-container " ref={dropdownRef}>
+              <div onClick={showOrHide}>
+                <img
+                  className="navbar-user-image"
+                  src={user.photoURL || anonymousImage}
+                  alt="image"
+                />
+              </div>
+              {showSettings && (
+                <div className="navbarList">
+                  <Link
+                    className="navbarList-item logout-link"
+                    onClick={handleLogoutUser}
+                  >
+                    Logout
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         ) : null

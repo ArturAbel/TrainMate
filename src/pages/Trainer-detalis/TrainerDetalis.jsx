@@ -1,24 +1,32 @@
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { updateTrainer } from "../../redux/features/trainerSlice";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
+import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { updateTrainer } from "../../redux/features/trainerSlice";
+import {
+  removeFavorite,
+  addFavorite,
+  fetchUsers,
+} from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
 
 const TrainerDetails = () => {
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
+  const { users } = useSelector((state) => state.users);
   const [bookedLessons, setBookedLessons] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const [trainer, setTrainer] = useState(null);
   const { id: trainerId } = useParams();
@@ -31,11 +39,11 @@ const TrainerDetails = () => {
     const isToday = date.toDateString() === now.toDateString();
 
     for (let i = 10; i <= 18; i += 2) {
-      const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
       const hourDate = new Date(date);
       hourDate.setHours(i, 0, 0, 0);
 
       if (!isToday || (isToday && hourDate > now)) {
+        const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
         hours.push(hour);
       }
     }
@@ -47,15 +55,13 @@ const TrainerDetails = () => {
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
+    const endOfMonth = new Date(currentYear, currentMonth + 1, 1);
 
     const formatDate = (date) => date.toISOString().split("T")[0];
 
-    for (let day = today.getDate(); day <= 31; day++) {
-      const date = new Date(currentYear, currentMonth, day);
-      if (date.getMonth() !== currentMonth) break;
-
+    for (let date = new Date(today); date <= endOfMonth; date.setDate(date.getDate() + 1)) {
       const dayOfWeek = date.getDay();
-      if (dayOfWeek >= 0 && dayOfWeek <= 4) {
+      if (dayOfWeek >= 0 && dayOfWeek <= 4) { // Sunday to Thursday
         const formattedDate = formatDate(date);
         availableSchedule[formattedDate] = generateAvailableHours(date);
       }
@@ -81,7 +87,6 @@ const TrainerDetails = () => {
         setBookedLessons(trainerData.bookedLessons || []);
       }
     };
-
     fetchTrainer();
   }, [trainerId]);
 
@@ -93,6 +98,29 @@ const TrainerDetails = () => {
       setTrainer(trainerData);
       setBookedLessons(trainerData.bookedLessons || []);
     }
+  };
+
+  // Handle the favorite logic
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (users && user) {
+      const userData = users.find((userObj) => user.uid === userObj.uid);
+      const favorite = userData?.favorites.includes(trainerId);
+      setIsFavorite(favorite);
+    }
+  }, [user, users]);
+
+  const handleAddFavorite = (userId, trainerId) => {
+    dispatch(addFavorite(userId, trainerId));
+    setIsFavorite(true);
+  };
+
+  const handleRemoveFavorite = (userId, trainerId) => {
+    dispatch(removeFavorite(userId, trainerId));
+    setIsFavorite(false);
   };
 
   if (!trainer) {
@@ -109,31 +137,6 @@ const TrainerDetails = () => {
   const handleCloseCalender = () => {
     setIsCalenderOpen(false);
     refetchTrainer();
-  };
-
-  const handleReviewSubmit = () => {
-    const reviewText = document.querySelector(".review-text-input").value;
-    const reviewRating = document.querySelector(".review-rating-input").value;
-
-    if (!reviewText || !reviewRating) {
-      alert("Please provide a review and rating.");
-      return;
-    }
-
-    const newReview = {
-      userId: user.uid,
-      userName: user.displayName,
-      reviewText,
-      reviewRating,
-    };
-
-    const updatedReviews = [...(trainer.reviews || []), newReview];
-
-    const updatedData = {
-      reviews: updatedReviews,
-    };
-
-    dispatch(updateTrainer(trainerId, updatedData));
   };
 
   return (
@@ -198,28 +201,6 @@ const TrainerDetails = () => {
               {/* Existing reviews will be displayed here */}
               <p>add reviews here</p>
             </div>
-            <div className="review-input-container">
-              <textarea
-                className="review-text-input"
-                placeholder="Write your review here..."
-              ></textarea>
-              <select className="review-rating-input">
-                <option value="" disabled selected>
-                  Select rating
-                </option>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-              </select>
-              <button
-                className="submit-review-button"
-                onClick={handleReviewSubmit}
-              >
-                Submit Review
-              </button>
-            </div>
           </div>
         </div>
 
@@ -253,20 +234,37 @@ const TrainerDetails = () => {
               <BiMessageSquareDetail className="trainer-profile-button-icon" />
               Send Message
             </button>
-            <button className="button-transparent" id="trainer-profile-button">
-              <FiHeart className="trainer-profile-button-icon" />
-              Add to Favorite
-            </button>
+            {isFavorite ? (
+              <button
+                onClick={() => {
+                  handleRemoveFavorite(user.uid, trainerId);
+                }}
+                className="button-transparent"
+                id="trainer-profile-button"
+              >
+                <FaHeart className="trainer-profile-button-icon" />
+                Remove from Favorite
+              </button>
+            ) : (
+              <button
+                onClick={() => handleAddFavorite(user.uid, trainerId)}
+                className="button-transparent"
+                id="trainer-profile-button"
+              >
+                <FiHeart className="trainer-profile-button-icon" />
+                Add to Favorite
+              </button>
+            )}
           </div>
         </div>
         {isCalenderOpen && (
           <CalenderModal
             availableSchedule={trainer.availableSchedule}
-            bookedLessons={bookedLessons}
-            onClose={handleCloseCalender}
-            userId={user && user.uid}
             userName={user && user.displayName}
             userImage={user && user.photoURL}
+            onClose={handleCloseCalender}
+            bookedLessons={bookedLessons}
+            userId={user && user.uid}
             trainerId={trainerId}
           />
         )}
@@ -277,3 +275,4 @@ const TrainerDetails = () => {
 };
 
 export default TrainerDetails;
+

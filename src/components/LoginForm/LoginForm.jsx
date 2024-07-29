@@ -4,10 +4,12 @@ import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormHook } from "../../hooks/useFormHook";
 import { Link, useNavigate } from "react-router-dom";
-import { FaGoogle } from "react-icons/fa";
-
-import "./LoginForm.css";
 import { useEffect, useState } from "react";
+import { FaGoogle } from "react-icons/fa";
+import { db, storage } from "../../config/firebaseConfig";
+
+import { doc, getDoc } from "firebase/firestore";
+import "./LoginForm.css";
 
 export const LoginForm = () => {
   const { user, error } = useSelector((state) => state.auth);
@@ -27,13 +29,31 @@ export const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      if (user.role === "trainer") {
-        navigate(`/trainer-panel/${user.uid}`);
-      } else {
-        navigate("/trainers");
-      }
-    }
+    if (!user) return;
+
+    const trainerDocRef = doc(db, "trainers", user.uid);
+    getDoc(trainerDocRef)
+      .then((snapshot) => {
+        const TrainerSnap = snapshot;
+        const trainerApproved =
+          TrainerSnap.exists() && TrainerSnap.data().approved;
+
+        let path;
+        if (trainerApproved) {
+          path = `/trainer-panel/${user.uid}`;
+        } else if (user.role === "admin") {
+          path = `/admin`;
+        } else if (user.role === "trainee") {
+          path = "/trainers";
+        } else {
+          path = "/pending-trainer";
+        }
+
+        navigate(path);
+      })
+      .catch((error) => {
+        console.error("the fallowing error occured:", error);
+      });
   }, [user, navigate]);
 
   useEffect(() => {
