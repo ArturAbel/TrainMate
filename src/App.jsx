@@ -19,6 +19,8 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
+import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/AdminRemoveUsersAndTrainers";
+
 
 const router = createBrowserRouter([
   {
@@ -80,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "trainer-settings",
         element: <TrainerSettings />,
+      },
+      {
+        path: "admin-settings",
+        element:<AdminRemoveUsersAndTrainers/>
       },
       {
         path: "trainer-reviews/:trainerId",
