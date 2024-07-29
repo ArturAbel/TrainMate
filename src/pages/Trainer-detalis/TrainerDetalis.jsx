@@ -1,18 +1,18 @@
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { updateTrainer } from "../../redux/features/trainerSlice";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
+import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
 import { FiHeart } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { updateTrainer } from "../../redux/features/trainerSlice";
 
 import "./TrainerDetails.css";
 
@@ -41,6 +41,7 @@ const TrainerDetails = () => {
     }
     return hours;
   };
+  console.log(trainer);
 
   const generateAvailableSchedule = () => {
     const availableSchedule = {};
