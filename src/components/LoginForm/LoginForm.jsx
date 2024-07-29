@@ -6,7 +6,9 @@ import { useFormHook } from "../../hooks/useFormHook";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import { db, storage } from "../../config/firebaseConfig";
 
+import { doc, getDoc } from "firebase/firestore";
 import "./LoginForm.css";
 
 export const LoginForm = () => {
@@ -27,16 +29,30 @@ export const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      if (user.role === "trainer") {
-        navigate(`/trainer-panel/${user.uid}`);
-      }
-      if (user.role === "admin") {
-        navigate(`/admin`);
-      } else {
-        navigate("/trainers");
-      }
-    }
+    if (!user) return;
+
+    const trainerDocRef = doc(db, "trainers", user.uid);
+    getDoc(trainerDocRef)
+      .then((snapshot) => {
+        const TrainerSnap = snapshot;
+        const trainerApproved =
+          TrainerSnap.exists() && TrainerSnap.data().approved;
+
+        let path;
+        if (trainerApproved) {
+          path = `/trainer-panel/${user.uid}`;
+        } else if (user.role === "admin") {
+          path = `/admin`;
+        } else {
+          path = "/pending-trainer";
+        }
+
+        navigate(path);
+      })
+      .catch((error) => {
+        console.error("the fallowing error occured:", error);
+   
+      });
   }, [user, navigate]);
 
   useEffect(() => {

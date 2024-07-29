@@ -84,7 +84,11 @@ export const TrainerRegistration = () => {
     e.preventDefault();
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
-      navigate(`/trainer-panel/${trainerData.uid}`);
+      if (trainerData.approved) {
+        navigate(`/trainer-panel/${trainerData.uid}`);
+      } else {
+        navigate("/pending-trainer");
+      }
     }
   };
 
