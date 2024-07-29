@@ -1,24 +1,32 @@
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { updateTrainer } from "../../redux/features/trainerSlice";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
+import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { updateTrainer } from "../../redux/features/trainerSlice";
+import {
+  removeFavorite,
+  addFavorite,
+  fetchUsers,
+} from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
 
 const TrainerDetails = () => {
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
+  const { users } = useSelector((state) => state.users);
   const [bookedLessons, setBookedLessons] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const [trainer, setTrainer] = useState(null);
   const { id: trainerId } = useParams();
@@ -81,7 +89,6 @@ const TrainerDetails = () => {
         setBookedLessons(trainerData.bookedLessons || []);
       }
     };
-
     fetchTrainer();
   }, [trainerId]);
 
@@ -93,6 +100,29 @@ const TrainerDetails = () => {
       setTrainer(trainerData);
       setBookedLessons(trainerData.bookedLessons || []);
     }
+  };
+
+  // Handle the favorite logic
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (users && user) {
+      const userData = users.find((userObj) => user.uid === userObj.uid);
+      const favorite = userData?.favorites.includes(trainerId);
+      setIsFavorite(favorite);
+    }
+  }, [user, users]);
+
+  const handleAddFavorite = (userId, trainerId) => {
+    dispatch(addFavorite(userId, trainerId));
+    setIsFavorite(true);
+  };
+
+  const handleRemoveFavorite = (userId, trainerId) => {
+    dispatch(removeFavorite(userId, trainerId));
+    setIsFavorite(false);
   };
 
   if (!trainer) {
@@ -128,11 +158,9 @@ const TrainerDetails = () => {
     };
 
     const updatedReviews = [...(trainer.reviews || []), newReview];
-
     const updatedData = {
       reviews: updatedReviews,
     };
-
     dispatch(updateTrainer(trainerId, updatedData));
   };
 
@@ -253,20 +281,37 @@ const TrainerDetails = () => {
               <BiMessageSquareDetail className="trainer-profile-button-icon" />
               Send Message
             </button>
-            <button className="button-transparent" id="trainer-profile-button">
-              <FiHeart className="trainer-profile-button-icon" />
-              Add to Favorite
-            </button>
+            {isFavorite ? (
+              <button
+                onClick={() => {
+                  handleRemoveFavorite(user.uid, trainerId);
+                }}
+                className="button-transparent"
+                id="trainer-profile-button"
+              >
+                <FaHeart className="trainer-profile-button-icon" />
+                Remove from Favorite
+              </button>
+            ) : (
+              <button
+                onClick={() => handleAddFavorite(user.uid, trainerId)}
+                className="button-transparent"
+                id="trainer-profile-button"
+              >
+                <FiHeart className="trainer-profile-button-icon" />
+                Add to Favorite
+              </button>
+            )}
           </div>
         </div>
         {isCalenderOpen && (
           <CalenderModal
             availableSchedule={trainer.availableSchedule}
-            bookedLessons={bookedLessons}
-            onClose={handleCloseCalender}
-            userId={user && user.uid}
             userName={user && user.displayName}
             userImage={user && user.photoURL}
+            onClose={handleCloseCalender}
+            bookedLessons={bookedLessons}
+            userId={user && user.uid}
             trainerId={trainerId}
           />
         )}
