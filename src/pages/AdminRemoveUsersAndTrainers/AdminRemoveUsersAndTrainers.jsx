@@ -1,18 +1,10 @@
-
-
-import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
-import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { fetchUsers } from "../../redux/features/usersSlice";
 import { deleteTrainer } from "../../redux/features/trainerSlice";
-
 import { deleteUser } from "../../redux/features/usersSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Search from "../../components/Search/Search";
-import { db } from "../../config/firebaseConfig";
-import { getDoc, doc } from "firebase/firestore";
+
 import "./AdminRemoveUsersAndTrainers.css";
 
 const AdminRemoveUsersAndTrainers = () => {
@@ -27,6 +19,7 @@ const AdminRemoveUsersAndTrainers = () => {
     loading: trainersLoading,
     error: trainersError,
   } = useSelector((state) => state.trainer);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -46,46 +39,71 @@ const AdminRemoveUsersAndTrainers = () => {
   };
 
   return (
-    <div className="admin-remove-container">
-      <h2>Admin Panel: Remove Users and Trainers</h2>
-      <div className="admin-section">
-        <h3>Users</h3>
-        {usersLoading ? (
-          <p>Loading users...</p>
-        ) : usersError ? (
-          <p>Error loading users: {usersError}</p>
-        ) : (
-          users.map((user) => (
-            <div key={user.id} className="user-card">
-              <p>{user.email}</p>
-              <button onClick={() => handleRemoveUser(user.id)}>
-                Remove User
-              </button>
-            </div>
-          ))
-        )}
+    <section className="admin-users-section">
+      <h1 className="admin-users-title">
+        Admin Panel: Remove Users and Trainers
+      </h1>
+      <div className="admin-users-search-container">
+        <input
+          className="admin-users-search"
+          placeholder="Search Email"
+          type="text"
+        />
       </div>
-      <div className="admin-section">
-        <h3>Trainers</h3>
-        {trainersLoading ? (
-          <p>Loading trainers...</p>
-        ) : trainersError ? (
-          <p>Error loading trainers: {trainersError}</p>
-        ) : (
-          trainers.map((trainer) => (
-            // <TrainerCard key={trainer.uid} trainer={trainer}>
-            <div key={trainer.uid} className="trainer-card">
-              <h4>{trainer.name}</h4>
-              <h4>{trainer.email}</h4>
-              <button onClick={() => handleRemoveTrainer(trainer.uid)}>
-                Remove Trainer
-              </button>
-            </div>
-            // </TrainerCard>
-          ))
-        )}
+
+      <div className="admin-users-containers">
+        <div>
+          <h3 className="admin-container-title">Users</h3>
+          <div className="admin-container">
+            {usersLoading ? (
+              <p>Loading users...</p>
+            ) : usersError ? (
+              <p>Error loading users: {usersError}</p>
+            ) : (
+              users.map((user) => (
+                <div key={user.id} className="admin-users-card">
+                  <p>{user.email}</p>
+                  <button
+                    className="button-transparent"
+                    id="admin-users-remove-button"
+                    onClick={() => handleRemoveUser(user.id)}
+                  >
+                    Remove User
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="admin-container-title">Trainers</h3>
+          <div className="admin-container">
+            {trainersLoading ? (
+              <p>Loading trainers...</p>
+            ) : trainersError ? (
+              <p>Error loading trainers: {trainersError}</p>
+            ) : (
+              trainers.map((trainer) => (
+                <div key={trainer.uid} className="admin-users-card">
+                  <p className="admin-users-card-trainer-name">
+                    {trainer.name}
+                  </p>
+                  <p>{trainer.email}</p>
+                  <button
+                    className="button-transparent"
+                    id="admin-users-remove-button"
+                    onClick={() => handleRemoveTrainer(trainer.uid)}
+                  >
+                    Remove Trainer
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
