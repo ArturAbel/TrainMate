@@ -21,6 +21,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 
 const TrainerDetails = () => {
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
@@ -210,7 +211,7 @@ const TrainerDetails = () => {
           <div className="trainer-profile-actions-data-container">
             <div className="trainer-profile-actions-data-item">
               <GoStarFill className="trainer-profile-button-icon" />
-              <p>{trainer.ratings}</p>
+              <p>{calculateAverageRating(trainer.ratings)}</p>
             </div>
             <div className="trainer-profile-actions-data-item">
               <BiShekel className="trainer-profile-button-icon" />

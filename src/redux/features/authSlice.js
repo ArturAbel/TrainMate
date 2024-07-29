@@ -60,6 +60,7 @@ const createUserDoc = async (user, userName) => {
       filtersRef: [],
       favorites: [],
       transactions: [],
+      userHistory: [],
       wallet: 0,
     },
     { merge: true }
@@ -124,6 +125,7 @@ const createTrainerDoc = async (user, userName) => {
       address: "",
       availableSchedule: defaultSchedule,
       bookedLessons: [],
+      trainerHistory: [],
       approved: false,
     },
     { merge: true }
