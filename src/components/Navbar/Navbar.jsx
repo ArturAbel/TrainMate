@@ -46,16 +46,20 @@ export const Navbar = () => {
     dispatch(logoutUser());
     setShowSettings((prev) => !prev);
   };
-
+  
   return (
     <nav className="navbar">
       <div className="navbar-left-container">
         <Link
           to={
-            user && user.role === TRAINEE
-              ? "/trainers"
-              : user && user.role === TRAINER
-              ? `/trainer-panel/${user.uid}`
+            user
+              ? user.role === TRAINEE
+                ? "/trainers"
+                : user.role === TRAINER
+                ? `/trainer-panel/${user.uid}`
+                : user.role === ADMIN
+                ? "/admin"
+                : "/"
               : "/"
           }
         >

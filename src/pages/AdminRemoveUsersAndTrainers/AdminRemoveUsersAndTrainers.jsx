@@ -1,6 +1,7 @@
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import { fetchUsers } from "../../redux/features/usersSlice";
 import { deleteTrainer } from "../../redux/features/trainerSlice";
+import { fetchUsers } from "../../redux/features/usersSlice";
 import { deleteUser } from "../../redux/features/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -73,7 +74,7 @@ const AdminRemoveUsersAndTrainers = () => {
         <input
           onChange={handleSearch}
           className="admin-users-search"
-          placeholder="Search Email"
+          placeholder="Search"
           value={input}
           type="text"
         />
@@ -131,6 +132,7 @@ const AdminRemoveUsersAndTrainers = () => {
           </div>
         </div>
       </div>
+      <HomeDivider />
     </section>
   );
 };
