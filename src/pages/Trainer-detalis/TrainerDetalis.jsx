@@ -39,11 +39,11 @@ const TrainerDetails = () => {
     const isToday = date.toDateString() === now.toDateString();
 
     for (let i = 10; i <= 18; i += 2) {
-      const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
       const hourDate = new Date(date);
       hourDate.setHours(i, 0, 0, 0);
 
       if (!isToday || (isToday && hourDate > now)) {
+        const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
         hours.push(hour);
       }
     }
@@ -55,15 +55,13 @@ const TrainerDetails = () => {
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
+    const endOfMonth = new Date(currentYear, currentMonth + 1, 1);
 
     const formatDate = (date) => date.toISOString().split("T")[0];
 
-    for (let day = today.getDate(); day <= 31; day++) {
-      const date = new Date(currentYear, currentMonth, day);
-      if (date.getMonth() !== currentMonth) break;
-
+    for (let date = new Date(today); date <= endOfMonth; date.setDate(date.getDate() + 1)) {
       const dayOfWeek = date.getDay();
-      if (dayOfWeek >= 0 && dayOfWeek <= 4) {
+      if (dayOfWeek >= 0 && dayOfWeek <= 4) { // Sunday to Thursday
         const formattedDate = formatDate(date);
         availableSchedule[formattedDate] = generateAvailableHours(date);
       }
@@ -141,29 +139,6 @@ const TrainerDetails = () => {
     refetchTrainer();
   };
 
-  const handleReviewSubmit = () => {
-    const reviewText = document.querySelector(".review-text-input").value;
-    const reviewRating = document.querySelector(".review-rating-input").value;
-
-    if (!reviewText || !reviewRating) {
-      alert("Please provide a review and rating.");
-      return;
-    }
-
-    const newReview = {
-      userId: user.uid,
-      userName: user.displayName,
-      reviewText,
-      reviewRating,
-    };
-
-    const updatedReviews = [...(trainer.reviews || []), newReview];
-    const updatedData = {
-      reviews: updatedReviews,
-    };
-    dispatch(updateTrainer(trainerId, updatedData));
-  };
-
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
@@ -225,28 +200,6 @@ const TrainerDetails = () => {
             <div className="reviews-list">
               {/* Existing reviews will be displayed here */}
               <p>add reviews here</p>
-            </div>
-            <div className="review-input-container">
-              <textarea
-                className="review-text-input"
-                placeholder="Write your review here..."
-              ></textarea>
-              <select className="review-rating-input">
-                <option value="" disabled selected>
-                  Select rating
-                </option>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-              </select>
-              <button
-                className="submit-review-button"
-                onClick={handleReviewSubmit}
-              >
-                Submit Review
-              </button>
             </div>
           </div>
         </div>
@@ -322,3 +275,4 @@ const TrainerDetails = () => {
 };
 
 export default TrainerDetails;
+
