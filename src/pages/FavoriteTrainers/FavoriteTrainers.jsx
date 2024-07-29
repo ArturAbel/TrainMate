@@ -1,34 +1,35 @@
-import { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
-import { db } from "../../config/firebaseConfig";
-import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import { doc, getDoc } from "firebase/firestore";
+import { fetchUsers } from "../../redux/features/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import "./FavoriteTrainers.css";
 
 const FavoriteTrainers = () => {
   const dispatch = useDispatch();
   const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const [selectedLessonLength, setSelectedLessonLength] = useState(null);
+  const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [filteredTrainers, setFilteredTrainers] = useState([]);
-  const [sports, setSports] = useState([]);
-  const [levels, setLevels] = useState([]);
-  const [addresses, setAddresses] = useState([]);
-  const [lessonLengths, setLessonLengths] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [overlayVisible, setOverlayVisible] = useState(false);
   const [selectedSport, setSelectedSport] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(null);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [selectedLessonLength, setSelectedLessonLength] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
-  const [overlayVisible, setOverlayVisible] = useState(false);
-  const [favorites, setFavorites] = useState(false);
+  const [lessonLengths, setLessonLengths] = useState([]);
+  const { users } = useSelector((state) => state.users);
   const { user } = useSelector((state) => state.auth);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [favorites, setFavorites] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [sports, setSports] = useState([]);
+  const [levels, setLevels] = useState([]);
 
   useEffect(() => {
     dispatch(fetchTrainers());
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   useEffect(() => {
@@ -85,80 +86,26 @@ const FavoriteTrainers = () => {
 
     setFilteredTrainers(filtered);
   }, [
+    selectedLessonLength,
+    selectedAddress,
     selectedSport,
     selectedLevel,
-    selectedAddress,
-    selectedLessonLength,
     searchQuery,
     priceRange,
     trainers,
   ]);
 
-  const handlePriceFilterChange = (range) => {
-    setPriceRange(range);
-  };
-
-  const handleSportFilterChange = (sport) => {
-    setSelectedSport(sport);
-  };
-
-  const handleLevelFilterChange = (level) => {
-    setSelectedLevel(level);
-  };
-
-  const handleAddressFilterChange = (address) => {
-    setSelectedAddress(address);
-  };
-
-  const handleLessonLengthFilterChange = (lessonLength) => {
-    setSelectedLessonLength(lessonLength);
-  };
-
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
-
-  const handleSortByRating = () => {
-    const sortedTrainers = [...filteredTrainers].sort(
-      (a, b) => b.ratings - a.ratings
-    );
-    setFilteredTrainers(sortedTrainers);
-  };
-
   const toggleOverlay = (visible) => {
     setOverlayVisible(visible);
   };
 
-  const fetchFavorites = async (userId) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      const userSnap = await getDoc(userDocRef);
-      if (!userSnap.exists()) {
-        return [];
-      } else {
-        const userData = userSnap.data();
-        return userData.favorites || [];
-      }
-    } catch (error) {
-      console.error("Error fetching favorites: ", error);
-      return [];
-    }
-  };
-
   useEffect(() => {
-    const loadFavorites = async () => {
-      if (user) {
-        const favoriteTrainers = await fetchFavorites(user.uid);
-        setFavorites(favoriteTrainers);
-      }
-    };
-    loadFavorites();
-  }, [user]);
-
-  const isTrainerInFavorites = useCallback(
-    (trainerId) => favorites.includes(trainerId),
-    [favorites]
-  );
+    if (users && user) {
+      const userData = users.find((userObj) => user.uid === userObj.uid);
+      const favorites = userData?.favorites || [];
+      setFavorites(favorites);
+    }
+  }, [user, users]);
 
   return (
     <>
@@ -170,41 +117,43 @@ const FavoriteTrainers = () => {
           />
           <section className="favorite-trainers-section">
             <h1 className="favorite-trainers-header-title">
-              Your favorite trainers:
+              {user.displayName}, your favorite trainers:
             </h1>
-            <div className="favorite-trainers-filter-search-container"></div>
-            <section className="favorite-trainers-container">
-              {loading && <p>Loading...</p>}
-              {error && <p>Error: {error}</p>}
-              {!loading &&
-                !error &&
-                filteredTrainers.map((trainer) => {
-                  const isFavorite = isTrainerInFavorites(trainer.uid);
-                  return isFavorite ? (
-                    <TrainerCard
-                      favorite={isFavorite}
-                      lessonLength={trainer.lessonLength}
-                      description={trainer.description}
-                      ratings={trainer.ratings}
-                      address={trainer.address}
-                      reviews={trainer.reviews}
-                      imgSrc={trainer.image}
-                      price={trainer.price}
-                      sport={trainer.sport}
-                      level={trainer.level}
-                      about={trainer.about}
-                      name={trainer.name}
-                      key={trainer.uid}
-                      id={trainer.uid}
-                    />
-                  ) : null;
-                })}
-              {!loading && !error && filteredTrainers.length === 0 && (
-                <p>No matches found</p>
-              )}
-            </section>
-            <HomeDivider />
+            {loading && <p>Loading...</p>}
+            {error && <p>Error: {error}</p>}
+            {favorites.length > 0 ? (
+              favorites.map((favoriteTrainerId) => {
+                const trainer = trainers.find(
+                  (trainer) => trainer.uid === favoriteTrainerId
+                );
+                return trainer ? (
+                  <TrainerCard
+                    lessonLength={trainer.lessonLength}
+                    description={trainer.description}
+                    ratings={trainer.ratings}
+                    address={trainer.address}
+                    reviews={trainer.reviews}
+                    imgSrc={trainer.image}
+                    price={trainer.price}
+                    sport={trainer.sport}
+                    level={trainer.level}
+                    about={trainer.about}
+                    name={trainer.name}
+                    key={trainer.uid}
+                    id={trainer.uid}
+                    favorite={true}
+                  />
+                ) : null;
+              })
+            ) : (
+              <section className="favorite-trainers-no-favorite">
+                <h1 className="favorite-trainers-no-favorite-title">
+                  {user.displayName}, you have no favorite trainers yet!
+                </h1>
+              </section>
+            )}
           </section>
+          <HomeDivider />
         </>
       ) : (
         <p>Loading...</p>
