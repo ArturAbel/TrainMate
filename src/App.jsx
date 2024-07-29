@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import { useEffect } from "react";
 import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
+import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/AdminRemoveUsersAndTrainers";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
         path: "trainer-settings",
         element: <TrainerSettings />,
       },
+      {
+        path: "admin-settings",
+        element:<AdminRemoveUsersAndTrainers/>
+      }
     ],
   },
   {
