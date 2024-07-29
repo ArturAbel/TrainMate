@@ -28,9 +28,63 @@ const TrainerPanel = () => {
     }
   }, [trainers, trainerId]);
 
+  const formatDateWithHyphens = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  const currentMinute = currentDate.getMinutes();
+
+  // create the time cheker shit
+  const timeChecker = {
+    date: formatDateWithHyphens(currentDate),
+    hour: `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`,
+    timestamp: currentDate.getTime(),
+  };
+
+  console.log("Time Checker:", timeChecker); // log the time shit
+
   if (!trainer) {
     return <div>Loading...</div>;
   }
+
+  // create time all time shit
+  const allTimes = trainer.bookedLessons.map((lesson) => {
+    const lessonTimestamp = Date.parse(
+      `${lesson.date.split("/").reverse().join("-")}T${convertTo24HourFormat(
+        lesson.hour
+      )}`
+    );
+    return {
+      timestamp: lessonTimestamp,
+      date: lesson.date.split("/").reverse().join("-"),
+      hour: lesson.hour,
+      userName: lesson.userName,
+      userId: lesson.userId,
+    };
+  });
+
+  console.log("All Times:", allTimes); // kill me
+
+  allTimes.forEach((time) => {
+    if (timeChecker.timestamp > time.timestamp) {
+      console.log(
+        `The current time is greater than the requested time of ${time.userName}`
+      );
+    } else if (timeChecker.timestamp < time.timestamp) {
+      console.log(
+        `The current time is less than the requested time of ${time.userName}`
+      );
+    } else {
+      console.log(
+        `The current time matches the requested time of ${time.userName}`
+      );
+    }
+  });
 
   const pendingLessons = trainer.bookedLessons.filter(
     (lesson) => !lesson.approved
@@ -68,6 +122,18 @@ const TrainerPanel = () => {
       </div>
     </section>
   );
+};
+
+const convertTo24HourFormat = (time) => {
+  const [hour, minutePart] = time.split(":");
+  const [minute, period] = minutePart.split(" ");
+  let hour24 = parseInt(hour, 10);
+  if (period === "PM" && hour24 !== 12) {
+    hour24 += 12;
+  } else if (period === "AM" && hour24 === 12) {
+    hour24 = 0;
+  }
+  return `${hour24.toString().padStart(2, "0")}:${minute}`;
 };
 
 export default TrainerPanel;
