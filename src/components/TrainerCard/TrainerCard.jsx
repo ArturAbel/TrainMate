@@ -7,10 +7,6 @@ import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {
-  deleteTrainer,
-  approveTrainer,
-} from "../../redux/features/trainerSlice";
 
 import "./TrainerCard.css";
 
@@ -30,17 +26,14 @@ const TrainerCard = ({
   id,
   inAdmin = null,
 }) => {
+  const [isFavorited, setIsFavorited] = useState(favorite);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [isFavorited, setIsFavorited] = useState(favorite);
 
   const handleAddFavorite = (userId, id) => {
     dispatch(addFavorite(userId, id));
     setIsFavorited(true);
   };
-
-
-  
 
   const handleRemoveFavorite = (userId, id) => {
     dispatch(removeFavorite(userId, id));
