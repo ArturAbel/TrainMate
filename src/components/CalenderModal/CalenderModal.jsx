@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { bookLesson } from "../../redux/features/usersSlice";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "react-calendar/dist/Calendar.css";
 import "./CalenderModal.css";
+import moment from "moment";
 
 const CalenderModal = ({
   availableSchedule,
@@ -22,30 +23,34 @@ const CalenderModal = ({
   const dispatch = useDispatch();
 
   const handleDateChange = (date) => {
+    const formattedDate = moment(date).format("YYYY-MM-DD");
     setSelectedDate(date);
-    setAvailableHours(generateAvailableHours(date));
+    const hours = generateAvailableHours(formattedDate);
+    setAvailableHours(hours);
     setSelectedHour(null);
   };
 
-  const generateAvailableHours = (date) => {
+  const generateAvailableHours = (formattedDate) => {
     const hours = [];
-    const now = new Date();
-    const isToday = date.toDateString() === now.toDateString();
-    const formattedDate = date.toISOString().split("T")[0];
+    const now = moment();
+    const isToday = now.format("YYYY-MM-DD") === formattedDate;
     const bookedHours = localBookedLessons
       .filter((lesson) => lesson.date === formattedDate)
       .map((lesson) => lesson.hour);
 
     if (availableSchedule[formattedDate]) {
       availableSchedule[formattedDate].forEach((hour) => {
-        const formattedHour = hour ;
-        const hourDate = new Date(date);
-        hourDate.setHours(hour, 0, 0, 0);
+        const hourParts = hour.split(":");
+        const hourDate = moment().set({
+          hour: parseInt(hourParts[0]),
+          minute: 0,
+          second: 0,
+          millisecond: 0
+        });
+        const isBooked = bookedHours.includes(hour);
 
-        const isBooked = bookedHours.includes(formattedHour);
-
-        if (!isToday || (isToday && hourDate > now)) {
-          hours.push({ hour: formattedHour, booked: isBooked });
+        if (!isToday || (isToday && hourDate.isAfter(now))) {
+          hours.push({ hour, booked: isBooked });
         }
       });
     }
@@ -54,25 +59,18 @@ const CalenderModal = ({
   };
 
   const isDateAvailable = (date) => {
-    const formattedDate = date.toISOString().split("T")[0];
-    return Object.prototype.hasOwnProperty.call(
-      availableSchedule,
-      formattedDate
-    );
+    const formattedDate = moment(date).format("YYYY-MM-DD");
+    return availableSchedule.hasOwnProperty(formattedDate);
   };
 
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
-      const now = new Date();
-      now.setHours(0, 0, 0, 0);
-      return date < now || !isDateAvailable(date);
+      const now = moment().startOf('day');
+      const tileDate = moment(date).startOf('day');
+      return tileDate.isBefore(now) || !isDateAvailable(date);
     }
     return false;
   };
-
-  const now = new Date();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
   const handleHourClick = (hour) => {
     setSelectedHour(hour);
@@ -84,7 +82,7 @@ const CalenderModal = ({
       return;
     }
 
-    const formattedDate = selectedDate.toISOString().split("T")[0];
+    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
     const booking = {
       date: formattedDate,
       hour: selectedHour,
@@ -94,7 +92,7 @@ const CalenderModal = ({
     try {
       await dispatch(bookLesson(trainerId, userId, booking, userName, userImage));
       setLocalBookedLessons((prevLessons) => [...prevLessons, booking]);
-      setAvailableHours(generateAvailableHours(selectedDate));
+      setAvailableHours(generateAvailableHours(formattedDate));
     } catch (error) {
       alert("Error booking lesson: " + error.message);
     }
@@ -110,9 +108,9 @@ const CalenderModal = ({
       <Calendar
         tileDisabled={tileDisabled}
         onChange={handleDateChange}
-        minDate={startOfMonth}
+        minDate={new Date()}
         value={selectedDate}
-        maxDate={endOfMonth}
+        maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
         locale="en-US"
       />
       {selectedDate && (
@@ -123,8 +121,7 @@ const CalenderModal = ({
               {availableHours.map(({ hour, booked }, index) => (
                 <li
                   key={index}
-                  className={`${selectedHour === hour ? "selected-hour" : ""} ${booked ? "booked-hour" : ""
-                    }`}
+                  className={`${selectedHour === hour ? "selected-hour" : ""} ${booked ? "booked-hour" : ""}`}
                   onClick={() => !booked && handleHourClick(hour)}
                 >
                   {hour}
@@ -157,3 +154,10 @@ const CalenderModal = ({
 };
 
 export default CalenderModal;
+
+
+
+
+
+
+
