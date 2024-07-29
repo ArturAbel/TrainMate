@@ -1,44 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
+import { useParams } from "react-router";
+import ReactStars from "react-rating-stars-component";
 import "./TrainerReviews.css";
 
 const TrainerReviews = () => {
   const dispatch = useDispatch();
   const trainers = useSelector((state) => state.trainer.trainers);
-  const dummyUid = "8vYgnqL5o7sElCv6Hguf";
-  const [averageRating, setAverageRating] = useState(0);
+  const { trainerId } = useParams();
 
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (trainers.length > 0) {
-      const matchedTrainer = trainers.find(
-        (trainer) => trainer.uid === dummyUid
-      );
-      if (matchedTrainer) {
-        console.log(matchedTrainer);
-
-        const totalRating = matchedTrainer.reviews.reduce(
-          (acc, review) => acc + parseInt(review.reviewRating, 10),
-          0
-        );
-        const avgRating = (totalRating / matchedTrainer.reviews.length).toFixed(
-          2
-        );
-        setAverageRating(avgRating);
-      } else {
-        console.log(`Trainer with uid ${dummyUid} not found.`);
-      }
-    }
-  }, [trainers]);
-
-  const matchedTrainer = trainers.find((trainer) => trainer.uid === dummyUid);
+  const matchedTrainer = trainers.find((trainer) => trainer.uid === trainerId);
 
   if (!matchedTrainer) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
@@ -46,26 +25,28 @@ const TrainerReviews = () => {
       <h1 className="trainer-reviews-header">
         Welcome to your reviews, {matchedTrainer.name}
       </h1>
-      <h2 className="trainer-reviews-average">
-        Your average review score is: {averageRating}
-      </h2>
       <div className="reviews-container">
         {matchedTrainer.reviews && matchedTrainer.reviews.length > 0 ? (
           matchedTrainer.reviews.map((review, index) => (
             <div key={index} className="review-card">
-              <p>
-                <strong>Reviewer:</strong> {review.userName}
-              </p>
-              <p>
-                <strong>Review:</strong> {review.reviewText}
-              </p>
-              <p>
-                <strong>Rating:</strong> {review.reviewRating}
-              </p>
+              <img src={review.userImage} alt={review.userName} className="review-user-image" />
+              <div className="review-content">
+                <p className="reviewer-name">{review.userName}</p>
+                <p className="review-text">{review.reviewText}</p>
+                <div className="rating-container">
+                  <ReactStars
+                    count={5}
+                    value={review.userRating}
+                    edit={false}
+                    size={24}
+                    activeColor="#ffd700"
+                  />
+                </div>
+              </div>
             </div>
           ))
         ) : (
-          <p>No reviews available.</p>
+          <p className="no-reviews">No reviews available.</p>
         )}
       </div>
     </section>
@@ -73,3 +54,7 @@ const TrainerReviews = () => {
 };
 
 export default TrainerReviews;
+
+
+
+
