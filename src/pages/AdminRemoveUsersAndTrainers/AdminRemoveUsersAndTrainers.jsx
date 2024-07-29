@@ -20,6 +20,7 @@ const AdminRemoveUsersAndTrainers = () => {
     error: trainersError,
   } = useSelector((state) => state.trainer);
   const [input, setInput] = useState("");
+  
 
   useEffect(() => {
     dispatch(fetchUsers());
