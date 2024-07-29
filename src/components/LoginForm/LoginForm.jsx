@@ -54,6 +54,7 @@ export const LoginForm = () => {
    
       });
   }, [user, navigate]);
+  console.log(user);
 
   useEffect(() => {
     if (error) {

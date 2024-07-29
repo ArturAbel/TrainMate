@@ -43,6 +43,10 @@
   background-color: var(--background-secondary1);
 }
 
+#admin-trainer-approve:hover {
+  filter: brightness(0.9);
+}
+
 .admin-trainer-description {
   flex-direction: column;
   text-align: justify;

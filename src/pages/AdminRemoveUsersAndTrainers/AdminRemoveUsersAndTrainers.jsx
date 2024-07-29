@@ -2,8 +2,8 @@ import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { fetchUsers } from "../../redux/features/usersSlice";
 import { deleteTrainer } from "../../redux/features/trainerSlice";
 import { deleteUser } from "../../redux/features/usersSlice";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import "./AdminRemoveUsersAndTrainers.css";
 
@@ -19,8 +19,8 @@ const AdminRemoveUsersAndTrainers = () => {
     loading: trainersLoading,
     error: trainersError,
   } = useSelector((state) => state.trainer);
+  const [filteredByEmail, setFilteredByEmail] = useState(users);
   const [input, setInput] = useState("");
-  
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -39,6 +39,19 @@ const AdminRemoveUsersAndTrainers = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    setInput(search);
+
+    if (search === "") {
+      setFilteredByEmail(users);
+      return;
+    }
+
+    const filterData = users.filter((user) => user.email.includes(search));
+    setFilteredByEmail(filterData);
+  };
+
   return (
     <section className="admin-users-section">
       <h1 className="admin-users-title">
@@ -46,8 +59,10 @@ const AdminRemoveUsersAndTrainers = () => {
       </h1>
       <div className="admin-users-search-container">
         <input
+          onChange={handleSearch}
           className="admin-users-search"
           placeholder="Search Email"
+          value={input}
           type="text"
         />
       </div>
@@ -61,13 +76,13 @@ const AdminRemoveUsersAndTrainers = () => {
             ) : usersError ? (
               <p>Error loading users: {usersError}</p>
             ) : (
-              users.map((user) => (
+             filteredByEmail.map((user) => (
                 <div key={user.id} className="admin-users-card">
                   <p>{user.email}</p>
                   <button
+                    onClick={() => handleRemoveUser(user.id)}
                     className="button-transparent"
                     id="admin-users-remove-button"
-                    onClick={() => handleRemoveUser(user.id)}
                   >
                     Remove User
                   </button>

@@ -82,7 +82,7 @@ export const Navbar = () => {
           </Link>
         )}
         {user && user.role === ADMIN && (
-          <Link to="/admin" className="navbar-link">
+          <Link to="/admin-settings" className="navbar-link">
             Users
           </Link>
         )}
