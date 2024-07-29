@@ -1,22 +1,52 @@
 import "./AdminTrainerCard.css";
+import {
+  deleteTrainer,
+  approveTrainer,
+} from "../../redux/features/trainerSlice";
+import { useDispatch } from "react-redux";
 
 export const AdminTrainerCard = ({
   lessonLength,
   description,
   imgSrc,
-  sport,
   price,
+  sport,
   level,
   about,
   name,
+  key,
+  id,
 }) => {
+  const dispatch = useDispatch();
+
+  const handleDeleteTrainer = (id) => {
+    console.log(id);
+    dispatch(deleteTrainer(id));
+  };
+  //approveTrainer
+  const handleApproveTrainer = (id) => {
+    dispatch(approveTrainer(id));
+  };
+
   return (
     <div className="admin-trainer-card">
       <div className="admin-trainer-image-container">
         <img className="admin-trainer-image" src={imgSrc} alt="image" />
         <div className="admin-trainer-buttons-container">
-          <button className="button-transparent" id="admin-trainer-reject">reject</button>
-          <button className="button-transparent" id="admin-trainer-approve">approve</button>
+          <button
+            className="button-transparent"
+            id="admin-trainer-reject"
+            onClick={() => handleDeleteTrainer(id)}
+          >
+            reject
+          </button>
+          <button
+            className="button-transparent"
+            id="admin-trainer-approve"
+            onClick={() => handleApproveTrainer(id)}
+          >
+            approve
+          </button>
         </div>
       </div>
       <div className="admin-trainer-description">
