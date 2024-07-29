@@ -16,7 +16,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    loading: false,
+    loading: true,
     error: null,
   },
   reducers: {
@@ -82,8 +82,13 @@ const createTrainerDoc = async (user, userName) => {
   const formatDate = (date) => date.toISOString().split("T")[0];
 
   // Adjust the loop to ensure the end date is inclusive
-  for (let date = new Date(now); date < endOfMonth; date.setDate(date.getDate() + 1)) {
-    if (date.getDay() !== 5 && date.getDay() !== 6) { // Exclude Fridays and Saturdays
+  for (
+    let date = new Date(now);
+    date < endOfMonth;
+    date.setDate(date.getDate() + 1)
+  ) {
+    if (date.getDay() !== 5 && date.getDay() !== 6) {
+      // Exclude Fridays and Saturdays
       const formattedDate = formatDate(date);
       console.log(formattedDate);
       const hours = [];
@@ -94,7 +99,8 @@ const createTrainerDoc = async (user, userName) => {
         hourDate.setHours(i, 0, 0, 0);
 
         if (!isToday || (isToday && hourDate > now)) {
-          const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
+          const hour =
+            i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
           hours.push(hour);
         }
       }
@@ -131,9 +137,6 @@ const createTrainerDoc = async (user, userName) => {
     { merge: true }
   );
 };
-
-
-
 
 export const initializeAuthListener = () => (dispatch) => {
   dispatch(setLoading(true));
