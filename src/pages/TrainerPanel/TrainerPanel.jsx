@@ -8,15 +8,18 @@ import {
 import LessonContainer from "../../components/LessonContainer/LessonContainer";
 import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 import "./TrainerPanel.css";
+import { fetchUsers, updateUser } from "../../redux/features/usersSlice.js";
 
 const TrainerPanel = () => {
   const { trainerId } = useParams();
   const { trainers } = useSelector((state) => state.trainer);
+  const { users } = useSelector((state) => state.users); // Correctly destructure users
   const [trainer, setTrainer] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchTrainers());
+    dispatch(fetchUsers()); // Fetch users when component mounts
   }, [dispatch]);
 
   useEffect(() => {
@@ -39,52 +42,121 @@ const TrainerPanel = () => {
   const currentHour = currentDate.getHours();
   const currentMinute = currentDate.getMinutes();
 
-  // create the time cheker shit
+  // create the time checker object
   const timeChecker = {
     date: formatDateWithHyphens(currentDate),
     hour: `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`,
     timestamp: currentDate.getTime(),
   };
 
-  console.log("Time Checker:", timeChecker); // log the time shit
+  console.log("Time Checker:", timeChecker); // log the time checker
 
   if (!trainer) {
     return <div>Loading...</div>;
   }
 
-  // create time all time shit
-  const allTimes = trainer.bookedLessons.map((lesson) => {
-    const lessonTimestamp = Date.parse(
-      `${lesson.date.split("/").reverse().join("-")}T${convertTo24HourFormat(
-        lesson.hour
-      )}`
-    );
-    return {
-      timestamp: lessonTimestamp,
-      date: lesson.date.split("/").reverse().join("-"),
-      hour: lesson.hour,
-      userName: lesson.userName,
-      userId: lesson.userId,
-    };
-  });
+  // create the all times array
+  const allTimes = trainer.bookedLessons
+    .filter((lesson) => lesson.approved) // Only include approved lessons
+    .map((lesson) => {
+      const lessonTimestamp = Date.parse(
+        `${lesson.date.split("/").reverse().join("-")}T${convertTo24HourFormat(
+          lesson.hour
+        )}`
+      );
+      return {
+        timestamp: lessonTimestamp,
+        date: lesson.date.split("/").reverse().join("-"),
+        hour: lesson.hour,
+        userName: lesson.userName,
+        userId: lesson.userId,
+        approved: lesson.approved,
+      };
+    });
 
-  console.log("All Times:", allTimes); // kill me
+  console.log("All Times:", allTimes); // log all times
 
-  allTimes.forEach((time) => {
+  allTimes.forEach(async (time) => {
+    if (!time.approved) return; // Skip if the lesson is not approved
+
     if (timeChecker.timestamp > time.timestamp) {
       console.log(
-        `The current time is greater than the requested time of ${time.userName}`
+        `The current time is greater than the requested time of ${time.userName} (User ID: ${time.userId})`
       );
+      const user = users.find((user) => user.uid === time.userId);
+      if (user) {
+        console.log(
+          `User Booked Lessons for ${time.userName}:`,
+          user.bookedLessons
+        );
+
+        // Update userHistory with the lesson data (without timestamp)
+        const updatedUserHistory = [
+          ...(user.userHistory || []),
+          {
+            date: time.date,
+            hour: time.hour,
+            trainerId,
+            trainerName: trainer.displayName, // or trainer.name
+            description: time.description,
+          },
+        ];
+
+        await dispatch(
+          updateUser(user.uid, {
+            userHistory: updatedUserHistory,
+          })
+        );
+
+        // Update trainer's history
+        const updatedTrainerHistory = [
+          ...(trainer.trainerHistory || []),
+          {
+            date: time.date,
+            hour: time.hour,
+            userId: user.uid,
+            userName: user.displayName, // or user.name
+            description: time.description,
+          },
+        ];
+
+        await dispatch(
+          updateTrainer({
+            ...trainer,
+            trainerHistory: updatedTrainerHistory,
+          })
+        );
+
+        // Remove the lesson from bookedLessons
+        const updatedLessons = trainer.bookedLessons.filter(
+          (lesson) => lesson.date + lesson.hour !== time.date + time.hour
+        );
+
+        setTrainer({ ...trainer, bookedLessons: updatedLessons });
+      } else {
+        console.log(`User with ID ${time.userId} not found.`);
+      }
     } else if (timeChecker.timestamp < time.timestamp) {
       console.log(
-        `The current time is less than the requested time of ${time.userName}`
+        `The current time is less than the requested time of ${time.userName} (User ID: ${time.userId})`
       );
     } else {
       console.log(
-        `The current time matches the requested time of ${time.userName}`
+        `The current time matches the requested time of ${time.userName} (User ID: ${time.userId})`
       );
     }
   });
+
+  console.log("Trainer's Booked Lessons:", trainer.bookedLessons);
+  trainer.bookedLessons
+    .filter((lesson) => lesson.approved) // Filter out unapproved lessons
+    .forEach((lesson) => {
+      users.forEach((user) => {
+        if (lesson.userId === user.uid) {
+          console.log(`Lesson for User ID ${user.uid}:`, lesson);
+        }
+      });
+    });
 
   const pendingLessons = trainer.bookedLessons.filter(
     (lesson) => !lesson.approved
