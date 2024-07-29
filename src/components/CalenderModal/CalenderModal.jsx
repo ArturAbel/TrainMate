@@ -38,7 +38,7 @@ const CalenderModal = ({
 
     if (availableSchedule[formattedDate]) {
       availableSchedule[formattedDate].forEach((hour) => {
-        const formattedHour = hour < 12 ? `${hour}:00 AM` : `${hour === 12 ? 12 : hour - 12}:00 PM`;
+        const formattedHour = hour ;
         const hourDate = new Date(date);
         hourDate.setHours(hour, 0, 0, 0);
 

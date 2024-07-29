@@ -1,24 +1,14 @@
-import { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
+import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
-import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
+import { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/Search/Search";
 import { db } from "../../config/firebaseConfig";
-import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  setDoc,
-  doc,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
-} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
+
 import "./Trainers.css";
 
 const Trainers = () => {
@@ -210,11 +200,11 @@ const Trainers = () => {
               onPriceFilterChange={handlePriceFilterChange}
               onSportFilterChange={handleSportFilterChange}
               onLevelFilterChange={handleLevelFilterChange}
+              toggleOverlay={toggleOverlay}
+              lessonLengths={lessonLengths}
+              addresses={addresses}
               sports={sports}
               levels={levels}
-              addresses={addresses}
-              lessonLengths={lessonLengths}
-              toggleOverlay={toggleOverlay}
             />
             <Search
               onSortByRating={handleSortByRating}

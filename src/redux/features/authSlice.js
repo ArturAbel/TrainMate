@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../../config/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { anonymousImage } from "../../utilities/constants";
 
 const authSlice = createSlice({
   name: "auth",
@@ -49,10 +50,11 @@ const createUserDoc = async (user, userName) => {
     {
       uid: user.uid,
       phone: "",
+      gender: "",
       age: "",
       email: user.email,
       displayName: user.displayName || userName || "unknown",
-      photoURL: user.photoURL || "/person1.jpg",
+      photoURL: user.photoURL || anonymousImage,
       createdAt: new Date(),
       bookedLessons: [],
       filtersRef: [],
@@ -74,11 +76,12 @@ const createTrainerDoc = async (user, userName) => {
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
   for (let d = now; d <= endOfMonth; d.setDate(d.getDate() + 1)) {
-    if (d.getDay() !== 4 && d.getDay() !== 5) { // Exclude Fridays and Saturdays
+    if (d.getDay() !== 4 && d.getDay() !== 5) {
+      // Exclude Fridays and Saturdays
       const formattedDate = new Date(d).toISOString().split("T")[0];
       const hours = [];
       for (let i = 10; i <= 18; i += 2) {
-        hours.push(i);
+        hours.push(`${i}:00` + " " + `${i > 12 ? `PM` : `AM`}`);
       }
       defaultSchedule[formattedDate] = hours;
     }
@@ -88,13 +91,14 @@ const createTrainerDoc = async (user, userName) => {
     trainerDocRef,
     {
       name: user.displayName || userName || " ",
-      image: user.photoURL || "/person1.jpg",
+      image: user.photoURL || anonymousImage,
       createdAt: new Date(),
       email: user.email,
       uid: user.uid,
+      gender: "",
       sport: "",
       reviews: [],
-      ratings: 0,
+      ratings: [],
       price: "",
       level: [],
       lessonLength: "",
@@ -120,7 +124,9 @@ export const initializeAuthListener = () => (dispatch) => {
       const userDoc = await getDoc(userDocRef);
 
       let userRole = "";
-      if (trainerDoc.exists()) {
+      if (user.email === "admin123@gmail.com") {
+        userRole = "admin";
+      } else if (trainerDoc.exists()) {
         userRole = "trainer";
       } else if (userDoc.exists()) {
         userRole = "trainee";
@@ -137,28 +143,37 @@ export const initializeAuthListener = () => (dispatch) => {
 };
 
 // Sign up trainer
-export const signupTrainer = (email, password, userName) => async (dispatch) => {
-  dispatch(setLoading(true));
-  dispatch(setError(null));
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await createTrainerDoc(userCredential.user, userName);
-    const serializedUser = serializeUser(userCredential.user, "trainer");
-    dispatch(setUser(serializedUser));
-    dispatch(setLoading(false));
-  } catch (error) {
-    dispatch(setError(error.message));
-    dispatch(setLoading(false));
-    console.error("Error signing up:", error);
-  }
-};
+export const signupTrainer =
+  (email, password, userName) => async (dispatch) => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await createTrainerDoc(userCredential.user, userName);
+      const serializedUser = serializeUser(userCredential.user, "trainer");
+      dispatch(setUser(serializedUser));
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
+      console.error("Error signing up:", error);
+    }
+  };
 
 // Sign up user
 export const signupUser = (email, password, userName) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await createUserDoc(userCredential.user, userName);
     const serializedUser = serializeUser(userCredential.user, "trainee");
     dispatch(setUser(serializedUser));
@@ -174,7 +189,11 @@ export const loginUser = (email, password) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
     const trainerDocRef = doc(db, "trainers", userCredential.user.uid);
     const trainerDoc = await getDoc(trainerDocRef);
@@ -183,13 +202,17 @@ export const loginUser = (email, password) => async (dispatch) => {
     const userDoc = await getDoc(userDocRef);
 
     let userRole = "";
-    if (trainerDoc.exists()) {
+    if (email === "admin123@gmail.com") {
+      userRole = "admin";
+    } else if (trainerDoc.exists()) {
       userRole = "trainer";
     } else if (userDoc.exists()) {
       userRole = "trainee";
     }
 
-    dispatch(setUser({ ...serializeUser(userCredential.user), role: userRole }));
+    dispatch(
+      setUser({ ...serializeUser(userCredential.user), role: userRole })
+    );
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));

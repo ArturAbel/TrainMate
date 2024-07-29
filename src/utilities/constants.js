@@ -4,8 +4,8 @@ export const chang = "change test";
 export const LOGO = "../../assets/logo/logo.svg";
 
 // Images
-export const heroImage = "../../assets/img/hero/hero.jpg";
 export const anonymousImage = "../../assets/img/anonymous/anonymous.jpeg";
+export const heroImage = "../../assets/img/hero/hero.jpg";
 
 // Home page Images
 export const homeCategoriesOne = [
@@ -42,6 +42,7 @@ export const becomeTrainerImage = "../../assets/img/become-trainer/trainer.jpg";
 // Text
 export const TRAINER = "trainer";
 export const TRAINEE = "trainee";
+export const ADMIN = "admin";
 
 // Trainer Registration
 export const sports = [

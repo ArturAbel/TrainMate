@@ -1,0 +1,31 @@
+/* TrainerSessionHistory.css */
+
+.tsh-container {
+  padding: 20px;
+}
+
+.tsh-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tsh-approved-sessions {
+  margin-top: 20px;
+}
+
+.tsh-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tsh-card-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tsh-card-details p {
+  margin: 5px 0;
+}

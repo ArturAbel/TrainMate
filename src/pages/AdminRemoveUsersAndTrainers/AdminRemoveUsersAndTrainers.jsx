@@ -1,15 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchUsers, deleteUser } from "../../redux/features/usersSlice";
-// import {
-//   fetchTrainers,
-//   deleteTrainer,
-// } from "../../redux/features/trainersSlice";
-// import TrainerCard from "../../components/TrainerCard/TrainerCard";
-// import Search from "../../components/Search/Search";
-// import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
-// import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
-// import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+
 
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";

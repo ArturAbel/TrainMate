@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   collection,
+  updateDoc,
+  deleteDoc,
   getDocs,
   addDoc,
   doc,
-  updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../config/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -79,21 +80,53 @@ export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
   }
 };
 
-export const uploadTrainerProfileImage = (file, trainerId) => async (dispatch) => {
+export const uploadTrainerProfileImage =
+  (file, trainerId) => async (dispatch) => {
+    dispatch(setLoading(true));
+
+    const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
+    try {
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
+      dispatch(fetchTrainers());
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(setLoading(false));
+      console.error("Error uploading image:", error);
+      alert("Error uploading image: " + error.message);
+    }
+  };
+
+export const deleteTrainer = (trainerId) => async (dispatch) => {
   dispatch(setLoading(true));
-  const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
   try {
-    await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(storageRef);
-    await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
+    await deleteDoc(doc(db, "trainers", trainerId));
     dispatch(fetchTrainers());
     dispatch(setLoading(false));
+    alert("Trainer was deleted successfully");
   } catch (error) {
     dispatch(setError(error.message));
     dispatch(setLoading(false));
-    console.error("Error uploading image:", error);
-    alert("Error uploading image: " + error.message);
+    console.error("Error deleting trainer:", error);
+    alert("Error deleting trainer: " + error.message);
   }
 };
 
+export const approveTrainer = (trainerId) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const trainerDocRef = doc(db, "trainers", trainerId);
+    await updateDoc(trainerDocRef, { approved: true });
+    dispatch(fetchTrainers()); // Assuming this action fetches the updated list of trainers
+    dispatch(setLoading(false));
+    alert("Trainer approval was successful");
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error approving trainer:", error);
+    alert("Error approving trainer: " + error.message);
+  }
+};
 export default trainerSlice.reducer;

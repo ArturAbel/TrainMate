@@ -1,209 +1,272 @@
-import { useState, useEffect } from "react";
+import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
+import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { LoginInput } from "../../components/LoginInput/LoginInput";
+import { anonymousImage, sports } from "../../utilities/constants";
+import { deleteUserAccount } from "../../redux/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useFormHook } from "../../hooks/useFormHook";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import {
+  uploadTrainerProfileImage,
   fetchTrainers,
   updateTrainer,
-  uploadTrainerProfileImage,
+  deleteTrainer,
 } from "../../redux/features/trainerSlice";
-import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
-import { sports } from "../../utilities/constants";
+
 import "./TrainerSettings.css";
 
 const TrainerSettings = () => {
   const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const { input, setInput, handleInputChange } = useFormHook();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    name: "",
-    sport: "",
-    description: "",
-    about: "",
-    address: "",
-    level: [],
-    lessonLength: "",
-    price: "",
-  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
-  const trainerData = trainers.find(
-    (trainerObj) => trainerObj.uid === "8vYgnqL5o7sElCv6Hguf" //*todo - put user.uid here -
-  );
-
   useEffect(() => {
-    if (trainerData) {
-      setFormData({
-        name: trainerData.name,
-        sport: trainerData.sport || "",
-        description: trainerData.description || "",
-        about: trainerData.about || "",
-        address: trainerData.address || "",
-        level: trainerData.level || [],
-        lessonLength: trainerData.lessonLength || "",
-        price: trainerData.price || "",
-      });
+    if (trainers.length > 0 && user) {
+      const trainerData = trainers.find(
+        (trainerObj) => trainerObj.uid === user.uid
+      );
+      if (trainerData) {
+        setInput({
+          lessonLength: trainerData.lessonLength || "",
+          description: trainerData.description || "",
+          address: trainerData.address || "",
+          sport: trainerData.sport || "",
+          about: trainerData.about || "",
+          level: trainerData.level || [],
+          price: trainerData.price || "",
+          name: trainerData.name,
+        });
+      }
     }
-  }, [trainerData]);
+  }, [trainers, user]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      dispatch(uploadTrainerProfileImage(file, trainerData.uid));
-    }
-  };
+  // Delete trainer modal
+  const handleDeleteModal = () =>
+    setIsModalOpen((previousState) => !previousState);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        level: checked
-          ? [...prevFormData.level, value]
-          : prevFormData.level.filter((level) => level !== value),
-      }));
-    } else {
-      setFormData({ ...formData, [name]: value });
+  const handleDeleteAccount = async () => {
+    try {
+      if (user) {
+        dispatch(deleteTrainer(user.uid));
+        dispatch(deleteUserAccount());
+        handleDeleteModal();
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error deleting account: ", error);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const trainerData = trainers.find(
+      (trainerObj) => trainerObj.uid === user.uid
+    );
     if (trainerData) {
-      dispatch(updateTrainer(trainerData.uid, formData));
+      dispatch(updateTrainer(trainerData.uid, input));
     }
   };
 
-  if (!trainerData || loading) {
-    return <div>Loading trainer data...</div>;
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      dispatch(uploadTrainerProfileImage(file, user.uid));
+    }
+  };
+
+  if (loading || !user) {
+    return <div>Loading...</div>;
   }
 
-  const profileImageUrl =
-    trainerData.image ||
-    (user && user.photoURL ? user.photoURL : "/public/person1.jpg");
+  const trainerData = trainers.find(
+    (trainerObj) => trainerObj.uid === user.uid
+  );
+
+  if (!trainerData) {
+    return <div>Trainer data not found...</div>;
+  }
+
+  const profileImageUrl = trainerData.image || user.photoURL || anonymousImage;
 
   return (
-    <section className="trainer-settings-section">
-      <div className="trainer-settings-container">
-        <h1 className="trainer-settings-title">Trainer Settings</h1>
-        <form className="trainer-settings-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label"></label>
-            <ProfileImageUploader
-              profileImageUrl={profileImageUrl}
-              handleImageChange={handleImageChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Full Name</label>
-            <input
-              type="text"
-              className="form-input"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Choose Your Sport</label>
-            <select
-              className="form-input"
-              name="sport"
-              value={formData.sport}
-              onChange={handleInputChange}
-            >
-              {sports.map((sport, index) => (
-                <option className="form-option" value={sport} key={index}>
-                  {sport}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label className="form-label">Short Description</label>
-            <input
-              type="text"
-              className="form-input"
-              name="description"
-              placeholder="Ex: Aerobics coach with a focus on youth development."
-              value={formData.description}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">About Yourself</label>
-            <textarea
-              className="form-textarea"
-              name="about"
-              placeholder="Ex: I have been training youth for over 3 years. My focus is on building foundational skills and instilling a well-rounded..."
-              value={formData.about}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Address</label>
-            <input
-              type="text"
-              className="form-input"
-              name="address"
-              placeholder="Ex: Tel Aviv"
-              value={formData.address}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Teaching Levels</label>
-            <div className="form-checkbox-group">
-              {["Beginner", "Intermediate", "Advanced", "Expert", "Master"].map(
-                (level) => (
+    <>
+      <section className="trainer-settings-section">
+        <div className="account-settings-navbar">
+          <button
+            className="account-settings-link-button"
+            onClick={handleDeleteModal}
+          >
+            Delete Account
+          </button>
+        </div>
+        <div className="trainer-settings-container">
+          <h1 className="trainer-settings-title">Trainer Settings</h1>
+          <form className="trainer-settings-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <ProfileImageUploader
+                handleImageChange={handleImageChange}
+                profileImageUrl={profileImageUrl}
+              />
+            </div>
+            <div className="form-group">
+              <LoginInput
+                label="Full Name"
+                onChange={handleInputChange}
+                value={input.name}
+                type="text"
+                name="name"
+                labelClass="form-label"
+                inputClass="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <LoginInput
+                label="Choose Your Sport"
+                onChange={handleInputChange}
+                value={input.sport}
+                type="select"
+                name="sport"
+                labelClass="form-label"
+                inputClass="form-input"
+                options={sports.map((sport) => ({
+                  value: sport,
+                  label: sport,
+                }))}
+              />
+            </div>
+            <div className="form-group">
+              <LoginInput
+                label="Short Description"
+                onChange={handleInputChange}
+                value={input.description}
+                type="text"
+                name="description"
+                placeholder="Enter a short description."
+                labelClass="form-label"
+                inputClass="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">About Yourself</label>
+              <textarea
+                placeholder="Tell about yourself"
+                onChange={handleInputChange}
+                className="trainer-setting-form-textarea"
+                value={input.about}
+                name="about"
+              />
+            </div>
+            <div className="form-group">
+              <LoginInput
+                label="Address"
+                onChange={handleInputChange}
+                value={input.address}
+                type="text"
+                name="address"
+                placeholder="Ex: Tel Aviv"
+                labelClass="form-label"
+                inputClass="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Teaching Levels</label>
+              <div className="form-checkbox-group">
+                {[
+                  "Beginner",
+                  "Intermediate",
+                  "Advanced",
+                  "Expert",
+                  "Master",
+                ].map((level) => (
                   <div className="form-checkbox-container" key={level}>
                     <input
-                      type="checkbox"
-                      className="form-checkbox"
-                      name="level"
-                      value={level}
-                      checked={formData.level.includes(level)}
+                      checked={input.level?.includes(level)}
                       onChange={handleInputChange}
+                      className="form-checkbox"
+                      type="checkbox"
+                      value={level}
+                      name="level"
                     />
-                    <label className="form-checkbox-label">{level}</label>
+                    <label className="trainer-setting-form-checkbox-label">
+                      {level}
+                    </label>
                   </div>
-                )
-              )}
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="form-group">
-            <label className="form-label">Lesson Length (minutes)</label>
-            <input
-              type="number"
-              className="form-input"
-              name="lessonLength"
-              placeholder="In minutes"
-              max={120}
-              min={45}
-              value={formData.lessonLength}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Price per Lesson (₪)</label>
-            <input
-              type="number"
-              className="form-input"
-              name="price"
-              placeholder="In ₪"
-              max={130}
-              min={1}
-              value={formData.price}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button className="form-submit-button" type="submit">
-            Save Changes
+            <div className="form-group">
+              <LoginInput
+                label="Lesson Length (minutes)"
+                value={input.lessonLength}
+                onChange={handleInputChange}
+                type="number"
+                name="lessonLength"
+                placeholder="In minutes"
+                labelClass="form-label"
+                inputClass="form-input"
+                min={45}
+                max={120}
+              />
+            </div>
+            <div className="form-group">
+              <LoginInput
+                label="Price per Lesson (₪)"
+                onChange={handleInputChange}
+                value={input.price}
+                type="number"
+                name="price"
+                placeholder="In ₪"
+                labelClass="form-label"
+                inputClass="form-input"
+                min={1}
+                max={130}
+              />
+            </div>
+            <button
+              className="button-transparent"
+              id="trainer-setting-button"
+              type="submit"
+            >
+              Save Changes
+            </button>
+          </form>
+        </div>
+      </section>
+      <DeleteAccountModal isOpen={isModalOpen} onClose={handleDeleteModal}>
+        <h2 className="account-delete-title">
+          Are you sure you want to delete your account?
+        </h2>
+        <div className="account-delete-buttons-container">
+          <button
+            className="button-transparent"
+            onClick={handleDeleteModal}
+            id="account-delete-cancel"
+          >
+            Cancel
           </button>
-        </form>
-      </div>
-    </section>
+          <button
+            className="button-transparent"
+            onClick={handleDeleteAccount}
+            id="account-delete-confirm"
+          >
+            Confirm
+          </button>
+        </div>
+      </DeleteAccountModal>
+      <HomeDivider />
+    </>
   );
 };
 
 export default TrainerSettings;
+
+

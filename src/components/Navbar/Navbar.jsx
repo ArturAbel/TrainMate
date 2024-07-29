@@ -1,17 +1,25 @@
+import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
-import { anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessageSquareDetail } from "react-icons/bi";
+import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
 import { MdOutlineReviews } from "react-icons/md";
 import { MdOutlineLogin } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
+import {
+  anonymousImage,
+  TRAINEE,
+  TRAINER,
+  ADMIN,
+} from "../../utilities/constants";
 
 import "./Navbar.css";
 
 export const Navbar = () => {
+  const favoriteCount = useSelector((state) => state.users.favoriteCount);
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
@@ -65,7 +73,17 @@ export const Navbar = () => {
         )}
         {!user && (
           <Link to="/become-trainer" className="navbar-link">
-            Become a TrainMate
+            Become a train.mate
+          </Link>
+        )}
+        {user && user.role === ADMIN && (
+          <Link to="/admin" className="navbar-link">
+            Pending Trainings
+          </Link>
+        )}
+        {user && user.role === ADMIN && (
+          <Link to="/admin" className="navbar-link">
+            Users
           </Link>
         )}
       </div>
@@ -73,11 +91,20 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
+              <Link to={""}>
+                <MdOutlineHistoryEdu className="navbar-icon history-icon" />
+              </Link>
               <Link>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link to={"/favorites"}>
-                <FiHeart className="navbar-icon" />
+              <Link className="navbar-favorite-link" to={"/favorites"}>
+                <FiHeart
+                  className="navbar-icon"
+                  onClick={resetFavoriteCount()}
+                />
+                {favoriteCount > 0 && (
+                  <p className="navbar-favorite-counter">{favoriteCount}</p>
+                )}
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>
                 <div onClick={showOrHide}>
@@ -107,10 +134,13 @@ export const Navbar = () => {
         ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
+              <Link to={"/trainer-session-history"}>
+                <MdOutlineHistoryEdu className="navbar-icon history-icon" />
+              </Link>
               <Link to={"/trainer-panel"}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link to={"/trainer-panel"}>
+              <Link to={`/trainer-reviews/${user.uid}`}>
                 <MdOutlineReviews className="navbar-icon" />
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>
@@ -123,10 +153,12 @@ export const Navbar = () => {
                 </div>
                 {showSettings && (
                   <div className="navbarList">
-                    <Link to={"/settings"} className="navbarList-item">
+                    <Link to={"/trainer-settings"} className="navbarList-item">
                       settings
                     </Link>
-                    <Link className="navbarList-item">Messages</Link>
+                    <Link to={"/trainer-panel"} className="navbarList-item">
+                      Messages
+                    </Link>
                     <Link
                       className="navbarList-item logout-link"
                       onClick={handleLogoutUser}
@@ -136,6 +168,28 @@ export const Navbar = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        ) : user.role === ADMIN ? (
+          <div className="navbar-right-container">
+            <div className="dropdown-container " ref={dropdownRef}>
+              <div onClick={showOrHide}>
+                <img
+                  className="navbar-user-image"
+                  src={user.photoURL || anonymousImage}
+                  alt="image"
+                />
+              </div>
+              {showSettings && (
+                <div className="navbarList">
+                  <Link
+                    className="navbarList-item logout-link"
+                    onClick={handleLogoutUser}
+                  >
+                    Logout
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         ) : null

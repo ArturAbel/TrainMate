@@ -60,7 +60,7 @@
 }
 
 .home-instruction-content-text-container {
-  margin-left: 3rem;
+  margin-left: 5rem;
   margin-top: 2rem;
   display: flex;
   height: 50%;
@@ -68,5 +68,5 @@
 }
 
 .home-instruction-content-text {
-  font-size: 1.7rem;
+  font-size: 2rem;
 }
