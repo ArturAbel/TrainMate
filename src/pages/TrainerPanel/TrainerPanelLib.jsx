@@ -16,7 +16,7 @@ export const approveLesson = async (
     );
     const updatedLessons = trainerData.bookedLessons.map((lesson) =>
       lesson.date + lesson.hour === lessonId
-        ? { ...lesson, approved: true }
+        ? { ...lesson, approved: true, movedToHistory: false }
         : lesson
     );
     await updateDoc(trainerRef, { bookedLessons: updatedLessons });
@@ -27,7 +27,7 @@ export const approveLesson = async (
       const userData = userDoc.data();
       const updatedUserLessons = userData.bookedLessons.map((lesson) =>
         lesson.date + lesson.hour === lessonId
-          ? { ...lesson, approved: true }
+          ? { ...lesson, approved: true, movedToHistory: false }
           : lesson
       );
       await updateDoc(userRef, { bookedLessons: updatedUserLessons });
@@ -90,5 +90,23 @@ export const addHistory = async (
     );
   } catch (error) {
     console.error(`Error updating history: ${error.message}`);
+  }
+};
+
+export const deleteAllExpiredUser = async (userId, trainerId) => {
+  console.log(
+    `Deleting all lessons for user ${userId} with trainer ${trainerId}`
+  );
+  const userRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userRef);
+  if (userDoc.exists()) {
+    const userData = userDoc.data();
+    const updatedUserLessons = userData.bookedLessons.filter(
+      (lesson) => lesson.trainerId !== trainerId
+    );
+    await updateDoc(userRef, { bookedLessons: updatedUserLessons });
+    console.log(
+      `Deleted all lessons for user ${userId} with trainer ${trainerId}`
+    );
   }
 };
