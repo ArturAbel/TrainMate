@@ -19,6 +19,8 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
+import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/AdminRemoveUsersAndTrainers";
+import PendingTrainer from "./pages/PendingTrainer/PendingTrainer";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +84,10 @@ const router = createBrowserRouter([
         element: <TrainerSettings />,
       },
       {
+        path: "admin-settings",
+        element:<AdminRemoveUsersAndTrainers/>
+      },
+      {
         path: "trainer-reviews/:trainerId",
         element: <TrainerReviews />,
       },
@@ -95,6 +101,10 @@ const router = createBrowserRouter([
     path: "get-started",
     element: <GetStartedQuiz />,
   },
+  {
+    path: "pending-trainer",
+    element: <PendingTrainer />,
+  }
 ]);
 
 function App() {
