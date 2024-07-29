@@ -1,12 +1,9 @@
-
-
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { fetchUsers } from "../../redux/features/usersSlice";
 import { deleteTrainer } from "../../redux/features/trainerSlice";
-
 import { deleteUser } from "../../redux/features/usersSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
