@@ -1,0 +1,14 @@
+/* PendingPage.css */
+.pending-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    font-size: 24px;
+    color: #333;
+    background-color: #f0f0f0;
+    flex-direction: column;
+  }
+
+
+  
