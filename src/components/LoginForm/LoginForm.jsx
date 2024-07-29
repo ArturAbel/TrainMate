@@ -43,6 +43,8 @@ export const LoginForm = () => {
           path = `/trainer-panel/${user.uid}`;
         } else if (user.role === "admin") {
           path = `/admin`;
+        } else if (user.role === "trainee") {
+          path = "/trainers";
         } else {
           path = "/pending-trainer";
         }
@@ -51,7 +53,6 @@ export const LoginForm = () => {
       })
       .catch((error) => {
         console.error("the fallowing error occured:", error);
-   
       });
   }, [user, navigate]);
   console.log(user);
