@@ -8,9 +8,10 @@ const PrivateRoute = ({ allowedRoles }) => {
     return <div>Loading...</div>;
   }
 
-  if (allowedRoles.includes(user.role)) {
+  if (user && allowedRoles.includes(user.role)) {
     return <Outlet />;
   }
+
   if (!user) {
     return <Navigate to="/login" />;
   } else {
