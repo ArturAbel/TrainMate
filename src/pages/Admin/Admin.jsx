@@ -33,9 +33,6 @@ const Admin = () => {
                 <AdminTrainerCard
                   lessonLength={trainer.lessonLength}
                   description={trainer.description}
-                  ratings={trainer.ratings}
-                  address={trainer.address}
-                  reviews={trainer.reviews}
                   imgSrc={trainer.image}
                   price={trainer.price}
                   sport={trainer.sport}
@@ -44,7 +41,6 @@ const Admin = () => {
                   name={trainer.name}
                   key={trainer.uid}
                   id={trainer.uid}
-                  inAdmin={true}
                 />
               ) : null
             )}
