@@ -1,8 +1,9 @@
 .favorite-trainers-section {
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  margin-top: 15vh;
+  max-height: 100%;
+  min-height: 80vh;
+  margin-top: 20vh;
   display: flex;
   width: 100%;
 }
@@ -26,4 +27,18 @@
   padding: 0 3vw;
   display: flex;
   width: 100%;
+}
+
+.favorite-trainers-no-favorite{
+  justify-content: center;
+  align-items: center;
+  margin-top: 20vh;
+  display: flex;
+  height: 80vh;
+  width: 100%;
+}
+
+.favorite-trainers-no-favorite-title{
+  font-family: var(--font-content);
+  font-size: 3rem;
 }

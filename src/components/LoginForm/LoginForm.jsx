@@ -55,6 +55,7 @@ export const LoginForm = () => {
         console.error("the fallowing error occured:", error);
       });
   }, [user, navigate]);
+  console.log(user);
 
   useEffect(() => {
     if (error) {
