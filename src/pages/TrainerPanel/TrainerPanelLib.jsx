@@ -16,7 +16,7 @@ export const approveLesson = async (
     );
     const updatedLessons = trainerData.bookedLessons.map((lesson) =>
       lesson.date + lesson.hour === lessonId
-        ? { ...lesson, approved: true }
+        ? { ...lesson, approved: true, movedToHistory: false }
         : lesson
     );
     await updateDoc(trainerRef, { bookedLessons: updatedLessons });
@@ -27,7 +27,7 @@ export const approveLesson = async (
       const userData = userDoc.data();
       const updatedUserLessons = userData.bookedLessons.map((lesson) =>
         lesson.date + lesson.hour === lessonId
-          ? { ...lesson, approved: true }
+          ? { ...lesson, approved: true, movedToHistory: false }
           : lesson
       );
       await updateDoc(userRef, { bookedLessons: updatedUserLessons });
@@ -43,6 +43,7 @@ export const deleteLesson = async (
   setTrainer,
   trainer
 ) => {
+  console.log(`Deleting lesson ${lessonId} for trainer ${trainerId}`);
   const trainerRef = doc(db, "trainers", trainerId);
   const trainerDoc = await getDoc(trainerRef);
   if (trainerDoc.exists()) {
@@ -67,5 +68,45 @@ export const deleteLesson = async (
     }
 
     setTrainer({ ...trainer, bookedLessons: updatedLessons });
+    console.log(`Deleted lesson ${lessonId} for trainer ${trainerId}`);
+  }
+};
+
+export const addHistory = async (
+  userId,
+  updatedUserHistory,
+  trainerId,
+  updatedTrainerHistory
+) => {
+  console.log(`Updating history for user ${userId} and trainer ${trainerId}`);
+  const userRef = doc(db, "users", userId);
+  const trainerRef = doc(db, "trainers", trainerId);
+
+  try {
+    await updateDoc(userRef, { userHistory: updatedUserHistory });
+    await updateDoc(trainerRef, { trainerHistory: updatedTrainerHistory });
+    console.log(
+      `Successfully updated history for user ${userId} and trainer ${trainerId}`
+    );
+  } catch (error) {
+    console.error(`Error updating history: ${error.message}`);
+  }
+};
+
+export const deleteAllExpiredUser = async (userId, trainerId) => {
+  console.log(
+    `Deleting all lessons for user ${userId} with trainer ${trainerId}`
+  );
+  const userRef = doc(db, "users", userId);
+  const userDoc = await getDoc(userRef);
+  if (userDoc.exists()) {
+    const userData = userDoc.data();
+    const updatedUserLessons = userData.bookedLessons.filter(
+      (lesson) => lesson.trainerId !== trainerId
+    );
+    await updateDoc(userRef, { bookedLessons: updatedUserLessons });
+    console.log(
+      `Deleted all lessons for user ${userId} with trainer ${trainerId}`
+    );
   }
 };
