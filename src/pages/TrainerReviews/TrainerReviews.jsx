@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import "./TrainerReviews.css";
+import {
+  RegExpMatcher,
+  TextCensor,
+  englishDataset,
+  englishRecommendedTransformers,
+} from "obscenity";
 
 const TrainerReviews = () => {
   const dispatch = useDispatch();
@@ -41,6 +47,17 @@ const TrainerReviews = () => {
     return <div>Loading...</div>;
   }
 
+  const matcher = new RegExpMatcher({
+    ...englishDataset.build(),
+    ...englishRecommendedTransformers,
+  });
+  const censor = new TextCensor();
+
+  const censorText = (text) => {
+    const matches = matcher.getAllMatches(text);
+    return matches.length > 0 ? censor.applyTo(text, matches) : text;
+  };
+
   return (
     <section className="trainer-reviews-section">
       <h1 className="trainer-reviews-header">
@@ -57,7 +74,7 @@ const TrainerReviews = () => {
                 <strong>Reviewer:</strong> {review.userName}
               </p>
               <p>
-                <strong>Review:</strong> {review.reviewText}
+                <strong>Review:</strong> {censorText(review.reviewText)}
               </p>
               <p>
                 <strong>Rating:</strong> {review.reviewRating}
