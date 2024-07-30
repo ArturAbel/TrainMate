@@ -31,11 +31,13 @@ const Messages = () => {
         const data = docSnap.data();
         const userIds = new Set();
         data.messages.forEach((message) => {
-          message.participants.forEach((participant) => {
-            if (participant !== currentUserId) {
-              userIds.add(participant);
-            }
-          });
+          if (message.participants.includes(currentUserId)) {
+            message.participants.forEach((participant) => {
+              if (participant !== currentUserId) {
+                userIds.add(participant);
+              }
+            });
+          }
         });
         setRelevantUsers([...userIds]);
         setMessages(data.messages);
@@ -61,12 +63,12 @@ const Messages = () => {
       text,
       timestamp: new Date().toISOString(),
     };
-    const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp'); // Replace with your actual document ID
+    const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp'); 
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
       const updatedMessages = data.messages.map((message) => {
-        if (message.participants.includes(selectedUser)) {
+        if (message.participants.includes(selectedUser) && message.participants.includes(currentUserId)) {
           return {
             ...message,
             messages: [...message.messages, newMessage],
@@ -91,7 +93,7 @@ const Messages = () => {
 
   return (
     <>
-      <div className={`messages-section ${isModalOpen ? `overflow-hidden`: ``}`}>
+      <div className={`messages-section ${isModalOpen ? `overflow-hidden` : ``}`}>
         <h1 className="messages-section-title">Messenger</h1>
         <div className="trainer-chats-container">
           {relevantUsers.map((userId) => {
