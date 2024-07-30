@@ -22,8 +22,9 @@ import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/Adm
 import PendingTrainer from "./pages/PendingTrainer/PendingTrainer";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
-import TraineeLessonHistory from "./pages/TraineeLessonHistory/TraineeLessonHistory";
+import TraineeLessons from "./pages/TraineeLessons/TraineeLessons";
 import TrainerLessonHistory from "./pages/TrainerLessonHistory/TrainerLessonHistory";
+
 
 const router = createBrowserRouter([
   {
@@ -62,9 +63,9 @@ const router = createBrowserRouter([
         children: [{ path: "", element: <UserSettings /> }],
       },
       {
-        path: "trainee-lesson-history/:traineeId",
+        path: "trainee-lessons/:traineeId",
         element: <PrivateRoute allowedRoles={[TRAINEE]} />,
-        children: [{ path: "", element: <TraineeLessonHistory /> }],
+        children: [{ path: "", element: <TraineeLessons/> }],
       },
       {
         path: "trainers/:id",

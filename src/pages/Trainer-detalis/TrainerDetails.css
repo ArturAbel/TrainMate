@@ -77,9 +77,9 @@
 .trainer-profile-teach-title {
   font-family: var(--font-title);
   text-transform: capitalize;
+  margin-bottom: 1rem;
   font-size: 2.2rem;
   font-weight: 600;
-  margin-bottom: 1rem;
 }
 
 .trainer-profile-about-me-content {
