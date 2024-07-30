@@ -72,41 +72,4 @@ export const deleteLesson = async (
   }
 };
 
-export const addHistory = async (
-  userId,
-  updatedUserHistory,
-  trainerId,
-  updatedTrainerHistory
-) => {
-  console.log(`Updating history for user ${userId} and trainer ${trainerId}`);
-  const userRef = doc(db, "users", userId);
-  const trainerRef = doc(db, "trainers", trainerId);
 
-  try {
-    await updateDoc(userRef, { userHistory: updatedUserHistory });
-    await updateDoc(trainerRef, { trainerHistory: updatedTrainerHistory });
-    console.log(
-      `Successfully updated history for user ${userId} and trainer ${trainerId}`
-    );
-  } catch (error) {
-    console.error(`Error updating history: ${error.message}`);
-  }
-};
-
-export const deleteAllExpiredUser = async (userId, trainerId) => {
-  console.log(
-    `Deleting all lessons for user ${userId} with trainer ${trainerId}`
-  );
-  const userRef = doc(db, "users", userId);
-  const userDoc = await getDoc(userRef);
-  if (userDoc.exists()) {
-    const userData = userDoc.data();
-    const updatedUserLessons = userData.bookedLessons.filter(
-      (lesson) => lesson.trainerId !== trainerId
-    );
-    await updateDoc(userRef, { bookedLessons: updatedUserLessons });
-    console.log(
-      `Deleted all lessons for user ${userId} with trainer ${trainerId}`
-    );
-  }
-};
