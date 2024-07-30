@@ -66,7 +66,7 @@ const TrainerLessonHistory = () => {
                 <div className="lesson-session-info">
                   <p>Date: {lesson.date}</p>
                   <p>Hour: {lesson.hour}</p>
-                  <p>User: {getUserName(lesson.userId)}</p>
+                  <p>Useer: {getUserName(lesson.userId)}</p>
                 </div>
               </div>
             </div>
