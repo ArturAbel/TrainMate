@@ -16,7 +16,7 @@ export const approveLesson = async (
     );
     const updatedLessons = trainerData.bookedLessons.map((lesson) =>
       lesson.date + lesson.hour === lessonId
-        ? { ...lesson, approved: true }
+        ? { ...lesson, approved: true, movedToHistory: false }
         : lesson
     );
     await updateDoc(trainerRef, { bookedLessons: updatedLessons });
@@ -27,7 +27,7 @@ export const approveLesson = async (
       const userData = userDoc.data();
       const updatedUserLessons = userData.bookedLessons.map((lesson) =>
         lesson.date + lesson.hour === lessonId
-          ? { ...lesson, approved: true }
+          ? { ...lesson, approved: true, movedToHistory: false }
           : lesson
       );
       await updateDoc(userRef, { bookedLessons: updatedUserLessons });
@@ -43,6 +43,7 @@ export const deleteLesson = async (
   setTrainer,
   trainer
 ) => {
+  console.log(`Deleting lesson ${lessonId} for trainer ${trainerId}`);
   const trainerRef = doc(db, "trainers", trainerId);
   const trainerDoc = await getDoc(trainerRef);
   if (trainerDoc.exists()) {
@@ -67,5 +68,8 @@ export const deleteLesson = async (
     }
 
     setTrainer({ ...trainer, bookedLessons: updatedLessons });
+    console.log(`Deleted lesson ${lessonId} for trainer ${trainerId}`);
   }
 };
+
+

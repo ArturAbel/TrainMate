@@ -191,4 +191,100 @@ export const bookLesson =
     }
   };
 
+export const upsertReview = async (userId, trainerId, starRating, comment) => {
+  try {
+    // Step 1: Check User Eligibility
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      console.log("User not found");
+      return; // Exit function early
+    }
+
+    const userData = userSnap.data();
+    const bookedLessons = userData.userHistory || [];
+
+    // Check if the user has at least one lesson with the trainer
+    const hasLessonWithTrainer = bookedLessons.some(
+      (lesson) => lesson.trainerId === trainerId
+    );
+
+    if (!hasLessonWithTrainer) {
+      console.log(
+        "User must have at least one lesson with the trainer to leave a review"
+      );
+      return; // Exit function early
+    }
+
+    // Prepare review data
+    const reviewData = {
+      userId,
+      starRating,
+      comment,
+      createdAt: new Date(),
+    };
+
+    // Fetch the trainer document to check for an existing review
+    const trainerRef = doc(db, "trainers", trainerId);
+    const trainerSnap = await getDoc(trainerRef);
+
+    if (!trainerSnap.exists()) {
+      console.log("Trainer not found");
+      return; // Exit function early
+    }
+
+    let reviews = trainerSnap.data().reviews || [];
+
+    // Check for an existing review by the same user
+    const existingReviewIndex = reviews.findIndex(
+      (review) => review.userId === userId
+    );
+
+    if (existingReviewIndex !== -1) {
+      // Remove the existing review from the array
+      reviews.splice(existingReviewIndex, 1);
+      await updateDoc(trainerRef, {
+        reviews: arrayRemove(reviews[existingReviewIndex]), // Remove the old review
+      });
+    }
+
+    // Add the new review to the array
+    await updateDoc(trainerRef, {
+      reviews: arrayUnion(reviewData), // Add the new review
+    });
+
+    console.log("Review operation completed successfully");
+  } catch (error) {
+    console.error("Error upserting review:", error);
+  }
+};
+
+export const deleteReviewById = async (trainerId, userId) => {
+  try {
+    const trainerRef = doc(db, "trainers", trainerId);
+    const trainerSnap = await getDoc(trainerRef);
+
+    if (!trainerSnap.exists()) {
+      console.log("Trainer not found");
+      return; // Exit function early
+    }
+
+    const trainerData = trainerSnap.data();
+    let reviews = trainerData.reviews || [];
+
+    // Find the review by userId and remove it
+    reviews = reviews.filter((review) => review.userId !== userId);
+
+    // Update the trainer document with the modified reviews array
+    await updateDoc(trainerRef, {
+      reviews: reviews,
+    });
+
+    console.log("Review deleted successfully");
+  } catch (error) {
+    console.error("Error deleting review:", error);
+  }
+};
+
 export default usersSlice.reducer;

@@ -1,3 +1,4 @@
+import { resetReviewCount } from "../../redux/features/trainerSlice";
 import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +21,7 @@ import "./Navbar.css";
 
 export const Navbar = () => {
   const favoriteCount = useSelector((state) => state.users.favoriteCount);
+  const reviewsCount = useSelector((state) => state.trainer.reviewCount);
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
@@ -52,10 +54,14 @@ export const Navbar = () => {
       <div className="navbar-left-container">
         <Link
           to={
-            user && user.role === TRAINEE
-              ? "/trainers"
-              : user && user.role === TRAINER
-              ? `/trainer-panel/${user.uid}`
+            user
+              ? user.role === TRAINEE
+                ? "/trainers"
+                : user.role === TRAINER
+                ? `/trainer-panel/${user.uid}`
+                : user.role === ADMIN
+                ? "/admin"
+                : "/"
               : "/"
           }
         >
@@ -82,7 +88,7 @@ export const Navbar = () => {
           </Link>
         )}
         {user && user.role === ADMIN && (
-          <Link to="/admin" className="navbar-link">
+          <Link to="/admin-settings" className="navbar-link">
             Users
           </Link>
         )}
@@ -91,13 +97,13 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={""}>
+              <Link to={`trainee-lesson-history/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
               <Link>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link className="navbar-favorite-link" to={"/favorites"}>
+              <Link className="navbar-counter-link" to={"/favorites"}>
                 <FiHeart
                   className="navbar-icon"
                   onClick={resetFavoriteCount()}
@@ -140,7 +146,14 @@ export const Navbar = () => {
               <Link to={"/trainer-panel"}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
-              <Link to={`/trainer-reviews/${user.uid}`}>
+              <Link
+                className="navbar-counter-link"
+                to={`/trainer-reviews/${user.uid}`}
+                onClick={resetReviewCount()}
+              >
+                {reviewsCount > 0 && (
+                  <p className="navbar-favorite-counter">{favoriteCount}</p>
+                )}
                 <MdOutlineReviews className="navbar-icon" />
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>

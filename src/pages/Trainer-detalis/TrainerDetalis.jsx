@@ -1,14 +1,17 @@
+import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import { updateTrainer } from "../../redux/features/trainerSlice";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
+import ReactStars from "react-rating-stars-component";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useState, useEffect, useRef } from "react";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -23,6 +26,7 @@ import {
 import "./TrainerDetails.css";
 
 const TrainerDetails = () => {
+  const [readMoreReviews, setReadMoreReviews] = useState(false);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
   const { users } = useSelector((state) => state.users);
   const [bookedLessons, setBookedLessons] = useState([]);
@@ -33,17 +37,20 @@ const TrainerDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const topRef = useRef(null); // added ref
+  const location = useLocation();
+
   const generateAvailableHours = (date) => {
     const hours = [];
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();
 
     for (let i = 10; i <= 18; i += 2) {
-      const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
       const hourDate = new Date(date);
       hourDate.setHours(i, 0, 0, 0);
 
       if (!isToday || (isToday && hourDate > now)) {
+        const hour = i < 12 ? `${i}:00 AM` : `${i === 12 ? 12 : i - 12}:00 PM`;
         hours.push(hour);
       }
     }
@@ -55,21 +62,36 @@ const TrainerDetails = () => {
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
+    const endOfMonth = new Date(currentYear, currentMonth + 1, 1);
 
     const formatDate = (date) => date.toISOString().split("T")[0];
 
-    for (let day = today.getDate(); day <= 31; day++) {
-      const date = new Date(currentYear, currentMonth, day);
-      if (date.getMonth() !== currentMonth) break;
-
+    for (
+      let date = new Date(today);
+      date <= endOfMonth;
+      date.setDate(date.getDate() + 1)
+    ) {
       const dayOfWeek = date.getDay();
       if (dayOfWeek >= 0 && dayOfWeek <= 4) {
+        // Sunday to Thursday
         const formattedDate = formatDate(date);
         availableSchedule[formattedDate] = generateAvailableHours(date);
       }
     }
     return availableSchedule;
   };
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
 
   useEffect(() => {
     const fetchTrainer = async () => {
@@ -141,32 +163,14 @@ const TrainerDetails = () => {
     refetchTrainer();
   };
 
-  const handleReviewSubmit = () => {
-    const reviewText = document.querySelector(".review-text-input").value;
-    const reviewRating = document.querySelector(".review-rating-input").value;
-
-    if (!reviewText || !reviewRating) {
-      alert("Please provide a review and rating.");
-      return;
-    }
-
-    const newReview = {
-      userId: user.uid,
-      userName: user.displayName,
-      reviewText,
-      reviewRating,
-    };
-
-    const updatedReviews = [...(trainer.reviews || []), newReview];
-    const updatedData = {
-      reviews: updatedReviews,
-    };
-    dispatch(updateTrainer(trainerId, updatedData));
+  const handleSeeMoreReviews = () => {
+    setReadMoreReviews((prev) => !prev);
   };
-
+  console.log(trainer.reviews);
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
+        <div ref={topRef}></div>
         <div className="trainer-profile-content-container">
           <Link to={"/trainers"}>
             <IoMdArrowRoundBack className="trainer-profile-back-icon" />
@@ -223,30 +227,48 @@ const TrainerDetails = () => {
           <div className="trainer-profile-reviews-container">
             <h1 className="trainer-profile-teach-title">My Reviews</h1>
             <div className="reviews-list">
-              {/* Existing reviews will be displayed here */}
-              <p>add reviews here</p>
-            </div>
-            <div className="review-input-container">
-              <textarea
-                className="review-text-input"
-                placeholder="Write your review here..."
-              ></textarea>
-              <select className="review-rating-input">
-                <option value="" disabled selected>
-                  Select rating
-                </option>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-              </select>
-              <button
-                className="submit-review-button"
-                onClick={handleReviewSubmit}
-              >
-                Submit Review
-              </button>
+              <div className="trainer-profile-reviews-list-containers">
+                {trainer.reviews.slice(0, 4).map((review, index) => (
+                  <div
+                    className="trainer-profile-reviews-list-container"
+                    key={index}
+                  >
+                    <div className="trainer-profile-reviews-list-upper-container">
+                      <div className="trainer-profile-reviews-list-image-container">
+                        <img
+                          className="trainer-profile-reviews-list-image"
+                          src={review.userImage}
+                          alt="image"
+                        />
+                      </div>
+                      <p>{review.userName}</p>
+                    </div>
+                    <ReactStars
+                      activeColor="var(--background-secondary1)"
+                      value={review.userRating}
+                      edit={false}
+                      count={5}
+                      size={24}
+                    />
+                    <p>{review.reviewText}</p>
+                  </div>
+                ))}
+              </div>
+              {readMoreReviews && (
+                <TrainerInfoReviewsModal
+                  reviews={trainer.reviews}
+                  handleSeeMoreReviews={handleSeeMoreReviews}
+                />
+              )}
+              <div className="trainer-profile-display-button-container">
+                <button
+                  id="trainer-details-display-button"
+                  onClick={handleSeeMoreReviews}
+                  className="button-transparent"
+                >
+                  show more reviews
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -257,7 +279,7 @@ const TrainerDetails = () => {
           <div className="trainer-profile-actions-data-container">
             <div className="trainer-profile-actions-data-item">
               <GoStarFill className="trainer-profile-button-icon" />
-              <p>{trainer.ratings}</p>
+              <p>{calculateAverageRating(trainer.ratings)}</p>
             </div>
             <div className="trainer-profile-actions-data-item">
               <BiShekel className="trainer-profile-button-icon" />

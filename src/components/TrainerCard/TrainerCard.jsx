@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import "./TrainerCard.css";
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 
 const TrainerCard = ({
   lessonLength,
@@ -58,7 +59,7 @@ const TrainerCard = ({
           <div className="trainer-card-reviews-container">
             <div className="trainer-card-reviews">
               <GoStarFill className="trainer-card-icon" />
-              {ratings}
+              {calculateAverageRating(ratings)}
             </div>
             {`${reviews.length} reviews`}
           </div>

@@ -60,14 +60,13 @@
   font-size: 2rem;
 }
 
-.navbar-favorite-link {
+.navbar-counter-link {
   position: relative;
 }
 
-.history-icon{
+.history-icon {
   font-size: 2.4rem;
 }
-
 
 .navbar-favorite-counter {
   border: 2px solid var(--background-main1);

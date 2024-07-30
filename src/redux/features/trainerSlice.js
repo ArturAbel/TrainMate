@@ -16,6 +16,7 @@ const trainerSlice = createSlice({
     trainers: [],
     loading: false,
     error: null,
+    reviewCount: 0,
   },
   reducers: {
     setTrainers: (state, action) => {
@@ -27,10 +28,26 @@ const trainerSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    increaseReviewCount: (state) => {
+      state.favoriteCount += 1;
+    },
+    decreaseReviewCount: (state) => {
+      state.favoriteCount -= 1;
+    },
+    resetReviewCount: (state) => {
+      state.favoriteCount = 0;
+    },
   },
 });
 
-export const { setTrainers, setLoading, setError } = trainerSlice.actions;
+export const {
+  increaseReviewCount,
+  decreaseReviewCount,
+  resetReviewCount,
+  setTrainers,
+  setLoading,
+  setError,
+} = trainerSlice.actions;
 
 export const fetchTrainers = () => async (dispatch) => {
   dispatch(setLoading(true));
