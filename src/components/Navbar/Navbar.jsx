@@ -97,7 +97,7 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={`trainee-lesson-history/${user.uid}`}>
+              <Link to={`trainee-lesson/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
               <Link>
