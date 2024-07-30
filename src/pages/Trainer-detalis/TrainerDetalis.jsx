@@ -1,6 +1,6 @@
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import { updateTrainer } from "../../redux/features/trainerSlice";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -21,9 +21,10 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
-import { calculateAverageRating } from "../../utilities/calculateAvgRating";
+import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 
 const TrainerDetails = () => {
+  const [readMoreReviews, setReadMoreReviews] = useState(false);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
   const { users } = useSelector((state) => state.users);
   const [bookedLessons, setBookedLessons] = useState([]);
@@ -60,9 +61,14 @@ const TrainerDetails = () => {
 
     const formatDate = (date) => date.toISOString().split("T")[0];
 
-    for (let date = new Date(today); date <= endOfMonth; date.setDate(date.getDate() + 1)) {
+    for (
+      let date = new Date(today);
+      date <= endOfMonth;
+      date.setDate(date.getDate() + 1)
+    ) {
       const dayOfWeek = date.getDay();
-      if (dayOfWeek >= 0 && dayOfWeek <= 4) { // Sunday to Thursday
+      if (dayOfWeek >= 0 && dayOfWeek <= 4) {
+        // Sunday to Thursday
         const formattedDate = formatDate(date);
         availableSchedule[formattedDate] = generateAvailableHours(date);
       }
@@ -139,6 +145,7 @@ const TrainerDetails = () => {
     setIsCalenderOpen(false);
     refetchTrainer();
   };
+  console.log(trainer);
 
   return (
     <>
@@ -199,8 +206,24 @@ const TrainerDetails = () => {
           <div className="trainer-profile-reviews-container">
             <h1 className="trainer-profile-teach-title">My Reviews</h1>
             <div className="reviews-list">
-              {/* Existing reviews will be displayed here */}
-              <p>add reviews here</p>
+              {readMoreReviews ? (
+                <TrainerInfoReviewsModal />
+              ) : (
+                <div className="reviews-list-container">
+                  {trainer.reviews.slice(0, 6).map((review, index) => (
+                    <div key={index}>
+                      <div>
+                        <div className="reviews-list-image-container">
+                          <img src={review.userImage} alt="image" />
+                        </div>
+                        <p>{review.userName}</p>
+                      </div>
+                      <p>{review.userRating}</p>
+                      <p>{review.reviewText}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -276,4 +299,3 @@ const TrainerDetails = () => {
 };
 
 export default TrainerDetails;
-
