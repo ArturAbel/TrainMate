@@ -140,15 +140,15 @@ export const Navbar = () => {
         ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-                <Link to={`/trainer-lesson-history/${user.uid}`}>
+              <Link to={`/trainer-lesson-history/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
               <Link to={"/trainer-panel"}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
               <Link
-                className="navbar-counter-link"
                 to={`/trainer-reviews/${user.uid}`}
+                className="navbar-counter-link"
                 onClick={resetReviewCount()}
               >
                 {reviewsCount > 0 && (

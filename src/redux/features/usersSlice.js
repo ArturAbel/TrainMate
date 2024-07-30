@@ -1,5 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../config/firebaseConfig";
+import { increaseReviewCount } from "./trainerSlice";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   arrayRemove,
@@ -199,7 +200,7 @@ export const upsertReview = async (userId, trainerId, starRating, comment) => {
 
     if (!userSnap.exists()) {
       console.log("User not found");
-      return; 
+      return;
     }
 
     const userData = userSnap.data();
@@ -243,7 +244,7 @@ export const upsertReview = async (userId, trainerId, starRating, comment) => {
 
     if (existingReviewIndex !== -1) {
       // Remove the existing review from the array
-      
+
       await updateDoc(trainerRef, {
         reviews: arrayRemove(reviews[existingReviewIndex]), // Remove the old review
       });
@@ -281,6 +282,8 @@ export const deleteReviewById = async (trainerId, userId) => {
       reviews: reviews,
     });
 
+    // Increase the reviews count
+    increaseReviewCount();
     console.log("Review deleted successfully");
   } catch (error) {
     console.error("Error deleting review:", error);

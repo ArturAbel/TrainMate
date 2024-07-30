@@ -63,7 +63,7 @@ const router = createBrowserRouter([
         children: [{ path: "", element: <UserSettings /> }],
       },
       {
-        path: "trainee-lessons/:traineeId",
+        path: "trainee-lesson/:traineeId",
         element: <PrivateRoute allowedRoles={[TRAINEE]} />,
         children: [{ path: "", element: <TraineeLessons/> }],
       },
