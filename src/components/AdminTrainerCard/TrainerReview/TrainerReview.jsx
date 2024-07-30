@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import "./TrainerReview.css";
 import { useDispatch, useSelector } from "react-redux";
 //upsertReview
 //userId, trainerId, starRating, comment
 import { upsertReview } from "../../../redux/features/usersSlice";
-const TrainerReview = (trainerId) => {
+const TrainerReview = ({ trainerId }) => {
   const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -26,14 +26,7 @@ const TrainerReview = (trainerId) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(
-      "Submitted review:",
-      reviewText,
-      "with rating:",
-      selectedRating
-    );
-    handleUpsertReview(user.id, trainerId, selectedRating, reviewText);
-    // Here you can add more complex logic, like sending the data to a server
+    handleUpsertReview(user.uid, trainerId, selectedRating, reviewText);
   };
 
   return (
