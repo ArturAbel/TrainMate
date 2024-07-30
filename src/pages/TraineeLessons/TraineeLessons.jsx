@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import "./TraineeLessonHistory.css";
+import "./TraineeLessons.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchUsers } from "../../redux/features/usersSlice";
