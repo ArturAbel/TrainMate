@@ -1,4 +1,6 @@
+import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/AdminRemoveUsersAndTrainers";
 import { TrainerRegistration } from "./pages/TrainerRegistration/TrainerRegistration";
+import TrainerLessonHistory from "./pages/TrainerLessonHistory/TrainerLessonHistory";
 import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,8 +10,12 @@ import TrainerDetails from "./pages/Trainer-detalis/TrainerDetalis";
 import { BecomeTrainer } from "./pages/BecomeTrainer/BecomeTrainer";
 import { initializeAuthListener } from "./redux/features/authSlice";
 import TrainerReviews from "./pages/TrainerReviews/TrainerReviews";
+import PendingTrainer from "./pages/PendingTrainer/PendingTrainer";
+import TraineeLessons from "./pages/TraineeLessons/TraineeLessons";
+import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
 import TrainerPanel from "./pages/TrainerPanel/TrainerPanel";
 import UserSettings from "./pages/UserSettings/UserSettings";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { Layout } from "./components/Layout/Layout";
 import Trainers from "./pages/Trainers/Trainers";
 import { SignUp } from "./pages/SignUp/SignUp";
@@ -18,13 +24,6 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
-import AdminRemoveUsersAndTrainers from "./pages/AdminRemoveUsersAndTrainers/AdminRemoveUsersAndTrainers";
-import PendingTrainer from "./pages/PendingTrainer/PendingTrainer";
-import PrivateRoute from "./PrivateRoute/PrivateRoute";
-import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
-import TraineeLessons from "./pages/TraineeLessons/TraineeLessons";
-import TrainerLessonHistory from "./pages/TrainerLessonHistory/TrainerLessonHistory";
-
 
 const router = createBrowserRouter([
   {
@@ -63,9 +62,9 @@ const router = createBrowserRouter([
         children: [{ path: "", element: <UserSettings /> }],
       },
       {
-        path: "trainee-lesson/:traineeId",
+        path: "trainee-lessons/:traineeId",
         element: <PrivateRoute allowedRoles={[TRAINEE]} />,
-        children: [{ path: "", element: <TraineeLessons/> }],
+        children: [{ path: "", element: <TraineeLessons /> }],
       },
       {
         path: "trainers/:id",
