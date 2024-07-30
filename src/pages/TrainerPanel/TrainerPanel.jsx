@@ -5,17 +5,18 @@ import {
   fetchTrainers,
   updateTrainer,
 } from "../../redux/features/trainerSlice";
+import { fetchUsers, updateUser } from "../../redux/features/usersSlice";
 import LessonContainer from "../../components/LessonContainer/LessonContainer";
 import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 import "./TrainerPanel.css";
-import { fetchUsers, updateUser } from "../../redux/features/usersSlice.js";
 
 const TrainerPanel = () => {
   const { trainerId } = useParams();
+  const dispatch = useDispatch();
   const { trainers } = useSelector((state) => state.trainer);
   const { users } = useSelector((state) => state.users);
+
   const [trainer, setTrainer] = useState(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -38,181 +39,134 @@ const TrainerPanel = () => {
     return `${year}-${month}-${day}`;
   };
 
-  const currentDate = new Date();
-  const currentHour = currentDate.getHours();
-  const currentMinute = currentDate.getMinutes();
+  const getCurrentTimeChecker = () => {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
 
-  const timeChecker = {
-    date: formatDateWithHyphens(currentDate),
-    hour: `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`,
-    timestamp: currentDate.getTime(),
+    return {
+      date: formatDateWithHyphens(currentDate),
+      hour: `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`,
+      timestamp: currentDate.getTime(),
+    };
   };
 
-  console.log("Time Checker:", timeChecker);
+  const convertTo24HourFormat = (time) => {
+    const [hour, minutePart] = time.split(":");
+    const [minute, period] = minutePart.split(" ");
+    let hour24 = parseInt(hour, 10);
+    if (period === "PM" && hour24 !== 12) {
+      hour24 += 12;
+    } else if (period === "AM" && hour24 === 12) {
+      hour24 = 0;
+    }
+    return `${hour24.toString().padStart(2, "0")}:${minute}`;
+  };
 
-  if (!trainer) {
-    return <div>Loading...</div>;
-  }
-
-  let allTimes = trainer.bookedLessons
-    .filter((lesson) => lesson.approved)
-    .map((lesson) => {
-      const lessonTimestamp = Date.parse(
-        `${lesson.date.split("/").reverse().join("-")}T${convertTo24HourFormat(
-          lesson.hour
-        )}`
-      );
-      return {
-        timestamp: lessonTimestamp,
-        date: lesson.date.split("/").reverse().join("-"),
-        hour: lesson.hour,
-        userName: lesson.userName,
-        userId: lesson.userId,
-        approved: lesson.approved,
-        movedToHistory: lesson.movedToHistory || false,
-      };
-    });
-
-  console.log("All Times:", allTimes);
-
-  let userUpdates = {};
-
-  allTimes.forEach((time) => {
-    if (!time.approved || time.movedToHistory) return;
-
-    if (timeChecker.timestamp > time.timestamp) {
-      console.log(
-        `The current time is greater than the requested time of ${time.userName} (User ID: ${time.userId})`
-      );
-      const user = users.find((user) => user.uid === time.userId);
-      if (user) {
-        console.log(
-          `User Booked Lessons for ${time.userName}:`,
-          user.bookedLessons
+  const expiredLessons = trainer
+    ? trainer.bookedLessons
+      .filter((lesson) => lesson.approved && !lesson.movedToHistory)
+      .filter((lesson) => {
+        const lessonTimestamp = Date.parse(
+          `${lesson.date.split("/").reverse().join("-")}T${convertTo24HourFormat(
+            lesson.hour
+          )}`
         );
+        return getCurrentTimeChecker().timestamp > lessonTimestamp;
+      })
+    : [];
 
-        if (!userUpdates[time.userId]) {
-          userUpdates[time.userId] = {
-            userHistory: [...(user.userHistory || [])],
-            notifications: [...(user.notifications || [])],
-            updatedLessons: trainer.bookedLessons.map((lesson) =>
-              lesson.date + lesson.hour === time.date + time.hour
-                ? { ...lesson, movedToHistory: true }
-                : lesson
-            ),
-            trainerNotifications: [
-              ...(trainer.notifications || []),
-              {
-                message: `Lesson with ${time.userName} on ${time.date} at ${time.hour} has just ended.`,
-                read: false,
-              },
-            ],
-            trainerHistory: [
-              ...(trainer.trainerHistory || []),
-              {
-                date: time.date,
-                hour: time.hour,
-                userId: time.userId,
-                userName: time.userName,
-                checked: false,
-              },
-            ],
-          };
-        }
-
-        userUpdates[time.userId].userHistory.push({
-          date: time.date,
-          hour: time.hour,
+  const updateUserData = (userId, lesson) => {
+    const user = users.find((user) => user.uid === userId);
+    if (user) {
+      const updatedHistory = [
+        ...(user.userHistory || []),
+        {
+          date: lesson.date,
+          hour: lesson.hour,
           trainerId,
           trainerName: trainer.name,
           checked: false,
-        });
-
-        userUpdates[time.userId].notifications.push({
-          message: `Your lesson with ${trainer.name} on ${time.date} at ${time.hour} has just ended.`,
+        },
+      ];
+      const updatedNotifications = [
+        ...(user.notifications || []),
+        {
+          message: `Your lesson with ${trainer.name} on ${lesson.date} at ${lesson.hour} has just ended.`,
           read: false,
-        });
-
-        userUpdates[time.userId].trainerHistory.push({
-          date: time.date,
-          hour: time.hour,
-          userId: time.userId,
-          userName: time.userName,
-          checked: false,
-        });
-      } else {
-        console.log(`User with ID ${time.userId} not found.`);
-      }
-    } else if (timeChecker.timestamp < time.timestamp) {
-      console.log(
-        `The current time is less than the requested time of ${time.userName} (User ID: ${time.userId})`
+        },
+      ];
+      const updatedBookedLessons = user.bookedLessons.filter(
+        (userLesson) =>
+          userLesson.date + userLesson.hour !== lesson.date + lesson.hour
       );
-    } else {
-      console.log(
-        `The current time matches the requested time of ${time.userName} (User ID: ${time.userId})`
+
+      dispatch(
+        updateUser(userId, {
+          userHistory: updatedHistory,
+          notifications: updatedNotifications,
+          bookedLessons: updatedBookedLessons,
+        })
       );
     }
-  });
+  };
 
-  // Dispatch updates for all users
-  for (const userId in userUpdates) {
-    const {
-      userHistory,
-      updatedLessons,
-      notifications: userNotifications,
-      trainerNotifications,
-      trainerHistory,
-    } = userUpdates[userId];
-    dispatch(
-      updateUser(userId, {
-        userHistory,
-        notifications: userNotifications,
-      })
-    );
-
-    console.log("Updated User History for userId:", userId, userHistory);
-    console.log(
-      "Updated User Notifications for userId:",
-      userId,
-      userNotifications
+  const updateTrainerData = (trainerId, lesson) => {
+    const updatedTrainerHistory = [
+      ...(trainer.trainerHistory || []),
+      {
+        date: lesson.date,
+        hour: lesson.hour,
+        userId: lesson.userId,
+        userName: lesson.userName,
+        checked: false,
+      },
+    ];
+    const updatedTrainerNotifications = [
+      ...(trainer.notifications || []),
+      {
+        message: `Lesson with ${lesson.userName} on ${lesson.date} at ${lesson.hour} has just ended.`,
+        read: false,
+      },
+    ];
+    const updatedBookedLessons = trainer.bookedLessons.filter(
+      (trainerLesson) =>
+        trainerLesson.date + trainerLesson.hour !== lesson.date + lesson.hour
     );
 
     setTrainer((prevTrainer) => ({
       ...prevTrainer,
-      bookedLessons: updatedLessons,
-      notifications: trainerNotifications,
-      trainerHistory,
+      bookedLessons: updatedBookedLessons,
+      notifications: updatedTrainerNotifications,
+      trainerHistory: updatedTrainerHistory,
     }));
 
-    // Dispatch update for trainer to update booked lessons, notifications, and history
     dispatch(
       updateTrainer(trainerId, {
-        bookedLessons: updatedLessons,
-        notifications: trainerNotifications,
-        trainerHistory,
+        bookedLessons: updatedBookedLessons,
+        notifications: updatedTrainerNotifications,
+        trainerHistory: updatedTrainerHistory,
       })
     );
+  };
 
-    console.log("Updated Trainer History for userId:", userId, trainerHistory);
-  }
-
-  console.log("Trainer's Booked Lessons:", trainer.bookedLessons);
-  trainer.bookedLessons
-    .filter((lesson) => lesson.approved)
-    .forEach((lesson) => {
-      users.forEach((user) => {
-        if (lesson.userId === user.uid) {
-          console.log(`Lesson for User ID ${user.uid}:`, lesson);
-        }
+  useEffect(() => {
+    if (trainer) {
+      expiredLessons.forEach((lesson) => {
+        updateUserData(lesson.userId, lesson);
+        updateTrainerData(trainerId, lesson);
       });
-    });
+    }
+  }, [trainer, expiredLessons]);
 
-  const pendingLessons = trainer.bookedLessons.filter(
-    (lesson) => !lesson.approved
-  );
-  const approvedLessons = trainer.bookedLessons.filter(
-    (lesson) => lesson.approved && !lesson.movedToHistory
-  );
+  const pendingLessons = trainer
+    ? trainer.bookedLessons.filter((lesson) => !lesson.approved)
+    : [];
+  const approvedLessons = trainer
+    ? trainer.bookedLessons.filter(
+      (lesson) => lesson.approved && !lesson.movedToHistory
+    )
+    : [];
 
   const handleApproveLesson = async (lessonId) => {
     await approveLesson(trainerId, lessonId, setTrainer, trainer);
@@ -223,6 +177,10 @@ const TrainerPanel = () => {
     await deleteLesson(trainerId, lessonId, setTrainer, trainer);
     dispatch(fetchTrainers());
   };
+
+  if (!trainer) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="trainer-panel-section">
@@ -245,16 +203,6 @@ const TrainerPanel = () => {
   );
 };
 
-const convertTo24HourFormat = (time) => {
-  const [hour, minutePart] = time.split(":");
-  const [minute, period] = minutePart.split(" ");
-  let hour24 = parseInt(hour, 10);
-  if (period === "PM" && hour24 !== 12) {
-    hour24 += 12;
-  } else if (period === "AM" && hour24 === 12) {
-    hour24 = 0;
-  }
-  return `${hour24.toString().padStart(2, "0")}:${minute}`;
-};
-
 export default TrainerPanel;
+
+
