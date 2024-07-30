@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchUsers } from "../../redux/features/usersSlice";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
+import TrainerReview from "../../components/AdminTrainerCard/TrainerReview/TrainerReview";
+
 
 const TraineeLessonHistory = () => {
   const { traineeId } = useParams();
@@ -85,6 +87,7 @@ const TraineeLessonHistory = () => {
                             <p>{lesson.hour}</p>
                             <p>{trainer.sport}</p>
                           </div>
+                          <TrainerReview trainerId={trainer.uid} />
                         </>
                       ) : (
                         <p>Loading trainer data...</p>
