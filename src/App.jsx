@@ -1,4 +1,3 @@
-import TrainerSessionHistory from "./pages/TrainerSessionHistory/TrainerSessionHistory";
 import { TrainerRegistration } from "./pages/TrainerRegistration/TrainerRegistration";
 import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
@@ -24,6 +23,7 @@ import PendingTrainer from "./pages/PendingTrainer/PendingTrainer";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
 import TraineeLessonHistory from "./pages/TraineeLessonHistory/TraineeLessonHistory";
+import TrainerLessonHistory from "./pages/TrainerLessonHistory/TrainerLessonHistory";
 
 const router = createBrowserRouter([
   {
@@ -85,9 +85,8 @@ const router = createBrowserRouter([
         children: [{ path: "", element: <TrainerPanel /> }],
       },
       {
-        path: "trainer-session-history",
-        element: <PrivateRoute allowedRoles={[TRAINER]} />,
-        children: [{ path: "", element: <TrainerSessionHistory /> }],
+        path: "trainer-lesson-history/:trainerId",
+        element: <TrainerLessonHistory />,
       },
       {
         path: "trainer-messages",
