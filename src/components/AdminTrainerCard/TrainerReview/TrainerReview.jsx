@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 //upsertReview
 //userId, trainerId, starRating, comment
 import { upsertReview } from "../../../redux/features/usersSlice";
-const TrainerReview = (trainerId) => {
+const TrainerReview = ({trainerId}) => {
   const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const TrainerReview = (trainerId) => {
       "with rating:",
       selectedRating
     );
-    handleUpsertReview(user.id, trainerId, selectedRating, reviewText);
+    handleUpsertReview(user.uid, trainerId, selectedRating, reviewText);
     // Here you can add more complex logic, like sending the data to a server
   };
 
