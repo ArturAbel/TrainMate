@@ -100,7 +100,7 @@ export const Navbar = () => {
               <Link to={`trainee-lessons/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
-              <Link>
+              <Link to={`/messages/${user.uid}`}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
               <Link className="navbar-counter-link" to={"/favorites"}>
@@ -143,7 +143,7 @@ export const Navbar = () => {
               <Link to={`/trainer-lesson-history/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
-              <Link to={"/trainer-panel"}>
+              <Link to={`/messages/${user.uid}`}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
               <Link

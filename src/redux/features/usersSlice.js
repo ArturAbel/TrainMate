@@ -234,7 +234,6 @@ export const upsertReview = async (userId, trainerId, starRating, comment) => {
       console.log("Trainer not found");
       return; // Exit function early
     }
-
     let reviews = trainerSnap.data().reviews || [];
 
     // Check for an existing review by the same user
