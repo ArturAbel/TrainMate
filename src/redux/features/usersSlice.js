@@ -199,7 +199,7 @@ export const upsertReview = async (userId, trainerId, starRating, comment) => {
 
     if (!userSnap.exists()) {
       console.log("User not found");
-      return; 
+      return; // Exit function early
     }
 
     const userData = userSnap.data();

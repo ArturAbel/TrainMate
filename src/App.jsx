@@ -2,7 +2,6 @@ import { TrainerRegistration } from "./pages/TrainerRegistration/TrainerRegistra
 import FavoriteTrainers from "./pages/FavoriteTrainers/FavoriteTrainers";
 import GetStartedQuiz from "./components/GetStartedQuiz/GetStartedQuiz";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import TrainerMessages from "./pages/TrainerMessages/TrainerMessages";
 import TrainerSettings from "./pages/TrainerSettings/TrainerSettings";
 import TrainerDetails from "./pages/Trainer-detalis/TrainerDetalis";
 import { BecomeTrainer } from "./pages/BecomeTrainer/BecomeTrainer";
@@ -24,6 +23,7 @@ import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
 import TraineeLessons from "./pages/TraineeLessons/TraineeLessons";
 import TrainerLessonHistory from "./pages/TrainerLessonHistory/TrainerLessonHistory";
+import Messages from "./pages/Messages/Messages";
 
 
 const router = createBrowserRouter([
@@ -68,6 +68,11 @@ const router = createBrowserRouter([
         children: [{ path: "", element: <TraineeLessons/> }],
       },
       {
+        path: "messages/:currentUserId",
+        element: <PrivateRoute allowedRoles={[TRAINEE, TRAINER]} />,
+        children: [{ path: "", element: <Messages/> }],
+      },
+      {
         path: "trainers/:id",
         element: <TrainerDetails />,
       },
@@ -88,11 +93,6 @@ const router = createBrowserRouter([
       {
         path: "trainer-lesson-history/:trainerId",
         element: <TrainerLessonHistory />,
-      },
-      {
-        path: "trainer-messages",
-        element: <PrivateRoute allowedRoles={[TRAINER]} />,
-        children: [{ path: "", element: <TrainerMessages /> }],
       },
       {
         path: "trainer-settings",
