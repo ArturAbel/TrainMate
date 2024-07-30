@@ -145,8 +145,11 @@ const TrainerDetails = () => {
     setIsCalenderOpen(false);
     refetchTrainer();
   };
-  console.log(trainer);
 
+  const handleSeeMoreReviews = () => {
+    setReadMoreReviews((prev) => !prev);
+  };
+  console.log(trainer.reviews);
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
@@ -206,24 +209,39 @@ const TrainerDetails = () => {
           <div className="trainer-profile-reviews-container">
             <h1 className="trainer-profile-teach-title">My Reviews</h1>
             <div className="reviews-list">
-              {readMoreReviews ? (
-                <TrainerInfoReviewsModal />
-              ) : (
-                <div className="reviews-list-container">
-                  {trainer.reviews.slice(0, 6).map((review, index) => (
-                    <div key={index}>
-                      <div>
-                        <div className="reviews-list-image-container">
-                          <img src={review.userImage} alt="image" />
-                        </div>
-                        <p>{review.userName}</p>
+              <div className="trainer-profile-reviews-list-containers">
+                {trainer.reviews.slice(0, 4).map((review, index) => (
+                  <div
+                    className="trainer-profile-reviews-list-container"
+                    key={index}
+                  >
+                    <div className="trainer-profile-reviews-list-upper-container">
+                      <div className="trainer-profile-reviews-list-image-container">
+                        <img
+                          className="trainer-profile-reviews-list-image"
+                          src={review.userImage}
+                          alt="image"
+                        />
                       </div>
-                      <p>{review.userRating}</p>
-                      <p>{review.reviewText}</p>
+                      <p>{review.userName}</p>
                     </div>
-                  ))}
-                </div>
+                    <p>Rating: {review.userRating}</p>
+                    <p>{review.reviewText}</p>
+                  </div>
+                ))}
+              </div>
+              {readMoreReviews && (
+                <TrainerInfoReviewsModal reviews={trainer.reviews} />
               )}
+              <div className="trainer-profile-display-button-container">
+                <button
+                  onClick={handleSeeMoreReviews}
+                  className="button-transparent"
+                  id="trainer-details-display-button"
+                >
+                  show more reviews
+                </button>
+              </div>
             </div>
           </div>
         </div>

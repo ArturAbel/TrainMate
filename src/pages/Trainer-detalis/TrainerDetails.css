@@ -167,3 +167,49 @@
   margin-right: 1rem;
   font-size: 2rem;
 }
+
+.trainer-profile-reviews-list-containers {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  gap: 1rem;
+}
+
+.trainer-profile-reviews-list-container {
+  background-color: var(--background-secondary7);
+  text-transform: capitalize;
+  flex-direction: column;
+  border-radius: 15px;
+  font-size: 1.4rem;
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.trainer-profile-reviews-list-upper-container {
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+}
+
+.trainer-profile-reviews-list-image-container {
+  border-radius: var(--border-radius-generic);
+  height: 5rem;
+  width: 5rem;
+}
+
+.trainer-profile-display-button-container {
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+#trainer-details-display-button {
+  margin: 5rem 0;
+}
+
+.trainer-profile-reviews-list-image {
+  object-fit: cover;
+  font-size: 1rem;
+  height: 100%;
+  width: 100%;
+}
