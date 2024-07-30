@@ -1,15 +1,23 @@
-import { useParams } from 'react-router';
-import './TraineeLessonHistory.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { fetchUsers } from '../../redux/features/usersSlice';
-import { fetchTrainers } from '../../redux/features/trainerSlice';
+import { useParams } from "react-router";
+import "./TraineeLessonHistory.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchUsers } from "../../redux/features/usersSlice";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
 
 const TraineeLessonHistory = () => {
   const { traineeId } = useParams();
   const dispatch = useDispatch();
-  const { users, loading: loadingUsers, error: errorUsers } = useSelector((state) => state.users);
-  const { trainers, loading: loadingTrainers, error: errorTrainers } = useSelector((state) => state.trainer);
+  const {
+    users,
+    loading: loadingUsers,
+    error: errorUsers,
+  } = useSelector((state) => state.users);
+  const {
+    trainers,
+    loading: loadingTrainers,
+    error: errorTrainers,
+  } = useSelector((state) => state.trainer);
   const [traineeHistory, setTraineeHistory] = useState([]);
   const [trainersData, setTrainersData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +47,7 @@ const TraineeLessonHistory = () => {
   }, [trainers]);
 
   const handleModalClick = () => {
-    setIsModalOpen(prevState => !prevState);
+    setIsModalOpen((prevState) => !prevState);
   };
 
   return (
@@ -56,11 +64,21 @@ const TraineeLessonHistory = () => {
               {traineeHistory.map((lesson) => {
                 const trainer = trainersData[lesson.trainerId];
                 return (
-                  <div className="trainee-lesson-history-item" key={`${lesson.userId}-${lesson.date}-${lesson.hour}`}>
+                  <div
+                    className="trainee-lesson-history-item"
+                    key={`${lesson.userId}-${lesson.date}-${lesson.hour}`}
+                  >
                     <div className="lesson-trainer-content">
                       {trainer ? (
                         <>
-                          <img src={trainer.image || '/public/assets/img/anonymous/anonymous.jpeg'} alt={trainer.name} className="lesson-trainer-image" />
+                          <img
+                            src={
+                              trainer.image ||
+                              "/public/assets/img/anonymous/anonymous.jpeg"
+                            }
+                            alt={trainer.name}
+                            className="lesson-trainer-image"
+                          />
                           <div className="lesson-trainer-info">
                             <p>{trainer.name}</p>
                             <p>{lesson.date}</p>
@@ -87,6 +105,3 @@ const TraineeLessonHistory = () => {
 };
 
 export default TraineeLessonHistory;
-
-
-
