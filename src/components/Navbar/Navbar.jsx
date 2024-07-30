@@ -97,7 +97,7 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={`trainee-lesson/${user.uid}`}>
+              <Link to={`trainee-lessons/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
               <Link>
@@ -140,7 +140,7 @@ export const Navbar = () => {
         ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={"/trainer-session-history"}>
+                <Link to={`/trainer-lesson-history/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
               <Link to={"/trainer-panel"}>
