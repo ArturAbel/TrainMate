@@ -1,8 +1,8 @@
-import "./TrainerInfoReviewsCard.css";
+import "./TrainerInfoReviewCard.css";
 
-export const TrainerInfoReviewsCard = ({ review }) => {
+export const TrainerInfoReviewCard = ({ review }) => {
   return (
-    <div>
+    <div className="trainer-info-review-card-container">
       <div className="trainer-profile-reviews-list-upper-container">
         <div className="trainer-profile-reviews-list-image-container">
           <img

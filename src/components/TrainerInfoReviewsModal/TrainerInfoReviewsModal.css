@@ -1,9 +1,23 @@
+.trainer-reviews-modal-overlay {
+   background: rgba(0, 0, 0, 0.5);
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   height: 100%;
+   z-index: 1;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   top: 0;
+ }
+ 
 .trainer-reviews-modal {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: var(--background-main1);
   transform: translate(-50%, -50%);
-  background-color: rgb(243, 191, 125);
   border-radius: 15px;
   position: absolute;
-  padding: 5rem;
+  padding: 4rem;
   height: 90vh;
   width: 50vw;
   z-index: 4;
@@ -30,12 +44,14 @@
   transform: scale(1.1);
 }
 
-.trainer-reviews-modal-inner {
-  background-color: rgb(125, 138, 138);
-  justify-content: center;
-  align-items: center;
+.trainer-reviews-modal-reviews {
+  flex-direction: column;
   overflow-y: scroll;
+  padding: 1rem 3rem;
+  border-radius: 15px;
   display: flex;
   height: 70vh;
   width: 100%;
+  gap: 1rem;
 }
+

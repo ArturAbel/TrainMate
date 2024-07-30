@@ -1,18 +1,21 @@
-import { TrainerInfoReviewsCard } from "../TrainerInfoReviewsCard/TrainerInfoReviewsCard";
+import { TrainerInfoReviewCard } from "../TrainerInfoReviewsCard/TrainerInfoReviewCard.";
 import { IoMdClose } from "react-icons/io";
 
 import "./TrainerInfoReviewsModal.css";
 
-export const TrainerInfoReviewsModal = ({ reviews }) => {
+export const TrainerInfoReviewsModal = ({ reviews, handleSeeMoreReviews }) => {
   return (
     <div className="trainer-reviews-modal">
       <div className="trainer-reviews-modal-title-container">
         <h2>What my trainees say?</h2>
-        <IoMdClose className="trainer-reviews-modal-close-icon" />
+        <IoMdClose
+          className="trainer-reviews-modal-close-icon"
+          onClick={handleSeeMoreReviews}
+        />
       </div>
-      <div className="trainer-reviews-modal-inner">
+      <div className="trainer-reviews-modal-reviews">
         {reviews.map((review, index) => (
-          <TrainerInfoReviewsCard review={review} key={index} />
+          <TrainerInfoReviewCard review={review} key={index} />
         ))}
       </div>
     </div>

@@ -247,13 +247,18 @@ const TrainerDetails = () => {
                 ))}
               </div>
               {readMoreReviews && (
-                <TrainerInfoReviewsModal reviews={trainer.reviews} />
+                <div className="trainer-reviews-modal-overlay">
+                  <TrainerInfoReviewsModal
+                    reviews={trainer.reviews}
+                    handleSeeMoreReviews={handleSeeMoreReviews}
+                  />
+                </div>
               )}
               <div className="trainer-profile-display-button-container">
                 <button
+                  id="trainer-details-display-button"
                   onClick={handleSeeMoreReviews}
                   className="button-transparent"
-                  id="trainer-details-display-button"
                 >
                   show more reviews
                 </button>
