@@ -25,6 +25,7 @@ export const TrainerRegistration = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -36,6 +37,34 @@ export const TrainerRegistration = () => {
     lessonLength: "",
     price: "",
   });
+
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
+  const loadGoogleMaps = (apiKey, callbackName) => {
+    if (!window.google) {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=${callbackName}`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+
+      window[callbackName] = () => {
+        setScriptLoaded(true);
+      };
+
+      return () => {
+        document.head.removeChild(script);
+      };
+    } else {
+      if (callbackName && typeof window[callbackName] === "function") {
+        window[callbackName]();
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadGoogleMaps(apiKey, "initMap");
+  }, [apiKey]);
 
   useEffect(() => {
     dispatch(fetchTrainers()).then(() => setLocalLoading(false));
@@ -80,8 +109,13 @@ export const TrainerRegistration = () => {
     }
   };
 
+  const handlePlaceSelected = (coords, address) => {
+    setFormData({ ...formData, address });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Form data:", formData);
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
       if (trainerData.approved) {
@@ -205,6 +239,10 @@ export const TrainerRegistration = () => {
               label={"Your address"}
               name={"address"}
               type={"text"}
+              enableAutocomplete={true}
+              apiKey={apiKey}
+              onPlaceSelected={handlePlaceSelected}
+              scriptLoaded={scriptLoaded}
             />
             <div className="trainer-registration-input-container">
               {/* Make checkbox component */}
