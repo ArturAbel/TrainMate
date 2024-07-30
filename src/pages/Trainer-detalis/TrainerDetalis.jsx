@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -19,7 +19,7 @@ import {
   addFavorite,
   fetchUsers,
 } from "../../redux/features/usersSlice";
-
+import { useLocation } from "react-router-dom";
 import "./TrainerDetails.css";
 import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 
@@ -34,6 +34,9 @@ const TrainerDetails = () => {
   const { id: trainerId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const topRef = useRef(null); // added ref
+  const location = useLocation();
 
   const generateAvailableHours = (date) => {
     const hours = [];
@@ -75,6 +78,18 @@ const TrainerDetails = () => {
     }
     return availableSchedule;
   };
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
 
   useEffect(() => {
     const fetchTrainer = async () => {
@@ -153,6 +168,7 @@ const TrainerDetails = () => {
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
+        <div ref={topRef}></div>
         <div className="trainer-profile-content-container">
           <Link to={"/trainers"}>
             <IoMdArrowRoundBack className="trainer-profile-back-icon" />
