@@ -1,3 +1,4 @@
+import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
@@ -5,10 +6,12 @@ import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
+import ReactStars from "react-rating-stars-component";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useState, useEffect, useRef } from "react";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -19,9 +22,8 @@ import {
   addFavorite,
   fetchUsers,
 } from "../../redux/features/usersSlice";
-import { useLocation } from "react-router-dom";
+
 import "./TrainerDetails.css";
-import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
@@ -241,18 +243,22 @@ const TrainerDetails = () => {
                       </div>
                       <p>{review.userName}</p>
                     </div>
-                    <p>Rating: {review.userRating}</p>
+                    <ReactStars
+                      activeColor="var(--background-secondary1)"
+                      value={review.userRating}
+                      edit={false}
+                      count={5}
+                      size={24}
+                    />
                     <p>{review.reviewText}</p>
                   </div>
                 ))}
               </div>
               {readMoreReviews && (
-                <div className="trainer-reviews-modal-overlay">
-                  <TrainerInfoReviewsModal
-                    reviews={trainer.reviews}
-                    handleSeeMoreReviews={handleSeeMoreReviews}
-                  />
-                </div>
+                <TrainerInfoReviewsModal
+                  reviews={trainer.reviews}
+                  handleSeeMoreReviews={handleSeeMoreReviews}
+                />
               )}
               <div className="trainer-profile-display-button-container">
                 <button

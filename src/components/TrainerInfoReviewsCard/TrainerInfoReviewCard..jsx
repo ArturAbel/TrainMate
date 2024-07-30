@@ -1,3 +1,5 @@
+import ReactStars from "react-rating-stars-component";
+
 import "./TrainerInfoReviewCard.css";
 
 export const TrainerInfoReviewCard = ({ review }) => {
@@ -13,7 +15,13 @@ export const TrainerInfoReviewCard = ({ review }) => {
         </div>
         <p>{review.userName || ""}</p>
       </div>
-      <p>Rating: {review.userRating || ""}</p>
+      <ReactStars
+        activeColor="var(--background-secondary1)"
+        value={review.userRating}
+        edit={false}
+        count={5}
+        size={24}
+      />
       <p>{review.reviewText || ""}</p>
     </div>
   );
