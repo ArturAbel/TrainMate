@@ -25,11 +25,10 @@ import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Layout />, // i added   to the layout  a reset scrolldown
     children: [
       {
         path: "/",
@@ -125,6 +124,7 @@ const router = createBrowserRouter([
     path: "pending-trainer",
     element: <PendingTrainer />,
   },
+    
 ]);
 
 function App() {

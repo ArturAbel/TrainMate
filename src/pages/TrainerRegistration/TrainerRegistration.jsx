@@ -83,7 +83,8 @@ export const TrainerRegistration = () => {
         description: prevData.description || trainerData.description || "",
         about: prevData.about || trainerData.about || "",
         address: prevData.address || trainerData.address || "",
-        level: prevData.level.length > 0 ? prevData.level : trainerData.level || [],
+        level:
+          prevData.level.length > 0 ? prevData.level : trainerData.level || [],
         lessonLength: prevData.lessonLength || trainerData.lessonLength || "",
         price: prevData.price || trainerData.price || "",
         gender: prevData.gender || trainerData.gender || "", // Initialize gender
@@ -246,9 +247,7 @@ export const TrainerRegistration = () => {
 
             {/* Gender Radio Buttons */}
             <div className="trainer-registration-input-container">
-              <label className="trainer-registration-form-label">
-                Gender
-              </label>
+              <label className="trainer-registration-form-label">Gender</label>
               <div className="trainer-registration-form-radio-group">
                 <label>
                   <input
@@ -406,4 +405,3 @@ export const TrainerRegistration = () => {
     </>
   );
 };
-
