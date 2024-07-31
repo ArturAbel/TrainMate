@@ -24,7 +24,8 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
-import Messages from "./pages/Messages/Messages";
+import LoadingPage from "./pages/LoadingPage/LoadingPage";
+
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
     path: "pending-trainer",
     element: <PendingTrainer />,
   },
+  {
+    path:"loading-page",
+    element:<LoadingPage/>
+  }
 ]);
 
 function App() {
