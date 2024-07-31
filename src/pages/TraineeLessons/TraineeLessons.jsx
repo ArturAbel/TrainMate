@@ -65,10 +65,6 @@ const TraineeLessons = () => {
                 className="trainee-lesson-item"
                 key={`${lesson.trainerId}-${lesson.date}-${lesson.hour}`}
               >
-              <div
-                className="trainee-lesson-item"
-                key={`${lesson.trainerId}-${lesson.date}-${lesson.hour}`}
-              >
                 <div className="lesson-trainer-content">
                   {trainer ? (
                     <>
@@ -86,11 +82,6 @@ const TraineeLessons = () => {
                         <p>{lesson.hour}</p>
                         <p>{trainer.sport}</p>
                       </div>
-                      <div
-                        className={`lesson-status ${
-                          lesson.approved && "approved"
-                        }`}
-                      >
                       <div
                         className={`lesson-status ${
                           lesson.approved && "approved"
@@ -154,10 +145,6 @@ const TraineeLessons = () => {
                         <p>Loading trainer data...</p>
                       )}
                     </div>
-                    <button
-                      className="add-review-button button-transparent"
-                      onClick={handleModalClick}
-                    >
                     <button
                       className="add-review-button button-transparent"
                       onClick={handleModalClick}

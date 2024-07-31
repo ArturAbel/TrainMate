@@ -1,10 +1,13 @@
-import { useState } from "react";
-import ReactStars from "react-rating-stars-component";
-import "./TrainerReview.css";
-import { useDispatch, useSelector } from "react-redux";
-import LeoProfanity from "leo-profanity";
 import { upsertReview } from "../../redux/features/usersSlice";
-const TrainerReview = ({ trainerId }) => {
+import { useDispatch, useSelector } from "react-redux";
+import ReactStars from "react-rating-stars-component";
+import { IoMdClose } from "react-icons/io";
+import LeoProfanity from "leo-profanity";
+import { useState } from "react";
+
+import "./TrainerReview.css";
+
+const TrainerReview = ({ trainerId, setIsModalOpen }) => {
   const { user } = useSelector((state) => state.auth);
   const [isClean, setIsClean] = useState(true);
   const checkForBadWords = () => {
@@ -41,27 +44,43 @@ const TrainerReview = ({ trainerId }) => {
 
   return (
     <>
-      <div>TrainerReview</div>
-      <form onSubmit={handleSubmit}>
-        <div className="rating-container">
-          <ReactStars
-            value={selectedRating}
-            activeColor="#ffd700"
-            count={5}
-            edit={true}
-            size={24}
-            onChange={handleRatingChange}
+      <div className="trainer-add-review-overlay"></div>
+      <div className="trainer-review-container">
+        <div className="trainer-review-container-upper">
+          <h2 className="trainer-review-title">Add a review</h2>
+          <IoMdClose
+            onClick={() => setIsModalOpen((prev) => !prev)}
+            className="trainer-review-close-icon"
           />
         </div>
-        <textarea
-          value={reviewText}
-          onChange={handleInputChange}
-          placeholder="Write your review here..."
-          rows="4"
-        ></textarea>
-        <button type="submit">Submit Review</button>
-        <p>{isClean ? "" : "Review containes inappropriate language."}</p>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <div className="rating-container">
+            <ReactStars
+              activeColor="var(--background-secondary1)"
+              onChange={handleRatingChange}
+              value={selectedRating}
+              edit={true}
+              count={5}
+              size={24}
+            />
+          </div>
+          <textarea
+            className="trainer-review-textarea"
+            placeholder="Write your review here..."
+            onChange={handleInputChange}
+            value={reviewText}
+            rows="4"
+          ></textarea>
+          <button
+            type="submit"
+            className="button-transparent"
+            id="trainer-review-add-review-button"
+          >
+            Submit Review
+          </button>
+          <p>{isClean ? "" : "Review contains inappropriate language."}</p>
+        </form>
+      </div>
     </>
   );
 };
