@@ -29,13 +29,13 @@ const trainerSlice = createSlice({
       state.error = action.payload;
     },
     increaseReviewCount: (state) => {
-      state.favoriteCount += 1;
+      state.reviewCount += 1;
     },
     decreaseReviewCount: (state) => {
-      state.favoriteCount -= 1;
+      state.reviewCount -= 1;
     },
     resetReviewCount: (state) => {
-      state.favoriteCount = 0;
+      state.reviewCount = 0;
     },
   },
 });
@@ -45,6 +45,7 @@ export const {
   decreaseReviewCount,
   resetReviewCount,
   setTrainers,
+  reviewCount,
   setLoading,
   setError,
 } = trainerSlice.actions;
