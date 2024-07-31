@@ -25,6 +25,10 @@ import {
 
 import "./TrainerDetails.css";
 
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
+import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
+
+
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
@@ -36,9 +40,6 @@ const TrainerDetails = () => {
   const { id: trainerId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const topRef = useRef(null); // added ref
-  const location = useLocation();
 
   const generateAvailableHours = (date) => {
     const hours = [];
@@ -80,18 +81,6 @@ const TrainerDetails = () => {
     }
     return availableSchedule;
   };
-
-  useEffect(() => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [location]);
 
   useEffect(() => {
     const fetchTrainer = async () => {
@@ -170,7 +159,6 @@ const TrainerDetails = () => {
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
-        <div ref={topRef}></div>
         <div className="trainer-profile-content-container">
           <Link to={"/trainers"}>
             <IoMdArrowRoundBack className="trainer-profile-back-icon" />
@@ -275,7 +263,10 @@ const TrainerDetails = () => {
 
         {/* Right container */}
         <div className="trainer-profile-actions-container">
-          <div className="trainer-profile-actions-map">add map</div>
+          <div className="trainer-profile-actions-map">
+            {" "}
+            <TrainerProfileMap address={trainer.address} />
+          </div>
           <div className="trainer-profile-actions-data-container">
             <div className="trainer-profile-actions-data-item">
               <GoStarFill className="trainer-profile-button-icon" />
