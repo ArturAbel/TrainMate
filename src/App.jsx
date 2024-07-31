@@ -23,7 +23,7 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
-import messages from "./pages/Messages/Messages";
+
 import Messages from "./pages/Messages/Messages";
 
 const router = createBrowserRouter([
