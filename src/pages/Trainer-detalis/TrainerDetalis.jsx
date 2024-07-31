@@ -25,7 +25,6 @@ import {
 
 import "./TrainerDetails.css";
 
-import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
 
 
