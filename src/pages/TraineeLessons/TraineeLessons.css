@@ -50,13 +50,15 @@
 }
 
 .lesson-trainer-content {
+  object-fit: cover;
   display: flex;
+  width: 100%;
   gap: 1rem;
 }
 
 .lesson-trainer-image {
   border-radius: var(--border-radius-generic);
-  width: 35%;
+  width: 100%;
 }
 
 .lesson-trainer-info {
