@@ -50,6 +50,10 @@
   gap: 2rem;
 }
 
+.navbar-icon-container {
+  position: relative;
+}
+
 .navbar-login-icon {
   margin-right: 1rem;
   font-size: 1.5rem;

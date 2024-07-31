@@ -29,15 +29,16 @@
   width: 100%;
 }
 
-.favorite-trainers-no-favorite{
+.favorite-trainers-no-favorite {
   justify-content: center;
-  align-items: center;
   display: flex;
   height: 80vh;
   width: 100%;
 }
 
-.favorite-trainers-no-favorite-title{
+.favorite-trainers-no-favorite-title {
   font-family: var(--font-content);
-  font-size: 3rem;
+  font-weight: 400;
+  margin-top: 20vh;
+  font-size: 2.5rem;
 }

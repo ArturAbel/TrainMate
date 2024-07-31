@@ -1,5 +1,6 @@
+import { footerGif, gitHubLink, TRAINER } from "../../utilities/constants";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
-import { footerGif, TRAINER } from "../../utilities/constants";
+import { FiGithub } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
@@ -58,6 +59,11 @@ export const Footer = () => {
           </div>
           <div className="footer-social">
             <FaTiktok />
+          </div>
+          <div className="footer-social">
+            <Link className="footer-social-link" to={gitHubLink}>
+              <FiGithub />
+            </Link>
           </div>
         </div>
       </div>

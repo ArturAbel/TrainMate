@@ -39,6 +39,9 @@ export const footerGif = "../../assets/img/footer/gif.gif";
 // Become a trainer page
 export const becomeTrainerImage = "../../assets/img/become-trainer/trainer.jpg";
 
+// Footer
+export const gitHubLink = "https://github.com/ArturAbel/TrainMate";
+
 // Text
 export const TRAINER = "trainer";
 export const TRAINEE = "trainee";
