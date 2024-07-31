@@ -29,13 +29,13 @@ const trainerSlice = createSlice({
       state.error = action.payload;
     },
     increaseReviewCount: (state) => {
-      state.favoriteCount += 1;
+      state.reviewCount += 1;
     },
     decreaseReviewCount: (state) => {
-      state.favoriteCount -= 1;
+      state.reviewCount -= 1;
     },
     resetReviewCount: (state) => {
-      state.favoriteCount = 0;
+      state.reviewCount = 0;
     },
   },
 });
@@ -45,6 +45,7 @@ export const {
   decreaseReviewCount,
   resetReviewCount,
   setTrainers,
+  reviewCount,
   setLoading,
   setError,
 } = trainerSlice.actions;
@@ -54,10 +55,17 @@ export const fetchTrainers = () => async (dispatch) => {
   try {
     const trainersCollection = collection(db, "trainers");
     const trainerSnapshot = await getDocs(trainersCollection);
-    const trainerList = trainerSnapshot.docs.map((doc) => ({
-      uid: doc.id,
-      ...doc.data(),
-    }));
+    const trainerList = trainerSnapshot.docs.map((doc) => {
+      const trainerData = doc.data();
+      const ratings = trainerData.reviews
+        ? trainerData.reviews.map((review) =>review.starRating?review.starRating:0)
+        : [];
+      return {
+        uid: doc.id,
+        ...trainerData,
+        ratings, 
+      };
+    });
     dispatch(setTrainers(trainerList));
     dispatch(setLoading(false));
   } catch (error) {

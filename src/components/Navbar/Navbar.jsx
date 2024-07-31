@@ -97,10 +97,10 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={`trainee-lesson/${user.uid}`}>
+              <Link to={`trainee-lessons/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
-              <Link>
+              <Link to={`/messages/${user.uid}`}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
               <Link className="navbar-counter-link" to={"/favorites"}>
@@ -140,15 +140,15 @@ export const Navbar = () => {
         ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={"/trainer-session-history"}>
+              <Link to={`/trainer-lesson-history/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
-              <Link to={"/trainer-panel"}>
+              <Link to={`/messages/${user.uid}`}>
                 <BiMessageSquareDetail className="navbar-icon" />
               </Link>
               <Link
-                className="navbar-counter-link"
                 to={`/trainer-reviews/${user.uid}`}
+                className="navbar-counter-link"
                 onClick={resetReviewCount()}
               >
                 {reviewsCount > 0 && (
