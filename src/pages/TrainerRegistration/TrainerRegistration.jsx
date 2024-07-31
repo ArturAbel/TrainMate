@@ -5,7 +5,7 @@ import { anonymousImage, sports } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { isFormValid } from "./TrainerRegistrationlib";
 import { BsHandThumbsUp } from "react-icons/bs";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import {
   fetchTrainers,
@@ -16,8 +16,11 @@ import {
   registrationExplanation,
   registrationInstructions,
 } from "./TrainerRegistrationText";
+import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
 
 import "./TrainerRegistration.css";
+
+const libraries = ["places"]; // Required for Autocomplete
 
 export const TrainerRegistration = () => {
   const { trainers, loading } = useSelector((state) => state.trainer);
@@ -36,36 +39,10 @@ export const TrainerRegistration = () => {
     level: [],
     lessonLength: "",
     price: "",
-    gender: "", // Adding gender to formData state
+    gender: "",
   });
 
-  const [scriptLoaded, setScriptLoaded] = useState(false);
-
-  const loadGoogleMaps = (apiKey, callbackName) => {
-    if (!window.google) {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=${callbackName}`;
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-
-      window[callbackName] = () => {
-        setScriptLoaded(true);
-      };
-
-      return () => {
-        document.head.removeChild(script);
-      };
-    } else {
-      if (callbackName && typeof window[callbackName] === "function") {
-        window[callbackName]();
-      }
-    }
-  };
-
-  useEffect(() => {
-    loadGoogleMaps(apiKey, "initMap");
-  }, [apiKey]);
+  const autocompleteRef = useRef(null);
 
   useEffect(() => {
     dispatch(fetchTrainers()).then(() => setLocalLoading(false));
@@ -87,7 +64,7 @@ export const TrainerRegistration = () => {
           prevData.level.length > 0 ? prevData.level : trainerData.level || [],
         lessonLength: prevData.lessonLength || trainerData.lessonLength || "",
         price: prevData.price || trainerData.price || "",
-        gender: prevData.gender || trainerData.gender || "", // Initialize gender
+        gender: prevData.gender || trainerData.gender || "",
       }));
     }
   }, [trainerData]);
@@ -113,13 +90,17 @@ export const TrainerRegistration = () => {
     }
   };
 
-  const handlePlaceSelected = (coords, address) => {
-    setFormData({ ...formData, address });
+  const handlePlaceSelected = () => {
+    const place = autocompleteRef.current.getPlace();
+    const address = place.formatted_address;
+    setFormData((prevData) => ({
+      ...prevData,
+      address,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form data:", formData);
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
       if (trainerData.approved) {
@@ -136,7 +117,6 @@ export const TrainerRegistration = () => {
 
   return (
     <>
-      {/* Instructions */}
       <section className="trainer-registration-section">
         <div className="trainer-registration-instructions-container">
           <div>
@@ -171,7 +151,6 @@ export const TrainerRegistration = () => {
             ))}
           </div>
         </div>
-        {/* Form */}
         <div className="trainer-registration-form-container">
           <form className="trainer-registration-form" onSubmit={handleSubmit}>
             <div className="trainer-registration-input-container">
@@ -217,7 +196,6 @@ export const TrainerRegistration = () => {
               name={"description"}
               type={"text"}
             />
-
             <div className="trainer-registration-input-container">
               <label className="trainer-registration-form-label">
                 Write about yourself
@@ -230,22 +208,32 @@ export const TrainerRegistration = () => {
                 value={formData.about}
               />
             </div>
-            <LoginInput
-              labelClass={"trainer-registration-form-label"}
-              inputClass={"trainer-registration-form-input"}
-              placeholder={"Ex: Tel Aviv"}
-              onChange={handleInputChange}
-              value={formData.address}
-              label={"Your address"}
-              name={"address"}
-              type={"text"}
-              enableAutocomplete={true}
-              apiKey={apiKey}
-              onPlaceSelected={handlePlaceSelected}
-              scriptLoaded={scriptLoaded}
-            />
-
-            {/* Gender Radio Buttons */}
+            <div className="trainer-registration-input-container">
+              <label className="trainer-registration-form-label">
+                Your address
+              </label>
+              <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
+                <Autocomplete
+                  onLoad={(autocomplete) => {
+                    autocompleteRef.current = autocomplete;
+                  }}
+                  options={{
+                    types: ["(cities)"], //  cities
+                    componentRestrictions: { country: "il" }, // only holy land
+                  }}
+                  onPlaceChanged={handlePlaceSelected}
+                >
+                  <input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    className="trainer-registration-form-input"
+                    placeholder="Ex: Tel Aviv"
+                  />
+                </Autocomplete>
+              </LoadScript>
+            </div>
             <div className="trainer-registration-input-container">
               <label className="trainer-registration-form-label">Gender</label>
               <div className="trainer-registration-form-radio-group">
@@ -281,7 +269,6 @@ export const TrainerRegistration = () => {
                 </label>
               </div>
             </div>
-
             <div className="trainer-registration-input-container">
               <div className="trainer-registration-input-container">
                 <label htmlFor="" className="trainer-registration-form-label">
@@ -301,7 +288,6 @@ export const TrainerRegistration = () => {
                       onChange={handleInputChange}
                     />
                   </div>
-
                   <div className="trainer-registration-level-container">
                     <label className="trainer-registration-form-level-label">
                       Intermediate
@@ -315,7 +301,6 @@ export const TrainerRegistration = () => {
                       onChange={handleInputChange}
                     />
                   </div>
-
                   <div className="trainer-registration-level-container">
                     <label className="trainer-registration-form-level-label">
                       Advanced
@@ -329,7 +314,6 @@ export const TrainerRegistration = () => {
                       onChange={handleInputChange}
                     />
                   </div>
-
                   <div className="trainer-registration-level-container">
                     <label className="trainer-registration-form-level-label">
                       Expert
@@ -343,7 +327,6 @@ export const TrainerRegistration = () => {
                       onChange={handleInputChange}
                     />
                   </div>
-
                   <div className="trainer-registration-level-container">
                     <label className="trainer-registration-form-level-label">
                       Master
