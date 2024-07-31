@@ -12,7 +12,7 @@
   font-size: 3rem;
 }
 
-.trainer-chats-container {
+.user-chats-container {
   background-color: var(--background-secondary3);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   flex-direction: column;
@@ -23,53 +23,6 @@
   display: flex;
   padding: 1rem;
   width: 25vw;
-}
-
-.chat-person-card {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-  align-items: center;
-  background: white;
-  position: relative;
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-  display: flex;
-  padding: 1rem;
-  width: 100%;
-}
-
-.chat-person-card:hover {
-  transform: translateY(-5px);
-}
-
-.chat-person-card img {
-  border-radius: 15px;
-  margin-right: 1rem;
-  object-fit: cover;
-  height: 50px;
-  width: 50px;
-}
-
-.user-info {
-  flex-direction: column;
-  word-spacing: 3px;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.chat-person-card .user-name {
-  font-weight: bold;
-  font-size: 1.4rem;
-}
-
-.new-conversation-label {
-  background-color: var(--background-secondary2);
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 
 .overflow-hidden {

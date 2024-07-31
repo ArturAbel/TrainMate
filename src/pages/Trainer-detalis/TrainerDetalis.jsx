@@ -25,6 +25,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
+import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
 
 
 const TrainerDetails = () => {
@@ -154,41 +155,13 @@ const TrainerDetails = () => {
     setReadMoreReviews((prev) => !prev);
   };
 
-  const handleSendMessageClick = async () => {
+  const handleSendMessageClick = () => {
     if (!user) {
       navigate("/login");
       return;
     }
 
-    const messagesDocId = import.meta.env.VITE_MESSAGES_DOC_ID; 
-    const messagesRef = doc(db, "messages", messagesDocId);
-    const messagesDoc = await getDoc(messagesRef);
-
-    if (messagesDoc.exists()) {
-      const data = messagesDoc.data();
-      const conversationExists = data.messages.some(
-        (conv) =>
-          conv.participants.includes(user.uid) &&
-          conv.participants.includes(trainerId)
-      );
-      if (!conversationExists) {
-        await updateDoc(messagesRef, {
-          messages: arrayUnion({
-            participants: [user.uid, trainerId],
-            messages: [], 
-          }),
-        });
-      }
-    } else {
-      await setDoc(messagesRef, {
-        messages: [
-          {
-            participants: [user.uid, trainerId],
-            messages: [],
-          },
-        ],
-      });
-    }
+    dispatch(fetchOrCreateConversation({ currentUserId: user.uid, trainerId }));
     navigate(`/messages/${user.uid}`);
   };
 
