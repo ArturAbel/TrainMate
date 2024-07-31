@@ -26,6 +26,7 @@
 }
 
 .chat-person-card {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -37,6 +38,9 @@
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
 }
+.chat-person-card:hover {
+  transform: translateY(-5px);
+}
 
 .chat-person-card img {
   width: 50px;
@@ -46,15 +50,21 @@
   object-fit: cover;
 }
 
-.chat-person-card .trainer-name {
+.chat-person-card .user-name {
   font-size: 1.4rem;
   color: #333;
   font-weight: bold;
 }
 
-.chat-person-card:hover {
-  transform: translateY(-5px);
+.new-conversation-label {
+  position: absolute;
+  background-color: greenyellow;
+  border-radius: 1rem;
+  padding:0.5rem 1rem;
+  left: 0;
+  bottom: 0;
 }
+
 
 .overflow-hidden{
   overflow: hidden;
