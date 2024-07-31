@@ -26,11 +26,10 @@ import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
 import LoadingPage from "./pages/LoadingPage/LoadingPage";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Layout />, // i added   to the layout  a reset scrolldown
     children: [
       {
         path: "/",
@@ -126,9 +125,9 @@ const router = createBrowserRouter([
     element: <PendingTrainer />,
   },
   {
-    path:"loading-page",
-    element:<LoadingPage/>
-  }
+    path: "loading-page",
+    element: <LoadingPage />,
+  },
 ]);
 
 function App() {
