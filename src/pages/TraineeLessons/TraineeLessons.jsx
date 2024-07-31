@@ -1,10 +1,11 @@
-import { useParams } from "react-router";
-import "./TraineeLessons.css";
+import TrainerReview from "../../components/TrainerReview/TrainerReview";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
+import { fetchUsers } from "../../redux/features/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchUsers } from "../../redux/features/usersSlice";
-import { fetchTrainers } from "../../redux/features/trainerSlice";
-import TrainerReview from "../../components/TrainerReview/TrainerReview";
+import { useParams } from "react-router";
+
+import "./TraineeLessons.css";
 
 const TraineeLessons = () => {
   const { traineeId } = useParams();
@@ -69,12 +70,12 @@ const TraineeLessons = () => {
                   {trainer ? (
                     <>
                       <img
+                        className="lesson-trainer-image"
                         src={
                           trainer.image ||
                           "/public/assets/img/anonymous/anonymous.jpeg"
                         }
                         alt={trainer.name}
-                        className="lesson-trainer-image"
                       />
                       <div className="lesson-trainer-info">
                         <p>{trainer.name}</p>
@@ -146,8 +147,9 @@ const TraineeLessons = () => {
                       )}
                     </div>
                     <button
-                      className="add-review-button button-transparent"
+                      className="button-transparent"
                       onClick={handleModalClick}
+                      id="add-review-button"
                     >
                       {isModalOpen ? "Close Review" : "Add Review"}
                     </button>
