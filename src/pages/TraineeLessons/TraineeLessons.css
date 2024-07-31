@@ -1,26 +1,26 @@
 .trainee-lessons {
-  height: 100vh;
-  padding-top: 5rem;
-  display: flex;
   align-items: center;
+  padding-top: 5rem;
+  height: 100vh;
+  display: flex;
   gap: 1rem;
 }
 
 .trainee-in-progress-lessons-container {
- width: 50%;
-  min-height: 80%;
-  display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 80%;
+  display: flex;
+  width: 50%;
   gap: 5rem;
 }
 
 .trainee-lesson-history-container {
-  width: 50%;
-  min-height: 80%;
-  display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 80%;
+  display: flex;
+  width: 50%;
   gap: 5rem;
 }
 
@@ -34,19 +34,18 @@
   align-items: center;
   gap: 1rem;
   width: 95%;
-  
 }
 
 .trainee-lesson-item {
-  background: #ffffff; 
-  width: 100%;
-  border-radius: 0.8rem; 
-  box-shadow: 0 0.2rem  0.4rem rgba(0, 0, 0, 0.1); 
-  padding: 1.5rem; 
-  display: flex;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background: var(--background-secondary7);
+  font-family: var(--font-content);
   justify-content: space-between;
-  gap: 0.5rem; 
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 0.8rem;
+  padding: 1.5rem;
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
 }
 
 .lesson-trainer-content {
@@ -60,7 +59,10 @@
 }
 
 .lesson-trainer-info {
-  font-size: 1.6rem;
+  flex-direction: column;
+  font-size: 1.4rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .add-review-button {
@@ -77,10 +79,5 @@
 }
 
 .approved {
- background-color: rgb(129, 233, 138);
+  background-color: rgb(129, 233, 138);
 }
-
-
-
-
-
