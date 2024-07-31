@@ -2,8 +2,8 @@ import { useParams } from 'react-router';
 import './Messages.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { fetchTrainers } from '../../redux/features/trainerSlice';
-import { fetchUsers } from '../../redux/features/usersSlice';
+import { fetchTrainers, toggleTrainerNewMessage } from '../../redux/features/trainerSlice';
+import { fetchUsers, toggleTraineeNewMessage } from '../../redux/features/usersSlice';
 import { db } from '../../config/firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import ChatModal from '../../components/ChatModal/ChatModal';
@@ -25,7 +25,7 @@ const Messages = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp'); // Replace with your actual document ID
+      const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp'); 
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -58,6 +58,7 @@ const Messages = () => {
   };
 
   const handleSendMessage = async (text) => {
+
     const newMessage = {
       senderId: currentUserId,
       text,
@@ -78,6 +79,14 @@ const Messages = () => {
       });
       await updateDoc(docRef, { messages: updatedMessages });
       setMessages(updatedMessages);
+    }
+
+    const isTrainerSending = trainers.some(trainer => trainer.uid === currentUserId);
+
+    if (isTrainerSending) {
+      dispatch(toggleTraineeNewMessage(true));
+    } else {
+      dispatch(toggleTrainerNewMessage(true));
     }
   };
 

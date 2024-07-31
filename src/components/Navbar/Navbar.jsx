@@ -3,6 +3,7 @@ import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessageSquareDetail } from "react-icons/bi";
+import { PiExclamationMarkFill } from "react-icons/pi";
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
 import { MdOutlineReviews } from "react-icons/md";
@@ -25,6 +26,8 @@ export const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
+  const { newMessage: trainerNewMessage } = useSelector((state) => state.trainer);
+  const { newMessage: userNewMessage } = useSelector((state) => state.users);
 
   function showOrHide() {
     setShowSettings((prev) => !prev);
@@ -100,8 +103,11 @@ export const Navbar = () => {
               <Link to={`trainee-lessons/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
-              <Link to={`/messages/${user.uid}`}>
+              <Link to={`/messages/${user.uid}`} className="navbar-counter-link">
                 <BiMessageSquareDetail className="navbar-icon" />
+                {userNewMessage && (
+                  <PiExclamationMarkFill className="new-message-indicator" />
+                )}
               </Link>
               <Link className="navbar-counter-link" to={"/favorites"}>
                 <FiHeart
@@ -143,9 +149,12 @@ export const Navbar = () => {
               <Link to={`/trainer-lesson-history/${user.uid}`}>
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
               </Link>
-              <Link to={`/messages/${user.uid}`}>
-                <BiMessageSquareDetail className="navbar-icon" />
-              </Link>
+                <Link to={`/messages/${user.uid}`} className="navbar-counter-link">
+                  <BiMessageSquareDetail className="navbar-icon" />
+                  {trainerNewMessage && (
+                    <PiExclamationMarkFill className="new-message-indicator"/>
+                  )}
+                </Link>
               <Link
                 to={`/trainer-reviews/${user.uid}`}
                 className="navbar-counter-link"
