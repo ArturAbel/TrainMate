@@ -1,12 +1,17 @@
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  Autocomplete,
+} from "@react-google-maps/api";
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { anonymousImage, sports } from "../../utilities/constants";
-import { useDispatch, useSelector } from "react-redux";
 import { isFormValid } from "./TrainerRegistrationlib";
 import { BsHandThumbsUp } from "react-icons/bs";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import {
   fetchTrainers,
   updateTrainer,
@@ -16,16 +21,15 @@ import {
   registrationExplanation,
   registrationInstructions,
 } from "./TrainerRegistrationText";
-
 import "./TrainerRegistration.css";
 
+// worst component    ever
 export const TrainerRegistration = () => {
   const { trainers, loading } = useSelector((state) => state.trainer);
   const [localLoading, setLocalLoading] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,33 +42,10 @@ export const TrainerRegistration = () => {
     price: "",
   });
 
-  const [scriptLoaded, setScriptLoaded] = useState(false);
-
-  const loadGoogleMaps = (apiKey, callbackName) => {
-    if (!window.google) {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=${callbackName}`;
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-
-      window[callbackName] = () => {
-        setScriptLoaded(true);
-      };
-
-      return () => {
-        document.head.removeChild(script);
-      };
-    } else {
-      if (callbackName && typeof window[callbackName] === "function") {
-        window[callbackName]();
-      }
-    }
-  };
-
-  useEffect(() => {
-    loadGoogleMaps(apiKey, "initMap");
-  }, [apiKey]);
+  const [location, setLocation] = useState({ lat: null, lng: null });
+  const [error, setError] = useState(null);
+  const autocompleteRef = useRef(null);
+  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
 
   useEffect(() => {
     dispatch(fetchTrainers()).then(() => setLocalLoading(false));
@@ -85,7 +66,6 @@ export const TrainerRegistration = () => {
         lessonLength: trainerData.lessonLength || "",
         price: trainerData.price || "",
       });
-      console.log(trainerData);
     }
   }, [trainerData]);
 
@@ -106,17 +86,50 @@ export const TrainerRegistration = () => {
           : prevFormData.level.filter((level) => level !== value),
       }));
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     }
   };
 
-  const handlePlaceSelected = (coords, address) => {
-    setFormData({ ...formData, address });
+  const handleAddressInputChange = (e) => {
+    const { value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      address: value,
+    }));
   };
+
+  const handlePlaceChanged = () => {
+    const place = autocompleteRef.current.getPlace();
+    if (place.geometry) {
+      const coords = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      };
+
+      const formattedAddress = place.formatted_address;
+
+      setLocation(coords);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        address: formattedAddress,
+      }));
+
+      console.log(formattedAddress);
+      console.log(formData);
+    } else {
+      setError("No details available for input: '" + place.name + "'");
+    }
+  };
+
+  useEffect(() => {
+    console.log("formData updated:", formData);
+  }, [formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form data:", formData);
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
       if (trainerData.approved) {
@@ -130,6 +143,11 @@ export const TrainerRegistration = () => {
   const profileImageUrl =
     trainerData?.image ||
     (user && user.photoURL ? user.photoURL : anonymousImage);
+
+  const containerStyle = {
+    width: "100%",
+    height: "400px",
+  };
 
   return (
     <>
@@ -192,29 +210,31 @@ export const TrainerRegistration = () => {
                 ))}
               </select>
             </div>
-            <LoginInput
-              labelClass={"trainer-registration-form-label"}
-              inputClass={"trainer-registration-form-input"}
-              label={"Add your full name"}
-              onChange={handleInputChange}
-              value={formData.name}
-              placeholder={""}
-              name={"name"}
-              type={"text"}
-            />
-            <LoginInput
-              placeholder={
-                "Ex: Aerobics coach with a focus on youth development."
-              }
-              labelClass={"trainer-registration-form-label"}
-              inputClass={"trainer-registration-form-input form-input-longer"}
-              label={"Provide a short description"}
-              onChange={handleInputChange}
-              value={formData.description}
-              name={"description"}
-              type={"text"}
-            />
-
+            <div className="trainer-registration-input-container">
+              <label className="trainer-registration-form-label">
+                Add your full name
+              </label>
+              <input
+                className="trainer-registration-form-input"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="trainer-registration-input-container">
+              <label className="trainer-registration-form-label">
+                Provide a short description
+              </label>
+              <input
+                className="trainer-registration-form-input form-input-longer"
+                type="text"
+                name="description"
+                value={formData.description}
+                placeholder="Ex: Aerobics coach with a focus on youth development."
+                onChange={handleInputChange}
+              />
+            </div>
             <div className="trainer-registration-input-container">
               <label className="trainer-registration-form-label">
                 Write about yourself
@@ -227,128 +247,155 @@ export const TrainerRegistration = () => {
                 value={formData.about}
               />
             </div>
-            <LoginInput
-              labelClass={"trainer-registration-form-label"}
-              inputClass={"trainer-registration-form-input"}
-              placeholder={"Ex: Tel Aviv"}
-              onChange={handleInputChange}
-              value={formData.address}
-              label={"Your address"}
-              name={"address"}
-              type={"text"}
-              enableAutocomplete={true}
-              apiKey={apiKey}
-              onPlaceSelected={handlePlaceSelected}
-              scriptLoaded={scriptLoaded}
-            />
             <div className="trainer-registration-input-container">
-              {/* Make checkbox component */}
-              <div className="trainer-registration-input-container">
-                <label htmlFor="" className="trainer-registration-form-label">
-                  Which level do you teach
-                </label>
-                <div className="trainer-registration-input-container-level">
-                  <div className="trainer-registration-level-container">
-                    <label className="trainer-registration-form-level-label">
-                      Beginner
-                    </label>
-                    <input
-                      type="checkbox"
-                      className="trainer-registration-form-input-checkbox"
-                      name="level"
-                      value="Beginner"
-                      checked={formData.level.includes("Beginner")}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+              <label className="trainer-registration-form-label">
+                Your address
+              </label>
+              <LoadScript googleMapsApiKey={apiKey} libraries={["places"]}>
+                <Autocomplete
+                  onLoad={(autocomplete) =>
+                    (autocompleteRef.current = autocomplete)
+                  }
+                  onPlaceChanged={handlePlaceChanged}
+                  options={{
+                    types: ["(cities)"], //  cities
+                    componentRestrictions: { country: "il" }, // only holy land
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Enter a location"
+                    style={{
+                      width: "100%",
+                      padding: "10px",
+                      marginBottom: "10px",
+                    }}
+                    value={formData.address}
+                    onChange={handleAddressInputChange}
+                  />
+                </Autocomplete>
+                {location.lat && (
+                  <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={location}
+                    zoom={15}
+                  >
+                    <Marker position={location} />
+                  </GoogleMap>
+                )}
+              </LoadScript>
+            </div>
+            <div className="trainer-registration-input-container">
+              <label htmlFor="" className="trainer-registration-form-label">
+                Which level do you teach
+              </label>
+              <div className="trainer-registration-input-container-level">
+                <div className="trainer-registration-level-container">
+                  <label className="trainer-registration-form-level-label">
+                    Beginner
+                  </label>
+                  <input
+                    type="checkbox"
+                    className="trainer-registration-form-input-checkbox"
+                    name="level"
+                    value="Beginner"
+                    checked={formData.level.includes("Beginner")}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                  <div className="trainer-registration-level-container">
-                    <label className="trainer-registration-form-level-label">
-                      Intermediate
-                    </label>
-                    <input
-                      type="checkbox"
-                      className="trainer-registration-form-input-checkbox"
-                      name="level"
-                      value="Intermediate"
-                      checked={formData.level.includes("Intermediate")}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                <div className="trainer-registration-level-container">
+                  <label className="trainer-registration-form-level-label">
+                    Intermediate
+                  </label>
+                  <input
+                    type="checkbox"
+                    className="trainer-registration-form-input-checkbox"
+                    name="level"
+                    value="Intermediate"
+                    checked={formData.level.includes("Intermediate")}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                  <div className="trainer-registration-level-container">
-                    <label className="trainer-registration-form-level-label">
-                      Advanced
-                    </label>
-                    <input
-                      type="checkbox"
-                      className="trainer-registration-form-input-checkbox"
-                      name="level"
-                      value="Advanced"
-                      checked={formData.level.includes("Advanced")}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                <div className="trainer-registration-level-container">
+                  <label className="trainer-registration-form-level-label">
+                    Advanced
+                  </label>
+                  <input
+                    type="checkbox"
+                    className="trainer-registration-form-input-checkbox"
+                    name="level"
+                    value="Advanced"
+                    checked={formData.level.includes("Advanced")}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                  <div className="trainer-registration-level-container">
-                    <label className="trainer-registration-form-level-label">
-                      Expert
-                    </label>
-                    <input
-                      type="checkbox"
-                      className="trainer-registration-form-input-checkbox"
-                      name="level"
-                      value="Expert"
-                      checked={formData.level.includes("Expert")}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                <div className="trainer-registration-level-container">
+                  <label className="trainer-registration-form-level-label">
+                    Expert
+                  </label>
+                  <input
+                    type="checkbox"
+                    className="trainer-registration-form-input-checkbox"
+                    name="level"
+                    value="Expert"
+                    checked={formData.level.includes("Expert")}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                  <div className="trainer-registration-level-container">
-                    <label className="trainer-registration-form-level-label">
-                      Master
-                    </label>
-                    <input
-                      className="trainer-registration-form-input-checkbox"
-                      checked={formData.level.includes("Master")}
-                      onChange={handleInputChange}
-                      type="checkbox"
-                      name="level"
-                      value="Master"
-                    />
-                  </div>
+                <div className="trainer-registration-level-container">
+                  <label className="trainer-registration-form-level-label">
+                    Master
+                  </label>
+                  <input
+                    className="trainer-registration-form-input-checkbox"
+                    checked={formData.level.includes("Master")}
+                    onChange={handleInputChange}
+                    type="checkbox"
+                    name="level"
+                    value="Master"
+                  />
                 </div>
               </div>
-              <LoginInput
-                labelClass={"trainer-registration-form-label"}
-                inputClass={"trainer-registration-form-input"}
-                label={"Your lesson duration"}
+            </div>
+            <div className="trainer-registration-input-container">
+              <label className="trainer-registration-form-label">
+                Your lesson duration
+              </label>
+              <input
+                className="trainer-registration-form-input"
+                type="number"
+                name="lessonLength"
                 value={formData.lessonLength}
                 onChange={handleInputChange}
-                placeholder={"In minutes"}
-                name={"lessonLength"}
-                type={"number"}
+                placeholder="In minutes"
                 max={120}
                 min={45}
               />
-              <LoginInput
-                labelClass={"trainer-registration-form-label"}
-                inputClass={"trainer-registration-form-input"}
-                onChange={handleInputChange}
-                label={"Charge per lesson"}
+            </div>
+            <div className="trainer-registration-input-container">
+              <label className="trainer-registration-form-label">
+                Charge per lesson
+              </label>
+              <input
+                className="trainer-registration-form-input"
+                type="number"
+                name="price"
                 value={formData.price}
-                placeholder={"In ₪"}
-                type={"number"}
-                name={"price"}
+                onChange={handleInputChange}
+                placeholder="In ₪"
                 max={130}
                 min={1}
               />
-              <div className="trainer-registration-form-upload-image">
-                <ProfileImageUploader
-                  handleImageChange={handleImageChange}
-                  profileImageUrl={profileImageUrl}
-                />
-              </div>
+            </div>
+            <div className="trainer-registration-form-upload-image">
+              <ProfileImageUploader
+                handleImageChange={handleImageChange}
+                profileImageUrl={profileImageUrl}
+              />
             </div>
             <button
               id="trainer-registration-register-button"

@@ -23,6 +23,8 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
+import messages from "./pages/Messages/Messages";
+import Messages from "./pages/Messages/Messages";
 
 const router = createBrowserRouter([
   {
@@ -68,12 +70,12 @@ const router = createBrowserRouter([
       {
         path: "messages/:currentUserId",
         element: <PrivateRoute allowedRoles={[TRAINEE, TRAINER]} />,
-        children: [{ path: "", element: <Messages/> }],
+        children: [{ path: "", element: <Messages /> }],
       },
       {
         path: "messages/:currentUserId",
         element: <PrivateRoute allowedRoles={[TRAINEE, TRAINER]} />,
-        children: [{ path: "", element: <Messages/> }],
+        children: [{ path: "", element: <Messages /> }],
       },
       {
         path: "trainers/:id",
