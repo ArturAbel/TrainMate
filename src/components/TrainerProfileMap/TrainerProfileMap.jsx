@@ -5,7 +5,7 @@ const TrainerProfileMap = ({ address }) => {
   const [location, setLocation] = useState({ lat: null, lng: null });
   const [error, setError] = useState(null);
   const [isApiLoaded, setIsApiLoaded] = useState(false);
-  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   useEffect(() => {
     const searchAddress = async () => {

@@ -28,7 +28,7 @@ export const TrainerRegistration = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   const [formData, setFormData] = useState({
     name: "",

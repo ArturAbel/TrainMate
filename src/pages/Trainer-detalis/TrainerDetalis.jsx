@@ -160,7 +160,7 @@ const TrainerDetails = () => {
       return;
     }
 
-    const messagesDocId = "OXW5mmTL1rFRfpVrSMZp"; // Unique ID for the messages document
+    const messagesDocId = import.meta.env.VITE_MESSAGES_DOC_ID; 
     const messagesRef = doc(db, "messages", messagesDocId);
     const messagesDoc = await getDoc(messagesRef);
 
@@ -171,17 +171,15 @@ const TrainerDetails = () => {
           conv.participants.includes(user.uid) &&
           conv.participants.includes(trainerId)
       );
-
       if (!conversationExists) {
         await updateDoc(messagesRef, {
           messages: arrayUnion({
             participants: [user.uid, trainerId],
-            messages: [], // Empty messages array for the new conversation
+            messages: [], 
           }),
         });
       }
     } else {
-      // If somehow the document doesn't exist, create it with the first conversation
       await setDoc(messagesRef, {
         messages: [
           {
@@ -191,8 +189,6 @@ const TrainerDetails = () => {
         ],
       });
     }
-
-    // Navigate to the messages page
     navigate(`/messages/${user.uid}`);
   };
 

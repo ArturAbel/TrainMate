@@ -41,7 +41,8 @@ const Messages = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const docRef = doc(db, "messages", "OXW5mmTL1rFRfpVrSMZp");
+      const messagesDocId = import.meta.env.VITE_MESSAGES_DOC_ID;
+      const docRef = doc(db, "messages", messagesDocId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -79,7 +80,8 @@ const Messages = () => {
       text,
       timestamp: new Date().toISOString(),
     };
-    const docRef = doc(db, "messages", "OXW5mmTL1rFRfpVrSMZp");
+    const messagesDocId = import.meta.env.VITE_MESSAGES_DOC_ID;
+    const docRef = doc(db, "messages", messagesDocId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
