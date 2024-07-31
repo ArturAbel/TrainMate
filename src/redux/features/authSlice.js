@@ -122,7 +122,6 @@ const createTrainerDoc = async (user, userName) => {
       gender: "",
       sport: "",
       reviews: [],
-      ratings: [],
       price: "",
       level: [],
       lessonLength: "",
