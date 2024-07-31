@@ -107,6 +107,11 @@
   display: flex;
 }
 
+.trainer-registration-form-radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
 .trainer-registration-form-input-checkbox {
   height: 2.5rem;
   width: 2.5rem;
