@@ -22,6 +22,7 @@ const usersSlice = createSlice({
     loading: false,
     error: null,
     favoriteCount: 0,
+    newMessage: false,
   },
   reducers: {
     setUsers: (state, action) => {
@@ -42,6 +43,9 @@ const usersSlice = createSlice({
     resetFavoriteCount: (state) => {
       state.favoriteCount = 0;
     },
+    setNewMessage: (state, action) => {
+      state.newMessage = action.payload;
+    },
   },
 });
 
@@ -53,7 +57,12 @@ export const {
   setLoading,
   setUsers,
   setError,
+  setNewMessage
 } = usersSlice.actions;
+
+export const toggleTraineeNewMessage = (value) => (dispatch) => {
+  dispatch(setNewMessage(value));
+};
 
 export const addFavorite = (userId, favoriteItem) => async (dispatch) => {
   dispatch(setLoading(true));
