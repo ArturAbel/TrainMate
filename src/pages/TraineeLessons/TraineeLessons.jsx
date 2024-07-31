@@ -61,7 +61,10 @@ const TraineeLessons = () => {
           {bookedLessons.map((lesson) => {
             const trainer = trainersData[lesson.trainerId];
             return (
-              <div className="trainee-lesson-item" key={`${lesson.trainerId}-${lesson.date}-${lesson.hour}`}>
+              <div
+                className="trainee-lesson-item"
+                key={`${lesson.trainerId}-${lesson.date}-${lesson.hour}`}
+              >
                 <div className="lesson-trainer-content">
                   {trainer ? (
                     <>
@@ -79,7 +82,11 @@ const TraineeLessons = () => {
                         <p>{lesson.hour}</p>
                         <p>{trainer.sport}</p>
                       </div>
-                      <div className={`lesson-status ${lesson.approved && "approved"}`} >
+                      <div
+                        className={`lesson-status ${
+                          lesson.approved && "approved"
+                        }`}
+                      >
                         {lesson.approved ? "Approved" : "Pending"}
                       </div>
                     </>
@@ -99,7 +106,9 @@ const TraineeLessons = () => {
           <div>Error loading data</div>
         ) : (
           <>
-            <h1 className="lesson-container-title">Your booked lesson History</h1>
+            <h1 className="lesson-container-title">
+              Your booked lesson History
+            </h1>
             <div className="trainee-lesson-history-items">
               {traineeHistory.map((lesson) => {
                 const trainer = trainersData[lesson.trainerId];
@@ -125,13 +134,21 @@ const TraineeLessons = () => {
                             <p>{lesson.hour}</p>
                             <p>{trainer.sport}</p>
                           </div>
-                          {isModalOpen && <TrainerReview trainerId={trainer.uid} />}
+                          {isModalOpen && (
+                            <TrainerReview
+                              setIsModalOpen={setIsModalOpen}
+                              trainerId={trainer.uid}
+                            />
+                          )}
                         </>
                       ) : (
                         <p>Loading trainer data...</p>
                       )}
                     </div>
-                    <button className="add-review-button button-transparent" onClick={handleModalClick}>
+                    <button
+                      className="add-review-button button-transparent"
+                      onClick={handleModalClick}
+                    >
                       {isModalOpen ? "Close Review" : "Add Review"}
                     </button>
                   </div>
@@ -146,4 +163,3 @@ const TraineeLessons = () => {
 };
 
 export default TraineeLessons;
-
