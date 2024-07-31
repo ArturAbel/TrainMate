@@ -28,7 +28,7 @@ import TrainerLessonHistory from "./pages/TrainerLessonHistory/TrainerLessonHist
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Layout />, // i added   to the layout  a reset scrolldown
     children: [
       {
         path: "/",

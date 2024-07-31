@@ -85,6 +85,7 @@ export const TrainerRegistration = () => {
         lessonLength: trainerData.lessonLength || "",
         price: trainerData.price || "",
       });
+      console.log(trainerData);
     }
   }, [trainerData]);
 
