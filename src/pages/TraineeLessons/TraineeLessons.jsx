@@ -135,7 +135,10 @@ const TraineeLessons = () => {
                             <p>{trainer.sport}</p>
                           </div>
                           {isModalOpen && (
-                            <TrainerReview trainerId={trainer.uid} />
+                            <TrainerReview
+                              setIsModalOpen={setIsModalOpen}
+                              trainerId={trainer.uid}
+                            />
                           )}
                         </>
                       ) : (
