@@ -17,6 +17,7 @@ const trainerSlice = createSlice({
     loading: false,
     error: null,
     reviewCount: 0,
+    newMessage: false,
   },
   reducers: {
     setTrainers: (state, action) => {
@@ -37,6 +38,9 @@ const trainerSlice = createSlice({
     resetReviewCount: (state) => {
       state.reviewCount = 0;
     },
+    setNewMessage: (state, action) => {
+      state.newMessage = action.payload;
+    },
   },
 });
 
@@ -48,7 +52,12 @@ export const {
   reviewCount,
   setLoading,
   setError,
+  setNewMessage
 } = trainerSlice.actions;
+
+export const toggleTrainerNewMessage = (value) => (dispatch) => {
+  dispatch(setNewMessage(value));
+};
 
 export const fetchTrainers = () => async (dispatch) => {
   dispatch(setLoading(true));

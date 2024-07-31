@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
+import Messages from "./pages/Messages/Messages";
 
 const router = createBrowserRouter([
   {
@@ -64,11 +65,6 @@ const router = createBrowserRouter([
         path: "trainee-lessons/:traineeId",
         element: <PrivateRoute allowedRoles={[TRAINEE]} />,
         children: [{ path: "", element: <TraineeLessons /> }],
-      },
-      {
-        path: "messages/:currentUserId",
-        element: <PrivateRoute allowedRoles={[TRAINEE, TRAINER]} />,
-        children: [{ path: "", element: <Messages/> }],
       },
       {
         path: "messages/:currentUserId",
