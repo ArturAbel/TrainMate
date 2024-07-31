@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import "./TrainerReview.css";
 import { useDispatch, useSelector } from "react-redux";
-//upsertReview
-//userId, trainerId, starRating, comment
+import LeoProfanity from "leo-profanity";
 import { upsertReview } from "../../../redux/features/usersSlice";
-const TrainerReview = (trainerId) => {
+const TrainerReview = ({ trainerId }) => {
   const { user } = useSelector((state) => state.auth);
+  const [isClean, setIsClean] = useState(true);
+  const checkForBadWords = () => {
+    const cleanedText = LeoProfanity.clean(reviewText);
+    setIsClean(cleanedText === reviewText);
+  };
 
   const dispatch = useDispatch();
   const handleUpsertReview = (userId, trainerId, starRating, comment) => {
@@ -26,14 +30,13 @@ const TrainerReview = (trainerId) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(
-      "Submitted review:",
-      reviewText,
-      "with rating:",
-      selectedRating
-    );
-    handleUpsertReview(user.id, trainerId, selectedRating, reviewText);
-    // Here you can add more complex logic, like sending the data to a server
+    checkForBadWords();
+    const cleanedText = LeoProfanity.clean(reviewText);
+    const isTextClean = cleanedText === reviewText;
+
+    if (isTextClean) {
+      handleUpsertReview(user.uid, trainerId, selectedRating, reviewText);
+    }
   };
 
   return (
@@ -57,6 +60,7 @@ const TrainerReview = (trainerId) => {
           rows="4"
         ></textarea>
         <button type="submit">Submit Review</button>
+        <p>{isClean ? "" : "Review containes inappropriate language."}</p>
       </form>
     </>
   );

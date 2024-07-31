@@ -1,0 +1,53 @@
+.trainer-reviews-modal-overlay {
+   background: rgba(0, 0, 0, 0.5);
+   position: fixed; 
+   height: 100%; 
+   width: 100%; 
+   z-index: 1; 
+   left: 0;
+   top: 0;
+}
+
+.trainer-reviews-modal {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: var(--background-main1);
+  transform: translate(-50%, -50%);
+  border-radius: 15px;
+  position: absolute;
+  padding: 4rem;
+  height: 90vh;
+  width: 50vw;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+}
+
+.trainer-reviews-modal-title-container {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3vh;
+  font-size: 2rem;
+  display: flex;
+  height: 5vh;
+}
+
+.trainer-reviews-modal-close-icon {
+  transition: 0.5s;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+.trainer-reviews-modal-close-icon:hover {
+  transform: scale(1.1);
+}
+
+.trainer-reviews-modal-reviews {
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 1rem 3rem;
+  border-radius: 15px;
+  display: flex;
+  height: 70vh;
+  width: 100%;
+  gap: 1rem;
+}

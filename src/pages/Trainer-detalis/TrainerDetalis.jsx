@@ -1,14 +1,16 @@
+import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import { updateTrainer } from "../../redux/features/trainerSlice";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
+import ReactStars from "react-rating-stars-component";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useState, useEffect } from "react";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useState, useEffect, useRef } from "react";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -19,12 +21,14 @@ import {
   addFavorite,
   fetchUsers,
 } from "../../redux/features/usersSlice";
-import { useLocation } from "react-router-dom";
+
 import "./TrainerDetails.css";
-import { calculateAverageRating } from "../../utilities/calculateAvgRating";
+
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
 
+
 const TrainerDetails = () => {
+  const [readMoreReviews, setReadMoreReviews] = useState(false);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
   const { users } = useSelector((state) => state.users);
   const [bookedLessons, setBookedLessons] = useState([]);
@@ -146,6 +150,10 @@ const TrainerDetails = () => {
     refetchTrainer();
   };
 
+  const handleSeeMoreReviews = () => {
+    setReadMoreReviews((prev) => !prev);
+  };
+  
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
@@ -205,8 +213,48 @@ const TrainerDetails = () => {
           <div className="trainer-profile-reviews-container">
             <h1 className="trainer-profile-teach-title">My Reviews</h1>
             <div className="reviews-list">
-              {/* Existing reviews will be displayed here */}
-              <p>add reviews here</p>
+              <div className="trainer-profile-reviews-list-containers">
+                {trainer.reviews.slice(0, 4).map((review, index) => (
+                  <div
+                    className="trainer-profile-reviews-list-container"
+                    key={index}
+                  >
+                    <div className="trainer-profile-reviews-list-upper-container">
+                      <div className="trainer-profile-reviews-list-image-container">
+                        <img
+                          className="trainer-profile-reviews-list-image"
+                          src={review.userImage}
+                          alt="image"
+                        />
+                      </div>
+                      <p>{review.userName}</p>
+                    </div>
+                    <ReactStars
+                      activeColor="var(--background-secondary1)"
+                      value={review.userRating}
+                      edit={false}
+                      count={5}
+                      size={24}
+                    />
+                    <p>{review.reviewText}</p>
+                  </div>
+                ))}
+              </div>
+              {readMoreReviews && (
+                <TrainerInfoReviewsModal
+                  reviews={trainer.reviews}
+                  handleSeeMoreReviews={handleSeeMoreReviews}
+                />
+              )}
+              <div className="trainer-profile-display-button-container">
+                <button
+                  id="trainer-details-display-button"
+                  onClick={handleSeeMoreReviews}
+                  className="button-transparent"
+                >
+                  show more reviews
+                </button>
+              </div>
             </div>
           </div>
         </div>

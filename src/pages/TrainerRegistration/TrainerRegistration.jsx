@@ -127,10 +127,6 @@ export const TrainerRegistration = () => {
     }
   };
 
-  if (localLoading || loading) {
-    return <div>Loading trainer data...</div>;
-  }
-
   const profileImageUrl =
     trainerData?.image ||
     (user && user.photoURL ? user.photoURL : anonymousImage);
