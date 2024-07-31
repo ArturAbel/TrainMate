@@ -24,7 +24,6 @@ import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
-import LoadingPage from "./pages/LoadingPage/LoadingPage";
 
 
 const router = createBrowserRouter([
@@ -34,7 +33,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <PrivateRoute allowedRoles={[TRAINEE]} />,
+        children: [{path: "", element: <Home/>}]
       },
       {
         path: "login",
@@ -125,10 +125,6 @@ const router = createBrowserRouter([
     path: "pending-trainer",
     element: <PendingTrainer />,
   },
-  {
-    path:"loading-page",
-    element:<LoadingPage/>
-  }
 ]);
 
 function App() {
