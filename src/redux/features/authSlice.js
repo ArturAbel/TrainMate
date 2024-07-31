@@ -1,23 +1,23 @@
+import { ADMIN, anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebaseConfig";
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  signInWithEmailAndPassword,
-  signOut,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
   createUserWithEmailAndPassword,
   deleteUser as deleteAuthUser,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
 } from "firebase/auth";
-import { auth, db } from "../../config/firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { anonymousImage } from "../../utilities/constants";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
     loading: true,
     error: null,
+    user: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -73,12 +73,9 @@ const createTrainerDoc = async (user, userName) => {
 
   const defaultSchedule = {};
   const now = new Date();
-  console.log(now);
 
-  // Adjust the end date to be one day past the last day of the month to ensure inclusivity
+  // Adjust the end date to be one day past the last day of the month to ensure inclusively
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  console.log(endOfMonth);
-
   const formatDate = (date) => date.toISOString().split("T")[0];
 
   // Adjust the loop to ensure the end date is inclusive
@@ -90,7 +87,6 @@ const createTrainerDoc = async (user, userName) => {
     if (date.getDay() !== 5 && date.getDay() !== 6) {
       // Exclude Fridays and Saturdays
       const formattedDate = formatDate(date);
-      console.log(formattedDate);
       const hours = [];
       const isToday = date.toDateString() === now.toDateString();
 
@@ -149,11 +145,11 @@ export const initializeAuthListener = () => (dispatch) => {
 
       let userRole = "";
       if (user.email === "admin123@gmail.com") {
-        userRole = "admin";
+        userRole = ADMIN;
       } else if (trainerDoc.exists()) {
-        userRole = "trainer";
+        userRole = TRAINER;
       } else if (userDoc.exists()) {
-        userRole = "trainee";
+        userRole = TRAINEE;
       }
 
       dispatch(setUser(serializeUser(user, userRole)));
@@ -227,11 +223,11 @@ export const loginUser = (email, password) => async (dispatch) => {
 
     let userRole = "";
     if (email === "admin123@gmail.com") {
-      userRole = "admin";
+      userRole = ADMIN;
     } else if (trainerDoc.exists()) {
-      userRole = "trainer";
+      userRole = TRAINER;
     } else if (userDoc.exists()) {
-      userRole = "trainee";
+      userRole = TRAINEE;
     }
 
     dispatch(
@@ -246,7 +242,7 @@ export const loginUser = (email, password) => async (dispatch) => {
 };
 
 // Log in with Google
-export const loginWithGoogle = (usertype) => async (dispatch) => {
+export const loginWithGoogle = (userType) => async (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
   try {
@@ -262,19 +258,19 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
     let userRole = "";
     if (trainerDoc.exists() || userDoc.exists()) {
       if (trainerDoc.exists()) {
-        userRole = "trainer";
+        userRole = TRAINER;
       }
       if (userDoc.exists()) {
-        userRole = "trainee";
+        userRole = TRAINEE;
       }
     } else {
-      if (usertype === "trainee") {
+      if (userType === TRAINEE) {
         await createUserDoc(result.user);
-        userRole = "trainee";
+        userRole = TRAINEE;
       }
-      if (usertype === "trainer") {
+      if (userType === TRAINER) {
         await createTrainerDoc(result.user);
-        userRole = "trainer";
+        userRole = TRAINER;
       }
     }
 

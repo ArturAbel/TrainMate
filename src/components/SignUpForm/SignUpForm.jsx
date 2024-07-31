@@ -3,12 +3,13 @@ import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useFormHook } from "../../hooks/useFormHook";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { TRAINEE, TRAINER } from "../../utilities/constants";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import {
+  loginWithGoogle,
   signupTrainer,
   signupUser,
-  loginWithGoogle,
 } from "../../redux/features/authSlice";
 
 import "./SignUpForm.css";
@@ -23,10 +24,10 @@ export const SignUpForm = ({ title }) => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (title === "trainee") {
+    if (title === TRAINEE) {
       dispatch(signupUser(input.email, input.password, input.name));
     }
-    if (title === "trainer") {
+    if (title === TRAINER) {
       dispatch(signupTrainer(input.email, input.password, input.name));
     }
   };
@@ -38,9 +39,9 @@ export const SignUpForm = ({ title }) => {
 
   useEffect(() => {
     if (user) {
-      if (user.role === "trainee") {
+      if (user.role === TRAINEE) {
         navigate("/trainers");
-      } else if (user.role === "trainer") {
+      } else if (user.role === TRAINER) {
         navigate("/trainer-registration");
       }
     }

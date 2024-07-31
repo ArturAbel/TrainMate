@@ -1,6 +1,7 @@
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
+import Loader from "../../components/Loader/Loader";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 
@@ -18,9 +19,9 @@ const TrainerReviews = () => {
   const matchedTrainer = trainers.find((trainer) => trainer.uid === trainerId);
 
   if (!matchedTrainer) {
-    return <div className="loading">Loading...</div>;
+    return <Loader />;
   }
-  
+
   return (
     <section className="trainer-reviews-section">
       <h1 className="trainer-reviews-header">
@@ -41,9 +42,9 @@ const TrainerReviews = () => {
                 <div className="rating-container">
                   <ReactStars
                     value={review.userRating}
-                    activeColor="#ffd700"
-                    count={5}
+                    activeColor="#var(--background-main2)"
                     edit={false}
+                    count={5}
                     size={24}
                   />
                 </div>
