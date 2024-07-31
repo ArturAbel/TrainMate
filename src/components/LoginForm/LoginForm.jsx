@@ -6,7 +6,7 @@ import { useFormHook } from "../../hooks/useFormHook";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { db, storage } from "../../config/firebaseConfig";
+import { db } from "../../config/firebaseConfig";
 
 import { doc, getDoc } from "firebase/firestore";
 import "./LoginForm.css";
@@ -55,7 +55,6 @@ export const LoginForm = () => {
         console.error("the fallowing error occured:", error);
       });
   }, [user, navigate]);
-  console.log(user);
 
   useEffect(() => {
     if (error) {
