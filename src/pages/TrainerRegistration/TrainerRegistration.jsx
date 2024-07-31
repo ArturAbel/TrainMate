@@ -1,17 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import {
-  GoogleMap,
-  LoadScript,
-  Marker,
-  Autocomplete,
-} from "@react-google-maps/api";
 import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileImageUploader";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { anonymousImage, sports } from "../../utilities/constants";
+import { useDispatch, useSelector } from "react-redux";
 import { isFormValid } from "./TrainerRegistrationlib";
 import { BsHandThumbsUp } from "react-icons/bs";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import {
   fetchTrainers,
   updateTrainer,
@@ -21,15 +16,16 @@ import {
   registrationExplanation,
   registrationInstructions,
 } from "./TrainerRegistrationText";
+
 import "./TrainerRegistration.css";
 
-// worst component    ever
 export const TrainerRegistration = () => {
   const { trainers, loading } = useSelector((state) => state.trainer);
   const [localLoading, setLocalLoading] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -87,7 +83,8 @@ export const TrainerRegistration = () => {
         description: prevData.description || trainerData.description || "",
         about: prevData.about || trainerData.about || "",
         address: prevData.address || trainerData.address || "",
-        level: prevData.level.length > 0 ? prevData.level : trainerData.level || [],
+        level:
+          prevData.level.length > 0 ? prevData.level : trainerData.level || [],
         lessonLength: prevData.lessonLength || trainerData.lessonLength || "",
         price: prevData.price || trainerData.price || "",
         gender: prevData.gender || trainerData.gender || "", // Initialize gender
@@ -112,50 +109,17 @@ export const TrainerRegistration = () => {
           : prevFormData.level.filter((level) => level !== value),
       }));
     } else {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
+      setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleAddressInputChange = (e) => {
-    const { value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      address: value,
-    }));
+  const handlePlaceSelected = (coords, address) => {
+    setFormData({ ...formData, address });
   };
-
-  const handlePlaceChanged = () => {
-    const place = autocompleteRef.current.getPlace();
-    if (place.geometry) {
-      const coords = {
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      };
-
-      const formattedAddress = place.formatted_address;
-
-      setLocation(coords);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        address: formattedAddress,
-      }));
-
-      console.log(formattedAddress);
-      console.log(formData);
-    } else {
-      setError("No details available for input: '" + place.name + "'");
-    }
-  };
-
-  useEffect(() => {
-    console.log("formData updated:", formData);
-  }, [formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Form data:", formData);
     if (trainerData) {
       dispatch(updateTrainer(trainerData.uid, formData));
       if (trainerData.approved) {
@@ -169,11 +133,6 @@ export const TrainerRegistration = () => {
   const profileImageUrl =
     trainerData?.image ||
     (user && user.photoURL ? user.photoURL : anonymousImage);
-
-  const containerStyle = {
-    width: "100%",
-    height: "400px",
-  };
 
   return (
     <>
@@ -236,31 +195,29 @@ export const TrainerRegistration = () => {
                 ))}
               </select>
             </div>
-            <div className="trainer-registration-input-container">
-              <label className="trainer-registration-form-label">
-                Add your full name
-              </label>
-              <input
-                className="trainer-registration-form-input"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="trainer-registration-input-container">
-              <label className="trainer-registration-form-label">
-                Provide a short description
-              </label>
-              <input
-                className="trainer-registration-form-input form-input-longer"
-                type="text"
-                name="description"
-                value={formData.description}
-                placeholder="Ex: Aerobics coach with a focus on youth development."
-                onChange={handleInputChange}
-              />
-            </div>
+            <LoginInput
+              labelClass={"trainer-registration-form-label"}
+              inputClass={"trainer-registration-form-input"}
+              label={"Add your full name"}
+              onChange={handleInputChange}
+              value={formData.name}
+              placeholder={""}
+              name={"name"}
+              type={"text"}
+            />
+            <LoginInput
+              placeholder={
+                "Ex: Aerobics coach with a focus on youth development."
+              }
+              labelClass={"trainer-registration-form-label"}
+              inputClass={"trainer-registration-form-input form-input-longer"}
+              label={"Provide a short description"}
+              onChange={handleInputChange}
+              value={formData.description}
+              name={"description"}
+              type={"text"}
+            />
+
             <div className="trainer-registration-input-container">
               <label className="trainer-registration-form-label">
                 Write about yourself
@@ -290,9 +247,7 @@ export const TrainerRegistration = () => {
 
             {/* Gender Radio Buttons */}
             <div className="trainer-registration-input-container">
-              <label className="trainer-registration-form-label">
-                Gender
-              </label>
+              <label className="trainer-registration-form-label">Gender</label>
               <div className="trainer-registration-form-radio-group">
                 <label>
                   <input
@@ -347,98 +302,93 @@ export const TrainerRegistration = () => {
                     />
                   </div>
 
-                <div className="trainer-registration-level-container">
-                  <label className="trainer-registration-form-level-label">
-                    Intermediate
-                  </label>
-                  <input
-                    type="checkbox"
-                    className="trainer-registration-form-input-checkbox"
-                    name="level"
-                    value="Intermediate"
-                    checked={formData.level.includes("Intermediate")}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                  <div className="trainer-registration-level-container">
+                    <label className="trainer-registration-form-level-label">
+                      Intermediate
+                    </label>
+                    <input
+                      type="checkbox"
+                      className="trainer-registration-form-input-checkbox"
+                      name="level"
+                      value="Intermediate"
+                      checked={formData.level.includes("Intermediate")}
+                      onChange={handleInputChange}
+                    />
+                  </div>
 
-                <div className="trainer-registration-level-container">
-                  <label className="trainer-registration-form-level-label">
-                    Advanced
-                  </label>
-                  <input
-                    type="checkbox"
-                    className="trainer-registration-form-input-checkbox"
-                    name="level"
-                    value="Advanced"
-                    checked={formData.level.includes("Advanced")}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                  <div className="trainer-registration-level-container">
+                    <label className="trainer-registration-form-level-label">
+                      Advanced
+                    </label>
+                    <input
+                      type="checkbox"
+                      className="trainer-registration-form-input-checkbox"
+                      name="level"
+                      value="Advanced"
+                      checked={formData.level.includes("Advanced")}
+                      onChange={handleInputChange}
+                    />
+                  </div>
 
-                <div className="trainer-registration-level-container">
-                  <label className="trainer-registration-form-level-label">
-                    Expert
-                  </label>
-                  <input
-                    type="checkbox"
-                    className="trainer-registration-form-input-checkbox"
-                    name="level"
-                    value="Expert"
-                    checked={formData.level.includes("Expert")}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                  <div className="trainer-registration-level-container">
+                    <label className="trainer-registration-form-level-label">
+                      Expert
+                    </label>
+                    <input
+                      type="checkbox"
+                      className="trainer-registration-form-input-checkbox"
+                      name="level"
+                      value="Expert"
+                      checked={formData.level.includes("Expert")}
+                      onChange={handleInputChange}
+                    />
+                  </div>
 
-                <div className="trainer-registration-level-container">
-                  <label className="trainer-registration-form-level-label">
-                    Master
-                  </label>
-                  <input
-                    className="trainer-registration-form-input-checkbox"
-                    checked={formData.level.includes("Master")}
-                    onChange={handleInputChange}
-                    type="checkbox"
-                    name="level"
-                    value="Master"
-                  />
+                  <div className="trainer-registration-level-container">
+                    <label className="trainer-registration-form-level-label">
+                      Master
+                    </label>
+                    <input
+                      className="trainer-registration-form-input-checkbox"
+                      checked={formData.level.includes("Master")}
+                      onChange={handleInputChange}
+                      type="checkbox"
+                      name="level"
+                      value="Master"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="trainer-registration-input-container">
-              <label className="trainer-registration-form-label">
-                Your lesson duration
-              </label>
-              <input
-                className="trainer-registration-form-input"
-                type="number"
-                name="lessonLength"
+              <LoginInput
+                labelClass={"trainer-registration-form-label"}
+                inputClass={"trainer-registration-form-input"}
+                label={"Your lesson duration"}
                 value={formData.lessonLength}
                 onChange={handleInputChange}
-                placeholder="In minutes"
+                placeholder={"In minutes"}
+                name={"lessonLength"}
+                type={"number"}
                 max={120}
                 min={45}
               />
-            </div>
-            <div className="trainer-registration-input-container">
-              <label className="trainer-registration-form-label">
-                Charge per lesson
-              </label>
-              <input
-                className="trainer-registration-form-input"
-                type="number"
-                name="price"
-                value={formData.price}
+              <LoginInput
+                labelClass={"trainer-registration-form-label"}
+                inputClass={"trainer-registration-form-input"}
                 onChange={handleInputChange}
-                placeholder="In ₪"
+                label={"Charge per lesson"}
+                value={formData.price}
+                placeholder={"In ₪"}
+                type={"number"}
+                name={"price"}
                 max={130}
                 min={1}
               />
-            </div>
-            <div className="trainer-registration-form-upload-image">
-              <ProfileImageUploader
-                handleImageChange={handleImageChange}
-                profileImageUrl={profileImageUrl}
-              />
+              <div className="trainer-registration-form-upload-image">
+                <ProfileImageUploader
+                  handleImageChange={handleImageChange}
+                  profileImageUrl={profileImageUrl}
+                />
+              </div>
             </div>
             <button
               id="trainer-registration-register-button"
@@ -455,4 +405,3 @@ export const TrainerRegistration = () => {
     </>
   );
 };
-
