@@ -129,6 +129,16 @@
   color: var(--background-main1);
 }
 
+.footer-social-link {
+  color: var(--background-main2);
+  align-items: center;
+  display: flex;
+}
+
+.footer-social-link:visited {
+  color: var(--background-main2);
+}
+
 .footer-copyrights {
   color: var(--background-main1);
   justify-content: center;
