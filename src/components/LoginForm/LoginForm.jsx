@@ -72,6 +72,10 @@ export const LoginForm = () => {
     }
   }, [errorMessage]);
 
+  useEffect(() => {
+    setErrorMessage("");
+  }, []);
+
   return (
     <form className="login-form">
       <h4 className="login-form-title">Log in</h4>

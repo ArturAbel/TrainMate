@@ -19,6 +19,7 @@
   flex-direction: column;
   align-items: center;
   width: 60%;
+  gap: 1rem;
 }
 
 .review-card {

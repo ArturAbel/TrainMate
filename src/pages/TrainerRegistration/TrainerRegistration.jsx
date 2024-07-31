@@ -36,6 +36,7 @@ export const TrainerRegistration = () => {
     level: [],
     lessonLength: "",
     price: "",
+    gender: "", // Adding gender to formData state
   });
 
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -75,16 +76,18 @@ export const TrainerRegistration = () => {
 
   useEffect(() => {
     if (trainerData) {
-      setFormData({
-        name: trainerData.name,
-        sport: trainerData.sport || "",
-        description: trainerData.description || "",
-        about: trainerData.about || "",
-        address: trainerData.address || "",
-        level: trainerData.level || [],
-        lessonLength: trainerData.lessonLength || "",
-        price: trainerData.price || "",
-      });
+      setFormData((prevData) => ({
+        ...prevData,
+        name: prevData.name || trainerData.name || "",
+        sport: prevData.sport || trainerData.sport || "",
+        description: prevData.description || trainerData.description || "",
+        about: prevData.about || trainerData.about || "",
+        address: prevData.address || trainerData.address || "",
+        level: prevData.level.length > 0 ? prevData.level : trainerData.level || [],
+        lessonLength: prevData.lessonLength || trainerData.lessonLength || "",
+        price: prevData.price || trainerData.price || "",
+        gender: prevData.gender || trainerData.gender || "", // Initialize gender
+      }));
     }
   }, [trainerData]);
 
@@ -240,8 +243,47 @@ export const TrainerRegistration = () => {
               onPlaceSelected={handlePlaceSelected}
               scriptLoaded={scriptLoaded}
             />
+
+            {/* Gender Radio Buttons */}
             <div className="trainer-registration-input-container">
-              {/* Make checkbox component */}
+              <label className="trainer-registration-form-label">
+                Gender
+              </label>
+              <div className="trainer-registration-form-radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={formData.gender === "Male"}
+                    onChange={handleInputChange}
+                  />
+                  Male
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={formData.gender === "Female"}
+                    onChange={handleInputChange}
+                  />
+                  Female
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Other"
+                    checked={formData.gender === "Other"}
+                    onChange={handleInputChange}
+                  />
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <div className="trainer-registration-input-container">
               <div className="trainer-registration-input-container">
                 <label htmlFor="" className="trainer-registration-form-label">
                   Which level do you teach
@@ -364,3 +406,4 @@ export const TrainerRegistration = () => {
     </>
   );
 };
+

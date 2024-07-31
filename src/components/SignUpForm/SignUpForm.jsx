@@ -62,6 +62,10 @@ export const SignUpForm = ({ title }) => {
     }
   }, [errorMessage]);
 
+  useEffect(() => {
+    setErrorMessage("");
+  }, []);
+
   return (
     <form className="sign-up-form">
       <h4 className="sign-up-form-title">{`Sign up as a ${title}`}</h4>

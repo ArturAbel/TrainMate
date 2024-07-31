@@ -6,6 +6,7 @@ import {
   getDocs,
   addDoc,
   doc,
+  getDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../config/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -114,24 +115,32 @@ export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
   }
 };
 
-export const uploadTrainerProfileImage =
-  (file, trainerId) => async (dispatch) => {
-    dispatch(setLoading(true));
+export const uploadTrainerProfileImage = (file, trainerId) => async (dispatch, getState) => {
+  dispatch(setLoading(true));
 
-    const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
-    try {
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
-      await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
-      dispatch(fetchTrainers());
-      dispatch(setLoading(false));
-    } catch (error) {
-      dispatch(setError(error.message));
-      dispatch(setLoading(false));
-      console.error("Error uploading image:", error);
-      alert("Error uploading image: " + error.message);
-    }
-  };
+  const storageRef = ref(storage, `trainers/${trainerId}/${file.name}`);
+  try {
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    await updateDoc(doc(db, "trainers", trainerId), { image: downloadURL });
+
+    // Re-fetch the specific trainer to update the image in the UI
+    const trainerDoc = await getDoc(doc(db, "trainers", trainerId));
+    const updatedTrainerData = trainerDoc.data();
+
+    // Update the specific trainer in the state
+    dispatch(setTrainers(getState().trainer.trainers.map(trainer =>
+      trainer.uid === trainerId ? { ...trainer, image: updatedTrainerData.image } : trainer
+    )));
+
+    dispatch(setLoading(false));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setLoading(false));
+    console.error("Error uploading image:", error);
+    alert("Error uploading image: " + error.message);
+  }
+};
 
 export const deleteTrainer = (trainerId) => async (dispatch) => {
   dispatch(setLoading(true));
