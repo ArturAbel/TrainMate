@@ -58,6 +58,15 @@
 .navbar-icon {
   color: var(--background-main2);
   font-size: 2rem;
+  position: relative;
+}
+
+.new-message-indicator {
+  position: absolute;
+  font-size: 1.8rem;
+  color: black;
+  top: -1rem;
+  left: 50%;
 }
 
 .navbar-counter-link {
