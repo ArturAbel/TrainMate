@@ -5,12 +5,6 @@ import { useParams } from "react-router";
 import { useEffect } from "react";
 
 import "./TrainerReviews.css";
-import {
-  RegExpMatcher,
-  TextCensor,
-  englishDataset,
-  englishRecommendedTransformers,
-} from "obscenity";
 
 const TrainerReviews = () => {
   const trainers = useSelector((state) => state.trainer.trainers);
