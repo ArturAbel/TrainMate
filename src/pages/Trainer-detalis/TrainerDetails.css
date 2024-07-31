@@ -116,9 +116,11 @@
 }
 
 .trainer-profile-actions-map {
-  border: 1px solid #ff7e7e;
-  border-radius: 8px;
-  height: 40%;
+  align-items: center;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  height: 40vh;
   width: 100%;
 }
 

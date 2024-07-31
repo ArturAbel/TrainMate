@@ -262,7 +262,6 @@ const TrainerDetails = () => {
         {/* Right container */}
         <div className="trainer-profile-actions-container">
           <div className="trainer-profile-actions-map">
-            {" "}
             <TrainerProfileMap address={trainer.address} />
           </div>
           <div className="trainer-profile-actions-data-container">

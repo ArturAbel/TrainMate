@@ -17,6 +17,7 @@ import UserSettings from "./pages/UserSettings/UserSettings";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { Layout } from "./components/Layout/Layout";
 import Trainers from "./pages/Trainers/Trainers";
+import Messages from "./pages/Messages/Messages";
 import { SignUp } from "./pages/SignUp/SignUp";
 import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
@@ -69,7 +70,7 @@ const router = createBrowserRouter([
       {
         path: "messages/:currentUserId",
         element: <PrivateRoute allowedRoles={[TRAINEE, TRAINER]} />,
-        children: [{ path: "", element: <Messages/> }],
+        children: [{ path: "", element: <Messages /> }],
       },
       {
         path: "trainers/:id",
