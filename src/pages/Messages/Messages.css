@@ -1,73 +1,81 @@
 .messages-section {
-  height: 100vh;
-  padding-top: 5rem;
-  display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f9f9f9;
+  padding-top: 5rem;
+  margin-top: 15vh;
+  display: flex;
+  height: 85vh;
 }
 
 .messages-section-title {
-  font-size: 3rem;
-  color: #333;
   margin-bottom: 2rem;
+  font-size: 3rem;
 }
 
 .trainer-chats-container {
-  width: 15%;
-  min-height: 60%;
-  display: flex;
+  background-color: var(--background-secondary3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   align-items: center;
-  background-color: #b1c2af;
   border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-height: 100%;
+  min-height: 50vh;
+  display: flex;
   padding: 1rem;
+  width: 25vw;
 }
 
 .chat-person-card {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  align-items: center;
+  background: white;
+  position: relative;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
   cursor: pointer;
+  display: flex;
+  padding: 1rem;
+  width: 100%;
 }
+
 .chat-person-card:hover {
   transform: translateY(-5px);
 }
 
 .chat-person-card img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  border-radius: 15px;
   margin-right: 1rem;
   object-fit: cover;
+  height: 50px;
+  width: 50px;
+}
+
+.user-info {
+  flex-direction: column;
+  word-spacing: 3px;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .chat-person-card .user-name {
-  font-size: 1.4rem;
-  color: #333;
   font-weight: bold;
+  font-size: 1.4rem;
 }
 
 .new-conversation-label {
-  position: absolute;
-  background-color: greenyellow;
+  background-color: var(--background-secondary2);
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
-  padding:0.5rem 1rem;
+  position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
 }
 
-
-.overflow-hidden{
+.overflow-hidden {
   overflow: hidden;
 }
 
-
+.chat-button{
+  background-color: var(--background-secondary2);
+}

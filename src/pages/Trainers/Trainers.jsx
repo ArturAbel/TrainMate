@@ -6,29 +6,34 @@ import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/Search/Search";
-import { db } from "../../config/firebaseConfig";
-import { getDoc, doc } from "firebase/firestore";
+import Loader from "../../components/Loader/Loader";
+import { fetchFavorites } from "./TrainersLib";
 
 import "./Trainers.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();
-  const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const {
+    trainers,
+    loading: trainersLoading,
+    error,
+  } = useSelector((state) => state.trainer);
+  const { user, loading: authLoading } = useSelector((state) => state.auth);
+  const { loading: usersLoading } = useSelector((state) => state.users);
+  const [selectedLessonLength, setSelectedLessonLength] = useState(null);
+  const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
   const [filteredTrainers, setFilteredTrainers] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [selectedSport, setSelectedSport] = useState(null);
+  const { answers } = useSelector((state) => state.quiz);
+  const [lessonLengths, setLessonLengths] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [favorites, setFavorites] = useState([]);
+  const [addresses, setAddresses] = useState([]);
   const [sports, setSports] = useState([]);
   const [levels, setLevels] = useState([]);
-  const [addresses, setAddresses] = useState([]);
-  const [lessonLengths, setLessonLengths] = useState([]);
-  const [selectedSport, setSelectedSport] = useState(null);
-  const [selectedLevel, setSelectedLevel] = useState(null);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [selectedLessonLength, setSelectedLessonLength] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
-  const [overlayVisible, setOverlayVisible] = useState(false);
-  const [favorites, setFavorites] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-  const { answers } = useSelector((state) => state.quiz);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -105,10 +110,10 @@ const Trainers = () => {
 
     setFilteredTrainers(filtered);
   }, [
+    selectedLessonLength,
+    selectedAddress,
     selectedSport,
     selectedLevel,
-    selectedAddress,
-    selectedLessonLength,
     searchQuery,
     priceRange,
     trainers,
@@ -149,22 +154,6 @@ const Trainers = () => {
     setOverlayVisible(visible);
   };
 
-  const fetchFavorites = async (userId) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      const userSnap = await getDoc(userDocRef);
-      if (!userSnap.exists()) {
-        return [];
-      } else {
-        const userData = userSnap.data();
-        return userData.favorites || [];
-      }
-    } catch (error) {
-      console.error("Error fetching favorites: ", error);
-      return [];
-    }
-  };
-
   useEffect(() => {
     const loadFavorites = async () => {
       if (user) {
@@ -182,9 +171,13 @@ const Trainers = () => {
     [favorites]
   );
 
+  const isLoading = usersLoading || trainersLoading || authLoading;
+
   return (
     <>
-      {favorites ? (
+      {isLoading ? (
+        <Loader />
+      ) : (
         <section className="trainers-section">
           <FilterOverlay
             isVisible={overlayVisible}
@@ -213,38 +206,34 @@ const Trainers = () => {
             />
           </div>
           <section className="team-container">
-            {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            {!loading &&
-              !error &&
-              filteredTrainers.map((trainer) => (
-                <TrainerCard
-                  favorite={isTrainerInFavorites(trainer.uid)}
-                  lessonLength={trainer.lessonLength}
-                  description={trainer.description}
-                  ratings={trainer.ratings}
-                  address={trainer.address}
-                  reviews={trainer.reviews}
-                  imgSrc={trainer.image}
-                  price={trainer.price}
-                  sport={trainer.sport}
-                  level={trainer.level}
-                  about={trainer.about}
-                  name={trainer.name}
-                  key={trainer.uid}
-                  id={trainer.uid}
-                />
-              ))}
-            {!loading && !error && filteredTrainers.length === 0 && (
+            {filteredTrainers.map((trainer) => (
+              <TrainerCard
+                favorite={isTrainerInFavorites(trainer.uid)}
+                lessonLength={trainer.lessonLength}
+                description={trainer.description}
+                ratings={trainer.ratings}
+                address={trainer.address}
+                reviews={trainer.reviews}
+                imgSrc={trainer.image}
+                price={trainer.price}
+                sport={trainer.sport}
+                level={trainer.level}
+                about={trainer.about}
+                name={trainer.name}
+                key={trainer.uid}
+                id={trainer.uid}
+              />
+            ))}
+            {filteredTrainers.length === 0 && !error && (
               <div className="trainers-no-matches-found">no matches found</div>
             )}
           </section>
           <HomeDivider />
         </section>
-      ) : (
-        <p>Loading...</p>
       )}
     </>
   );
 };
+
 export default Trainers;

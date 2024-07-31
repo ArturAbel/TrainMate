@@ -1,8 +1,10 @@
-import './Loader.css';
+import "./Loader.css";
 
 const Loader = () => {
   return (
-    <div className="loader"></div>
+    <section className="loader-section">
+      <div className="loader"></div>
+    </section>
   );
 };
 

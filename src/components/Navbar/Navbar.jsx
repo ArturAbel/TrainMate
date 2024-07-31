@@ -27,10 +27,10 @@ export const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
+  const { newMessage: userNewMessage } = useSelector((state) => state.users);
   const { newMessage: trainerNewMessage } = useSelector(
     (state) => state.trainer
   );
-  const { newMessage: userNewMessage } = useSelector((state) => state.users);
 
   function showOrHide() {
     setShowSettings((prev) => !prev);
@@ -108,7 +108,7 @@ export const Navbar = () => {
                 to={`trainee-lessons/${user.uid}`}
               >
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
-                <ToolTip text="View Trainee Lessons" />
+                <ToolTip text="Lessons" />
               </Link>
               <Link
                 className="navbar-counter-link tooltip-container"
@@ -146,7 +146,12 @@ export const Navbar = () => {
                     <Link to={"/settings"} className="navbarList-item">
                       settings
                     </Link>
-                    <Link to={`messages/${user.uid}`} className="navbarList-item">Messages</Link>
+                    <Link
+                      to={`messages/${user.uid}`}
+                      className="navbarList-item"
+                    >
+                      Messages
+                    </Link>
                     <Link
                       className="navbarList-item logout-link"
                       onClick={handleLogoutUser}

@@ -1,13 +1,15 @@
+import LessonContainer from "../../components/LessonContainer/LessonContainer";
+import { fetchUsers, updateUser } from "../../redux/features/usersSlice";
+import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
   fetchTrainers,
   updateTrainer,
 } from "../../redux/features/trainerSlice";
-import { fetchUsers, updateUser } from "../../redux/features/usersSlice";
-import LessonContainer from "../../components/LessonContainer/LessonContainer";
-import { approveLesson, deleteLesson } from "./TrainerPanelLib";
+
 import "./TrainerPanel.css";
 
 const TrainerPanel = () => {
@@ -65,15 +67,16 @@ const TrainerPanel = () => {
 
   const expiredLessons = trainer
     ? trainer.bookedLessons
-      .filter((lesson) => lesson.approved && !lesson.movedToHistory)
-      .filter((lesson) => {
-        const lessonTimestamp = Date.parse(
-          `${lesson.date.split("/").reverse().join("-")}T${convertTo24HourFormat(
-            lesson.hour
-          )}`
-        );
-        return getCurrentTimeChecker().timestamp > lessonTimestamp;
-      })
+        .filter((lesson) => lesson.approved && !lesson.movedToHistory)
+        .filter((lesson) => {
+          const lessonTimestamp = Date.parse(
+            `${lesson.date
+              .split("/")
+              .reverse()
+              .join("-")}T${convertTo24HourFormat(lesson.hour)}`
+          );
+          return getCurrentTimeChecker().timestamp > lessonTimestamp;
+        })
     : [];
 
   const updateUserData = (userId, lesson) => {
@@ -164,8 +167,8 @@ const TrainerPanel = () => {
     : [];
   const approvedLessons = trainer
     ? trainer.bookedLessons.filter(
-      (lesson) => lesson.approved && !lesson.movedToHistory
-    )
+        (lesson) => lesson.approved && !lesson.movedToHistory
+      )
     : [];
 
   const handleApproveLesson = async (lessonId) => {
@@ -179,7 +182,7 @@ const TrainerPanel = () => {
   };
 
   if (!trainer) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
@@ -204,5 +207,3 @@ const TrainerPanel = () => {
 };
 
 export default TrainerPanel;
-
-

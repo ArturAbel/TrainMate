@@ -1,16 +1,18 @@
 import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
+import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
+import Loader from "../../components/Loader/Loader";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useState, useEffect } from "react";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
+import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -23,8 +25,6 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
-
-import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
 
 
 const TrainerDetails = () => {
@@ -135,7 +135,7 @@ const TrainerDetails = () => {
   };
 
   if (!trainer) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const handleOpenCalender = () => {
@@ -195,7 +195,7 @@ const TrainerDetails = () => {
     // Navigate to the messages page
     navigate(`/messages/${user.uid}`);
   };
-  
+
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
