@@ -3,7 +3,7 @@ import ReactStars from "react-rating-stars-component";
 import "./TrainerReview.css";
 import { useDispatch, useSelector } from "react-redux";
 import LeoProfanity from "leo-profanity";
-import { upsertReview } from "../../../redux/features/usersSlice";
+import { upsertReview } from "../../redux/features/usersSlice";
 const TrainerReview = ({ trainerId }) => {
   const { user } = useSelector((state) => state.auth);
   const [isClean, setIsClean] = useState(true);
