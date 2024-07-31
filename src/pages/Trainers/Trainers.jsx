@@ -236,7 +236,7 @@ const Trainers = () => {
                 />
               ))}
             {!loading && !error && filteredTrainers.length === 0 && (
-              <p>No matches found</p>
+              <div className="trainers-no-matches-found">no matches found</div>
             )}
           </section>
           <HomeDivider />

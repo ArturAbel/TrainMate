@@ -22,5 +22,6 @@
 }
 
 .tooltip-container:hover .tooltip-span {
+  transition-delay: 0.5s;
   opacity: 0.9;
 }

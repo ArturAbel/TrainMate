@@ -122,12 +122,12 @@ const TraineeLessons = () => {
                       {trainer ? (
                         <>
                           <img
+                            className="lesson-trainer-image"
                             src={
                               trainer.image ||
                               "/public/assets/img/anonymous/anonymous.jpeg"
                             }
                             alt={trainer.name}
-                            className="lesson-trainer-image"
                           />
                           <div className="lesson-trainer-info">
                             <p>{trainer.name}</p>

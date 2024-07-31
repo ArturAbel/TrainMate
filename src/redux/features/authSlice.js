@@ -263,7 +263,8 @@ export const loginWithGoogle = (usertype) => async (dispatch) => {
     if (trainerDoc.exists() || userDoc.exists()) {
       if (trainerDoc.exists()) {
         userRole = "trainer";
-      } else if (userDoc.exists()) {
+      }
+      if (userDoc.exists()) {
         userRole = "trainee";
       }
     } else {
