@@ -8,10 +8,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
-import { useLocation } from "react-router-dom";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -25,7 +24,6 @@ import {
 
 import "./TrainerDetails.css";
 
-import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
 
 
@@ -155,7 +153,7 @@ const TrainerDetails = () => {
   const handleSeeMoreReviews = () => {
     setReadMoreReviews((prev) => !prev);
   };
-  console.log(trainer.reviews);
+  
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
