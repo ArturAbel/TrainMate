@@ -146,7 +146,7 @@ export const Navbar = () => {
                     <Link to={"/settings"} className="navbarList-item">
                       settings
                     </Link>
-                    <Link className="navbarList-item">Messages</Link>
+                    <Link to={`messages/${user.uid}`} className="navbarList-item">Messages</Link>
                     <Link
                       className="navbarList-item logout-link"
                       onClick={handleLogoutUser}
