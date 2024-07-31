@@ -3,10 +3,12 @@ import { resetFavoriteCount } from "../../redux/features/usersSlice";
 import { logoutUser } from "../../redux/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessageSquareDetail } from "react-icons/bi";
+import { PiExclamationMarkFill } from "react-icons/pi";
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
 import { MdOutlineReviews } from "react-icons/md";
 import { MdOutlineLogin } from "react-icons/md";
+import { ToolTip } from "../ToolTip/ToolTip";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
@@ -25,6 +27,10 @@ export const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dropdownRef = useRef(null);
+  const { newMessage: trainerNewMessage } = useSelector(
+    (state) => state.trainer
+  );
+  const { newMessage: userNewMessage } = useSelector((state) => state.users);
 
   function showOrHide() {
     setShowSettings((prev) => !prev);
@@ -97,17 +103,32 @@ export const Navbar = () => {
         user.role === TRAINEE ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={`trainee-lessons/${user.uid}`}>
+              <Link
+                className="navbar-icon-container tooltip-container"
+                to={`trainee-lessons/${user.uid}`}
+              >
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
+                <ToolTip text="View Trainee Lessons" />
               </Link>
-              <Link to={`/messages/${user.uid}`}>
+              <Link
+                className="navbar-counter-link tooltip-container"
+                to={`/messages/${user.uid}`}
+              >
                 <BiMessageSquareDetail className="navbar-icon" />
+                <ToolTip text="Messages" />
+                {userNewMessage && (
+                  <PiExclamationMarkFill className="new-message-indicator" />
+                )}
               </Link>
-              <Link className="navbar-counter-link" to={"/favorites"}>
+              <Link
+                className="navbar-counter-link tooltip-container"
+                to={"/favorites"}
+              >
                 <FiHeart
                   className="navbar-icon"
                   onClick={resetFavoriteCount()}
                 />
+                <ToolTip text="Favorite" />
                 {favoriteCount > 0 && (
                   <p className="navbar-favorite-counter">{favoriteCount}</p>
                 )}
@@ -125,7 +146,7 @@ export const Navbar = () => {
                     <Link to={"/settings"} className="navbarList-item">
                       settings
                     </Link>
-                    <Link className="navbarList-item">Messages</Link>
+                    <Link to={`messages/${user.uid}`} className="navbarList-item">Messages</Link>
                     <Link
                       className="navbarList-item logout-link"
                       onClick={handleLogoutUser}
@@ -140,21 +161,33 @@ export const Navbar = () => {
         ) : user.role === TRAINER ? (
           <div className="navbar-right-container">
             <div className="navbar-icons-container">
-              <Link to={`/trainer-lesson-history/${user.uid}`}>
+              <Link
+                to={`/trainer-lesson-history/${user.uid}`}
+                className="tooltip-container"
+              >
                 <MdOutlineHistoryEdu className="navbar-icon history-icon" />
-              </Link>
-              <Link to={`/messages/${user.uid}`}>
-                <BiMessageSquareDetail className="navbar-icon" />
+                <ToolTip text="View History" />
               </Link>
               <Link
+                className="navbar-counter-link tooltip-container"
+                to={`/messages/${user.uid}`}
+              >
+                <BiMessageSquareDetail className="navbar-icon" />
+                <ToolTip text="Messages" />
+                {trainerNewMessage && (
+                  <PiExclamationMarkFill className="new-message-indicator" />
+                )}
+              </Link>
+              <Link
+                className="navbar-counter-link tooltip-container"
                 to={`/trainer-reviews/${user.uid}`}
-                className="navbar-counter-link"
                 onClick={resetReviewCount()}
               >
                 {reviewsCount > 0 && (
                   <p className="navbar-favorite-counter">{favoriteCount}</p>
                 )}
                 <MdOutlineReviews className="navbar-icon" />
+                <ToolTip text="Reviews" />
               </Link>
               <div className="dropdown-container " ref={dropdownRef}>
                 <div onClick={showOrHide}>

@@ -2,8 +2,8 @@ import { useParams } from 'react-router';
 import './Messages.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { fetchTrainers } from '../../redux/features/trainerSlice';
-import { fetchUsers } from '../../redux/features/usersSlice';
+import { fetchTrainers, toggleTrainerNewMessage } from '../../redux/features/trainerSlice';
+import { fetchUsers, toggleTraineeNewMessage } from '../../redux/features/usersSlice';
 import { db } from '../../config/firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import ChatModal from '../../components/ChatModal/ChatModal';
@@ -25,7 +25,7 @@ const Messages = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp'); // Replace with your actual document ID
+      const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp');
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -63,7 +63,7 @@ const Messages = () => {
       text,
       timestamp: new Date().toISOString(),
     };
-    const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp'); 
+    const docRef = doc(db, 'messages', 'OXW5mmTL1rFRfpVrSMZp');
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
@@ -78,6 +78,14 @@ const Messages = () => {
       });
       await updateDoc(docRef, { messages: updatedMessages });
       setMessages(updatedMessages);
+    }
+
+    const isTrainerSending = trainers.some(trainer => trainer.uid === currentUserId);
+
+    if (isTrainerSending) {
+      dispatch(toggleTraineeNewMessage(true));
+    } else {
+      dispatch(toggleTrainerNewMessage(true));
     }
   };
 
@@ -97,12 +105,17 @@ const Messages = () => {
         <h1 className="messages-section-title">Messenger</h1>
         <div className="trainer-chats-container">
           {relevantUsers.map((userId) => {
+            const conversation = messages.find(
+              (message) =>
+                message.participants.includes(userId) &&
+                message.participants.includes(currentUserId)
+            );
             const user = isTrainer ? users.find((u) => u.uid === userId) : trainers.find((t) => t.uid === userId);
             const userName = user?.displayName || user?.name || 'Name not available';
             const userDetail1 = isTrainer ? (user?.age || 'Age not available') : (user?.sport || 'Sport not available');
             const userDetail2 = isTrainer ? (user?.gender || 'Gender not available') : (user?.address || 'Address not available');
             const userImage = isTrainer ? (user?.photoURL || '/path/to/default/image.jpg') : (user?.image || '/path/to/default/image.jpg');
-
+            const isNewConversation = conversation?.messages.length === 0;
             return (
               <div key={userId} onClick={() => handleUserClick(userId)} className="chat-person-card">
                 <img src={userImage} alt={userName} />
@@ -111,6 +124,7 @@ const Messages = () => {
                   <p>{userDetail1}</p>
                   <p>{userDetail2}</p>
                 </div>
+                  {isNewConversation && <span className="new-conversation-label">NEW!</span>}
               </div>
             );
           })}
@@ -133,6 +147,7 @@ const Messages = () => {
 };
 
 export default Messages;
+
 
 
 

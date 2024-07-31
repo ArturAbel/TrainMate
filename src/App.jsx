@@ -17,14 +17,14 @@ import UserSettings from "./pages/UserSettings/UserSettings";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { Layout } from "./components/Layout/Layout";
 import Trainers from "./pages/Trainers/Trainers";
+import Messages from "./pages/Messages/Messages";
 import { SignUp } from "./pages/SignUp/SignUp";
 import { Login } from "./pages/Login/Login";
 import { useDispatch } from "react-redux";
 import { Home } from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
 import { useEffect } from "react";
-
-import Messages from "./pages/Messages/Messages";
+import LoadingPage from "./pages/LoadingPage/LoadingPage";
 
 const router = createBrowserRouter([
   {
@@ -66,11 +66,6 @@ const router = createBrowserRouter([
         path: "trainee-lessons/:traineeId",
         element: <PrivateRoute allowedRoles={[TRAINEE]} />,
         children: [{ path: "", element: <TraineeLessons /> }],
-      },
-      {
-        path: "messages/:currentUserId",
-        element: <PrivateRoute allowedRoles={[TRAINEE, TRAINER]} />,
-        children: [{ path: "", element: <Messages /> }],
       },
       {
         path: "messages/:currentUserId",
@@ -128,6 +123,10 @@ const router = createBrowserRouter([
   {
     path: "pending-trainer",
     element: <PendingTrainer />,
+  },
+  {
+    path: "loading-page",
+    element: <LoadingPage />,
   },
 ]);
 

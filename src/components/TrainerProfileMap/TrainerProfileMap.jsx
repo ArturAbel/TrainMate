@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useState, useEffect } from "react";
 
 const TrainerProfileMap = ({ address }) => {
   const [location, setLocation] = useState({ lat: null, lng: null });
@@ -61,9 +61,9 @@ const TrainerProfileMap = ({ address }) => {
   };
 
   return (
-    <div className="trainer-profile-actions-map">
+    <>
       {error && (
-        <div style={{ color: "red", marginBottom: "10px" }}>
+        <div>
           <p>Error: {error}</p>
           <p>
             Please check the address or try again later. If the problem
@@ -80,7 +80,7 @@ const TrainerProfileMap = ({ address }) => {
           <Marker position={location} />
         </GoogleMap>
       )}
-    </div>
+    </>
   );
 };
 

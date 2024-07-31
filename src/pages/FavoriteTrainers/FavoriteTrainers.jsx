@@ -112,8 +112,8 @@ const FavoriteTrainers = () => {
       {favorites ? (
         <>
           <FilterOverlay
-            isVisible={overlayVisible}
             onClose={() => toggleOverlay(false)}
+            isVisible={overlayVisible}
           />
           <section className="favorite-trainers-section">
             <h1 className="favorite-trainers-header-title">

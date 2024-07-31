@@ -40,12 +40,36 @@ export const TrainerRegistration = () => {
     level: [],
     lessonLength: "",
     price: "",
+    gender: "", // Adding gender to formData state
   });
 
-  const [location, setLocation] = useState({ lat: null, lng: null });
-  const [error, setError] = useState(null);
-  const autocompleteRef = useRef(null);
-  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
+  const loadGoogleMaps = (apiKey, callbackName) => {
+    if (!window.google) {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=${callbackName}`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+
+      window[callbackName] = () => {
+        setScriptLoaded(true);
+      };
+
+      return () => {
+        document.head.removeChild(script);
+      };
+    } else {
+      if (callbackName && typeof window[callbackName] === "function") {
+        window[callbackName]();
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadGoogleMaps(apiKey, "initMap");
+  }, [apiKey]);
 
   useEffect(() => {
     dispatch(fetchTrainers()).then(() => setLocalLoading(false));
@@ -56,16 +80,18 @@ export const TrainerRegistration = () => {
 
   useEffect(() => {
     if (trainerData) {
-      setFormData({
-        name: trainerData.name,
-        sport: trainerData.sport || "",
-        description: trainerData.description || "",
-        about: trainerData.about || "",
-        address: trainerData.address || "",
-        level: trainerData.level || [],
-        lessonLength: trainerData.lessonLength || "",
-        price: trainerData.price || "",
-      });
+      setFormData((prevData) => ({
+        ...prevData,
+        name: prevData.name || trainerData.name || "",
+        sport: prevData.sport || trainerData.sport || "",
+        description: prevData.description || trainerData.description || "",
+        about: prevData.about || trainerData.about || "",
+        address: prevData.address || trainerData.address || "",
+        level: prevData.level.length > 0 ? prevData.level : trainerData.level || [],
+        lessonLength: prevData.lessonLength || trainerData.lessonLength || "",
+        price: prevData.price || trainerData.price || "",
+        gender: prevData.gender || trainerData.gender || "", // Initialize gender
+      }));
     }
   }, [trainerData]);
 
@@ -247,62 +273,79 @@ export const TrainerRegistration = () => {
                 value={formData.about}
               />
             </div>
+            <LoginInput
+              labelClass={"trainer-registration-form-label"}
+              inputClass={"trainer-registration-form-input"}
+              placeholder={"Ex: Tel Aviv"}
+              onChange={handleInputChange}
+              value={formData.address}
+              label={"Your address"}
+              name={"address"}
+              type={"text"}
+              enableAutocomplete={true}
+              apiKey={apiKey}
+              onPlaceSelected={handlePlaceSelected}
+              scriptLoaded={scriptLoaded}
+            />
+
+            {/* Gender Radio Buttons */}
             <div className="trainer-registration-input-container">
               <label className="trainer-registration-form-label">
-                Your address
+                Gender
               </label>
-              <LoadScript googleMapsApiKey={apiKey} libraries={["places"]}>
-                <Autocomplete
-                  onLoad={(autocomplete) =>
-                    (autocompleteRef.current = autocomplete)
-                  }
-                  onPlaceChanged={handlePlaceChanged}
-                  options={{
-                    types: ["(cities)"], //  cities
-                    componentRestrictions: { country: "il" }, // only holy land
-                  }}
-                >
+              <div className="trainer-registration-form-radio-group">
+                <label>
                   <input
-                    type="text"
-                    placeholder="Enter a location"
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      marginBottom: "10px",
-                    }}
-                    value={formData.address}
-                    onChange={handleAddressInputChange}
-                  />
-                </Autocomplete>
-                {location.lat && (
-                  <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={location}
-                    zoom={15}
-                  >
-                    <Marker position={location} />
-                  </GoogleMap>
-                )}
-              </LoadScript>
-            </div>
-            <div className="trainer-registration-input-container">
-              <label htmlFor="" className="trainer-registration-form-label">
-                Which level do you teach
-              </label>
-              <div className="trainer-registration-input-container-level">
-                <div className="trainer-registration-level-container">
-                  <label className="trainer-registration-form-level-label">
-                    Beginner
-                  </label>
-                  <input
-                    type="checkbox"
-                    className="trainer-registration-form-input-checkbox"
-                    name="level"
-                    value="Beginner"
-                    checked={formData.level.includes("Beginner")}
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={formData.gender === "Male"}
                     onChange={handleInputChange}
                   />
-                </div>
+                  Male
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={formData.gender === "Female"}
+                    onChange={handleInputChange}
+                  />
+                  Female
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Other"
+                    checked={formData.gender === "Other"}
+                    onChange={handleInputChange}
+                  />
+                  Other
+                </label>
+              </div>
+            </div>
+
+            <div className="trainer-registration-input-container">
+              <div className="trainer-registration-input-container">
+                <label htmlFor="" className="trainer-registration-form-label">
+                  Which level do you teach
+                </label>
+                <div className="trainer-registration-input-container-level">
+                  <div className="trainer-registration-level-container">
+                    <label className="trainer-registration-form-level-label">
+                      Beginner
+                    </label>
+                    <input
+                      type="checkbox"
+                      className="trainer-registration-form-input-checkbox"
+                      name="level"
+                      value="Beginner"
+                      checked={formData.level.includes("Beginner")}
+                      onChange={handleInputChange}
+                    />
+                  </div>
 
                 <div className="trainer-registration-level-container">
                   <label className="trainer-registration-form-level-label">
@@ -412,3 +455,4 @@ export const TrainerRegistration = () => {
     </>
   );
 };
+

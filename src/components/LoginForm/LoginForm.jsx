@@ -1,14 +1,15 @@
 import { refinedFirebaseAuthErrorMessage } from "../../utilities/refineAuthError";
 import { loginUser, loginWithGoogle } from "../../redux/features/authSlice";
+import { ADMIN, TRAINEE, TRAINER } from "../../utilities/constants";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormHook } from "../../hooks/useFormHook";
 import { Link, useNavigate } from "react-router-dom";
+import { db } from "../../config/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { db } from "../../config/firebaseConfig";
 
-import { doc, getDoc } from "firebase/firestore";
 import "./LoginForm.css";
 
 export const LoginForm = () => {
@@ -25,7 +26,7 @@ export const LoginForm = () => {
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginWithGoogle("trainee"));
+    dispatch(loginWithGoogle(TRAINEE));
   };
 
   useEffect(() => {
@@ -41,18 +42,18 @@ export const LoginForm = () => {
         let path;
         if (trainerApproved) {
           path = `/trainer-panel/${user.uid}`;
-        } else if (user.role === "admin") {
+        } else if (user.role === ADMIN) {
           path = `/admin`;
-        } else if (user.role === "trainee") {
+        } else if (user.role === TRAINEE) {
           path = "/trainers";
-        } else {
+        }
+        if (user.role === TRAINER && !trainerApproved) {
           path = "/pending-trainer";
         }
-
         navigate(path);
       })
       .catch((error) => {
-        console.error("the fallowing error occured:", error);
+        console.error("The fallowing error occurred:", error);
       });
   }, [user, navigate]);
 
@@ -71,6 +72,10 @@ export const LoginForm = () => {
       };
     }
   }, [errorMessage]);
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, []);
 
   return (
     <form className="login-form">

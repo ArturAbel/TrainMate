@@ -4,7 +4,7 @@ import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -153,6 +153,48 @@ const TrainerDetails = () => {
   const handleSeeMoreReviews = () => {
     setReadMoreReviews((prev) => !prev);
   };
+
+  const handleSendMessageClick = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    const messagesDocId = "OXW5mmTL1rFRfpVrSMZp"; // Unique ID for the messages document
+    const messagesRef = doc(db, "messages", messagesDocId);
+    const messagesDoc = await getDoc(messagesRef);
+
+    if (messagesDoc.exists()) {
+      const data = messagesDoc.data();
+      const conversationExists = data.messages.some(
+        (conv) =>
+          conv.participants.includes(user.uid) &&
+          conv.participants.includes(trainerId)
+      );
+
+      if (!conversationExists) {
+        await updateDoc(messagesRef, {
+          messages: arrayUnion({
+            participants: [user.uid, trainerId],
+            messages: [], // Empty messages array for the new conversation
+          }),
+        });
+      }
+    } else {
+      // If somehow the document doesn't exist, create it with the first conversation
+      await setDoc(messagesRef, {
+        messages: [
+          {
+            participants: [user.uid, trainerId],
+            messages: [],
+          },
+        ],
+      });
+    }
+
+    // Navigate to the messages page
+    navigate(`/messages/${user.uid}`);
+  };
   
   return (
     <>
@@ -262,7 +304,6 @@ const TrainerDetails = () => {
         {/* Right container */}
         <div className="trainer-profile-actions-container">
           <div className="trainer-profile-actions-map">
-            {" "}
             <TrainerProfileMap address={trainer.address} />
           </div>
           <div className="trainer-profile-actions-data-container">
@@ -288,7 +329,11 @@ const TrainerDetails = () => {
               <MdFitnessCenter className="trainer-profile-button-icon" />
               Book a Training
             </button>
-            <button className="button-transparent" id="trainer-profile-button">
+            <button
+              className="button-transparent"
+              id="trainer-profile-button"
+              onClick={handleSendMessageClick}
+            >
               <BiMessageSquareDetail className="trainer-profile-button-icon" />
               Send Message
             </button>
