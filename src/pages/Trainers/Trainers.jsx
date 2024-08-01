@@ -1,10 +1,10 @@
+import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
+import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
+import TrainerCard from "../../components/TrainerCard/TrainerCard";
+import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useTrainerData from "../../hooks/useTrainerData";
-import useFilter from "../../hooks/useFilter";
-import useFavorites from "../../hooks/useFavorites";
-import TrainerFilter from "../../components/TrainerFilter/TrainerFilter";
-import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import Search from "../../components/Search/Search";
 import Loader from "../../components/Loader/Loader";
 import { fetchFavorites } from "./TrainersLib";
@@ -39,20 +39,18 @@ const Trainers = () => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
-  const memoizedUpdateFilter = useCallback(updateFilter, []);
-
   useEffect(() => {
     const initializeFilters = () => {
       if (answers && answers.length > 0) {
-        memoizedUpdateFilter("selectedSport", answers[0] || null);
-        memoizedUpdateFilter("selectedLevel", answers[1] || null);
-        memoizedUpdateFilter("selectedAddress", answers[2] || null);
-        memoizedUpdateFilter("priceRange", { min: 5, max: answers[3] || 100 });
+        setSelectedSport(answers[0] || null);
+        setSelectedLevel(answers[1] || null);
+        setSelectedAddress(answers[2] || null);
+        setPriceRange({ min: 5, max: answers[3] || 100 });
       } else {
-        memoizedUpdateFilter("selectedSport", null);
-        memoizedUpdateFilter("selectedLevel", null);
-        memoizedUpdateFilter("selectedAddress", null);
-        memoizedUpdateFilter("priceRange", { min: 5, max: 100 });
+        setSelectedSport(null);
+        setSelectedLevel(null);
+        setSelectedAddress(null);
+        setPriceRange({ min: 5, max: 100 });
       }
     };
     initializeFilters();
@@ -142,14 +140,14 @@ const Trainers = () => {
   };
 
   const handleSearch = (query) => {
-    memoizedUpdateFilter("searchQuery", query);
+    setSearchQuery(query);
   };
 
   const handleSortByRating = () => {
     const sortedTrainers = [...filteredTrainers].sort(
       (a, b) => b.ratings - a.ratings
     );
-    memoizedUpdateFilter("sortedTrainers", sortedTrainers);
+    setFilteredTrainers(sortedTrainers);
   };
 
   const toggleOverlay = (visible) => {
