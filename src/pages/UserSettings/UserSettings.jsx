@@ -5,19 +5,20 @@ import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { deleteUserAccount } from "../../redux/features/authSlice";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
+import { anonymousImage } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
+  uploadUserProfileImage,
+  removeFavorite,
   deleteUser,
   fetchUsers,
-  removeFavorite,
   updateUser,
-  uploadUserProfileImage,
 } from "../../redux/features/usersSlice";
 
 import "./UserSettings.css";
-import { anonymousImage } from "../../utilities/constants";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -103,22 +104,19 @@ const UserSettings = () => {
     }
   };
 
-  if (!user || usersLoading || trainersLoading) {
-    return <div>Loading...</div>;
-  }
-
   const userData = users.find((userObj) => userObj.uid === user.uid);
-  if (!userData) {
-    return <div>Loading user data...</div>;
-  }
 
   const profileImageUrl =
     userData.photoURL ||
     (user.providerData &&
-      user.providerData.length > 0 &&
-      user.providerData[0].providerId === "google.com"
+    user.providerData.length > 0 &&
+    user.providerData[0].providerId === "google.com"
       ? user.photoURL
       : anonymousImage);
+
+  if (!user || usersLoading || trainersLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -224,4 +222,3 @@ const UserSettings = () => {
 };
 
 export default UserSettings;
-

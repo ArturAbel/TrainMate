@@ -1,29 +1,30 @@
 import { AdminTrainerCard } from "../../components/AdminTrainerCard/AdminTrainerCard";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
-import TrainerCard from "../../components/TrainerCard/TrainerCard";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import Loader from "../../components/Loader/Loader";
+import { useEffect } from "react";
 
 import "./Admin.css";
 
 const Admin = () => {
   const dispatch = useDispatch();
-  const { trainers, loading, error } = useSelector((state) => state.trainer);
+  const {
+    loading: trainerLoading,
+    trainers,
+    error,
+  } = useSelector((state) => state.trainer);
+  const { loading: authLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchTrainers());
   }, [dispatch]);
 
-  // Assuming you might want to use these states for filtering or other purposes
-  const [lessonLengths, setLessonLengths] = useState([]);
-  const [addresses, setAddresses] = useState([]);
-  const [levels, setLevels] = useState([]);
-  const [sports, setSports] = useState([]);
-
   return (
     <>
-      {!loading && trainers ? (
+      {trainerLoading || authLoading ? (
+        <Loader />
+      ) : (
         <section className="admin-section">
           <h1 className="admin-section-title">New registered train.mates</h1>
           <div className="trainers-filter-search-container"></div>
@@ -47,8 +48,6 @@ const Admin = () => {
           </div>
           <HomeDivider />
         </section>
-      ) : (
-        <p>Loading...</p>
       )}
     </>
   );

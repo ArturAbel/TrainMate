@@ -6,6 +6,7 @@ import { anonymousImage, sports } from "../../utilities/constants";
 import { deleteUserAccount } from "../../redux/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormHook } from "../../hooks/useFormHook";
+import Loader from "../../components/Loader/Loader";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -83,17 +84,15 @@ const TrainerSettings = () => {
     }
   };
 
-  if (loading || !user) {
-    return <div>Loading...</div>;
-  }
-
   const trainerData = trainers.find(
     (trainerObj) => trainerObj.uid === user.uid
   );
 
-  if (!trainerData) {
-    return <div>Trainer data not found...</div>;
+
+  if (loading || !user || !trainerData) {
+    return <Loader/>;
   }
+
 
   const profileImageUrl = trainerData.image || user.photoURL || anonymousImage;
 

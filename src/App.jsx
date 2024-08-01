@@ -28,12 +28,12 @@ import { useEffect } from "react";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // i added   to the layout  a reset scrolldown
+    element: <Layout />,
     children: [
       {
         path: "/",
         element: <PrivateRoute allowedRoles={[TRAINEE]} />,
-        children: [{path: "", element: <Home/>}]
+        children: [{ path: "", element: <Home /> }],
       },
       {
         path: "login",
@@ -41,11 +41,11 @@ const router = createBrowserRouter([
       },
       {
         path: "sign-up-trainee",
-        element: <SignUp title={"trainee"} />,
+        element: <SignUp title={TRAINEE} />,
       },
       {
         path: "sign-up-trainer",
-        element: <SignUp title={"trainer"} />,
+        element: <SignUp title={TRAINER} />,
       },
       {
         path: "trainers",
@@ -124,7 +124,6 @@ const router = createBrowserRouter([
     path: "pending-trainer",
     element: <PendingTrainer />,
   },
-    
 ]);
 
 function App() {

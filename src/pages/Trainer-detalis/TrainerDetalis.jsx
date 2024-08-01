@@ -1,16 +1,18 @@
 import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
+import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
+import Loader from "../../components/Loader/Loader";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useState, useEffect } from "react";
 import { MdFitnessCenter } from "react-icons/md";
 import { db } from "../../config/firebaseConfig";
+import { useState, useEffect } from "react";
 import { GoStarFill } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -23,8 +25,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
-
-import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
+import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
 
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
@@ -134,7 +135,7 @@ const TrainerDetails = () => {
   };
 
   if (!trainer) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const handleOpenCalender = () => {
@@ -153,45 +154,13 @@ const TrainerDetails = () => {
     setReadMoreReviews((prev) => !prev);
   };
 
-  const handleSendMessageClick = async () => {
+  const handleSendMessageClick = () => {
     if (!user) {
       navigate("/login");
       return;
     }
 
-    const messagesDocId = "OXW5mmTL1rFRfpVrSMZp"; // Unique ID for the messages document
-    const messagesRef = doc(db, "messages", messagesDocId);
-    const messagesDoc = await getDoc(messagesRef);
-
-    if (messagesDoc.exists()) {
-      const data = messagesDoc.data();
-      const conversationExists = data.messages.some(
-        (conv) =>
-          conv.participants.includes(user.uid) &&
-          conv.participants.includes(trainerId)
-      );
-
-      if (!conversationExists) {
-        await updateDoc(messagesRef, {
-          messages: arrayUnion({
-            participants: [user.uid, trainerId],
-            messages: [], // Empty messages array for the new conversation
-          }),
-        });
-      }
-    } else {
-      // If somehow the document doesn't exist, create it with the first conversation
-      await setDoc(messagesRef, {
-        messages: [
-          {
-            participants: [user.uid, trainerId],
-            messages: [],
-          },
-        ],
-      });
-    }
-
-    // Navigate to the messages page
+    dispatch(fetchOrCreateConversation({ currentUserId: user.uid, trainerId }));
     navigate(`/messages/${user.uid}`);
   };
 

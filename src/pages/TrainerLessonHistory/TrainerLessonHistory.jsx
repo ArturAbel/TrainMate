@@ -1,12 +1,12 @@
-import { useParams } from "react-router";
-import "./TrainerLessonHistory.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { fetchUsers } from "../../redux/features/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+
+import "./TrainerLessonHistory.css";
 
 const TrainerLessonHistory = () => {
-  const { trainerId } = useParams();
   const dispatch = useDispatch();
   const {
     trainers,
@@ -19,6 +19,7 @@ const TrainerLessonHistory = () => {
     error: errorUsers,
   } = useSelector((state) => state.users);
   const [trainerData, setTrainerData] = useState(null);
+  const { trainerId } = useParams();
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -29,15 +30,10 @@ const TrainerLessonHistory = () => {
     if (trainers.length > 0) {
       const trainerData = trainers.find((trainer) => trainer.uid === trainerId);
       if (trainerData) {
-        console.log("Trainer Data:", trainerData); //   i will  delete this log later i guess
         setTrainerData(trainerData);
       }
     }
   }, [trainers, trainerId]);
-
-  if (loadingTrainers || loadingUsers) {
-    return <div>Loading...</div>;
-  }
 
   if (errorTrainers || errorUsers) {
     return <div>Error loading data</div>;
@@ -53,27 +49,29 @@ const TrainerLessonHistory = () => {
   };
 
   return (
-    <section className="trainer-lesson-history-section">
-      <div className="trainer-lesson-history-container">
-        <h1 className="lesson-history-title">Session History</h1>
-        <div className="trainer-lesson-history-items">
-          {trainerData.trainerHistory.map((lesson) => (
-            <div
-              className="trainer-lesson-history-item"
-              key={`${trainerId}-${lesson.date}-${lesson.hour}`}
-            >
-              <div className="lesson-session-content">
-                <div className="lesson-session-info">
-                  <p>Date: {lesson.date}</p>
-                  <p>Hour: {lesson.hour}</p>
-                  <p>Useer: {getUserName(lesson.userId)}</p>
+    <>
+      <section className="trainer-lesson-history-section">
+        <div className="trainer-lesson-history-container">
+          <h1 className="lesson-history-title">Session History</h1>
+          <div className="trainer-lesson-history-items">
+            {trainerData.trainerHistory.map((lesson) => (
+              <div
+                className="trainer-lesson-history-item"
+                key={`${trainerId}-${lesson.date}-${lesson.hour}`}
+              >
+                <div className="lesson-session-content">
+                  <div className="lesson-session-info">
+                    <p>Date: {lesson.date}</p>
+                    <p>Hour: {lesson.hour}</p>
+                    <p>User: {getUserName(lesson.userId)}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

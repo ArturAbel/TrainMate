@@ -2,10 +2,11 @@ import ProfileImageUploader from "../../components/ProfileImageUploader/ProfileI
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { LoginInput } from "../../components/LoginInput/LoginInput";
 import { anonymousImage, sports } from "../../utilities/constants";
+import { LoadScript, Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import { isFormValid } from "./TrainerRegistrationlib";
-import { BsHandThumbsUp } from "react-icons/bs";
 import { useState, useEffect, useRef } from "react";
+import { BsHandThumbsUp } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import {
   fetchTrainers,
@@ -16,7 +17,6 @@ import {
   registrationExplanation,
   registrationInstructions,
 } from "./TrainerRegistrationText";
-import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
 
 import "./TrainerRegistration.css";
 
@@ -28,7 +28,7 @@ export const TrainerRegistration = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const apiKey = "AIzaSyBrl6-l3pzGlN-5PrX8JVqB4wLrC0t2aJQ";
+  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
   const [formData, setFormData] = useState({
     name: "",

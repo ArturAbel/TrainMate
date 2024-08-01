@@ -1,4 +1,5 @@
 import { removeFavorite, addFavorite } from "../../redux/features/usersSlice";
+import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import { truncateText } from "../../utilities/truncateText";
 import { useSelector, useDispatch } from "react-redux";
 import { GoStarFill } from "react-icons/go";
@@ -9,7 +10,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import "./TrainerCard.css";
-import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 
 const TrainerCard = ({
   lessonLength,
