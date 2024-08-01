@@ -27,7 +27,6 @@ import {
 import "./TrainerDetails.css";
 import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
 
-
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);

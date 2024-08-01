@@ -253,3 +253,4 @@ export const TrainerFilter = ({
     </section>
   );
 };
+export default TrainerFilter;
