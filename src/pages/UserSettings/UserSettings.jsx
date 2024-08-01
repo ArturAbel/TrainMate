@@ -106,13 +106,14 @@ const UserSettings = () => {
 
   const userData = users.find((userObj) => userObj.uid === user.uid);
 
-  const profileImageUrl =
-    userData.photoURL ||
-    (user.providerData &&
-    user.providerData.length > 0 &&
-    user.providerData[0].providerId === "google.com"
-      ? user.photoURL
-      : anonymousImage);
+  let profileImageUrl;
+
+  if (userData) {
+      profileImageUrl = userData.photoURL;
+  } else {
+    profileImageUrl = anonymousImage;
+  }
+
 
   if (!user || usersLoading || trainersLoading) {
     return <Loader />;
