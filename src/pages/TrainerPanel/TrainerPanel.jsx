@@ -9,6 +9,11 @@ import {
   fetchTrainers,
   updateTrainer,
 } from "../../redux/features/trainerSlice";
+import useLessonFiltering from "../../hooks/useLessonFiltering";
+import {
+  getCurrentTimeChecker,
+  convertTo24HourFormat,
+} from "../../utilities/timeUtils.jsx";
 
 import "./TrainerPanel.css";
 
@@ -34,50 +39,8 @@ const TrainerPanel = () => {
     }
   }, [trainers, trainerId]);
 
-  const formatDateWithHyphens = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  const getCurrentTimeChecker = () => {
-    const currentDate = new Date();
-    const currentHour = currentDate.getHours();
-    const currentMinute = currentDate.getMinutes();
-
-    return {
-      date: formatDateWithHyphens(currentDate),
-      hour: `${currentHour}:${currentMinute < 10 ? "0" : ""}${currentMinute}`,
-      timestamp: currentDate.getTime(),
-    };
-  };
-
-  const convertTo24HourFormat = (time) => {
-    const [hour, minutePart] = time.split(":");
-    const [minute, period] = minutePart.split(" ");
-    let hour24 = parseInt(hour, 10);
-    if (period === "PM" && hour24 !== 12) {
-      hour24 += 12;
-    } else if (period === "AM" && hour24 === 12) {
-      hour24 = 0;
-    }
-    return `${hour24.toString().padStart(2, "0")}:${minute}`;
-  };
-
-  const expiredLessons = trainer
-    ? trainer.bookedLessons
-        .filter((lesson) => lesson.approved && !lesson.movedToHistory)
-        .filter((lesson) => {
-          const lessonTimestamp = Date.parse(
-            `${lesson.date
-              .split("/")
-              .reverse()
-              .join("-")}T${convertTo24HourFormat(lesson.hour)}`
-          );
-          return getCurrentTimeChecker().timestamp > lessonTimestamp;
-        })
-    : [];
+  const { expiredLessons, pendingLessons, approvedLessons } =
+    useLessonFiltering(trainer);
 
   const updateUserData = (userId, lesson) => {
     const user = users.find((user) => user.uid === userId);
@@ -161,15 +124,6 @@ const TrainerPanel = () => {
       });
     }
   }, [trainer, expiredLessons]);
-
-  const pendingLessons = trainer
-    ? trainer.bookedLessons.filter((lesson) => !lesson.approved)
-    : [];
-  const approvedLessons = trainer
-    ? trainer.bookedLessons.filter(
-        (lesson) => lesson.approved && !lesson.movedToHistory
-      )
-    : [];
 
   const handleApproveLesson = async (lessonId) => {
     await approveLesson(trainerId, lessonId, setTrainer, trainer);
