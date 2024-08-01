@@ -26,7 +26,6 @@ import "./TrainerDetails.css";
 
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
 
-
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
@@ -195,7 +194,7 @@ const TrainerDetails = () => {
     // Navigate to the messages page
     navigate(`/messages/${user.uid}`);
   };
-  
+
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
