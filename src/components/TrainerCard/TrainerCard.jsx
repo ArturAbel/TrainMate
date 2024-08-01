@@ -71,17 +71,19 @@ const TrainerCard = ({
             {`${lessonLength} Min Lesson`}
           </div>
           {!inAdmin ? (
-            !isFavorited ? (
-              <FiHeart
-                className="trainer-card-like"
-                onClick={() => handleAddFavorite(user.uid, id)}
-              />
-            ) : (
-              <FaHeart
-                className="trainer-card-like"
-                onClick={() => handleRemoveFavorite(user.uid, id)}
-              />
-            )
+            <div
+              onClick={() =>
+                isFavorited
+                  ? handleRemoveFavorite(user.uid, id)
+                  : handleAddFavorite(user.uid, id)
+              }
+            >
+              {isFavorited ? (
+                <FaHeart className="trainer-card-like" />
+              ) : (
+                <FiHeart className="trainer-card-like" />
+              )}
+            </div>
           ) : null}
         </div>
         <div>
