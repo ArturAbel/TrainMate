@@ -3,6 +3,7 @@ import './ProfileImageUploader.css';
 
 const ProfileImageUploader = ({ profileImageUrl, handleImageChange }) => (
   <div className="account-settings-image-container">
+  {console.log(profileImageUrl)}
     <div className="image-display-left-box">
       <img src={profileImageUrl} alt="Profile" className="image-display" />
       <button className="image-edit-button" type="button">Edit</button>
