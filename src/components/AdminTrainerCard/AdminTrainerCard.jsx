@@ -14,16 +14,13 @@ export const AdminTrainerCard = ({
   level,
   about,
   name,
-  key,
   id,
 }) => {
   const dispatch = useDispatch();
 
   const handleDeleteTrainer = (id) => {
-    console.log(id);
     dispatch(deleteTrainer(id));
   };
-  //approveTrainer
   const handleApproveTrainer = (id) => {
     dispatch(approveTrainer(id));
   };

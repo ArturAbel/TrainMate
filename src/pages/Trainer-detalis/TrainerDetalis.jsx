@@ -25,6 +25,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./TrainerDetails.css";
+import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
 
 
 const TrainerDetails = () => {
@@ -154,45 +155,13 @@ const TrainerDetails = () => {
     setReadMoreReviews((prev) => !prev);
   };
 
-  const handleSendMessageClick = async () => {
+  const handleSendMessageClick = () => {
     if (!user) {
       navigate("/login");
       return;
     }
 
-    const messagesDocId = "OXW5mmTL1rFRfpVrSMZp"; // Unique ID for the messages document
-    const messagesRef = doc(db, "messages", messagesDocId);
-    const messagesDoc = await getDoc(messagesRef);
-
-    if (messagesDoc.exists()) {
-      const data = messagesDoc.data();
-      const conversationExists = data.messages.some(
-        (conv) =>
-          conv.participants.includes(user.uid) &&
-          conv.participants.includes(trainerId)
-      );
-
-      if (!conversationExists) {
-        await updateDoc(messagesRef, {
-          messages: arrayUnion({
-            participants: [user.uid, trainerId],
-            messages: [], // Empty messages array for the new conversation
-          }),
-        });
-      }
-    } else {
-      // If somehow the document doesn't exist, create it with the first conversation
-      await setDoc(messagesRef, {
-        messages: [
-          {
-            participants: [user.uid, trainerId],
-            messages: [],
-          },
-        ],
-      });
-    }
-
-    // Navigate to the messages page
+    dispatch(fetchOrCreateConversation({ currentUserId: user.uid, trainerId }));
     navigate(`/messages/${user.uid}`);
   };
 
