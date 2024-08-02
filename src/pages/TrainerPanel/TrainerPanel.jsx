@@ -11,6 +11,7 @@ import {
 } from "../../redux/features/trainerSlice";
 
 import "./TrainerPanel.css";
+import "./TrainerPanel.phone.css";
 
 const TrainerPanel = () => {
   const { trainerId } = useParams();

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 
 import "./TrainerReviews.css";
 import "./TrainerReviews.tablet.css";
+import "./TrainerReviews.phone.css";
 
 const TrainerReviews = () => {
   const trainers = useSelector((state) => state.trainer.trainers);

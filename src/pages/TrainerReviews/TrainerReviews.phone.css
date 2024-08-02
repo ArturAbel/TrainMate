@@ -1,0 +1,10 @@
+@media screen and (max-width: 430px) {
+  .trainer-reviews-section {
+    margin-top: 20vh;
+  }
+
+  .trainer-reviews-header {
+    text-align: center;
+    font-size: 2rem;
+  }
+}

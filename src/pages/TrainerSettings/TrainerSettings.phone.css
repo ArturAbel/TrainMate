@@ -1,0 +1,17 @@
+@media screen and (max-width: 430px) {
+  .trainer-settings-section {
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-top: 20vh;
+  }
+
+  .account-settings-navbar {
+    justify-content: flex-start;
+    width: 100%;
+    display: flex;
+  }
+
+  .trainer-settings-container {
+    max-width: 100vw;
+  }
+}

@@ -1,0 +1,11 @@
+@media screen and (max-width: 430px) {
+  .trainer-panel-section {
+    margin-top: 20vh;
+    height: 100%;
+  }
+
+  .trainer-panel-containers {
+    flex-direction: column;
+    padding: 1rem;
+  }
+}

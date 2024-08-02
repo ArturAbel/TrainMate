@@ -14,6 +14,7 @@ import {
 
 import "./SignUpForm.css";
 import "./SignUpForm.tablet.css";
+import "./SignUpForm.phone.css";
 
 export const SignUpForm = ({ title }) => {
   const { error } = useSelector((state) => state.auth);

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./BecomeTrainer.css";
 import "./BecomeTrainer.tablet.css";
+import "./BecomeTrainer.phone.css";
 
 export const BecomeTrainer = () => {
   return (

@@ -1,0 +1,5 @@
+@media screen and (max-width: 430px) {
+  .user-chats-container {
+    width: 100vw;
+  }
+}

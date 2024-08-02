@@ -1,0 +1,12 @@
+@media screen and (max-width: 430px) {
+  .trainer-reviews-modal {
+    height: 90vh;
+    width: 100vw;
+    top: 100%;
+  }
+
+  .trainer-reviews-modal-title-container {
+    font-size: 1.5rem;
+    height: 3vh;
+  }
+}

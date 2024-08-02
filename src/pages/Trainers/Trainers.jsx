@@ -12,6 +12,7 @@ import { db } from "../../config/firebaseConfig";
 
 import "./Trainers.css";
 import "./Trainers.tablet.css";
+import "./Trainers.phone.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();
@@ -179,7 +180,7 @@ const Trainers = () => {
         try {
           const favoriteTrainers = await fetchFavorites(user.uid);
           setFavorites(favoriteTrainers);
-          setLoadingFavorites(false); 
+          setLoadingFavorites(false);
         } catch (error) {
           console.error("Failed to fetch favorites:", error);
         }
@@ -210,7 +211,7 @@ const Trainers = () => {
             onClose={() => toggleOverlay(false)}
           />
           <h1 className="trainers-header-title">
-            Find Your Perfect Sports Trainer with trainMate:
+            Find Your Perfect Sports Trainer with train.mate:
           </h1>
           <div className="trainers-filter-search-container">
             <TrainerFilter

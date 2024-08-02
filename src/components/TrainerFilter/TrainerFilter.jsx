@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import "./TrainerFilter.css";
 import "./TrainerFilter.tablet.css";
+import "./TrainerFilter.phone.css";
 
 export const TrainerFilter = ({
   onLessonLengthFilterChange,

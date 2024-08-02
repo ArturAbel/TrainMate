@@ -1,7 +1,9 @@
 import { MdOutlineCancel, MdOutlineDone } from "react-icons/md";
 import { LuMessageSquare } from "react-icons/lu";
+import { ALT_IMAGE } from "../../utilities/constants";
 
 import "./LessonContainer.css";
+import "./LessonContainer.phone.css";
 
 const LessonContainer = ({ title, lessons, onApprove, onDelete, pending }) => {
   return (
@@ -22,7 +24,7 @@ const LessonContainer = ({ title, lessons, onApprove, onDelete, pending }) => {
                 <img
                   className="trainer-panel-card-image"
                   src={lesson.userImage}
-                  alt="owner"
+                  alt={ALT_IMAGE}
                 />
               </div>
               <div className="trainer-panel-card-content">
