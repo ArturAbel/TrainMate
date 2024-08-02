@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 import "./AdminRemoveUsersAndTrainers.css";
 import "./AdminRemoveUsersAndTrainers.tablet.css";
+import "./AdminRemoveUsersAndTrainers.phone.css";
 
 const AdminRemoveUsersAndTrainers = () => {
   const dispatch = useDispatch();

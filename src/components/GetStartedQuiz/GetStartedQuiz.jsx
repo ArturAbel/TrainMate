@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 import "./GetStartedQuiz.css";
 import "./GetStartedQuiz.tablet.css";
+import "./GetStartedQuiz.phone.css";
 
 const GetStartedQuiz = () => {
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
