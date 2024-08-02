@@ -12,6 +12,7 @@ import { FaGoogle } from "react-icons/fa";
 import Loader from "../Loader/Loader";
 
 import "./LoginForm.css";
+import "./LoginForm.tablet.css";
 
 export const LoginForm = () => {
   const { user, error, loading } = useSelector((state) => state.auth);

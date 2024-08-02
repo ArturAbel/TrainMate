@@ -36,6 +36,7 @@ const Trainers = () => {
   const [addresses, setAddresses] = useState([]);
   const [sports, setSports] = useState([]);
   const [levels, setLevels] = useState([]);
+  const [LoadingFavorites, setLoadingFavorites] = useState(true);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -175,10 +176,16 @@ const Trainers = () => {
   useEffect(() => {
     const loadFavorites = async () => {
       if (user) {
-        const favoriteTrainers = await fetchFavorites(user.uid);
-        setFavorites(favoriteTrainers);
+        try {
+          const favoriteTrainers = await fetchFavorites(user.uid);
+          setFavorites(favoriteTrainers);
+          setLoadingFavorites(false); 
+        } catch (error) {
+          console.error("Failed to fetch favorites:", error);
+        }
       } else {
         setFavorites([]);
+        setLoadingFavorites(false);
       }
     };
     loadFavorites();
@@ -189,11 +196,12 @@ const Trainers = () => {
     [favorites]
   );
 
-  const isLoading = usersLoading || authLoading;
+  const isLoading =
+    usersLoading || trainersLoading || authLoading || LoadingFavorites;
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && LoadingFavorites ? (
         <Loader />
       ) : (
         <section className="trainers-section">

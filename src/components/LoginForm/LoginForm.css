@@ -52,7 +52,7 @@
 }
 
 #login-button:hover {
-  opacity: 0.8;
+  filter: var(--button-brightness-filter);
 }
 
 .login-form-policies {
@@ -62,8 +62,8 @@
 }
 
 .login-form-error-message {
+  color: var(--background-secondary1);
   text-transform: capitalize;
-  color: rgb(255, 0, 0);
   text-align: center;
   font-size: 1.4rem;
   width: 100%;

@@ -23,6 +23,9 @@
   --font-content: "Figtree", sans-serif;
   --font-title: "Inter", sans-serif;
 
-  /*------------ border-radius ------------*/
+  /*------------ Border-radius ------------*/
   --border-radius-generic: 8px;
+
+  /*------------ Filters ------------*/
+  --button-brightness-filter: brightness(0.9);
 }

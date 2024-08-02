@@ -2,4 +2,12 @@
   .lesson-container-title {
     font-size: 2rem;
   }
+
+  .trainee-lesson-history-items {
+    width: 90%;
+  }
+
+  .lesson-trainer-image {
+    width: 15vw;
+  }
 }

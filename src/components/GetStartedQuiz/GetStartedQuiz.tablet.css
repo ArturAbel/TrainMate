@@ -2,4 +2,8 @@
   .quiz-container-section {
     flex-direction: column;
   }
+
+  .quiz-right-section {
+    height: 10vh;
+  }
 }

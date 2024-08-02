@@ -10,9 +10,7 @@
   font-family: var(--font-content);
   letter-spacing: -1px;
   text-align: center;
-  font-size: 3.5rem;
-  margin: 4rem 0;
-
+  font-size: 3rem;
 }
 
 .admin-cards-container {
