@@ -1,7 +1,9 @@
-import PriceSlider from "../Slider/PriceSlider";
 import { useState, useCallback, useRef, useEffect } from "react";
-import "./TrainerFilter.css";
+import PriceSlider from "../Slider/PriceSlider";
 import { useSelector } from "react-redux";
+
+import "./TrainerFilter.css";
+import "./TrainerFilter.tablet.css";
 
 export const TrainerFilter = ({
   onLessonLengthFilterChange,

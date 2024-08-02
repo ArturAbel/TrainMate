@@ -1,0 +1,10 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .footer-image-container {
+    border-radius: 10px;
+    height: 20vh;
+    width: 15vw;
+  }
+  .footer-image {
+    border-radius: 10px;
+  }
+}

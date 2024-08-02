@@ -1,16 +1,3 @@
-.quiz-dropdown {
-  border: 2px solid var(--color-input-placeholder-border);
-  font-family: var(--font-content);
-  border-radius: 8px;
-  font-size: 2rem;
-  padding: 10px;
-  width: 100%;
-}
-
-.quiz-dropdown:hover {
-  border: 2px solid black;
-}
-
 .quiz-container-section {
   scrollbar-width: none;
   position: absolute;
@@ -54,6 +41,19 @@
   width: 100%;
 }
 
+.quiz-dropdown {
+  border: 2px solid var(--color-input-placeholder-border);
+  font-family: var(--font-content);
+  border-radius: 8px;
+  font-size: 2rem;
+  padding: 10px;
+  width: 100%;
+}
+
+.quiz-dropdown:hover {
+  border: 2px solid black;
+}
+
 .quiz-option {
   border: 2px solid var(--color-input-placeholder-border);
   align-items: center;
@@ -76,8 +76,8 @@
 }
 
 .option label {
-  font-size: 1.5rem; /* Larger font size for options */
-  color: #333;
+  color: var(--background-main2);
+  font-size: 1.5rem;
 }
 
 #quiz-skip-button {

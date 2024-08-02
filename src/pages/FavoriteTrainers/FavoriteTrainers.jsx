@@ -7,6 +7,7 @@ import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 
 import "./FavoriteTrainers.css";
+import "./FavoriteTrainers.tablet.css";
 
 const FavoriteTrainers = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const FavoriteTrainers = () => {
     }
   }, [user, users]);
 
-  if (trainersLoading || authLoading || usersLoading) {
+  if (trainersLoading) {
     return <Loader />;
   }
 

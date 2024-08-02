@@ -1,36 +1,37 @@
 .trainer-reviews-section {
-  display: flex;
+  font-family: var(--font-content);
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
   padding-top: 5rem;
   margin-top: 10vh;
+  display: flex;
   width: 100%;
   gap: 3rem;
 }
 
 .trainer-reviews-header {
-  font-size: 3rem;
   margin-bottom: 2rem;
+  font-size: 3rem;
 }
 
 .reviews-container {
-  display: flex;
   flex-direction: column;
   align-items: center;
+  display: flex;
   width: 60%;
   gap: 1rem;
 }
 
 .review-card {
-  display: flex;
-  align-items: center;
-  width: 60%;
-  background-color: #fff;
-  border-radius: 1.2rem;
   box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.1);
-  padding: 3rem;
   transition: transform 0.3s, box-shadow 0.3s;
+  background-color: white;
+  border-radius: 1.2rem;
+  align-items: center;
+  padding: 3rem;
+  display: flex;
+  width: 60%;
 }
 
 .review-card:hover {
@@ -39,12 +40,12 @@
 }
 
 .review-user-image {
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  margin-right: 20px;
-  object-fit: cover;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  margin-right: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  height: 80px;
+  width: 80px;
 }
 
 .review-content {
@@ -52,20 +53,24 @@
 }
 
 .reviewer-name {
+  margin-bottom: 1rem;
   font-size: 1.25rem;
   font-weight: bold;
   color: #2a9d8f;
-  margin-bottom: 10px;
 }
 
 .review-text {
-  margin: 10px 0;
+  color: var(--color-hover-setting);
   font-size: 1rem;
-  color: #555;
+  margin: 1rem 0;
 }
 
 .rating-container {
-  display: flex;
   align-items: center;
   margin-top: 10px;
+  display: flex;
+}
+
+.no-reviews{
+  font-size: 2rem;
 }

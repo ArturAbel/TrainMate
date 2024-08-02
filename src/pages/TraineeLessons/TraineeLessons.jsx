@@ -1,12 +1,14 @@
 import TrainerReview from "../../components/TrainerReview/TrainerReview";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { fetchUsers } from "../../redux/features/usersSlice";
+import { anonymousImage } from "../../utilities/constants";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import "./TraineeLessons.css";
+import "./TraineeLessons.tablet.css";
 
 const TraineeLessons = () => {
   const { traineeId } = useParams();
@@ -79,10 +81,7 @@ const TraineeLessons = () => {
                         <>
                           <img
                             className="lesson-trainer-image"
-                            src={
-                              trainer.image ||
-                              "/public/assets/img/anonymous/anonymous.jpeg"
-                            }
+                            src={trainer.image || anonymousImage}
                             alt={trainer.name}
                           />
                           <div className="lesson-trainer-info">
@@ -91,15 +90,17 @@ const TraineeLessons = () => {
                             <p>{lesson.hour}</p>
                             <p>{trainer.sport}</p>
                           </div>
-                          <div
-                            className={`lesson-status ${
-                              lesson.approved && "approved"
-                            }`}
-                          >
-                            {lesson.approved ? "Approved" : "Pending"}
+                          <div className="lesson-status-container">
+                            <div
+                              className={`lesson-status ${
+                                lesson.approved && "approved"
+                              }`}
+                            >
+                              {lesson.approved ? "Approved" : "Pending"}
+                            </div>
                           </div>
                         </>
-                      ) : null}{" "}
+                      ) : null}
                     </div>
                   </div>
                 );
@@ -127,10 +128,7 @@ const TraineeLessons = () => {
                             <>
                               <img
                                 className="lesson-trainer-image"
-                                src={
-                                  trainer.image ||
-                                  "/public/assets/img/anonymous/anonymous.jpeg"
-                                }
+                                src={trainer.image || anonymousImage}
                                 alt={trainer.name}
                               />
                               <div className="lesson-trainer-info">
@@ -146,7 +144,7 @@ const TraineeLessons = () => {
                                 />
                               )}
                             </>
-                          ) : null}{" "}
+                          ) : null}
                         </div>
                         <button
                           className="button-transparent"

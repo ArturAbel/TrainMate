@@ -1,0 +1,61 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .home-hero-title {
+    font-size: 4rem;
+  }
+
+  .hero-div-1 {
+    font-family: var(--font-title);
+    padding: 1vh 2vw 0 2vw;
+    height: 20vh;
+    gap: 0.5rem;
+    width: 30vw;
+    left: 4vw;
+    top: 16vh;
+  }
+
+  .hero-div-1-text {
+    letter-spacing: -1px;
+    font-size: 1.5vh;
+  }
+
+  .hero-div-1-number {
+    font-size: 2.5vh;
+  }
+
+  .hero-div-1-bars {
+    height: 70%;
+    margin-bottom: 1rem;
+  }
+
+  .hero-div-2 {
+    height: 20vh;
+    width: 30vw;
+    right: 12vw;
+    top: 14vh;
+  }
+
+  .hero-div-2-text {
+    font-size: 3vh;
+  }
+
+  .hero-div-3 {
+    height: 20vh;
+    bottom: 4vh;
+    width: 35vw;
+    left: 5vw;
+  }
+
+  .hero-div-3-text {
+    font-size: 2.5vh;
+  }
+
+  .hero-div-3-icon {
+    font-size: 10vh;
+  }
+}
+
+/* Desktop Responsiveness */
+/* @media screen and (max-width: 1920px) and (min-width: 1366px),
+  (max-height: 1200px) and (min-height: 768px) {
+
+} */

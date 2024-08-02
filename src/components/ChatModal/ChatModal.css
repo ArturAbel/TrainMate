@@ -18,8 +18,8 @@
   position: fixed;
   display: flex;
   z-index: 10;
-  height: 50%;
-  width: 50%;
+  height: 65vh;
+  width: 50vw;
   left: 50%;
   top: 50%;
 }

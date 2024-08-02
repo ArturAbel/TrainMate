@@ -7,9 +7,11 @@ import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/Search/Search";
 import Loader from "../../components/Loader/Loader";
-import { fetchFavorites } from "./TrainersLib";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebaseConfig";
 
 import "./Trainers.css";
+import "./Trainers.tablet.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();
@@ -56,6 +58,22 @@ const Trainers = () => {
     };
     initializeFilters();
   }, [answers]);
+
+  const fetchFavorites = async (userId) => {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userDocRef);
+      if (!userSnap.exists()) {
+        return [];
+      } else {
+        const userData = userSnap.data();
+        return userData.favorites || [];
+      }
+    } catch (error) {
+      console.error("Error fetching favorites: ", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
     setFilteredTrainers(trainers);

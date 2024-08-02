@@ -17,6 +17,7 @@ import {
 } from "../../redux/features/trainerSlice";
 
 import "./TrainerSettings.css";
+import "./TrainerSettings.tablet.css";
 
 const TrainerSettings = () => {
   const { trainers, loading, error } = useSelector((state) => state.trainer);
@@ -88,11 +89,9 @@ const TrainerSettings = () => {
     (trainerObj) => trainerObj.uid === user.uid
   );
 
-
   if (loading || !user || !trainerData) {
-    return <Loader/>;
+    return <Loader />;
   }
-
 
   const profileImageUrl = trainerData.image || user.photoURL || anonymousImage;
 
@@ -267,5 +266,3 @@ const TrainerSettings = () => {
 };
 
 export default TrainerSettings;
-
-

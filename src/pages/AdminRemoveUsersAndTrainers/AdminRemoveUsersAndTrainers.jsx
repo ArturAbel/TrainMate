@@ -8,6 +8,7 @@ import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 
 import "./AdminRemoveUsersAndTrainers.css";
+import "./AdminRemoveUsersAndTrainers.tablet.css";
 
 const AdminRemoveUsersAndTrainers = () => {
   const dispatch = useDispatch();

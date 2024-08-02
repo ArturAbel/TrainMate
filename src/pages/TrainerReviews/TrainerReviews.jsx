@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import { useEffect } from "react";
 
 import "./TrainerReviews.css";
+import "./TrainerReviews.tablet.css";
 
 const TrainerReviews = () => {
   const trainers = useSelector((state) => state.trainer.trainers);

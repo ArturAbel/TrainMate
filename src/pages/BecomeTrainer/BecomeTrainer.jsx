@@ -1,7 +1,8 @@
-import { becomeTrainerImage } from "../../utilities/constants";
+import { ALT_IMAGE, becomeTrainerImage } from "../../utilities/constants";
 import { Link } from "react-router-dom";
 
 import "./BecomeTrainer.css";
+import "./BecomeTrainer.tablet.css";
 
 export const BecomeTrainer = () => {
   return (
@@ -57,7 +58,7 @@ export const BecomeTrainer = () => {
         <img
           className="become-trainer-image"
           src={becomeTrainerImage}
-          alt="image"
+          alt={ALT_IMAGE}
         />
       </div>
     </section>

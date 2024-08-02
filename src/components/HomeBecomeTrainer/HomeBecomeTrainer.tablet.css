@@ -1,0 +1,16 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .home-trainer-title {
+    font-size: 4rem;
+  }
+
+  .home-trainer-text {
+    font-size: 1.5rem;
+  }
+
+  .become-trainer-button {
+    font-size: 1.5rem;
+    margin-top: 5vh;
+    height: 5rem;
+    width: 25rem;
+  }
+}

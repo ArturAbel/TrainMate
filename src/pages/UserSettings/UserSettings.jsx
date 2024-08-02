@@ -19,6 +19,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./UserSettings.css";
+import "./UserSettings.tablet.css";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -104,6 +105,10 @@ const UserSettings = () => {
     }
   };
 
+  if (!user) {
+    return <Loader />;
+  }
+
   const userData = users.find((userObj) => userObj.uid === user.uid);
 
   let profileImageUrl;
@@ -114,10 +119,6 @@ const UserSettings = () => {
     profileImageUrl = anonymousImage;
   }
 
-
-  if (!user || usersLoading || trainersLoading) {
-    return <Loader />;
-  }
 
   return (
     <>

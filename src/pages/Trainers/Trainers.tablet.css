@@ -1,0 +1,5 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .trainers-header-title {
+    font-size: 2rem;
+  }
+}

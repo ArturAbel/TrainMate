@@ -2,6 +2,7 @@ import { TrainerInfoReviewCard } from "../TrainerInfoReviewsCard/TrainerInfoRevi
 import { IoMdClose } from "react-icons/io";
 
 import "./TrainerInfoReviewsModal.css";
+import "./TrainerInfoReviewsModal.tablet.css";
 
 export const TrainerInfoReviewsModal = ({ reviews, handleSeeMoreReviews }) => {
   return (

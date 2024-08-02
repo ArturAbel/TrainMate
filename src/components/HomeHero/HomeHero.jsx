@@ -7,6 +7,8 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 import "./HomeHero.css";
+import "./HomeHero.tablet.css";
+import "./HomeHero.phone.css";
 
 export const HomeHero = () => {
   // Parallax Effect

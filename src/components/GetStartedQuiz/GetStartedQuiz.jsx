@@ -7,6 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
 import "./GetStartedQuiz.css";
+import "./GetStartedQuiz.tablet.css";
 
 const GetStartedQuiz = () => {
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);

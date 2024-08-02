@@ -1,0 +1,9 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .quiz-container-section {
+    flex-direction: column;
+  }
+
+  .quiz-right-section {
+    height: 10vh;
+  }
+}

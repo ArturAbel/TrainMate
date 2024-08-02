@@ -13,6 +13,7 @@ import {
 } from "../../redux/features/authSlice";
 
 import "./SignUpForm.css";
+import "./SignUpForm.tablet.css";
 
 export const SignUpForm = ({ title }) => {
   const { error } = useSelector((state) => state.auth);

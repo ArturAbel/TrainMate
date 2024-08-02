@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { IoSearch } from "react-icons/io5";
 
 import "./Search.css";
+import "./Search.tablet.css";
 
 const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

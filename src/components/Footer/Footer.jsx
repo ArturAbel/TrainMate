@@ -1,11 +1,17 @@
-import { footerGif, gitHubLink, TRAINER } from "../../utilities/constants";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
+import {
+  gitHubLink,
+  ALT_IMAGE,
+  footerGif,
+  TRAINER,
+} from "../../utilities/constants";
 
 import "./Footer.css";
+import "./Footer.tablet.css";
 
 export const Footer = () => {
   const { user } = useSelector((state) => state.auth);
@@ -44,7 +50,7 @@ export const Footer = () => {
             <Logo className={"footer-logo"} />
           </div>
           <div className="footer-image-container">
-            <img className="footer-image" src={footerGif} alt="image" />
+            <img className="footer-image" src={footerGif} alt={ALT_IMAGE} />
           </div>
         </div>
       </div>

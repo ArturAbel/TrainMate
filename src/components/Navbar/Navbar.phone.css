@@ -1,0 +1,20 @@
+@media screen and (max-width: 430px) {
+  .navbar {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .navbar-link {
+    font-size: 1rem;
+    text-wrap: nowrap;
+  }
+
+  .navbar-left-container {
+    justify-content: space-around;
+    width: 100%;
+    gap: 1rem;
+  }
+  .navbar-right-container {
+    width: 100%;
+  }
+}
