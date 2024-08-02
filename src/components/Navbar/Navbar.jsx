@@ -22,6 +22,7 @@ import {
 
 import "./Navbar.css";
 import "./Navbar.tablet.css";
+import "./Navbar.phone.css";
 
 export const Navbar = () => {
   const favoriteCount = useSelector((state) => state.users.favoriteCount);

@@ -1,0 +1,22 @@
+@media screen and (max-width: 430px) {
+  .home-instruction-content-title {
+    margin-top: 1.5rem;
+    font-size: 3vh;
+  }
+
+  .home-instruction-content-number {
+    margin-left: 1rem;
+    margin-top: 1rem;
+    font-size: 5vh;
+    height: 6vh;
+    width: 12vw;
+  }
+
+  .home-instruction-content-text-container {
+    margin-left: 6rem;
+  }
+
+  .home-instruction-content-text {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,27 @@
+@media screen and (max-width: 430px) {
+  .home-instructions-title {
+    letter-spacing: -1px;
+    margin: 0 0 0 2vw;
+    font-size: 3rem;
+  }
+
+  .home-instruction-container {
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
+
+  #home-instruction-two {
+    flex-direction: column-reverse;
+  }
+
+  .home-instruction-one-image-one,
+  .home-instruction-one-image-two {
+    width: 90%;
+  }
+  .home-instruction-three-image,
+  .home-instruction-two-image {
+    border-radius: 10px;
+    width: 90%;
+  }
+}

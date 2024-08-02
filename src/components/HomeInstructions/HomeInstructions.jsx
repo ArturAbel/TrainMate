@@ -8,11 +8,12 @@ import { ALT_IMAGE } from "../../utilities/constants";
 
 import "./HomeInstructions.css";
 import "./HomeInstructions.tablet.css";
+import "./HomeInstructions.phone.css";
 
 export const HomeInstructions = () => {
   return (
     <section className="home-instructions-section">
-      <h1 className="home-instructions-title">How trainMate works?</h1>
+      <h1 className="home-instructions-title">How train.mate works?</h1>
       <div className="home-instruction-container">
         <HomeInstructionCard
           content={instructionOne.content}
@@ -33,7 +34,7 @@ export const HomeInstructions = () => {
           />
         </div>
       </div>
-      <div className="home-instruction-container">
+      <div className="home-instruction-container" id="home-instruction-two">
         <div className="home-instruction-image-container">
           <img
             className="home-instruction-two-image"

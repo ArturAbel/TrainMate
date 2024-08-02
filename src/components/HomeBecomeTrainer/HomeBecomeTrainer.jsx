@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import "./HomeBecomeTrainer.css";
 import "./HomeBecomeTrainer.tablet.css";
+import "./HomeBecomeTrainer.phone.css";
 
 export const HomeBecomeTrainer = () => {
   return (
