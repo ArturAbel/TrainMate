@@ -1,0 +1,16 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .home-categories-strip-container {
+    display: flex;
+    height: 23vh;
+    min-width: 220%;
+  }
+
+  .home-categories-image-container {
+    height: 20vh;
+    width: 40vw;
+  }
+
+  .home-categories-text {
+    font-size: 10vh;
+  }
+}

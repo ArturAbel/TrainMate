@@ -1,4 +1,5 @@
 import "./HomeInstructionCard.css";
+import "./HomeInstructionCard.tablet.css";
 
 export const HomeInstructionCard = ({ className, number, title, content }) => {
   return (

@@ -1,11 +1,13 @@
-import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
-import Calendar from "react-calendar";
 import { bookLesson } from "../../redux/features/usersSlice";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import Calendar from "react-calendar";
+import { useState } from "react";
+import moment from "moment";
+
 import "react-calendar/dist/Calendar.css";
 import "./CalenderModal.css";
-import moment from "moment";
+import "./CalenderModal.tablet.css";
 
 const CalenderModal = ({
   availableSchedule,
@@ -14,7 +16,7 @@ const CalenderModal = ({
   trainerId,
   userId,
   userName,
-  userImage
+  userImage,
 }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableHours, setAvailableHours] = useState([]);
@@ -45,7 +47,7 @@ const CalenderModal = ({
           hour: parseInt(hourParts[0]),
           minute: 0,
           second: 0,
-          millisecond: 0
+          millisecond: 0,
         });
         const isBooked = bookedHours.includes(hour);
 
@@ -65,8 +67,8 @@ const CalenderModal = ({
 
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
-      const now = moment().startOf('day');
-      const tileDate = moment(date).startOf('day');
+      const now = moment().startOf("day");
+      const tileDate = moment(date).startOf("day");
       return tileDate.isBefore(now) || !isDateAvailable(date);
     }
     return false;
@@ -86,11 +88,13 @@ const CalenderModal = ({
     const booking = {
       date: formattedDate,
       hour: selectedHour,
-      approved: false
+      approved: false,
     };
 
     try {
-      await dispatch(bookLesson(trainerId, userId, booking, userName, userImage));
+      await dispatch(
+        bookLesson(trainerId, userId, booking, userName, userImage)
+      );
       setLocalBookedLessons((prevLessons) => [...prevLessons, booking]);
       setAvailableHours(generateAvailableHours(formattedDate));
     } catch (error) {
@@ -110,7 +114,9 @@ const CalenderModal = ({
         onChange={handleDateChange}
         minDate={new Date()}
         value={selectedDate}
-        maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
+        maxDate={
+          new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+        }
         locale="en-US"
       />
       {selectedDate && (
@@ -121,7 +127,9 @@ const CalenderModal = ({
               {availableHours.map(({ hour, booked }, index) => (
                 <li
                   key={index}
-                  className={`${selectedHour === hour ? "selected-hour" : ""} ${booked ? "booked-hour" : ""}`}
+                  className={`${selectedHour === hour ? "selected-hour" : ""} ${
+                    booked ? "booked-hour" : ""
+                  }`}
                   onClick={() => !booked && handleHourClick(hour)}
                 >
                   {hour}
@@ -154,10 +162,3 @@ const CalenderModal = ({
 };
 
 export default CalenderModal;
-
-
-
-
-
-
-

@@ -1,0 +1,18 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .account-settings-container {
+    flex-direction: column;
+    margin-right: 15vw;
+    display: flex;
+    height: 100%;
+    width: 50%;
+    gap: 3rem;
+  }
+
+  .account-settings-title {
+    font-size: 2rem;
+  }
+
+  .account-settings-link-button {
+    font-size: 1rem;
+  }
+}

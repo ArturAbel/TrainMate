@@ -1,30 +1,26 @@
-import { becomeTrainer } from "../../utilities/constants";
+import { ALT_IMAGE, becomeTrainer } from "../../utilities/constants";
+import { becomeTrainerText } from "./HomeBecomeTrainerText";
 import { ButtonHome } from "../ButtonHome/ButtonHome";
 import { Link } from "react-router-dom";
 
 import "./HomeBecomeTrainer.css";
+import "./HomeBecomeTrainer.tablet.css";
 
 export const HomeBecomeTrainer = () => {
   return (
     <section className="home-trainer-section">
       <div className="home-trainer-image-container">
-        <img className="home-trainer-image" src={becomeTrainer} alt="image" />
+        <img
+          className="home-trainer-image"
+          src={becomeTrainer}
+          alt={ALT_IMAGE}
+        />
       </div>
       <div className="home-trainer-content-container">
-        <h1 className="home-trainer-title">Become a Trainer</h1>
-        <p className="home-trainer-text">
-          Start earning by sharing your expertise with trainees.
-        </p>
-        <p className="home-trainer-text">
-          Build your reputation by showcasing your expertise and earning
-          positive reviews from satisfied clients. Enjoy the flexibility to
-          manage your training sessions according to your convenience, with
-          trainMate&apos;s adaptable scheduling options.
-        </p>
-        <p className="home-trainer-text">
-          Join train.mate today and elevate your training business to new
-          heights.
-        </p>
+        <h1 className="home-trainer-title">{becomeTrainerText.title}</h1>
+        <p className="home-trainer-text">{becomeTrainerText.text1}</p>
+        <p className="home-trainer-text">{becomeTrainerText.text2}</p>
+        <p className="home-trainer-text">{becomeTrainerText.text3}</p>
         <Link to={"become-trainer"}>
           <ButtonHome
             className={"become-trainer-button"}

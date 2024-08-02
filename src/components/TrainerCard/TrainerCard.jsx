@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import "./TrainerCard.css";
+import "./TrainerCard.tablet.css";
 
 const TrainerCard = ({
   lessonLength,

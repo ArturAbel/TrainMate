@@ -1,0 +1,41 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .become-trainer-section {
+    flex-direction: column;
+    margin-top: 20vh;
+    height: 100%;
+    width: 100vw;
+  }
+
+  .become-trainer-content-container {
+    align-items: center;
+    padding: 0 2rem;
+    height: 60vh;
+    width: 100vw;
+  }
+
+  .become-trainer-title {
+    text-align: center;
+    font-size: 4vh;
+  }
+
+  .become-trainer-step {
+    align-items: center;
+  }
+
+  .become-trainer-step-content {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+  }
+
+  .become-trainer-step-title,
+  .become-trainer-step-text {
+    text-align: center;
+  }
+
+  .become-trainer-image-container {
+    margin-bottom: 10vh;
+    height: 60vh;
+    width: 80vw;
+  }
+}

@@ -19,6 +19,7 @@ import {
 } from "../../redux/features/usersSlice";
 
 import "./UserSettings.css";
+import "./UserSettings.tablet.css";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -104,8 +105,11 @@ const UserSettings = () => {
     }
   };
 
-  const userData = users.find((userObj) => userObj.uid === user.uid);
+  if (!user) {
+    return <Loader />;
+  }
 
+  const userData = users.find((userObj) => userObj.uid === user.uid);
   const profileImageUrl =
     userData.photoURL ||
     (user.providerData &&
@@ -113,10 +117,6 @@ const UserSettings = () => {
     user.providerData[0].providerId === "google.com"
       ? user.photoURL
       : anonymousImage);
-
-  if (!user || usersLoading || trainersLoading) {
-    return <Loader />;
-  }
 
   return (
     <>

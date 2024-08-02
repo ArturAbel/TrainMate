@@ -12,21 +12,22 @@
 }
 
 .admin-approve:hover {
-  background-color: rgb(95, 158, 0);}
+  background-color: rgb(95, 158, 0);
+}
 
 .trainer-card-container {
   border: 2px solid var(--color-input-placeholder-border);
   margin-bottom: 1.5rem;
   border-radius: 5px;
   min-height: 40vh;
-  max-height: 50vh;
+  max-height: 100%;
   padding: 1rem;
   display: flex;
   width: 65vw;
 }
 
 .trainer-card-container:hover {
-  border-color: #000000;
+  border-color: var(--background-main2);
 }
 
 .trainer-card-image-container {
