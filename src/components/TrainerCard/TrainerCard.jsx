@@ -11,6 +11,7 @@ import { useState } from "react";
 
 import "./TrainerCard.css";
 import "./TrainerCard.tablet.css";
+import "./TrainerCard.phone.css";
 
 const TrainerCard = ({
   lessonLength,

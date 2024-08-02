@@ -119,7 +119,6 @@ const UserSettings = () => {
     profileImageUrl = anonymousImage;
   }
 
-
   return (
     <>
       {usersError && <div>{usersError.message}</div>}

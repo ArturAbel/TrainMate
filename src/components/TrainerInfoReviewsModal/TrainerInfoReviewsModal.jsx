@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 
 import "./TrainerInfoReviewsModal.css";
 import "./TrainerInfoReviewsModal.tablet.css";
+import "./TrainerInfoReviewsModal.phone.css";
 
 export const TrainerInfoReviewsModal = ({ reviews, handleSeeMoreReviews }) => {
   return (

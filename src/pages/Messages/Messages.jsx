@@ -18,6 +18,7 @@ import {
 
 import "./Messages.css";
 import "./Messages.tablet.css";
+import "./Messages.phone.css";
 
 const Messages = () => {
   const { currentUserId } = useParams();
@@ -27,10 +28,10 @@ const Messages = () => {
   const { messages, relevantUsers, loading, error } = useSelector(
     (state) => state.messages
   );
+  const [selectedUserMessages, setSelectedUserMessages] = useState([]);
+  const [selectedUserName, setSelectedUserName] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUserName, setSelectedUserName] = useState("");
-  const [selectedUserMessages, setSelectedUserMessages] = useState([]);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -88,13 +89,13 @@ const Messages = () => {
             );
             return (
               <ChatModalPersonCard
-                key={userId}
-                user={user}
+                onClick={() => handleUserClick(userId)}
+                isNewConversation={isNewConversation}
                 userDetail1={userDetail1}
                 userDetail2={userDetail2}
                 userImage={userImage}
-                isNewConversation={isNewConversation}
-                onClick={() => handleUserClick(userId)}
+                key={userId}
+                user={user}
               />
             );
           })}
@@ -102,11 +103,11 @@ const Messages = () => {
       </div>
       {isModalOpen && (
         <ChatModal
-          messages={selectedUserMessages}
-          onSendMessage={handleSendMessage}
-          onClose={handleCloseModal}
-          currentUserId={currentUserId}
           selectedUserName={selectedUserName}
+          onSendMessage={handleSendMessage}
+          messages={selectedUserMessages}
+          currentUserId={currentUserId}
+          onClose={handleCloseModal}
         />
       )}
     </>

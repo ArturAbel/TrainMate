@@ -12,6 +12,7 @@ import {
 
 import "./Footer.css";
 import "./Footer.tablet.css";
+import "./Footer.phone.css";
 
 export const Footer = () => {
   const { user } = useSelector((state) => state.auth);

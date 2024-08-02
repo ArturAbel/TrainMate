@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 import "./FavoriteTrainers.css";
 import "./FavoriteTrainers.tablet.css";
+import "./FavoriteTrainers.phone.css";
 
 const FavoriteTrainers = () => {
   const dispatch = useDispatch();

@@ -8,6 +8,7 @@ import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import "./CalenderModal.css";
 import "./CalenderModal.tablet.css";
+import "./CalenderModal.phone.css";
 
 const CalenderModal = ({
   availableSchedule,

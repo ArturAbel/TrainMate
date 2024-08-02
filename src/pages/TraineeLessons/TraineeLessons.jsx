@@ -9,6 +9,7 @@ import { useParams } from "react-router";
 
 import "./TraineeLessons.css";
 import "./TraineeLessons.tablet.css";
+import "./TraineeLessons.phone.css";
 
 const TraineeLessons = () => {
   const { traineeId } = useParams();

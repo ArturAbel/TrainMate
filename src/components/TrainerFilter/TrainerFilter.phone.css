@@ -1,0 +1,29 @@
+@media screen and (max-width: 430px) {
+  .filter-container {
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    display: grid;
+  }
+
+  .filter {
+    width: 30vw;
+  }
+
+  .filter-container-label-upper {
+    margin-left: 1rem;
+    font-size: 1rem;
+  }
+  .filter-container-inner-lower {
+    margin-left: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .dropdown-content {
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .dropdown-content a {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,5 @@
+@media screen and (max-width: 430px) {
+  .trainer-lesson-history-item {
+    width: 95vw;
+  }
+}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import "./TrainerLessonHistory.css";
+import "./TrainerLessonHistory.phone.css";
 
 const TrainerLessonHistory = () => {
   const dispatch = useDispatch();

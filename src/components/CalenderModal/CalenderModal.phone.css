@@ -1,0 +1,12 @@
+@media screen and (max-width: 430px) {
+  .calender-modal {
+    width: 100vw;
+    top: 210%;
+  }
+
+  .exit-button {
+    font-size: 2.5rem;
+    right: 0;
+    top: 0;
+  }
+}

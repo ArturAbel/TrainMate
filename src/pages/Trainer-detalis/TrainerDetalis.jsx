@@ -27,6 +27,7 @@ import {
 
 import "./TrainerDetails.css";
 import "./TrainerDetails.tablet.css";
+import "./TrainerDetails.phone.css";
 
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
@@ -253,8 +254,8 @@ const TrainerDetails = () => {
               </div>
               {readMoreReviews && (
                 <TrainerInfoReviewsModal
-                  reviews={trainer.reviews}
                   handleSeeMoreReviews={handleSeeMoreReviews}
+                  reviews={trainer.reviews}
                 />
               )}
               <div className="trainer-profile-display-button-container">

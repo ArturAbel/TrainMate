@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 
 import "./ChatModal.css";
 import "./ChatModal.tablet.css";
+import "./ChatModal.phone.css";
 
 const ChatModal = ({
   selectedUserName,

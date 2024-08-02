@@ -13,6 +13,7 @@ import Loader from "../Loader/Loader";
 
 import "./LoginForm.css";
 import "./LoginForm.tablet.css";
+import "./LoginForm.phone.css";
 
 export const LoginForm = () => {
   const { user, error, loading } = useSelector((state) => state.auth);
