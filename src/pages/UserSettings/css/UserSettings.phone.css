@@ -1,0 +1,30 @@
+@media screen and (max-width: 430px) {
+  .user-settings-section {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .account-settings-container {
+    margin-right: 0;
+    width: 80vw;
+  }
+
+  .account-settings-image-container {
+    gap: 1rem;
+  }
+
+  .account-settings-title {
+    font-size: 2rem;
+  }
+
+  .account-settings-navbar {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+  }
+
+  .account-settings-link-button {
+    font-size: 1.5rem;
+    width: 15rem;
+  }
+}

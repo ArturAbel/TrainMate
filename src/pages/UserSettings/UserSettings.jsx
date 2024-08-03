@@ -20,6 +20,7 @@ import {
 
 import "./css/UserSettings.css";
 import "./css/UserSettings.tablet.css";
+import "./css/UserSettings.phone.css";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
