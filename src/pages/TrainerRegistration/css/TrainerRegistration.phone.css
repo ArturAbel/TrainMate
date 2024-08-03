@@ -1,0 +1,25 @@
+@media screen and (max-width: 430px) {
+  .trainer-registration-section {
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+    gap: 2rem;
+  }
+
+  .trainer-registration-instructions-container {
+    height: 100%;
+    padding: 3vw;
+    width: 100vw;
+  }
+
+  .trainer-registration-form-container {
+    height: 100%;
+    width: 100vw;
+    padding: 3vw;
+  }
+
+  .trainer-registration-form-input {
+    width: 90vw;
+  }
+}
