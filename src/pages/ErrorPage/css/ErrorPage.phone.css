@@ -1,0 +1,9 @@
+@media screen and (max-width: 430px) {
+  .error-page-top-container {
+    width: 70vw;
+  }
+  .error-page-bottom-title {
+    text-align: center;
+    font-size: 2.5vh;
+  }
+}
