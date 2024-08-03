@@ -139,6 +139,8 @@ const Trainers = () => {
     trainers,
   ]);
 
+  const approvedTrainers = trainers.filter((trainer) => trainer.approved);
+
   const handlePriceFilterChange = (range) => {
     setPriceRange(range);
   };
@@ -199,7 +201,6 @@ const Trainers = () => {
 
   const isLoading =
     usersLoading || trainersLoading || authLoading || LoadingFavorites;
-
   return (
     <>
       {isLoading && LoadingFavorites ? (
@@ -234,24 +235,25 @@ const Trainers = () => {
           </div>
           <section className="team-container">
             {error && <p>Error: {error}</p>}
-            {filteredTrainers.map((trainer) => (
-              <TrainerCard
-                favorite={isTrainerInFavorites(trainer.uid)}
-                lessonLength={trainer.lessonLength}
-                description={trainer.description}
-                ratings={trainer.ratings}
-                address={trainer.address}
-                reviews={trainer.reviews}
-                imgSrc={trainer.image}
-                price={trainer.price}
-                sport={trainer.sport}
-                level={trainer.level}
-                about={trainer.about}
-                name={trainer.name}
-                key={trainer.uid}
-                id={trainer.uid}
-              />
-            ))}
+            {approvedTrainers &&
+              filteredTrainers.map((trainer) => (
+                <TrainerCard
+                  favorite={isTrainerInFavorites(trainer.uid)}
+                  lessonLength={trainer.lessonLength}
+                  description={trainer.description}
+                  ratings={trainer.ratings}
+                  address={trainer.address}
+                  reviews={trainer.reviews}
+                  imgSrc={trainer.image}
+                  price={trainer.price}
+                  sport={trainer.sport}
+                  level={trainer.level}
+                  about={trainer.about}
+                  name={trainer.name}
+                  key={trainer.uid}
+                  id={trainer.uid}
+                />
+              ))}
             {filteredTrainers.length === 0 && !error && (
               <div className="trainers-no-matches-found">no matches found</div>
             )}

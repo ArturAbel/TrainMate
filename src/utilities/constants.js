@@ -178,4 +178,5 @@ export const sports = [
   "Windsurfing",
   "Wrestling",
   "Wushu",
+  "Yoga",
 ];
