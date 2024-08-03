@@ -1,8 +1,8 @@
 import { ALT_IMAGE } from "../../utilities/constants";
 
-import "./HomeCategoriesStrip.css";
-import "./HomeCategoriesStrip.tablet.css";
-import "./HomeCategoriesStrip.phone.css";
+import "./css/HomeCategoriesStrip.css";
+import "./css/HomeCategoriesStrip.tablet.css";
+import "./css/HomeCategoriesStrip.phone.css";
 
 export const HomeCategoriesStrip = ({ className, images, text }) => {
   return (

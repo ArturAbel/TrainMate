@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { useEffect } from "react";
 
-import "./Admin.css";
-import "./Admin.phone.css";
+import "./css/Admin.css";
+import "./css/Admin.phone.css";
 
 const Admin = () => {
   const dispatch = useDispatch();

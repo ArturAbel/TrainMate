@@ -84,7 +84,7 @@
 }
 
 .trainer-registration-form-input:hover {
-  border-color: black;
+  border-color: var(--background-main2);
 }
 
 .trainer-registration-form-input:focus {

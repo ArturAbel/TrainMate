@@ -18,8 +18,8 @@ import {
   updateUser,
 } from "../../redux/features/usersSlice";
 
-import "./UserSettings.css";
-import "./UserSettings.tablet.css";
+import "./css/UserSettings.css";
+import "./css/UserSettings.tablet.css";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -114,7 +114,7 @@ const UserSettings = () => {
   let profileImageUrl;
 
   if (userData) {
-      profileImageUrl = userData.photoURL;
+    profileImageUrl = userData.photoURL;
   } else {
     profileImageUrl = anonymousImage;
   }

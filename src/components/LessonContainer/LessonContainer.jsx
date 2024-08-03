@@ -2,8 +2,8 @@ import { MdOutlineCancel, MdOutlineDone } from "react-icons/md";
 import { LuMessageSquare } from "react-icons/lu";
 import { ALT_IMAGE } from "../../utilities/constants";
 
-import "./LessonContainer.css";
-import "./LessonContainer.phone.css";
+import "./css/LessonContainer.css";
+import "./css/LessonContainer.phone.css";
 
 const LessonContainer = ({ title, lessons, onApprove, onDelete, pending }) => {
   return (

@@ -1,7 +1,7 @@
 import Loader from "../Loader/Loader";
 
-import "./QuizLoadingModal.css";
-import "./QuizLoadingModal.phone.css";
+import "./css/QuizLoadingModal.css";
+import "./css/QuizLoadingModal.phone.css";
 
 const QuizLoadingModal = () => {
   return (

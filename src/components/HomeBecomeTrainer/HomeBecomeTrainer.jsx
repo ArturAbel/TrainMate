@@ -3,9 +3,9 @@ import { becomeTrainerText } from "./HomeBecomeTrainerText";
 import { ButtonHome } from "../ButtonHome/ButtonHome";
 import { Link } from "react-router-dom";
 
-import "./HomeBecomeTrainer.css";
-import "./HomeBecomeTrainer.tablet.css";
-import "./HomeBecomeTrainer.phone.css";
+import "./css/HomeBecomeTrainer.css";
+import "./css/HomeBecomeTrainer.tablet.css";
+import "./css/HomeBecomeTrainer.phone.css";
 
 export const HomeBecomeTrainer = () => {
   return (

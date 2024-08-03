@@ -88,5 +88,5 @@
 }
 
 #admin-users-remove-button:hover {
-  filter: brightness(0.9);
+  filter: var(--button-brightness-filter);
 }

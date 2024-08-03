@@ -16,9 +16,9 @@ import {
   deleteTrainer,
 } from "../../redux/features/trainerSlice";
 
-import "./TrainerSettings.css";
-import "./TrainerSettings.tablet.css";
-import "./TrainerSettings.phone.css";
+import "./css/TrainerSettings.css";
+import "./css/TrainerSettings.tablet.css";
+import "./css/TrainerSettings.phone.css";
 
 const TrainerSettings = () => {
   const { trainers, loading, error } = useSelector((state) => state.trainer);

@@ -10,9 +10,9 @@ import {
   TRAINER,
 } from "../../utilities/constants";
 
-import "./Footer.css";
-import "./Footer.tablet.css";
-import "./Footer.phone.css";
+import "./css/Footer.css";
+import "./css/Footer.tablet.css";
+import "./css/Footer.phone.css";
 
 export const Footer = () => {
   const { user } = useSelector((state) => state.auth);

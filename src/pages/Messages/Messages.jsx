@@ -16,9 +16,9 @@ import {
   fetchMessages,
 } from "../../redux/features/messagesSlice";
 
-import "./Messages.css";
-import "./Messages.tablet.css";
-import "./Messages.phone.css";
+import "./css/Messages.css";
+import "./css/Messages.tablet.css";
+import "./css/Messages.phone.css";
 
 const Messages = () => {
   const { currentUserId } = useParams();

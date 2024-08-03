@@ -66,9 +66,9 @@
 }
 
 .new-message-indicator {
+  color: var(--background-main2);
   position: absolute;
   font-size: 1.8rem;
-  color: black;
   top: -1rem;
   left: 50%;
 }

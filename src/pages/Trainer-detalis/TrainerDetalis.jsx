@@ -25,9 +25,9 @@ import {
   fetchUsers,
 } from "../../redux/features/usersSlice";
 
-import "./TrainerDetails.css";
-import "./TrainerDetails.tablet.css";
-import "./TrainerDetails.phone.css";
+import "./css/TrainerDetails.css";
+import "./css/TrainerDetails.tablet.css";
+import "./css/TrainerDetails.phone.css";
 
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);

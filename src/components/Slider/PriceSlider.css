@@ -23,9 +23,9 @@
 }
 
 .price-slider input[type="range"]::-webkit-slider-thumb {
+  border: 2px solid var(--background-main2);
+  background: var(--color-white);
   pointer-events: all;
-  background: rgb(255, 253, 253);
-  border: 2px solid rgb(5, 5, 5);
   -webkit-appearance: none;
   border-radius: 20%;
   cursor: pointer;
@@ -36,7 +36,7 @@
 
 .price-slider input[type="range"]::-moz-range-thumb {
   border: 2px solid rgb(230, 208, 208);
-  background: white;
+  background: var(--color-white);
   pointer-events: all;
   position: relative;
   border-radius: 50%;
@@ -47,9 +47,9 @@
 }
 
 .price-slider input[type="range"]::-ms-thumb {
-  border: 2px solid black;
+  border: 2px solid var(--background-main2);
   pointer-events: all;
-  background: white;
+  background: var(--color-white);
   position: relative;
   border-radius: 50%;
   cursor: pointer;
@@ -79,7 +79,7 @@
 }
 
 .price-slider .slider__range {
-  background: black;
+  background: var(--background-main2);
   position: absolute;
   bottom: 1.5rem;
   z-index: 0;
@@ -88,8 +88,8 @@
 
 .price-slider .slider__left-value,
 .price-slider .slider__right-value {
+  color: var(--background-main2);
   position: absolute;
-  color: black;
   font-size: 1rem;
   bottom: 3rem;
   z-index: 2;

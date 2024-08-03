@@ -62,8 +62,8 @@
 }
 
 .sign-up-form-error-message {
+  color: var(--background-secondary1);
   text-transform: capitalize;
-  color: rgb(255, 0, 0);
   text-align: center;
   font-size: 1.4rem;
   width: 100%;

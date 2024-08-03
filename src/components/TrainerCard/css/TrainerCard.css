@@ -122,10 +122,10 @@
   border: 2px solid var(--background-main2);
   font-family: var(--font-content);
   text-transform: capitalize;
+  color: var(--color-white);
   padding: 1rem 2rem;
   font-size: 1.7rem;
   height: 4.5rem;
-  color: white;
   width: 100%;
 }
 

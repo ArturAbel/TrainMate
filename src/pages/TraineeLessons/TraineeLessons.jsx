@@ -7,9 +7,9 @@ import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import "./TraineeLessons.css";
-import "./TraineeLessons.tablet.css";
-import "./TraineeLessons.phone.css";
+import "./css/TraineeLessons.css";
+import "./css/TraineeLessons.tablet.css";
+import "./css/TraineeLessons.phone.css";
 
 const TraineeLessons = () => {
   const { traineeId } = useParams();

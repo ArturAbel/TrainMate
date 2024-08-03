@@ -6,9 +6,9 @@ import { useState } from "react";
 import moment from "moment";
 
 import "react-calendar/dist/Calendar.css";
-import "./CalenderModal.css";
-import "./CalenderModal.tablet.css";
-import "./CalenderModal.phone.css";
+import "./css/CalenderModal.css";
+import "./css/CalenderModal.tablet.css";
+import "./css/CalenderModal.phone.css";
 
 const CalenderModal = ({
   availableSchedule,

@@ -1,9 +1,9 @@
 import { ALT_IMAGE, becomeTrainerImage } from "../../utilities/constants";
 import { Link } from "react-router-dom";
 
-import "./BecomeTrainer.css";
-import "./BecomeTrainer.tablet.css";
-import "./BecomeTrainer.phone.css";
+import "./css/BecomeTrainer.css";
+import "./css/BecomeTrainer.tablet.css";
+import "./css/BecomeTrainer.phone.css";
 
 export const BecomeTrainer = () => {
   return (

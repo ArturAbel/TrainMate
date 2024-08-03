@@ -20,9 +20,9 @@ import {
   ALT_IMAGE,
 } from "../../utilities/constants";
 
-import "./Navbar.css";
-import "./Navbar.tablet.css";
-import "./Navbar.phone.css";
+import "./css/Navbar.css";
+import "./css/Navbar.tablet.css";
+import "./css/Navbar.phone.css";
 
 export const Navbar = () => {
   const favoriteCount = useSelector((state) => state.users.favoriteCount);

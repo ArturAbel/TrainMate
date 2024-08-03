@@ -5,9 +5,9 @@ import Loader from "../../components/Loader/Loader";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 
-import "./TrainerReviews.css";
-import "./TrainerReviews.tablet.css";
-import "./TrainerReviews.phone.css";
+import "./css/TrainerReviews.css";
+import "./css/TrainerReviews.tablet.css";
+import "./css/TrainerReviews.phone.css";
 
 const TrainerReviews = () => {
   const trainers = useSelector((state) => state.trainer.trainers);

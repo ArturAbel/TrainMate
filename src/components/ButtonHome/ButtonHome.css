@@ -2,11 +2,11 @@
   background-color: var(--color-buttons-home);
   font-family: var(--font-content);
   text-transform: capitalize;
+  color: var(--color-white);
   border-radius: 10px;
   font-weight: 600;
   font-size: 1.8rem;
   cursor: pointer;
-  color: white;
   border: none;
   width: 25rem;
   height: 5rem;

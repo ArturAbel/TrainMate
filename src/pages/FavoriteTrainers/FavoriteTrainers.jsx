@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 
-import "./FavoriteTrainers.css";
-import "./FavoriteTrainers.tablet.css";
-import "./FavoriteTrainers.phone.css";
+import "./css/FavoriteTrainers.css";
+import "./css/FavoriteTrainers.tablet.css";
+import "./css/FavoriteTrainers.phone.css";
 
 const FavoriteTrainers = () => {
   const dispatch = useDispatch();

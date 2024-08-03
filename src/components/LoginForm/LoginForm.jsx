@@ -11,9 +11,9 @@ import { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import Loader from "../Loader/Loader";
 
-import "./LoginForm.css";
-import "./LoginForm.tablet.css";
-import "./LoginForm.phone.css";
+import "./css/LoginForm.css";
+import "./css/LoginForm.tablet.css";
+import "./css/LoginForm.phone.css";
 
 export const LoginForm = () => {
   const { user, error, loading } = useSelector((state) => state.auth);

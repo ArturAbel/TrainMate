@@ -23,12 +23,12 @@
 }
 
 .search-input:hover {
-  border: 2px solid black;
+  border: 2px solid var(--background-main2);
 }
 
 .vailer-dropdown-content {
   background-color: var(--background-main1);
-  border-color: black;
+  border-color: var(--background-main2);
   position: absolute;
   border-radius: 8px;
   display: block;
@@ -40,11 +40,11 @@
 
 .vailer-dropdown-content a {
   font-family: var(--font-content);
+  color: var(--background-main2);
   text-decoration: solid;
   font-size: 1.2rem;
   font-weight: 400;
   display: block;
-  color: black;
   margin: 1rem;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .vailer-container:hover {
-  border: 2px solid black;
+  border: 2px solid var(--background-main2);
 }
 
 .search-trainer-container {

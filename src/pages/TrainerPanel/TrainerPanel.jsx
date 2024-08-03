@@ -10,8 +10,8 @@ import {
   updateTrainer,
 } from "../../redux/features/trainerSlice";
 
-import "./TrainerPanel.css";
-import "./TrainerPanel.phone.css";
+import "./css/TrainerPanel.css";
+import "./css/TrainerPanel.phone.css";
 
 const TrainerPanel = () => {
   const { trainerId } = useParams();

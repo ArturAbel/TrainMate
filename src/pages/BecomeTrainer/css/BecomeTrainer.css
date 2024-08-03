@@ -91,7 +91,7 @@
 
 .become-trainer-image {
   border-radius: var(--border-radius-generic);
-  filter: brightness(0.9);
+  filter: var(--button-brightness-filter);
   object-fit: cover;
   height: 100%;
   width: 100%;

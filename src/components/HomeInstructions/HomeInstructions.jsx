@@ -6,9 +6,9 @@ import {
 } from "./HomeInstructionsText";
 import { ALT_IMAGE } from "../../utilities/constants";
 
-import "./HomeInstructions.css";
-import "./HomeInstructions.tablet.css";
-import "./HomeInstructions.phone.css";
+import "./css/HomeInstructions.css";
+import "./css/HomeInstructions.tablet.css";
+import "./css/HomeInstructions.phone.css";
 
 export const HomeInstructions = () => {
   return (

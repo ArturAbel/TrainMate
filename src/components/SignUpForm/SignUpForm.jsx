@@ -12,9 +12,9 @@ import {
   signupUser,
 } from "../../redux/features/authSlice";
 
-import "./SignUpForm.css";
-import "./SignUpForm.tablet.css";
-import "./SignUpForm.phone.css";
+import "./css/SignUpForm.css";
+import "./css/SignUpForm.tablet.css";
+import "./css/SignUpForm.phone.css";
 
 export const SignUpForm = ({ title }) => {
   const { error } = useSelector((state) => state.auth);

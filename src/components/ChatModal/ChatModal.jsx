@@ -2,9 +2,9 @@ import { formatTimestamp, scrollToBottom } from "./ChatModalLib";
 import { useState, useEffect, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 
-import "./ChatModal.css";
-import "./ChatModal.tablet.css";
-import "./ChatModal.phone.css";
+import "./css/ChatModal.css";
+import "./css/ChatModal.tablet.css";
+import "./css/ChatModal.phone.css";
 
 const ChatModal = ({
   selectedUserName,

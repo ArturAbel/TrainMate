@@ -51,7 +51,7 @@
 }
 
 .quiz-dropdown:hover {
-  border: 2px solid black;
+  border: 2px solid var(--background-main2);
 }
 
 .quiz-option {
@@ -67,11 +67,11 @@
 }
 
 .quiz-option:hover {
-  border: 2px solid black;
+  border: 2px solid var(--background-main2);
 }
 
 .quiz-option input {
-  border: 2px solid black;
+  border: 2px solid var(--background-main2);
   margin-right: 10px;
 }
 

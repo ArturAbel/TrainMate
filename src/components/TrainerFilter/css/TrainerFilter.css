@@ -70,7 +70,7 @@ label span {
 
 .dropdown-content {
   background-color: var(--background-main1);
-  border-color: black;
+  border-color: var(--background-main2);
   position: absolute;
   border-radius: 8px;
   display: block;

@@ -10,9 +10,9 @@ import Loader from "../../components/Loader/Loader";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
-import "./Trainers.css";
-import "./Trainers.tablet.css";
-import "./Trainers.phone.css";
+import "./css/Trainers.css";
+import "./css/Trainers.tablet.css";
+import "./css/Trainers.phone.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();

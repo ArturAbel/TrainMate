@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
-import "./HomeHero.css";
-import "./HomeHero.tablet.css";
-import "./HomeHero.phone.css";
+import "./css/HomeHero.css";
+import "./css/HomeHero.tablet.css";
+import "./css/HomeHero.phone.css";
 
 export const HomeHero = () => {
   // Parallax Effect
