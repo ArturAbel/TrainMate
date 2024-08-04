@@ -1,0 +1,11 @@
+@media screen and (max-width: 430px) {
+  .loading-quiz-modal {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .loading-quiz-modal-title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+}

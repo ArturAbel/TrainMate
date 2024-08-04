@@ -1,4 +1,6 @@
-import "./HomeInstructionCard.css";
+import "./css/HomeInstructionCard.css";
+import "./css/HomeInstructionCard.tablet.css";
+import "./css/HomeInstructionCard.phone.css";
 
 export const HomeInstructionCard = ({ className, number, title, content }) => {
   return (

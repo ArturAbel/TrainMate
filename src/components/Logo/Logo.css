@@ -14,5 +14,5 @@
 }
 
 .logo-text {
-  color: black;
+  color: var(--background-main2);
 }

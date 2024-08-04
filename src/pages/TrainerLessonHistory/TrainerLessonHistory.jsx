@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import "./TrainerLessonHistory.css";
+import "./css/TrainerLessonHistory.css";
+import "./css/TrainerLessonHistory.phone.css";
 
 const TrainerLessonHistory = () => {
   const dispatch = useDispatch();

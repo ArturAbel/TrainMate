@@ -1,0 +1,19 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .filter-container-label-upper {
+    margin-left: 1rem;
+    font-size: 1rem;
+  }
+  .filter-container-inner-lower {
+    margin-left: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .dropdown-content {
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .dropdown-content a {
+    font-size: 1.1rem;
+  }
+}

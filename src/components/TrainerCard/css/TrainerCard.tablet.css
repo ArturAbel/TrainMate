@@ -1,0 +1,21 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .trainer-card-container {
+    width: 95vw;
+  }
+
+  .trainer-card-image-container {
+    width: 30vw;
+  }
+
+  .trainer-card-content-container {
+    width: 35vw;
+  }
+
+  .trainer-card-right-content-container {
+    width: 30vw;
+  }
+
+  .trainers-filter-search-container {
+    padding: 0 1vw;
+  }
+}

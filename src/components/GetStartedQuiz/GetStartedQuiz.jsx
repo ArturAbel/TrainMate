@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-import "./GetStartedQuiz.css";
+import "./css/GetStartedQuiz.css";
+import "./css/GetStartedQuiz.tablet.css";
+import "./css/GetStartedQuiz.phone.css";
 
 const GetStartedQuiz = () => {
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);

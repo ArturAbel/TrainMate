@@ -1,0 +1,14 @@
+@media screen and (max-width: 430px) {
+  .trainers-section {
+    margin-top: 20vh;
+  }
+
+  .trainers-filter-search-container {
+    padding: 0 2vw;
+    width: 100%;
+  }
+
+  .trainers-header-title {
+    font-size: 1.5rem;
+  }
+}

@@ -1,5 +1,5 @@
 .admin-trainer-card {
-  background-color: white;
+  background-color: var(--color-white);
   font-family: var(--font-content);
   border-radius: 15px;
   max-height: 100%;
@@ -44,7 +44,7 @@
 }
 
 #admin-trainer-approve:hover {
-  filter: brightness(0.9);
+  filter: var(--button-brightness-filter);
 }
 
 .admin-trainer-description {

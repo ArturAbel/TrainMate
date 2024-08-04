@@ -1,0 +1,24 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .home-instructions-title {
+    font-family: var(--font-title);
+    font-size: 4rem;
+    margin: 0 0 0 2vw;
+  }
+
+  .home-instruction-container {
+    display: flex;
+    height: 50vh;
+    width: 95vw;
+    gap: 2vw;
+  }
+
+  .home-instruction-one-image-one,
+  .home-instruction-one-image-two {
+    width: 90%;
+  }
+  .home-instruction-three-image,
+  .home-instruction-two-image {
+    border-radius: 10px;
+    width: 90%;
+  }
+}

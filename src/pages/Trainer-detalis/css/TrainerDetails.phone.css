@@ -1,0 +1,25 @@
+@media screen and (max-width: 430px) {
+  .trainer-profile-section {
+    flex-direction: column;
+  }
+
+  .trainer-profile-image-container {
+    width: 30rem;
+  }
+
+  .trainer-profile-content-container {
+    width: 100vw;
+  }
+
+  .trainer-profile-content-intro {
+    min-height: 30vh;
+    max-height: 100%;
+  }
+
+  .trainer-profile-actions-container {
+    padding: 2rem;
+    height: 100%;
+    width: 100vw;
+    gap: 5rem;
+  }
+}

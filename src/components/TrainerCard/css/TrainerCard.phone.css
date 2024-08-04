@@ -1,0 +1,26 @@
+@media screen and (max-width: 430px) {
+  .trainer-card-container {
+    flex-direction: column;
+    width: 95vw;
+  }
+
+  .trainer-card-image-container {
+    width: 100%;
+  }
+
+  .trainer-card-image {
+    border-radius: var(--border-radius-generic);
+  }
+
+  .trainer-card-content-container {
+    width: 100%;
+  }
+
+  .trainer-card-right-content-container {
+    width: 100%;
+  }
+
+  #trainer-card-button {
+    margin-top: 5vh;
+  }
+}

@@ -1,0 +1,19 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .admin-users-title {
+    font-size: 2rem;
+  }
+
+  .admin-users-containers {
+    padding: 0 2rem;
+  }
+
+  .admin-users-card {
+    flex-direction: column;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+
+  .admin-users-search {
+    width: 35vw;
+  }
+}

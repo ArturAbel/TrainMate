@@ -1,9 +1,9 @@
 .account-settings-image-container {
-  width: 100%;
-  display: flex;
   justify-content: space-between;
   position: relative;
   margin-top: 2rem;
+  display: flex;
+  width: 100%;
 }
 
 .account-settings-image-container::after {
@@ -37,22 +37,22 @@
 }
 
 .image-edit-button:hover {
-  background-color: #dad9d9;
+  background-color: var(--color-hover-setting);
   border-radius: 1rem;
 }
 
 .image-upload-right-box {
-  display: flex;
   flex-direction: column;
-  gap: 1rem;
+  display: flex;
   width: 16rem;
+  gap: 1rem;
 }
 
 .image-upload-button {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   white-space: nowrap;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
 }
 
 .camera-icon {
@@ -60,6 +60,6 @@
 }
 
 .image-upload-restrictions {
+  color: var(--color-input-placeholder-text);
   font-size: 1.4rem;
-  color: #a8a8b6;
 }

@@ -1,0 +1,27 @@
+@media screen and (max-width: 430px) {
+  .home-trainer-section {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .home-trainer-image-container,
+  .home-trainer-content-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .home-trainer-title {
+    font-size: 4rem;
+  }
+
+  .home-trainer-text {
+    font-size: 1.5rem;
+  }
+
+  .become-trainer-button {
+    font-size: 1.5rem;
+    margin-top: 5vh;
+    height: 5rem;
+    width: 25rem;
+  }
+}

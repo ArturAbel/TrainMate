@@ -18,7 +18,9 @@ import {
   registrationInstructions,
 } from "./TrainerRegistrationText";
 
-import "./TrainerRegistration.css";
+import "./css/TrainerRegistration.css";
+import "./css/TrainerRegistration.tablet.css";
+import "./css/TrainerRegistration.phone.css";
 
 const libraries = ["places"]; // Required for Autocomplete
 

@@ -7,9 +7,12 @@ import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/Search/Search";
 import Loader from "../../components/Loader/Loader";
-import { fetchFavorites } from "./TrainersLib";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebaseConfig";
 
-import "./Trainers.css";
+import "./css/Trainers.css";
+import "./css/Trainers.tablet.css";
+import "./css/Trainers.phone.css";
 
 const Trainers = () => {
   const dispatch = useDispatch();
@@ -56,6 +59,22 @@ const Trainers = () => {
     };
     initializeFilters();
   }, [answers]);
+
+  const fetchFavorites = async (userId) => {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userDocRef);
+      if (!userSnap.exists()) {
+        return [];
+      } else {
+        const userData = userSnap.data();
+        return userData.favorites || [];
+      }
+    } catch (error) {
+      console.error("Error fetching favorites: ", error);
+      return [];
+    }
+  };
 
   useEffect(() => {
     setFilteredTrainers(trainers);
@@ -120,6 +139,8 @@ const Trainers = () => {
     trainers,
   ]);
 
+  const approvedTrainers = trainers.filter((trainer) => trainer.approved);
+
   const handlePriceFilterChange = (range) => {
     setPriceRange(range);
   };
@@ -161,7 +182,7 @@ const Trainers = () => {
         try {
           const favoriteTrainers = await fetchFavorites(user.uid);
           setFavorites(favoriteTrainers);
-          setLoadingFavorites(false); 
+          setLoadingFavorites(false);
         } catch (error) {
           console.error("Failed to fetch favorites:", error);
         }
@@ -180,7 +201,6 @@ const Trainers = () => {
 
   const isLoading =
     usersLoading || trainersLoading || authLoading || LoadingFavorites;
-
   return (
     <>
       {isLoading && LoadingFavorites ? (
@@ -192,7 +212,7 @@ const Trainers = () => {
             onClose={() => toggleOverlay(false)}
           />
           <h1 className="trainers-header-title">
-            Find Your Perfect Sports Trainer with trainMate:
+            Find Your Perfect Sports Trainer with train.mate:
           </h1>
           <div className="trainers-filter-search-container">
             <TrainerFilter
@@ -215,24 +235,25 @@ const Trainers = () => {
           </div>
           <section className="team-container">
             {error && <p>Error: {error}</p>}
-            {filteredTrainers.map((trainer) => (
-              <TrainerCard
-                favorite={isTrainerInFavorites(trainer.uid)}
-                lessonLength={trainer.lessonLength}
-                description={trainer.description}
-                ratings={trainer.ratings}
-                address={trainer.address}
-                reviews={trainer.reviews}
-                imgSrc={trainer.image}
-                price={trainer.price}
-                sport={trainer.sport}
-                level={trainer.level}
-                about={trainer.about}
-                name={trainer.name}
-                key={trainer.uid}
-                id={trainer.uid}
-              />
-            ))}
+            {approvedTrainers &&
+              filteredTrainers.map((trainer) => (
+                <TrainerCard
+                  favorite={isTrainerInFavorites(trainer.uid)}
+                  lessonLength={trainer.lessonLength}
+                  description={trainer.description}
+                  ratings={trainer.ratings}
+                  address={trainer.address}
+                  reviews={trainer.reviews}
+                  imgSrc={trainer.image}
+                  price={trainer.price}
+                  sport={trainer.sport}
+                  level={trainer.level}
+                  about={trainer.about}
+                  name={trainer.name}
+                  key={trainer.uid}
+                  id={trainer.uid}
+                />
+              ))}
             {filteredTrainers.length === 0 && !error && (
               <div className="trainers-no-matches-found">no matches found</div>
             )}

@@ -1,0 +1,16 @@
+@media screen and (max-width: 430px) {
+  .home-categories-strip-container {
+    display: flex;
+    height: 22vh;
+    min-width: 240%;
+  }
+
+  .home-categories-image-container {
+    height: 20vh;
+    width: 40vw;
+  }
+
+  .home-categories-text {
+    display: none;
+  }
+}

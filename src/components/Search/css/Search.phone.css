@@ -1,0 +1,15 @@
+@media screen and (max-width: 430px) {
+  .search-container {
+   justify-content: flex-start;
+  }
+
+  .search-input {
+    padding-left: 3rem;
+    font-size: 1.3rem;
+    width: 70vw;
+  }
+
+  .vailer-container {
+    width: 25vw;
+  }
+}

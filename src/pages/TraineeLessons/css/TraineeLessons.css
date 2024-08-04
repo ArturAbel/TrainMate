@@ -1,0 +1,100 @@
+.trainee-lessons {
+  align-items: center;
+  padding-top: 5rem;
+  height: 100vh;
+  display: flex;
+  gap: 1rem;
+}
+
+.trainee-in-progress-lessons-container {
+  flex-direction: column;
+  align-items: center;
+  min-height: 80%;
+  display: flex;
+  width: 50%;
+  gap: 5rem;
+}
+
+.trainee-lesson-history-container {
+  flex-direction: column;
+  align-items: center;
+  min-height: 80%;
+  display: flex;
+  width: 50%;
+  gap: 5rem;
+}
+
+.lesson-container-title {
+  font-size: 3rem;
+}
+
+.trainee-lesson-history-items {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  width: 80%;
+  gap: 1rem;
+}
+
+.trainee-lesson-item {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--background-secondary7);
+  font-family: var(--font-content);
+  justify-content: space-between;
+  border-radius: 0.8rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 1.5rem;
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.trainee-lesson-item:hover {
+  transform: translateY(-5px);
+}
+
+.lesson-trainer-content {
+  object-fit: cover;
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.lesson-trainer-image {
+  border-radius: var(--border-radius-generic);
+  width: 10vw;
+}
+
+.lesson-trainer-info {
+  flex-direction: column;
+  font-size: 1.4rem;
+  display: flex;
+  width: 25vw;
+  gap: 1rem;
+}
+
+#add-review-button {
+  background-color: var(--background-secondary1);
+  height: 4rem;
+}
+
+#add-review-button:hover {
+  filter: brightness(0.9);
+}
+
+.lesson-status-container {
+}
+
+.lesson-status {
+  background-color: var(--background-secondary1);
+  border-radius: 5px;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+.approved {
+  background-color: var(--background-approved);
+}

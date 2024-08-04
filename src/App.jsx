@@ -14,6 +14,7 @@ import TraineeLessons from "./pages/TraineeLessons/TraineeLessons";
 import { TRAINEE, TRAINER, ADMIN } from "./utilities/constants";
 import TrainerPanel from "./pages/TrainerPanel/TrainerPanel";
 import UserSettings from "./pages/UserSettings/UserSettings";
+import { ErrorPage } from "./pages/ErrorPage/ErrorPage";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { Layout } from "./components/Layout/Layout";
 import Trainers from "./pages/Trainers/Trainers";
@@ -123,6 +124,10 @@ const router = createBrowserRouter([
   {
     path: "pending-trainer",
     element: <PendingTrainer />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 

@@ -1,8 +1,9 @@
 .chat-person-card {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  background: var(--background-secondary7);
   transition: transform 0.3s ease-in-out;
   align-items: center;
-  background: white;
   position: relative;
   margin-bottom: 1rem;
   border-radius: 1rem;
@@ -38,9 +39,9 @@
 
 .new-conversation-label {
   background-color: var(--background-secondary2);
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  border-radius: 5px;
+  padding: 0.3rem 1rem;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0.5rem;
+  top: 0.5rem;
 }

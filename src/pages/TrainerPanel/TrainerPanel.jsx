@@ -15,7 +15,8 @@ import {
   convertTo24HourFormat,
 } from "../../utilities/timeUtils.jsx";
 
-import "./TrainerPanel.css";
+import "./css/TrainerPanel.css";
+import "./css/TrainerPanel.phone.css";
 
 const TrainerPanel = () => {
   const { trainerId } = useParams();
