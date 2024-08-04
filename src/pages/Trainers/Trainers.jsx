@@ -93,7 +93,7 @@ const Trainers = () => {
   }, [trainers]);
 
   useEffect(() => {
-    let filtered = trainers;
+    let filtered = trainers.filter((trainer) => trainer.approved);
 
     if (selectedSport) {
       filtered = filtered.filter((trainer) => trainer.sport === selectedSport);
