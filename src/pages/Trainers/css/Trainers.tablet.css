@@ -2,4 +2,8 @@
   .trainers-header-title {
     font-size: 2rem;
   }
+  #trainers-show-filters-button {
+    margin: 1rem 0;
+    width: 100%;
+  }
 }
