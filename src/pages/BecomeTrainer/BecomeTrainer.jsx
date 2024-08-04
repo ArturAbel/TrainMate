@@ -51,7 +51,7 @@ export const BecomeTrainer = () => {
         </div>
         <Link to={"/sign-up-trainer"}>
           <button className="button-transparent" id="become-trainer-button">
-            become a trainMate!
+            become a train.mate!
           </button>
         </Link>
       </div>
