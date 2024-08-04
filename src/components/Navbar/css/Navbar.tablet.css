@@ -1,0 +1,17 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .navbar {
+    padding: 0 1.5rem;
+  }
+
+  .navbar-link {
+    font-size: 1.2rem;
+    text-wrap: nowrap;
+  }
+
+  .navbar-left-container {
+    width: 70%;
+  }
+  .navbar-right-container {
+    width: 30%;
+  }
+}

@@ -1,0 +1,10 @@
+@media screen and (max-width: 430px) {
+  .favorite-trainers-header-title {
+    font-size: 2rem;
+  }
+
+  .favorite-trainers-no-favorite-title {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+}

@@ -9,7 +9,9 @@ import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-import "./TrainerCard.css";
+import "./css/TrainerCard.css";
+import "./css/TrainerCard.tablet.css";
+import "./css/TrainerCard.phone.css";
 
 const TrainerCard = ({
   lessonLength,

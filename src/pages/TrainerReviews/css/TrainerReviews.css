@@ -1,0 +1,76 @@
+.trainer-reviews-section {
+  font-family: var(--font-content);
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 5rem;
+  margin-top: 10vh;
+  display: flex;
+  width: 100%;
+  gap: 3rem;
+}
+
+.trainer-reviews-header {
+  margin-bottom: 2rem;
+  font-size: 3rem;
+}
+
+.reviews-container {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  width: 60%;
+  gap: 1rem;
+}
+
+.review-card {
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: var(--color-white);
+  border-radius: 1.2rem;
+  align-items: center;
+  padding: 3rem;
+  display: flex;
+  width: 60%;
+}
+
+.review-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.review-user-image {
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  margin-right: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  height: 80px;
+  width: 80px;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.reviewer-name {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2a9d8f;
+}
+
+.review-text {
+  color: var(--color-hover-setting);
+  font-size: 1rem;
+  margin: 1rem 0;
+}
+
+.rating-container {
+  align-items: center;
+  margin-top: 10px;
+  display: flex;
+}
+
+.no-reviews {
+  font-size: 2rem;
+}

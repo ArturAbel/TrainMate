@@ -1,0 +1,51 @@
+.trainer-lesson-history-section {
+  height: 100vh;
+  padding-top: 5rem;
+  display: flex;
+  align-items: center;
+}
+
+.trainer-lesson-history-container {
+  width: 100%;
+  min-height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+}
+
+.lesson-history-title {
+  font-size: 3rem;
+}
+
+.trainer-lesson-history-items {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  padding: 1rem;
+  width: 90%;
+  gap: 2rem;
+}
+
+.trainer-lesson-history-item {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: var(--border-radius-generic);
+  background: var(--background-secondary7);
+  justify-content: space-between;
+  padding: 1.5rem;
+  display: flex;
+  width: 60vw;
+}
+
+.trainer-lesson-history-item:hover {
+  transform: translateY(-5px);
+}
+
+.lesson-session-info {
+  flex-direction: column;
+  font-size: 1.4rem;
+  display: flex;
+  gap: 1rem;
+}

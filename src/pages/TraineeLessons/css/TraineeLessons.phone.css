@@ -1,0 +1,17 @@
+@media screen and (max-width: 430px) {
+  .trainee-lessons {
+    width: 100%;
+  }
+
+  .lesson-container-title {
+    font-size: 1.2rem;
+  }
+
+  .trainee-lesson-history-items {
+    width: 90%;
+  }
+
+  .lesson-trainer-image {
+    width: 15vw;
+  }
+}

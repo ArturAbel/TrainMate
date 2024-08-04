@@ -1,0 +1,10 @@
+@media screen and (max-width: 430px) {
+  .trainer-panel-pending-container,
+  .trainer-panel-approved-container {
+    width: 100%;
+  }
+
+  .trainer-panel-container-title {
+    font-size: 2rem;
+  }
+}

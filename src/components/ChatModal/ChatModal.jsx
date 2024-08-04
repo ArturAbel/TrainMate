@@ -1,10 +1,18 @@
+import { formatTimestamp, scrollToBottom } from "./ChatModalLib";
 import { useState, useEffect, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 
-import "./ChatModal.css";
-import { formatTimestamp, scrollToBottom } from "./ChatModalLib";
+import "./css/ChatModal.css";
+import "./css/ChatModal.tablet.css";
+import "./css/ChatModal.phone.css";
 
-const ChatModal = ({ messages, onSendMessage, onClose, currentUserId, selectedUserName }) => {
+const ChatModal = ({
+  selectedUserName,
+  currentUserId,
+  onSendMessage,
+  messages,
+  onClose,
+}) => {
   const [messageText, setMessageText] = useState("");
   const messagesEndRef = useRef(null);
 
@@ -35,8 +43,9 @@ const ChatModal = ({ messages, onSendMessage, onClose, currentUserId, selectedUs
             return (
               <div
                 key={msg.timestamp}
-                className={`chat-message ${msg.senderId === currentUserId ? "sent" : "received"
-                  }`}
+                className={`chat-message ${
+                  msg.senderId === currentUserId ? "sent" : "received"
+                }`}
               >
                 <div className="chat-message-time-stamp-container">
                   <p>{date}</p>
@@ -68,4 +77,3 @@ const ChatModal = ({ messages, onSendMessage, onClose, currentUserId, selectedUs
 };
 
 export default ChatModal;
-

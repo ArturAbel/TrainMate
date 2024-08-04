@@ -57,5 +57,5 @@
 }
 
 #trainer-review-add-review-button:hover {
-  filter: brightness(0.9);
+  filter: var(--button-brightness-filter);
 }

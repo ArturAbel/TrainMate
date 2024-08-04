@@ -1,11 +1,12 @@
 import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
 import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
 import Loader from "../../components/Loader/Loader";
@@ -24,8 +25,9 @@ import {
   fetchUsers,
 } from "../../redux/features/usersSlice";
 
-import "./TrainerDetails.css";
-import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
+import "./css/TrainerDetails.css";
+import "./css/TrainerDetails.tablet.css";
+import "./css/TrainerDetails.phone.css";
 
 const TrainerDetails = () => {
   const [readMoreReviews, setReadMoreReviews] = useState(false);
@@ -252,8 +254,8 @@ const TrainerDetails = () => {
               </div>
               {readMoreReviews && (
                 <TrainerInfoReviewsModal
-                  reviews={trainer.reviews}
                   handleSeeMoreReviews={handleSeeMoreReviews}
+                  reviews={trainer.reviews}
                 />
               )}
               <div className="trainer-profile-display-button-container">

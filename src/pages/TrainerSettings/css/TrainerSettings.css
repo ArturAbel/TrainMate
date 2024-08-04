@@ -1,0 +1,95 @@
+.trainer-settings-section {
+  background-color: var(--background-main1);
+  justify-content: center;
+  margin-top: 10vh;
+  display: flex;
+  padding: 1rem;
+}
+
+.trainer-settings-container {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-white);
+  border-radius: 10px;
+  max-width: 50vw;
+  padding: 20px;
+  width: 100%;
+}
+
+.trainer-settings-title {
+  color: var(--background-main2);
+  font-family: var(--font-title);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.trainer-settings-form {
+  flex-direction: column;
+  display: flex;
+  gap: 2rem;
+}
+
+.form-label {
+  color: var(--color-input-placeholder-text);
+  font-family: var(--font-content);
+  font-size: 1.5rem;
+  display: block;
+}
+
+.form-input,
+.trainer-setting-form-textarea,
+.form-select {
+  border: 2px solid var(--color-input-placeholder-border);
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+
+.form-input:hover,
+.trainer-setting-form-textarea:hover {
+  border: 2px solid var(--background-main2);
+}
+
+.trainer-setting-form-textarea {
+  resize: vertical;
+  height: 20rem;
+}
+
+.form-checkbox-group {
+  justify-content: center;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 2rem;
+}
+
+.form-checkbox-container {
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  display: flex;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+#trainer-setting-button {
+  background-color: var(--background-secondary1);
+  font-size: 1.8rem;
+  margin: 4rem 0;
+  height: 4.5rem;
+}
+
+#trainer-setting-button:hover {
+  filter: brightness(0.9);
+}
+
+.form-submit-button:hover {
+  filter: var(--button-brightness-filter);
+}
+
+.profile-img {
+  border-radius: 50%;
+  max-height: 100px;
+  max-width: 100px;
+  margin-top: 10px;
+  display: block;
+}

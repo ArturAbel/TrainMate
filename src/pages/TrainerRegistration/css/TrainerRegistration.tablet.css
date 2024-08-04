@@ -1,0 +1,18 @@
+@media screen and (min-width: 430px) and (max-width: 800px) {
+  .trainer-registration-section {
+    gap: 2rem;
+  }
+  .trainer-registration-instructions-container {
+    width: 35vw;
+  }
+
+  .trainer-registration-form-container {
+    min-height: 90vh;
+    padding: 4vw;
+    width: 60vw;
+  }
+
+  .trainer-registration-instructions-title {
+    font-size: 3rem;
+  }
+}

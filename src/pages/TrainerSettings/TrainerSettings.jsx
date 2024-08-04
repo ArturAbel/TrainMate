@@ -16,7 +16,9 @@ import {
   deleteTrainer,
 } from "../../redux/features/trainerSlice";
 
-import "./TrainerSettings.css";
+import "./css/TrainerSettings.css";
+import "./css/TrainerSettings.tablet.css";
+import "./css/TrainerSettings.phone.css";
 
 const TrainerSettings = () => {
   const { trainers, loading, error } = useSelector((state) => state.trainer);
@@ -88,11 +90,9 @@ const TrainerSettings = () => {
     (trainerObj) => trainerObj.uid === user.uid
   );
 
-
   if (loading || !user || !trainerData) {
-    return <Loader/>;
+    return <Loader />;
   }
-
 
   const profileImageUrl = trainerData.image || user.photoURL || anonymousImage;
 
@@ -118,24 +118,24 @@ const TrainerSettings = () => {
             </div>
             <div className="form-group">
               <LoginInput
-                label="Full Name"
                 onChange={handleInputChange}
-                value={input.name}
-                type="text"
-                name="name"
                 labelClass="form-label"
                 inputClass="form-input"
+                value={input.name}
+                label="Full Name"
+                type="text"
+                name="name"
               />
             </div>
             <div className="form-group">
               <LoginInput
-                label="Choose Your Sport"
                 onChange={handleInputChange}
+                label="Choose Your Sport"
+                labelClass="form-label"
+                inputClass="form-input"
                 value={input.sport}
                 type="select"
                 name="sport"
-                labelClass="form-label"
-                inputClass="form-input"
                 options={sports.map((sport) => ({
                   value: sport,
                   label: sport,
@@ -144,36 +144,36 @@ const TrainerSettings = () => {
             </div>
             <div className="form-group">
               <LoginInput
-                label="Short Description"
-                onChange={handleInputChange}
-                value={input.description}
-                type="text"
-                name="description"
                 placeholder="Enter a short description."
+                onChange={handleInputChange}
+                label="Short Description"
+                value={input.description}
                 labelClass="form-label"
                 inputClass="form-input"
+                name="description"
+                type="text"
               />
             </div>
             <div className="form-group">
               <label className="form-label">About Yourself</label>
               <textarea
+                className="trainer-setting-form-textarea"
                 placeholder="Tell about yourself"
                 onChange={handleInputChange}
-                className="trainer-setting-form-textarea"
                 value={input.about}
                 name="about"
               />
             </div>
             <div className="form-group">
               <LoginInput
-                label="Address"
                 onChange={handleInputChange}
-                value={input.address}
-                type="text"
-                name="address"
                 placeholder="Ex: Tel Aviv"
                 labelClass="form-label"
                 inputClass="form-input"
+                value={input.address}
+                label="Address"
+                name="address"
+                type="text"
               />
             </div>
             <div className="form-group">
@@ -205,13 +205,13 @@ const TrainerSettings = () => {
             <div className="form-group">
               <LoginInput
                 label="Lesson Length (minutes)"
-                value={input.lessonLength}
                 onChange={handleInputChange}
-                type="number"
-                name="lessonLength"
+                value={input.lessonLength}
                 placeholder="In minutes"
-                labelClass="form-label"
                 inputClass="form-input"
+                labelClass="form-label"
+                name="lessonLength"
+                type="number"
                 min={45}
                 max={120}
               />
@@ -220,12 +220,12 @@ const TrainerSettings = () => {
               <LoginInput
                 label="Price per Lesson (₪)"
                 onChange={handleInputChange}
-                value={input.price}
-                type="number"
-                name="price"
-                placeholder="In ₪"
                 labelClass="form-label"
                 inputClass="form-input"
+                value={input.price}
+                placeholder="In ₪"
+                type="number"
+                name="price"
                 min={1}
                 max={130}
               />
@@ -267,5 +267,3 @@ const TrainerSettings = () => {
 };
 
 export default TrainerSettings;
-
-

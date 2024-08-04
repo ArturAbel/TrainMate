@@ -18,7 +18,9 @@ import {
   updateUser,
 } from "../../redux/features/usersSlice";
 
-import "./UserSettings.css";
+import "./css/UserSettings.css";
+import "./css/UserSettings.tablet.css";
+import "./css/UserSettings.phone.css";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -104,19 +106,18 @@ const UserSettings = () => {
     }
   };
 
+  if (!user) {
+    return <Loader />;
+  }
+
   const userData = users.find((userObj) => userObj.uid === user.uid);
 
   let profileImageUrl;
 
   if (userData) {
-      profileImageUrl = userData.photoURL;
+    profileImageUrl = userData.photoURL;
   } else {
     profileImageUrl = anonymousImage;
-  }
-
-
-  if (!user || usersLoading || trainersLoading) {
-    return <Loader />;
   }
 
   return (

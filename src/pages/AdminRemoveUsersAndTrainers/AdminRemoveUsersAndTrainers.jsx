@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import { useEffect, useState } from "react";
 
-import "./AdminRemoveUsersAndTrainers.css";
+import "./css/AdminRemoveUsersAndTrainers.css";
+import "./css/AdminRemoveUsersAndTrainers.tablet.css";
+import "./css/AdminRemoveUsersAndTrainers.phone.css";
 
 const AdminRemoveUsersAndTrainers = () => {
   const dispatch = useDispatch();

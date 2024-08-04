@@ -46,6 +46,7 @@ export const gitHubLink = "https://github.com/ArturAbel/TrainMate";
 export const TRAINER = "trainer";
 export const TRAINEE = "trainee";
 export const ADMIN = "admin";
+export const ALT_IMAGE = "image";
 
 // Trainer Registration
 export const sports = [
@@ -177,4 +178,5 @@ export const sports = [
   "Windsurfing",
   "Wrestling",
   "Wushu",
+  "Yoga",
 ];

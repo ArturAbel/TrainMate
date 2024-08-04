@@ -1,0 +1,164 @@
+.trainer-registration-section {
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 90vh;
+  margin-top: 20vh;
+  max-height: 100%;
+  display: flex;
+  width: 100%;
+  gap: 10rem;
+}
+
+.trainer-registration-instructions-container {
+  background-color: var(--background-secondary2);
+  border-radius: 15px;
+  min-height: 90vh;
+  padding: 4vw;
+  width: 35vw;
+}
+
+.trainer-registration-instructions-title {
+  text-transform: capitalize;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 4rem;
+  display: flex;
+}
+
+.trainer-registration-instructions-icon {
+  font-size: 2.5rem;
+}
+
+.trainer-registration-instructions-explanation {
+  font-size: 1.8rem;
+  margin-top: 5vh;
+}
+
+.trainer-registration-form-container {
+  min-height: 90vh;
+  padding: 4vw;
+  width: 45vw;
+}
+
+.trainer-registration-input-container {
+  flex-direction: column;
+  display: flex;
+  gap: 1rem;
+}
+
+.trainer-registration-form-label {
+  text-transform: capitalize;
+  font-size: 1.8rem;
+  margin-top: 2rem;
+  text-align: left;
+  display: block;
+}
+
+.trainer-registration-form-input {
+  background-color: var(--background-main1);
+  font-size: 2rem;
+  height: 3.5rem;
+  width: 15vw;
+  border: none;
+  border-bottom: 2px solid var(--color-input-placeholder-border);
+}
+
+.form-input-longer {
+  width: 100%;
+}
+
+.form-textarea {
+  height: 10rem;
+  width: 100%;
+}
+
+.trainer-registration-form-input::placeholder {
+  font-family: var(--font-content);
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  opacity: 0.4;
+}
+
+.form-textarea::placeholder {
+  font-family: var(--font-content);
+}
+
+.trainer-registration-form-input:hover {
+  border-color: var(--background-main2);
+}
+
+.trainer-registration-form-input:focus {
+  outline: none;
+}
+
+.trainer-registration-form-option {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+}
+
+.trainer-registration-input-container-level {
+  display: flex;
+  gap: 3rem;
+}
+
+.trainer-registration-level-container {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.trainer-registration-form-radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.trainer-registration-form-input-checkbox {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.trainer-registration-form-level-label {
+  font-size: 1.2rem;
+}
+
+.trainer-registration-form-upload-image {
+  justify-content: flex-start;
+  margin-top: 5vh;
+}
+
+.trainer-registration-instruction-subtitle {
+  margin: 4rem 0 1rem 0;
+  font-size: 2.2rem;
+  text-align: left;
+}
+
+.trainer-registration-instruction-text {
+  font-family: var(--font-content);
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.trainer-registration-instruction-text-strong {
+  font-family: var(--font-title);
+  letter-spacing: -0.5px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+#trainer-registration-register-button {
+  background-color: var(--background-secondary1);
+  margin-top: 4rem;
+  height: 4.5rem;
+  width: 100%;
+}
+
+#trainer-registration-register-button:hover {
+  filter: brightness(0.9);
+}
+
+#trainer-registration-register-button:disabled {
+  background-color: var(--color-hover-setting);
+  border: 2px solid var(--color-hover-setting);
+}

@@ -1,0 +1,107 @@
+.filter-container {
+  justify-content: flex-end;
+  position: relative;
+  margin-top: 5vh;
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.filter-container-label {
+  height: 5rem;
+}
+
+.filter-container-label-upper {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+}
+
+.filter-container-inner-lower {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  font-size: 1.6rem;
+  text-align: left;
+  width: 100%;
+}
+
+.filter {
+  border: 2px solid var(--color-input-placeholder-border);
+  color: var(--background-main2);
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  min-width: 0;
+  width: 18vw;
+}
+
+.filter:hover {
+  border-color: var(--background-main2);
+}
+
+.filter:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.filter:focus-visible {
+  box-shadow: none;
+}
+
+label {
+  color: var(--background-main2);
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label span {
+  margin-bottom: 5px;
+}
+
+.dropdown-content {
+  background-color: var(--background-main1);
+  border-color: var(--background-main2);
+  position: absolute;
+  border-radius: 8px;
+  display: block;
+  padding: 1rem;
+  width: 100%;
+  z-index: 1;
+  top: 9vh;
+}
+
+.dropdown-content a {
+  font-family: var(--font-content);
+  color: var(--background-main2);
+  text-decoration: solid;
+  font-size: 1.4rem;
+  font-weight: 400;
+  display: block;
+  margin: 1rem;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--color-input-placeholder-border);
+}
+
+.filter-input-container {
+  margin-top: 10px;
+  text-align: end;
+  display: block;
+}
+
+.filter-input {
+  border: 1px solid var(--color-input-placeholder-border);
+  border-radius: 4px;
+  padding: 8px;
+}

@@ -17,9 +17,12 @@ import {
   TRAINEE,
   TRAINER,
   ADMIN,
+  ALT_IMAGE,
 } from "../../utilities/constants";
 
-import "./Navbar.css";
+import "./css/Navbar.css";
+import "./css/Navbar.tablet.css";
+import "./css/Navbar.phone.css";
 
 export const Navbar = () => {
   const favoriteCount = useSelector((state) => state.users.favoriteCount);
@@ -138,7 +141,7 @@ export const Navbar = () => {
                   <img
                     className="navbar-user-image"
                     src={user.photoURL || anonymousImage}
-                    alt="image"
+                    alt={ALT_IMAGE}
                   />
                 </div>
                 {showSettings && (
@@ -199,7 +202,7 @@ export const Navbar = () => {
                   <img
                     className="navbar-user-image"
                     src={user.photoURL || anonymousImage}
-                    alt="image"
+                    alt={ALT_IMAGE}
                   />
                 </div>
                 {showSettings && (
@@ -207,7 +210,10 @@ export const Navbar = () => {
                     <Link to={"/trainer-settings"} className="navbarList-item">
                       settings
                     </Link>
-                    <Link to={"/trainer-panel"} className="navbarList-item">
+                    <Link
+                      to={`/messages/${user.uid}`}
+                      className="navbarList-item"
+                    >
                       Messages
                     </Link>
                     <Link
@@ -228,7 +234,7 @@ export const Navbar = () => {
                 <img
                   className="navbar-user-image"
                   src={user.photoURL || anonymousImage}
-                  alt="image"
+                  alt={ALT_IMAGE}
                 />
               </div>
               {showSettings && (
