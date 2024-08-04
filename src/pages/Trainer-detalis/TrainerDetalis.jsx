@@ -163,9 +163,11 @@ const TrainerDetails = () => {
     }
 
     dispatch(fetchOrCreateConversation({ currentUserId: user.uid, trainerId }));
-    navigate(`/messages/${user.uid}`);
-  };
 
+    setTimeout(() => {
+      navigate(`/messages/${user.uid}`);
+    }, 900); //will be fine for now
+  };
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>

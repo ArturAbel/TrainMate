@@ -1,4 +1,9 @@
-import { ADMIN, anonymousImage, TRAINEE, TRAINER } from "../../utilities/constants";
+import {
+  ADMIN,
+  anonymousImage,
+  TRAINEE,
+  TRAINER,
+} from "../../utilities/constants";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebaseConfig";
 import { createSlice } from "@reduxjs/toolkit";
@@ -34,12 +39,13 @@ const authSlice = createSlice({
 
 export const { setUser, setLoading, setError } = authSlice.actions;
 
-const serializeUser = (user, role = "") => ({
+export const serializeUser = (user, role = "", approved = false) => ({
   uid: user.uid,
   email: user.email,
   displayName: user.displayName,
   photoURL: user.photoURL,
   role,
+  approved,
 });
 
 // User
@@ -144,15 +150,17 @@ export const initializeAuthListener = () => (dispatch) => {
       const userDoc = await getDoc(userDocRef);
 
       let userRole = "";
+      let approved = false;
       if (user.email === "admin123@gmail.com") {
         userRole = ADMIN;
       } else if (trainerDoc.exists()) {
         userRole = TRAINER;
+        approved = trainerDoc.data().approved; // Get the approved status
       } else if (userDoc.exists()) {
         userRole = TRAINEE;
       }
 
-      dispatch(setUser(serializeUser(user, userRole)));
+      dispatch(setUser(serializeUser(user, userRole, approved)));
     } else {
       await signOut(auth);
       dispatch(setUser(null));
@@ -222,17 +230,17 @@ export const loginUser = (email, password) => async (dispatch) => {
     const userDoc = await getDoc(userDocRef);
 
     let userRole = "";
+    let approved = false;
     if (email === "admin123@gmail.com") {
       userRole = ADMIN;
     } else if (trainerDoc.exists()) {
       userRole = TRAINER;
+      approved = trainerDoc.data().approved; // Get the approved status
     } else if (userDoc.exists()) {
       userRole = TRAINEE;
     }
 
-    dispatch(
-      setUser({ ...serializeUser(userCredential.user), role: userRole })
-    );
+    dispatch(setUser(serializeUser(userCredential.user, userRole, approved)));
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -256,9 +264,11 @@ export const loginWithGoogle = (userType) => async (dispatch) => {
     const userDoc = await getDoc(userDocRef);
 
     let userRole = "";
+    let approved = false;
     if (trainerDoc.exists() || userDoc.exists()) {
       if (trainerDoc.exists()) {
         userRole = TRAINER;
+        approved = trainerDoc.data().approved; // Get the approved status
       }
       if (userDoc.exists()) {
         userRole = TRAINEE;
@@ -274,7 +284,7 @@ export const loginWithGoogle = (userType) => async (dispatch) => {
       }
     }
 
-    dispatch(setUser({ ...serializeUser(result.user), role: userRole }));
+    dispatch(setUser(serializeUser(result.user, userRole, approved)));
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));

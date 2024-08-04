@@ -83,8 +83,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trainer-registration",
-        element: <PrivateRoute allowedRoles={[TRAINER]} />,
-        children: [{ path: "", element: <TrainerRegistration /> }],
+        element: <TrainerRegistration />,
       },
       {
         path: "trainer-panel/:trainerId",
