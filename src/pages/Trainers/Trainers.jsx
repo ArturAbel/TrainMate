@@ -9,6 +9,7 @@ import Search from "../../components/Search/Search";
 import Loader from "../../components/Loader/Loader";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
+import { LuListFilter } from "react-icons/lu";
 
 import "./css/Trainers.css";
 import "./css/Trainers.tablet.css";
@@ -25,6 +26,8 @@ const Trainers = () => {
   const { loading: usersLoading } = useSelector((state) => state.users);
   const [selectedLessonLength, setSelectedLessonLength] = useState(null);
   const [priceRange, setPriceRange] = useState({ min: 5, max: 100 });
+  const [showFiltersOnPhone, setShowFiltersOnPhone] = useState(false);
+  const [LoadingFavorites, setLoadingFavorites] = useState(true);
   const [filteredTrainers, setFilteredTrainers] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -37,7 +40,6 @@ const Trainers = () => {
   const [addresses, setAddresses] = useState([]);
   const [sports, setSports] = useState([]);
   const [levels, setLevels] = useState([]);
-  const [LoadingFavorites, setLoadingFavorites] = useState(true);
 
   useEffect(() => {
     dispatch(fetchTrainers());
@@ -215,18 +217,31 @@ const Trainers = () => {
             Find Your Perfect Sports Trainer with train.mate:
           </h1>
           <div className="trainers-filter-search-container">
-            <TrainerFilter
-              onLessonLengthFilterChange={handleLessonLengthFilterChange}
-              onAddressFilterChange={handleAddressFilterChange}
-              onPriceFilterChange={handlePriceFilterChange}
-              onSportFilterChange={handleSportFilterChange}
-              onLevelFilterChange={handleLevelFilterChange}
-              toggleOverlay={toggleOverlay}
-              lessonLengths={lessonLengths}
-              addresses={addresses}
-              sports={sports}
-              levels={levels}
-            />
+            {showFiltersOnPhone && (
+              <TrainerFilter
+                onLessonLengthFilterChange={handleLessonLengthFilterChange}
+                onAddressFilterChange={handleAddressFilterChange}
+                onPriceFilterChange={handlePriceFilterChange}
+                onSportFilterChange={handleSportFilterChange}
+                onLevelFilterChange={handleLevelFilterChange}
+                toggleOverlay={toggleOverlay}
+                lessonLengths={lessonLengths}
+                addresses={addresses}
+                sports={sports}
+                levels={levels}
+              />
+            )}
+            <div className="trainers-show-filters-button-container">
+              <button
+                onClick={() => setShowFiltersOnPhone((prev) => !prev)}
+                id="trainers-show-filters-button"
+                className="button-transparent"
+              >
+                <LuListFilter className="trainers-show-filters-icon"/>
+                {showFiltersOnPhone ? `Hide Filters` : `Show Filters`}
+              </button>
+            </div>
+
             <Search
               onSortByRating={handleSortByRating}
               toggleOverlay={toggleOverlay}
