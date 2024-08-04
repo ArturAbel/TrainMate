@@ -34,7 +34,13 @@ const FavoriteTrainers = () => {
     }
   }, [user, users]);
 
-  if (trainersLoading) {
+  const handleVailerClick = (trainerId) => {
+    console.log(`Trainer card with ID ${trainerId} was clicked.`);
+    dispatch(fetchTrainers());
+    dispatch(fetchUsers());
+  }; // vailer function purpose is just to be  register changes within add and remove and then fetch,  it doesnt render i think because when you update shit, it doesnt trigger re-render
+
+  if (trainersLoading || authLoading || usersLoading) {
     return <Loader />;
   }
 
@@ -66,6 +72,7 @@ const FavoriteTrainers = () => {
                 key={trainer.uid}
                 id={trainer.uid}
                 favorite={true}
+                onVailerClick={handleVailerClick}
               />
             ) : null;
           })

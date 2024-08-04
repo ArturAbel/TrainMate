@@ -287,7 +287,7 @@ const TrainerDetails = () => {
             </div>
             <div className="trainer-profile-actions-data-item">
               <IoTime className="trainer-profile-button-icon" />
-              <p>45</p>
+              <p>{trainer.lessonLength}</p>
             </div>
           </div>
           <div className="trainer-profile-actions-buttons-container">

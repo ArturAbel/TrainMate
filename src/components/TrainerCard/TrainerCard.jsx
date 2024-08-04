@@ -28,6 +28,7 @@ const TrainerCard = ({
   name,
   id,
   inAdmin = null,
+  onVailerClick,
 }) => {
   const [isFavorited, setIsFavorited] = useState(favorite);
   const { user } = useSelector((state) => state.auth);
@@ -36,11 +37,13 @@ const TrainerCard = ({
   const handleAddFavorite = (userId, id) => {
     dispatch(addFavorite(userId, id));
     setIsFavorited(true);
+    if (onVailerClick) onVailerClick(id); // vailer id will check shit
   };
 
   const handleRemoveFavorite = (userId, id) => {
     dispatch(removeFavorite(userId, id));
     setIsFavorited(false);
+    if (onVailerClick) onVailerClick(id); // also vailer id check shit
   };
 
   return (
