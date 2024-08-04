@@ -21,6 +21,12 @@
   font-weight: 600;
 }
 
+.trainer-panel-no-lessons-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
 .trainer-panel-user-card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: var(--border-radius-generic);
@@ -61,7 +67,7 @@
   gap: 0.5rem;
 }
 
-.trainer-panel-card-content{
+.trainer-panel-card-content {
   text-transform: capitalize;
   flex-direction: column;
   font-size: 1.3rem;
@@ -76,9 +82,9 @@
 .trainer-panel-card-icons {
   justify-content: space-between;
   flex-direction: column;
-  display: flex;
-  max-height: 25vh;
   min-height: 20vh;
+  max-height: 25vh;
+  display: flex;
 }
 
 .trainer-panel-button-icon {
@@ -95,6 +101,6 @@
   color: var(--background-secondary1);
 }
 
-.approved-cards{
+.approved-cards {
   background-color: var(--background-approved);
 }

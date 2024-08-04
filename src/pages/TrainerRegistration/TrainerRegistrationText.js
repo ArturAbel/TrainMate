@@ -25,7 +25,13 @@ export const registrationInstructions = [
   {
     title: "Which Level Do You Teach?",
     text: "Select the levels you teach by checking the appropriate boxes.",
-    guidelines: ["Beginner / Intermediate / Advanced / Expert / Master"],
+    guidelines: [
+      "Beginner: 0-2 years of experience.",
+      "Intermediate: 2-5 years of experience.",
+      "Advanced: 5-10 years of experience.",
+      "Expert: 10-15 years of experience.",
+      "Master: 15+ years of experience.",
+    ],
   },
   {
     title: "Your Lesson Duration",

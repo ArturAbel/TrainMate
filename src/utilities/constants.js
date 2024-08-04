@@ -47,6 +47,8 @@ export const TRAINER = "trainer";
 export const TRAINEE = "trainee";
 export const ADMIN = "admin";
 export const ALT_IMAGE = "image";
+export const PENDING = "pending";
+export const APPROVED = "approved";
 
 // Trainer Registration
 export const sports = [
