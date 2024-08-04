@@ -2,11 +2,12 @@
   .home-hero-section {
     justify-content: space-around;
     padding-top: 20vh;
-    height: 100vh;
+    height: 95vh;
   }
 
   .home-hero-title {
     letter-spacing: -2px;
+    margin-bottom: 30vh;
     font-size: 3rem;
     width: 70%;
   }
@@ -17,7 +18,7 @@
     height: 20vh;
     gap: 0.5rem;
     width: 42vw;
-    top: 52vh;
+    top: 47vh;
     left: 8vw;
   }
 
@@ -39,7 +40,7 @@
     height: 12vh;
     width: 30vw;
     right: 12vw;
-    top: 12vh;
+    top: 45vh;
   }
 
   .hero-div-2-text {
@@ -47,20 +48,10 @@
   }
 
   .hero-div-3 {
-    height: 12vh;
-    top: 12vh;
-    width: 50vw;
-    left: 0;
-  }
-
-  .hero-div-3-text {
-    font-size: 2.5vh;
-  }
-
-  .hero-div-3-icon {
-    font-size: 10vh;
+    display: none;
   }
 
   .hero-button {
+    margin-bottom: 5rem;
   }
 }
