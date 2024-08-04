@@ -41,6 +41,7 @@ export const SignUpForm = ({ title }) => {
 
   useEffect(() => {
     if (user) {
+      console.log("Signed-Up User Data:", user);
       if (user.role === TRAINEE) {
         navigate("/trainers");
       } else if (user.role === TRAINER) {
