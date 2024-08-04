@@ -1,7 +1,8 @@
 @media screen and (max-width: 430px) {
   .home-hero-section {
+    justify-content: space-around;
     padding-top: 20vh;
-    height: 110vh;
+    height: 100vh;
   }
 
   .home-hero-title {
@@ -16,8 +17,8 @@
     height: 20vh;
     gap: 0.5rem;
     width: 42vw;
-    top: 16vh;
-    left: 5vw;
+    top: 52vh;
+    left: 8vw;
   }
 
   .hero-div-1-text {
@@ -35,10 +36,10 @@
   }
 
   .hero-div-2 {
-    height: 15vh;
+    height: 12vh;
     width: 30vw;
-    right: 5vw;
-    top: 25vh;
+    right: 12vw;
+    top: 12vh;
   }
 
   .hero-div-2-text {
@@ -46,10 +47,10 @@
   }
 
   .hero-div-3 {
-    height: 15vh;
-    bottom: 10vh;
+    height: 12vh;
+    top: 12vh;
     width: 50vw;
-    left: 15vw;
+    left: 0;
   }
 
   .hero-div-3-text {
@@ -58,5 +59,8 @@
 
   .hero-div-3-icon {
     font-size: 10vh;
+  }
+
+  .hero-button {
   }
 }

@@ -1,7 +1,7 @@
 @media screen and (max-width: 430px) {
   .home-instruction-content-title {
     margin-top: 1.5rem;
-    font-size: 3vh;
+    font-size: 3.5vh;
   }
 
   .home-instruction-content-number {
@@ -13,10 +13,11 @@
   }
 
   .home-instruction-content-text-container {
-    margin-left: 6rem;
+    margin-left: 8rem;
   }
 
   .home-instruction-content-text {
-    font-size: 1.5rem;
+    font-size: 1.9rem;
+
   }
 }
