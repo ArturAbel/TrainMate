@@ -1,4 +1,5 @@
 import ChatModalPersonCard from "../../components/ChatModalPersonCard/ChatModalPersonCard";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { fetchTrainers } from "../../redux/features/trainerSlice";
 import { fetchUsers } from "../../redux/features/usersSlice";
 import ChatModal from "../../components/ChatModal/ChatModal";
@@ -101,6 +102,7 @@ const Messages = () => {
           })}
         </div>
       </div>
+      <HomeDivider />
       {isModalOpen && (
         <ChatModal
           selectedUserName={selectedUserName}

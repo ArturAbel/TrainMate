@@ -4,6 +4,7 @@ import { LuMessageSquare } from "react-icons/lu";
 
 import "./css/LessonContainer.css";
 import "./css/LessonContainer.phone.css";
+
 const LessonContainer = ({ title, lessons, onApprove, onDelete, pending }) => {
   return (
     <section

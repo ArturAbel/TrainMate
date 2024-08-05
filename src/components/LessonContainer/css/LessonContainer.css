@@ -27,10 +27,16 @@
   font-weight: 400;
 }
 
+.trainer-panel-cards-container {
+  flex-direction: column;
+  display: flex;
+  gap: 1rem;
+}
+
 .trainer-panel-user-card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: var(--background-secondary7);
   border-radius: var(--border-radius-generic);
-  background-color: var(--color-white);
   justify-content: space-between;
   transition: 0.5s;
   max-height: 25vh;
@@ -99,8 +105,4 @@
 
 .trainer-panel-button-icon:hover {
   color: var(--background-secondary1);
-}
-
-.approved-cards {
-  background-color: var(--background-approved);
 }
