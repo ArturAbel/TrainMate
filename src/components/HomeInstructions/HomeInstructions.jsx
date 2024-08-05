@@ -31,6 +31,7 @@ export const HomeInstructions = () => {
             className="home-instruction-one-image-two"
             src={instructionOne.image2}
             alt={ALT_IMAGE}
+            loading="lazy"
           />
         </div>
       </div>
@@ -40,6 +41,7 @@ export const HomeInstructions = () => {
             className="home-instruction-two-image"
             src={instructionTwo.image}
             alt={ALT_IMAGE}
+            loading="lazy"
           />
         </div>
         <HomeInstructionCard

@@ -51,7 +51,12 @@ export const Footer = () => {
             <Logo className={"footer-logo"} />
           </div>
           <div className="footer-image-container">
-            <img className="footer-image" src={footerGif} alt={ALT_IMAGE} />
+            <img
+              className="footer-image"
+              src={footerGif}
+              alt={ALT_IMAGE}
+              loading="lazy"
+            />
           </div>
         </div>
       </div>

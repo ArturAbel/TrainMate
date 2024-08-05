@@ -15,6 +15,7 @@ export const HomeBecomeTrainer = () => {
           className="home-trainer-image"
           src={becomeTrainer}
           alt={ALT_IMAGE}
+          loading="lazy"
         />
       </div>
       <div className="home-trainer-content-container">
