@@ -166,7 +166,7 @@ const TrainerDetails = () => {
 
     setTimeout(() => {
       navigate(`/messages/${user.uid}`);
-    }, 900); //will be fine for now
+    }, 1800); //will be fine for now
   };
   return (
     <>
