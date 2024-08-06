@@ -237,20 +237,20 @@ const TrainerDetails = () => {
                       <div className="trainer-profile-reviews-list-image-container">
                         <img
                           className="trainer-profile-reviews-list-image"
-                          src={review.userImage}
+                          src={review.photoURL}
                           alt="image"
                         />
                       </div>
-                      <p>{review.userName}</p>
+                      <p>{review.displayName}</p>
                     </div>
                     <ReactStars
                       activeColor="var(--background-secondary1)"
-                      value={review.userRating}
+                      value={review.starRating}
                       edit={false}
                       count={5}
                       size={24}
                     />
-                    <p>{review.reviewText}</p>
+                    <p>{review.comment}</p>
                   </div>
                 ))}
               </div>

@@ -4,7 +4,6 @@ import ReactStars from "react-rating-stars-component";
 import Loader from "../../components/Loader/Loader";
 import { useParams } from "react-router";
 import { useEffect } from "react";
-
 import "./css/TrainerReviews.css";
 import "./css/TrainerReviews.tablet.css";
 import "./css/TrainerReviews.phone.css";
@@ -35,16 +34,19 @@ const TrainerReviews = () => {
             <div key={index} className="review-card">
               <img
                 className="review-user-image"
-                src={review.userImage}
-                alt={review.userName}
+                src={review.photoURL}
+                alt={review.displayName}
               />
               <div className="review-content">
-                <p className="reviewer-name">{review.userName}</p>
-                <p className="review-text">{review.reviewText}</p>
+                <p className="reviewer-name">{review.displayName}</p>
+                <p className="review-date">
+                  {new Date(review.createdAt.seconds * 1000).toLocaleString()}
+                </p>
+                <p className="review-text">{review.comment}</p>
                 <div className="rating-container">
                   <ReactStars
-                    value={review.userRating}
-                    activeColor="#var(--background-main2)"
+                    value={review.starRating}
+                    activeColor="var(--background-main2)"
                     edit={false}
                     count={5}
                     size={24}

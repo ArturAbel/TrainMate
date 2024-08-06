@@ -57,7 +57,7 @@ export const {
   setLoading,
   setUsers,
   setError,
-  setNewMessage
+  setNewMessage,
 } = usersSlice.actions;
 
 export const toggleTraineeNewMessage = (value) => (dispatch) => {
@@ -201,7 +201,14 @@ export const bookLesson =
     }
   };
 
-export const upsertReview = async (userId, trainerId, starRating, comment) => {
+export const upsertReview = async (
+  userId,
+  trainerId,
+  starRating,
+  comment,
+  displayName,
+  photoURL
+) => {
   try {
     // Step 1: Check User Eligibility
     const userRef = doc(db, "users", userId);
@@ -232,6 +239,8 @@ export const upsertReview = async (userId, trainerId, starRating, comment) => {
       userId,
       starRating,
       comment,
+      displayName,
+      photoURL,
       createdAt: new Date(),
     };
 
@@ -252,7 +261,6 @@ export const upsertReview = async (userId, trainerId, starRating, comment) => {
 
     if (existingReviewIndex !== -1) {
       // Remove the existing review from the array
-
       await updateDoc(trainerRef, {
         reviews: arrayRemove(reviews[existingReviewIndex]), // Remove the old review
       });
