@@ -1,9 +1,12 @@
-import "./AdminTrainerCard.css";
-import {
-  deleteTrainer,
-  approveTrainer,
-} from "../../redux/features/trainerSlice";
+import { ALT_IMAGE } from "../../utilities/constants";
+import { sortLevels } from "./AdminTrainerCardLib";
 import { useDispatch } from "react-redux";
+import {
+  approveTrainer,
+  deleteTrainer,
+} from "../../redux/features/trainerSlice";
+
+import "./AdminTrainerCard.css";
 
 export const AdminTrainerCard = ({
   lessonLength,
@@ -18,6 +21,8 @@ export const AdminTrainerCard = ({
 }) => {
   const dispatch = useDispatch();
 
+  const sortedLevels = sortLevels(level);
+
   const handleDeleteTrainer = (id) => {
     dispatch(deleteTrainer(id));
   };
@@ -28,7 +33,7 @@ export const AdminTrainerCard = ({
   return (
     <div className="admin-trainer-card">
       <div className="admin-trainer-image-container">
-        <img className="admin-trainer-image" src={imgSrc} alt="image" />
+        <img className="admin-trainer-image" src={imgSrc} alt={ALT_IMAGE} />
         <div className="admin-trainer-buttons-container">
           <button
             className="button-transparent"
@@ -62,7 +67,7 @@ export const AdminTrainerCard = ({
           Per Lesson
         </p>
         <p className="admin-trainer-detail">
-          {level.map((level, index) => (
+          {sortedLevels.map((level, index) => (
             <span className="admin-trainer-level" key={index}>
               {level}
             </span>
