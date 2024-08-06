@@ -9,15 +9,15 @@ export const TrainerInfoReviewCard = ({ review }) => {
         <div className="trainer-profile-reviews-list-image-container">
           <img
             className="trainer-profile-reviews-list-image"
-            src={review.userImage || ""}
+            src={review.photoURL || ""}
             alt="user"
           />
         </div>
-        <p>{review.userName || ""}</p>
+        <p>{review.displayName || ""}</p>
       </div>
       <ReactStars
         activeColor="var(--background-secondary1)"
-        value={review.userRating}
+        value={review.starRating}
         edit={false}
         count={5}
         size={24}

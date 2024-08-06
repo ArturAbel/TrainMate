@@ -1,5 +1,6 @@
 import LessonContainer from "../../components/LessonContainer/LessonContainer";
 import { fetchUsers, updateUser } from "../../redux/features/usersSlice";
+import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { approveLesson, deleteLesson } from "./TrainerPanelLib";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
@@ -10,10 +11,6 @@ import {
   updateTrainer,
 } from "../../redux/features/trainerSlice";
 import useLessonFiltering from "../../hooks/useLessonFiltering";
-import {
-  getCurrentTimeChecker,
-  convertTo24HourFormat,
-} from "../../utilities/timeUtils.jsx";
 
 import "./css/TrainerPanel.css";
 import "./css/TrainerPanel.phone.css";
@@ -141,23 +138,26 @@ const TrainerPanel = () => {
   }
 
   return (
-    <section className="trainer-panel-section">
-      <div className="trainer-panel-containers">
-        <LessonContainer
-          title="Pending Lessons"
-          lessons={pendingLessons}
-          onApprove={handleApproveLesson}
-          onDelete={(lessonId) => handleDeleteLesson(lessonId, true)}
-          pending={true}
-        />
-        <LessonContainer
-          title="Approved Lessons"
-          lessons={approvedLessons}
-          onDelete={(lessonId) => handleDeleteLesson(lessonId, false)}
-          pending={false}
-        />
-      </div>
-    </section>
+    <>
+      <section className="trainer-panel-section">
+        <div className="trainer-panel-containers">
+          <LessonContainer
+            title="Pending Lessons"
+            lessons={pendingLessons}
+            onApprove={handleApproveLesson}
+            onDelete={(lessonId) => handleDeleteLesson(lessonId, true)}
+            pending={true}
+          />
+          <LessonContainer
+            title="Approved Lessons"
+            lessons={approvedLessons}
+            onDelete={(lessonId) => handleDeleteLesson(lessonId, false)}
+            pending={false}
+          />
+        </div>
+      </section>
+      <HomeDivider />
+    </>
   );
 };
 
