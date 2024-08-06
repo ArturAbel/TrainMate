@@ -10,18 +10,31 @@ import "./TrainerReview.css";
 const TrainerReview = ({ trainerId, setIsModalOpen }) => {
   const { user } = useSelector((state) => state.auth);
   const [isClean, setIsClean] = useState(true);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+
   const checkForBadWords = () => {
     const cleanedText = LeoProfanity.clean(reviewText);
     setIsClean(cleanedText === reviewText);
   };
 
-  const dispatch = useDispatch();
-  const handleUpsertReview = (userId, trainerId, starRating, comment) => {
-    dispatch(upsertReview(userId, trainerId, starRating, comment));
+  const handleUpsertReview = async (
+    userId,
+    trainerId,
+    starRating,
+    comment,
+    displayName,
+    photoURL
+  ) => {
+    await upsertReview(
+      userId,
+      trainerId,
+      starRating,
+      comment,
+      displayName,
+      photoURL
+    );
   };
-
-  const [selectedRating, setSelectedRating] = useState(0);
-  const [reviewText, setReviewText] = useState("");
 
   const handleRatingChange = (newRating) => {
     setSelectedRating(newRating);
@@ -31,14 +44,21 @@ const TrainerReview = ({ trainerId, setIsModalOpen }) => {
     setReviewText(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     checkForBadWords();
     const cleanedText = LeoProfanity.clean(reviewText);
     const isTextClean = cleanedText === reviewText;
 
     if (isTextClean) {
-      handleUpsertReview(user.uid, trainerId, selectedRating, reviewText);
+      await handleUpsertReview(
+        user.uid,
+        trainerId,
+        selectedRating,
+        reviewText,
+        user.displayName,
+        user.photoURL
+      );
     }
   };
 
