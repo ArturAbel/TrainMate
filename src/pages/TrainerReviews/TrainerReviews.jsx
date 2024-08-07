@@ -27,7 +27,11 @@ const TrainerReviews = () => {
   return (
     <section className="trainer-reviews-section">
       <h1 className="trainer-reviews-header">
-        Welcome to your reviews, {matchedTrainer.name}
+        Welcome to your reviews,
+        <span className="trainer-reviews-header-name">
+          {matchedTrainer.name}
+        </span>
+        .
       </h1>
       <div className="reviews-container">
         {matchedTrainer.reviews && matchedTrainer.reviews.length > 0 ? (
