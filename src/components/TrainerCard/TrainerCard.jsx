@@ -45,7 +45,7 @@ const TrainerCard = ({
     setIsFavorited(false);
     if (onVailerClick) onVailerClick(id); // also vailer id check shit
   };
-
+  
   return (
     <div className="trainer-card-container">
       <div className="trainer-card-image-container">
