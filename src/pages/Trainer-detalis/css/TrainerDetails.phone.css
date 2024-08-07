@@ -22,4 +22,10 @@
     width: 100vw;
     gap: 5rem;
   }
+
+  .trainer-profile-reviews-list-containers {
+    grid-template-columns: 1fr;
+    display: grid;
+    gap: 1rem;
+  }
 }

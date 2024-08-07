@@ -9,4 +9,8 @@
     font-size: 1.5rem;
     height: 3vh;
   }
+
+  .trainer-reviews-modal-reviews {
+    padding: 1rem 0rem;
+  }
 }

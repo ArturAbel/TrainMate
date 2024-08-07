@@ -1,10 +1,10 @@
 import { anonymousImage } from "../../utilities/constants";
 import ReactStars from "react-rating-stars-component";
 
-import "./TrainerInfoReviewCard.css";
+import "./css/TrainerInfoReviewCard.css";
+import "./css/TrainerInfoReviewCard.phone.css";
 
 export const TrainerInfoReviewCard = ({ review }) => {
-  
   return (
     <div className="trainer-info-review-card-container">
       <div className="trainer-profile-reviews-list-upper-container">
