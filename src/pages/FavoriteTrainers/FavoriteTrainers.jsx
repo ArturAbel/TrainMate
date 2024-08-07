@@ -79,7 +79,7 @@ const FavoriteTrainers = () => {
         ) : (
           <section className="favorite-trainers-no-favorite">
             <h1 className="favorite-trainers-no-favorite-title">
-              {user.displayName}, you have no favorite trainers yet!
+              {user.displayName}, you have no favorite trainers!
             </h1>
           </section>
         )}

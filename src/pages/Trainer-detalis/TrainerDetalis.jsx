@@ -1,6 +1,7 @@
 import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
 import { calculateAverageRatingInProfile } from "../../utilities/calculateAvgRating";
+import { sortLevels } from "../../components/AdminTrainerCard/AdminTrainerCardLib";
 import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
@@ -172,7 +173,9 @@ const TrainerDetails = () => {
 
   // Calculate rating from array
   const averageRating = calculateAverageRatingInProfile(trainer.reviews);
-
+  // Sort levels
+  const sortedLevels = sortLevels(trainer.level);
+  
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
@@ -216,7 +219,7 @@ const TrainerDetails = () => {
             <span className="trainer-profile-teach-spans">
               <span>{trainer.sport}</span>
               <span>
-                {trainer.level.map((level, index) => (
+                {sortedLevels.map((level, index) => (
                   <span
                     className="trainer-profile-teach-span-level"
                     key={index}
