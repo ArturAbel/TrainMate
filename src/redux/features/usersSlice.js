@@ -131,7 +131,7 @@ export const updateUser = (userId, updatedData) => async (dispatch) => {
     await setDoc(doc(db, "users", userId), updatedData, { merge: true });
     dispatch(fetchUsers());
     dispatch(setLoading(false));
-    alert("User updated successfully");
+    console.log("User updated successfully");
   } catch (error) {
     dispatch(setError(error.message));
     dispatch(setLoading(false));

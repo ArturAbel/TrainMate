@@ -53,6 +53,14 @@ const TrainerReview = ({ trainerId, setIsModalOpen }) => {
     const isTextClean = cleanedText === reviewText;
 
     if (isTextClean) {
+      console.log("Submitting review with the following details:");
+      console.log("User ID:", user.uid);
+      console.log("Trainer ID:", trainerId);
+      console.log("Star Rating:", selectedRating);
+      console.log("Review Text:", reviewText);
+      console.log("Display Name:", user.displayName);
+      console.log("Photo URL:", user.photoURL);
+
       await handleUpsertReview(
         user.uid,
         trainerId,
@@ -61,6 +69,9 @@ const TrainerReview = ({ trainerId, setIsModalOpen }) => {
         user.displayName,
         user.photoURL
       );
+
+      // Close the modal after submitting the review
+      setIsModalOpen(false);
     }
   };
 
@@ -71,7 +82,7 @@ const TrainerReview = ({ trainerId, setIsModalOpen }) => {
         <div className="trainer-review-container-upper">
           <h2 className="trainer-review-title">Add a review</h2>
           <IoMdClose
-            onClick={() => setIsModalOpen((prev) => !prev)}
+            onClick={() => setIsModalOpen(false)}
             className="trainer-review-close-icon"
           />
         </div>
@@ -94,7 +105,6 @@ const TrainerReview = ({ trainerId, setIsModalOpen }) => {
             rows="4"
           ></textarea>
           <button
-            onClick={() => setIsModalOpen((prev) => !prev)}
             id="trainer-review-add-review-button"
             className="button-transparent"
             type="submit"

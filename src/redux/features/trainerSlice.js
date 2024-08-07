@@ -108,7 +108,7 @@ export const updateTrainer = (trainerId, updatedData) => async (dispatch) => {
     await updateDoc(trainerDoc, updatedData);
     dispatch(fetchTrainers());
     dispatch(setLoading(false));
-    alert("Trainer updated successfully");
+    console.log("Trainer updated successfully");
   } catch (error) {
     dispatch(setError(error.message));
     dispatch(setLoading(false));
