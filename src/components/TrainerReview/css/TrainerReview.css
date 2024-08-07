@@ -15,9 +15,9 @@
   transform: translate(-50%, -50%);
   font-family: var(--font-content);
   position: absolute;
-  padding: 20px;
+  padding: 2rem;
   margin: auto;
-  width: 25vw;
+  width: 27vw;
   z-index: 2;
   left: 50%;
   top: 50%;

@@ -227,7 +227,7 @@ const TrainerSettings = () => {
                 type="number"
                 name="price"
                 min={1}
-                max={130}
+                max={150}
               />
             </div>
             <button

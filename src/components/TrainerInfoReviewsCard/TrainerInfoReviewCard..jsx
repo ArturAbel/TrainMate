@@ -22,7 +22,7 @@ export const TrainerInfoReviewCard = ({ review }) => {
         count={5}
         size={24}
       />
-      <p>{review.reviewText || ""}</p>
+      <p>{review.comment || ""}</p>
     </div>
   );
 };
