@@ -1,15 +1,17 @@
+import { anonymousImage } from "../../utilities/constants";
 import ReactStars from "react-rating-stars-component";
 
 import "./TrainerInfoReviewCard.css";
 
 export const TrainerInfoReviewCard = ({ review }) => {
+  
   return (
     <div className="trainer-info-review-card-container">
       <div className="trainer-profile-reviews-list-upper-container">
         <div className="trainer-profile-reviews-list-image-container">
           <img
             className="trainer-profile-reviews-list-image"
-            src={review.photoURL || ""}
+            src={review.photoURL || anonymousImage}
             alt="user"
           />
         </div>

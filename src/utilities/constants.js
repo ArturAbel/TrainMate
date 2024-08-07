@@ -147,6 +147,7 @@ export const sports = [
   "Roller Skating",
   "Rowing",
   "Rugby",
+  "Running",
   "Sailing",
   "Sambo",
   "Savate",
@@ -181,4 +182,5 @@ export const sports = [
   "Wrestling",
   "Wushu",
   "Yoga",
+  "Zomba",
 ];
