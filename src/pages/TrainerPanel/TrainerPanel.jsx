@@ -67,6 +67,11 @@ const TrainerPanel = () => {
         (userLesson) =>
           userLesson.date + userLesson.hour !== lesson.date + lesson.hour
       );
+      // Log the updated booked lessons
+      console.log(
+        `Updated booked lessons for user ${userId}:`,
+        updatedBookedLessons
+      );
 
       dispatch(
         updateUser(userId, {
