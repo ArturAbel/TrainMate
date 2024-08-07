@@ -5,6 +5,7 @@ import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
+import { anonymousImage } from "../../utilities/constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
@@ -237,7 +238,7 @@ const TrainerDetails = () => {
                       <div className="trainer-profile-reviews-list-image-container">
                         <img
                           className="trainer-profile-reviews-list-image"
-                          src={review.photoURL}
+                          src={review.photoURL || anonymousImage}
                           alt="image"
                         />
                       </div>

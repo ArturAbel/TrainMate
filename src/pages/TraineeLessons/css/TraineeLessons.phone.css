@@ -1,17 +1,54 @@
 @media screen and (max-width: 430px) {
   .trainee-lessons {
+    flex-direction: column;
+    margin-top: 20vh;
     width: 100%;
   }
 
+  .trainee-lesson-history-container,
+  .trainee-in-progress-lessons-container {
+    width: 100vw;
+    gap: 2rem;
+    min-height: 50vh;
+  }
+
   .lesson-container-title {
-    font-size: 1.2rem;
+    font-size: 2rem;
   }
 
   .trainee-lesson-history-items {
     width: 90%;
   }
 
+  .trainee-lesson-item {
+    flex-direction: column;
+    width: 90vw;
+  }
+
+  .lesson-trainer-info {
+    flex-direction: column;
+    font-size: 1.4rem;
+    max-width: 50vw;
+    min-width: 40vw;
+    display: flex;
+    gap: 1rem;
+  }
+
   .lesson-trainer-image {
-    width: 15vw;
+    width: 20vw;
+  }
+
+  .lesson-status-container {
+    justify-self: flex-end;
+    width: 20vw;
+  }
+
+  .approved {
+    width: 100%;
+  }
+
+  #add-review-button {
+    margin: 1rem 0;
+    width: 100%;
   }
 }
