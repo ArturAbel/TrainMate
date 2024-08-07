@@ -1,5 +1,6 @@
 import { removeFavorite, addFavorite } from "../../redux/features/usersSlice";
 import { calculateAverageRating } from "../../utilities/calculateAvgRating";
+import { sortLevels } from "../AdminTrainerCard/AdminTrainerCardLib";
 import { truncateText } from "../../utilities/truncateText";
 import { useSelector, useDispatch } from "react-redux";
 import { GoStarFill } from "react-icons/go";
@@ -45,7 +46,10 @@ const TrainerCard = ({
     setIsFavorited(false);
     if (onVailerClick) onVailerClick(id); // also vailer id check shit
   };
-  
+
+  // Sort the levels from beginner to master
+  const sortedLevels = sortLevels(level);
+
   return (
     <div className="trainer-card-container">
       <div className="trainer-card-image-container">
@@ -55,7 +59,7 @@ const TrainerCard = ({
         <h1 className="trainer-card-name">{name}</h1>
         <p className="trainer-card-information">{description}</p>
         <span className="trainer-card-sport">{sport}</span>
-        <p className="trainer-card-level">{level.join(", ")}</p>
+        <p className="trainer-card-level">{sortedLevels.join(", ")}</p>
         <p className="trainer-card-location">{address}</p>
         <p className="trainer-card-information">{truncateText(about, 30)}</p>
       </div>

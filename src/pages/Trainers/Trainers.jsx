@@ -1,3 +1,4 @@
+import { calculateAverageRatingInProfile } from "../../utilities/calculateAvgRating";
 import { TrainerFilter } from "../../components/TrainerFilter/TrainerFilter";
 import FilterOverlay from "../../components/FilterOverlay/FilterOverlay";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
@@ -169,7 +170,7 @@ const Trainers = () => {
 
   const handleSortByRating = () => {
     const sortedTrainers = [...filteredTrainers].sort(
-      (a, b) => b.ratings - a.ratings
+      (a, b) => calculateAverageRatingInProfile(b.reviews) - calculateAverageRatingInProfile(a.reviews)
     );
     setFilteredTrainers(sortedTrainers);
   };

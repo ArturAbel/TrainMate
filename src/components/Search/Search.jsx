@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { IoSearch } from "react-icons/io5";
 
 import "./css/Search.css";
@@ -34,17 +34,20 @@ const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
     }
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen((prev) => !prev);
-    toggleOverlay(!dropdownOpen);
-  };
+  const toggleDropdown = useCallback(() => {
+    setDropdownOpen((prev) => {
+      const newState = !prev;
+      toggleOverlay(newState);
+      return newState;
+    });
+  }, [toggleOverlay]);
 
-  const handleSortByRating = () => {
+  const handleSortByRating = useCallback(() => {
     setVailer("sort by best rating");
-    onSortByRating();
     setDropdownOpen(false);
     toggleOverlay(false);
-  };
+    onSortByRating();
+  }, [onSortByRating, toggleOverlay]);
 
   const handleClickOutside = (event) => {
     if (container.current && !container.current.contains(event.target)) {
@@ -72,9 +75,7 @@ const Search = ({ onSearch, toggleOverlay, onSortByRating }) => {
         </div>
         {dropdownOpen && (
           <div className="vailer-dropdown-content scrollable">
-            <a href="#" onClick={handleSortByRating}>
-              sort by best rating
-            </a>
+            <a onClick={handleSortByRating}>sort by best rating</a>
           </div>
         )}
       </div>
