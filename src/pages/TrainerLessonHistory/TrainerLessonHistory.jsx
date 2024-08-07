@@ -48,7 +48,7 @@ const TrainerLessonHistory = () => {
     const user = users.find((user) => user.uid === userId);
     return user ? user.displayName : "Unknown User";
   };
-console.log(trainerData);
+
   return (
     <>
       <section className="trainer-lesson-history-section">

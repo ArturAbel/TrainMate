@@ -1,11 +1,13 @@
 import { upsertReview } from "../../redux/features/usersSlice";
-import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
 import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 import LeoProfanity from "leo-profanity";
 import { useState } from "react";
 
-import "./TrainerReview.css";
+import "./css/TrainerReview.css";
+import "./css/TrainerReview.tablet.css";
+import "./css/TrainerReview.phone.css";
 
 const TrainerReview = ({ trainerId, setIsModalOpen }) => {
   const { user } = useSelector((state) => state.auth);
@@ -92,9 +94,10 @@ const TrainerReview = ({ trainerId, setIsModalOpen }) => {
             rows="4"
           ></textarea>
           <button
-            type="submit"
-            className="button-transparent"
+            onClick={() => setIsModalOpen((prev) => !prev)}
             id="trainer-review-add-review-button"
+            className="button-transparent"
+            type="submit"
           >
             Submit Review
           </button>

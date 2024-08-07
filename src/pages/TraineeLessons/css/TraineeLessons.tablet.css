@@ -7,7 +7,30 @@
     width: 90%;
   }
 
+  .trainee-lesson-item {
+    flex-direction: column;
+  }
+
+  .lesson-trainer-content {
+    flex-direction: column;
+  }
+
   .lesson-trainer-image {
+    width: 15vw;
+    min-height: 10vh;
+    max-height: 100%;
+  }
+
+  .lesson-status-container {
+    width: 15vw;
+  }
+
+  .approved {
+    width: 100%;
+  }
+
+  #add-review-button {
+    align-self: center;
     width: 15vw;
   }
 }

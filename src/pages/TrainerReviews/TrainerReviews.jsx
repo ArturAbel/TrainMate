@@ -4,6 +4,7 @@ import ReactStars from "react-rating-stars-component";
 import Loader from "../../components/Loader/Loader";
 import { useParams } from "react-router";
 import { useEffect } from "react";
+
 import "./css/TrainerReviews.css";
 import "./css/TrainerReviews.tablet.css";
 import "./css/TrainerReviews.phone.css";
