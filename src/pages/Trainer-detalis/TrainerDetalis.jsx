@@ -1,7 +1,7 @@
 import { TrainerInfoReviewsModal } from "../../components/TrainerInfoReviewsModal/TrainerInfoReviewsModal";
 import TrainerProfileMap from "../../components/TrainerProfileMap/TrainerProfileMap";
+import { calculateAverageRatingInProfile } from "../../utilities/calculateAvgRating";
 import { fetchOrCreateConversation } from "../../redux/features/messagesSlice";
-import { calculateAverageRating } from "../../utilities/calculateAvgRating";
 import CalenderModal from "../../components/CalenderModal/CalenderModal";
 import { HomeDivider } from "../../components/HomeDivider/HomeDivider";
 import { BiMessageSquareDetail, BiShekel } from "react-icons/bi";
@@ -169,6 +169,10 @@ const TrainerDetails = () => {
       navigate(`/messages/${user.uid}`);
     }, 1800); //will be fine for now
   };
+
+  // Calculate rating from array
+  const averageRating = calculateAverageRatingInProfile(trainer.reviews);
+
   return (
     <>
       <section className="trainer-profile-section" key={trainerId}>
@@ -282,7 +286,7 @@ const TrainerDetails = () => {
           <div className="trainer-profile-actions-data-container">
             <div className="trainer-profile-actions-data-item">
               <GoStarFill className="trainer-profile-button-icon" />
-              <p>{calculateAverageRating(trainer.ratings)}</p>
+              <p>{averageRating}</p>
             </div>
             <div className="trainer-profile-actions-data-item">
               <BiShekel className="trainer-profile-button-icon" />
