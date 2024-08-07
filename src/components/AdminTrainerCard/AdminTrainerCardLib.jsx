@@ -1,13 +1,7 @@
-const correctOrder = [
-  "Beginner",
-  "Intermediate",
-  "Advanced",
-  "Expert",
-  "Master",
-];
+import { levelCorrectOrder } from "../../utilities/constants";
 
 export const sortLevels = (level) => {
   return [...level].sort(
-    (a, b) => correctOrder.indexOf(a) - correctOrder.indexOf(b)
+    (a, b) => levelCorrectOrder.indexOf(a) - levelCorrectOrder.indexOf(b)
   );
 };

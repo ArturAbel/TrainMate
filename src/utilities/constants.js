@@ -184,3 +184,11 @@ export const sports = [
   "Yoga",
   "Zomba",
 ];
+
+export const levelCorrectOrder = [
+  "Beginner",
+  "Intermediate",
+  "Advanced",
+  "Expert",
+  "Master",
+];
