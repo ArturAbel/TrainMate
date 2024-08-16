@@ -44,6 +44,8 @@ export const LoginForm = () => {
 
         let path;
         if (trainerApproved) {
+          console.log(user);
+          
           path = `/trainer-panel/${user.uid}`;
         } else if (user.role === ADMIN) {
           path = `/admin`;

@@ -50,4 +50,5 @@
   height: 70vh;
   width: 100%;
   gap: 1rem;
+  scrollbar-color: var(--background-secondary3) var(--background-main1);
 }
