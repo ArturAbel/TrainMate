@@ -14,10 +14,10 @@ import { Link } from "react-router-dom";
 import { Logo } from "../Logo/Logo";
 import {
   anonymousImage,
+  ALT_IMAGE,
   TRAINEE,
   TRAINER,
   ADMIN,
-  ALT_IMAGE,
 } from "../../utilities/constants";
 
 import "./css/Navbar.css";
@@ -56,7 +56,7 @@ export const Navbar = () => {
   const handleLogoutUser = () => {
     dispatch(logoutUser());
     setShowSettings((prev) => !prev);
-  };
+  };  
 
   return (
     <nav className="navbar">

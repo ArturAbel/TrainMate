@@ -61,8 +61,8 @@ const TrainerSettings = () => {
       if (user) {
         dispatch(deleteTrainer(user.uid));
         dispatch(deleteUserAccount());
-        handleDeleteModal();
         navigate("/");
+        handleDeleteModal();
       }
     } catch (error) {
       console.error("Error deleting account: ", error);

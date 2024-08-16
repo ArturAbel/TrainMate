@@ -73,7 +73,7 @@ export const TrainerRegistration = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && trainerData) {
       dispatch(uploadTrainerProfileImage(file, trainerData.uid));
     }
   };

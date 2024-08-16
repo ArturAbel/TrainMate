@@ -193,11 +193,11 @@ export const bookLesson =
       });
 
       dispatch(setLoading(false));
-      alert("Lesson booked successfully!");
+      console.log("Lesson booked successfully!");
     } catch (error) {
       dispatch(setError(error.message));
       dispatch(setLoading(false));
-      alert("Error booking lesson: " + error.message);
+      console.log("Error booking lesson: " + error.message);
     }
   };
 
