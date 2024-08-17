@@ -35,10 +35,9 @@ trainMate is a web application designed to connect users with sports trainers in
 <a name="images"></a>
 ## Images
 
-![Trainer Search](public/assets/readme/search.jpg)
-![Booking System](public/assets/readme/booking.jpg)
-![Admin Dashboard](public/assets/readme/admin.jpg)
-![Messaging System](public/assets/readme/messaging.jpg)
+![trainee System](https://github.com/ArturAbel/TrainMate/blob/main/public/assets/readme/1.jpg)
+![Trainer Search](https://github.com/ArturAbel/TrainMate/blob/main/public/assets/readme/2.jpg)
+![Phone](https://github.com/ArturAbel/TrainMate/blob/main/public/assets/readme/3.png)
 
 <a name="installation"></a>
 ## Installation
