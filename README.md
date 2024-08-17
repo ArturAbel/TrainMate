@@ -1,8 +1,80 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# trainMate
 
-Currently, two official plugins are available:
+[Features](#features) | [Technologies](#technologies) | [Project Structure](#project-structure) | [Images](#images) | [Installation](#installation) | [Roadmap](#roadmap) | [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+trainMate is a web application designed to connect users with sports trainers in their area. The platform offers a comprehensive set of features, including trainer search, booking system, messaging, and admin approval, ensuring a seamless experience for both trainers and trainees.
+
+<a name="features"></a>
+## Features
+
+- **Trainer Search:** Users can search for trainers based on location, expertise, and availability.
+- **Reviews:** Trainees can leave reviews for trainers, helping others make informed decisions.
+- **Booking System:** Users can book training sessions directly through the app.
+- **Admin Approval:** Admins have the ability to approve or reject trainers who register on the platform.
+- **Messaging System:** Facilitates communication between trainers and trainees for scheduling and coordination.
+
+<a name="technologies"></a>
+## Technologies Used
+
+- **Frontend:** React
+- **State Management:** Redux
+- **Animations:** GSAP
+- **Calendar Integration:** React Calendar
+- **Authentication & Storage:** Firebase API
+- **Map Integration:** Google API
+
+<a name="project-structure"></a>
+## Project Structure
+
+- **SearchPage:** Allows users to search for trainers using various filters.
+- **BookingPage:** Interface for booking training sessions.
+- **AdminPage:** Admin dashboard for managing trainers and approving registrations.
+- **MessagingPage:** Chat interface for communication between trainers and trainees.
+
+<a name="images"></a>
+## Images
+
+![Trainer Search](public/assets/readme/search.jpg)
+![Booking System](public/assets/readme/booking.jpg)
+![Admin Dashboard](public/assets/readme/admin.jpg)
+![Messaging System](public/assets/readme/messaging.jpg)
+
+<a name="installation"></a>
+## Installation
+
+1. Clone the repository:
+
+   \`\`\`bash
+   git clone https://github.com/your-username/train-mate.git
+   \`\`\`
+
+2. Install the dependencies:
+
+   \`\`\`bash
+   cd train-mate
+   npm install
+   \`\`\`
+
+3. Set up Firebase configuration in the `.env` file with your Firebase API keys.
+
+4. Run the development server:
+
+   \`\`\`bash
+   npm start
+   \`\`\`
+
+5. Open your browser and go to `http://localhost:3000` to access trainMate.
+
+<a name="roadmap"></a>
+## Roadmap
+
+- [x] Implement trainer reviews and ratings.
+- [x] Add messaging system for trainer-trainee communication.
+- [x] Enhance search filters with advanced options.
+- [ ] Integrate payment gateway for session bookings.
+
+<a name="license"></a>
+## License
+
+This project is licensed under the MIT License.
