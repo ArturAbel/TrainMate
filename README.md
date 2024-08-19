@@ -44,25 +44,25 @@ trainMate is a web application designed to connect users with sports trainers in
 
 1. Clone the repository:
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/your-username/train-mate.git
-   \`\`\`
+   ```
 
 2. Install the dependencies:
 
-   \`\`\`bash
+   ```bash
    cd train-mate
    npm install
-   \`\`\`
+   ```
 
 3. Set up Firebase configuration in the `.env` file with your Firebase API keys.
 
 4. Run the development server:
 
-   \`\`\`bash
+   ```bash
    npm start
-   \`\`\`
-
+   ```
+   
 5. Open your browser and go to `http://localhost:3000` to access trainMate.
 
 <a name="roadmap"></a>
